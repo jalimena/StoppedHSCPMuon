@@ -1,0 +1,8 @@
+<use name="root"/>
+<use name="boost"/>
+
+<export>
+  <use name="root"/>
+  <use name="boost"/>
+  <lib name="StoppedHSCPMuonNtuples"/>
+</export>

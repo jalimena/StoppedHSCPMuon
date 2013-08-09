@@ -1,0 +1,6 @@
+Stopped HSCP, muon channel, code repository
+
+How to check out the packages :
+cvs co -d StoppedHSCPMuon/Ntuples  UserCode/StoppedHSCPMuon/Ntuples
+cvs co -d StoppedHSCPMuon/Analysis  UserCode/StoppedHSCPMuon/Analysis
+
