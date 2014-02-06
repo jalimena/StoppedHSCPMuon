@@ -6,6 +6,7 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
 
     # trigger
     l1BitsTag = cms.untracked.InputTag("gtDigis"),
+    l1MuonsTag = cms.untracked.string("l1extraParticles"),
     l1JetsTag = cms.untracked.string("l1extraParticles"),
     l1JetNoBptxName = cms.untracked.string("L1_SingleJet20_NotBptxOR"),  
     l1JetNoBptxNoHaloName = cms.untracked.string("L1_SingleJet20_NotBptxOR_NotMuBeamHalo"),
@@ -52,12 +53,17 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
     
     # muons
     muonTag = cms.untracked.InputTag("muons"),
-    #cosmicMuonTag = cms.untracked.InputTag("muonsFromCosmics"),
-    cosmicMuonTag = cms.untracked.InputTag("muonsFromCosmics1Leg"),
+    muonFromCosmicsTag = cms.untracked.InputTag("muonsFromCosmics"),
+    #muonFromCosmicsTag = cms.untracked.InputTag("muonsFromCosmics1Leg"),
 
     # muon tracks
     standAloneMuonTag = cms.untracked.InputTag("standAloneMuons"),
     refittedStandAloneMuonTag = cms.untracked.InputTag("refittedStandAloneMuons"),
+    cosmicMuonsTag = cms.untracked.InputTag("cosmicMuons"),
+    #as opposed to cosmicMuons1Leg, globalCosmicMuons, or globalCosmicMuons1Leg
+
+    #muon shower info
+    muonShowerTag = cms.untracked.InputTag("muons","muonShowerInformation"),    
     
     # calo towers
     #caloTowerTag = cms.untracked.InputTag("towerMaker"),

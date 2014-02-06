@@ -509,6 +509,45 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muCosmicSumPhotonEtHighThreshold(0),
   muCosmicSumPUPt(0),
   muCosmicIso(0),
+  mu_CosmicTrack_N(0),
+  muCosmicTrackCharge(0),
+  muCosmicTrackPx(0),
+  muCosmicTrackPy(0),
+  muCosmicTrackPz(0),
+  muCosmicTrackPt(0),
+  muCosmicTrackP(0),
+  muCosmicTrackEta(0),
+  muCosmicTrackPhi(0),
+  muCosmicTrackHcalEta(0),
+  muCosmicTrackHcalPhi(0),
+  muCosmicTrackChi2(0),
+  muCosmicTrackNdof(0),
+  muCosmicTrackNormalizedChi2(0),
+  muCosmicTrackDxy(0),
+  muCosmicTrackDz(0),
+  muCosmicTrackNHits(0),
+  muCosmicTrackNLost(0),
+  muCosmicTrackNHitsMuon(0),
+  muCosmicTrackNHitsCsc(0),
+  muCosmicTrackNHitsDt(0),
+  muCosmicTrackNHitsRpc(0),
+  muCosmicTrackNStations(0),
+  muCosmicTrackNChambersCsc(0),
+  muCosmicTrackNChambersDt(0),
+  muCosmicTrackNChambersRpc(0),
+  muCosmicTrackInnermostStation(0),
+  muCosmicTrackOutermostStation(0),
+  muCosmicTrackQuality(0),
+  muCosmicTrackInnerPx(0),
+  muCosmicTrackInnerPy(0),
+  muCosmicTrackInnerPz(0),
+  muCosmicTrackInnerOk(0),
+  muCosmicTrackInnerX(0),
+  muCosmicTrackInnerY(0),
+  muCosmicTrackInnerZ(0),
+  muCosmicTrackGenParticleIndex(0),
+  muCosmicTrackTriggerParticle20Index(0),
+  muCosmicTrackTriggerParticle20Cha2Index(0),
   mu_StandAlone_N(0),
   muStandAloneCharge(0),
   muStandAlonePx(0),
@@ -535,7 +574,16 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackNChambersCsc(0),
   muStandAloneTrackNChambersDt(0),
   muStandAloneTrackNChambersRpc(0),
+  muStandAloneTrackInnermostStation(0),
+  muStandAloneTrackOutermostStation(0),
   muStandAloneTrackQuality(0),
+  muStandAloneTrackInnerPx(0),
+  muStandAloneTrackInnerPy(0),
+  muStandAloneTrackInnerPz(0),
+  muStandAloneTrackInnerOk(0),
+  muStandAloneTrackInnerX(0),
+  muStandAloneTrackInnerY(0),
+  muStandAloneTrackInnerZ(0),
   muStandAloneTrackGenParticleIndex(0),
   muStandAloneTrackTriggerParticle20Index(0),
   muStandAloneTrackTriggerParticle20Cha2Index(0),
@@ -571,6 +619,26 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackDtTofYInterceptErr(0),
   muStandAloneTrackDtTofChi2Dof(0), 
   muStandAloneTrackDtTofAveHitTimeErr(0), 
+  muStandAloneTrackShowerSize_station0(0), 
+  muStandAloneTrackShowerSize_station1(0), 
+  muStandAloneTrackShowerSize_station2(0), 
+  muStandAloneTrackShowerSize_station3(0), 
+  muStandAloneTrackShowerDeltaR_station0(0), 
+  muStandAloneTrackShowerDeltaR_station1(0), 
+  muStandAloneTrackShowerDeltaR_station2(0), 
+  muStandAloneTrackShowerDeltaR_station3(0), 
+  muStandAloneTrackShowerNHits_station0(0), 
+  muStandAloneTrackShowerNHits_station1(0), 
+  muStandAloneTrackShowerNHits_station2(0), 
+  muStandAloneTrackShowerNHits_station3(0), 
+  muStandAloneTrackShowerNCorrelatedHits_station0(0), 
+  muStandAloneTrackShowerNCorrelatedHits_station1(0), 
+  muStandAloneTrackShowerNCorrelatedHits_station2(0), 
+  muStandAloneTrackShowerNCorrelatedHits_station3(0), 
+  muStandAloneTrackShowerNUncorrelatedHits_station0(0), 
+  muStandAloneTrackShowerNUncorrelatedHits_station1(0), 
+  muStandAloneTrackShowerNUncorrelatedHits_station2(0), 
+  muStandAloneTrackShowerNUncorrelatedHits_station3(0), 
   mu_RefittedStandAlone_N(0),
   muRefittedStandAloneCharge(0),
   muRefittedStandAlonePx(0),
@@ -597,7 +665,16 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackNChambersCsc(0),
   muRefittedStandAloneTrackNChambersDt(0),
   muRefittedStandAloneTrackNChambersRpc(0),
+  muRefittedStandAloneTrackInnermostStation(0),
+  muRefittedStandAloneTrackOutermostStation(0),
   muRefittedStandAloneTrackQuality(0),
+  muRefittedStandAloneTrackInnerPx(0),
+  muRefittedStandAloneTrackInnerPy(0),
+  muRefittedStandAloneTrackInnerPz(0),
+  muRefittedStandAloneTrackInnerOk(0),
+  muRefittedStandAloneTrackInnerX(0),
+  muRefittedStandAloneTrackInnerY(0),
+  muRefittedStandAloneTrackInnerZ(0),
   muRefittedStandAloneTrackGenParticleIndex(0),
   muRefittedStandAloneTrackTriggerParticle20Index(0),
   muRefittedStandAloneTrackTriggerParticle20Cha2Index(0),
@@ -788,6 +865,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   cscSegChamber(0),
   cscSegNHits(0),
   cscSegPhi(0),
+  cscSegEta(0),
   cscSegZ(0),
   cscSegR(0),
   cscSegDirPhi(0),
@@ -896,13 +974,13 @@ void StoppedHSCPMuonEvent::addL1Jet(TrigJet j) {
   }
 }
 
-void StoppedHSCPMuonEvent::addL1Muon(TrigMuon m) {
-  l1MuonPt.push_back(m.pt);
-  l1MuonEta.push_back(m.eta);
-  l1MuonPhi.push_back(m.phi);
-  ++l1Muon_N;
-}
 
+void StoppedHSCPMuonEvent::addL1Muon(TrigMuon m) {
+   l1MuonPt.push_back(m.pt);
+   l1MuonEta.push_back(m.eta);
+   l1MuonPhi.push_back(m.phi);
+   ++l1Muon_N;
+}
 
 void StoppedHSCPMuonEvent::addHlt20Muon(TrigMuon m) {
    hlt20MuonPt.push_back(m.pt);
@@ -1052,6 +1130,48 @@ void StoppedHSCPMuonEvent::addCosmicMuon(Muon m) {
   ++mu_Cosmic_N;
 }
 
+void StoppedHSCPMuonEvent::addCosmicMuonTrack(Track track) {
+  muCosmicTrackCharge.push_back(track.charge);
+  muCosmicTrackPx.push_back(track.px);
+  muCosmicTrackPy.push_back(track.py);
+  muCosmicTrackPz.push_back(track.pz);
+  muCosmicTrackPt.push_back(track.pt);
+  muCosmicTrackP.push_back(track.p);
+  muCosmicTrackEta.push_back(track.eta);
+  muCosmicTrackPhi.push_back(track.phi);
+  muCosmicTrackHcalEta.push_back(track.hcalEta);
+  muCosmicTrackHcalPhi.push_back(track.hcalPhi);
+  muCosmicTrackChi2.push_back(track.chi2);
+  muCosmicTrackNdof.push_back(track.ndof);
+  muCosmicTrackNormalizedChi2.push_back(track.normalizedChi2);
+  muCosmicTrackDxy.push_back(track.dxy);
+  muCosmicTrackDz.push_back(track.dz);
+  muCosmicTrackNHits.push_back(track.nHits);
+  muCosmicTrackNLost.push_back(track.nLost);
+  muCosmicTrackNHitsMuon.push_back(track.nHitsMuon);
+  muCosmicTrackNHitsCsc.push_back(track.nHitsCsc);
+  muCosmicTrackNHitsDt.push_back(track.nHitsDt);
+  muCosmicTrackNHitsRpc.push_back(track.nHitsRpc);
+  muCosmicTrackNStations.push_back(track.nStations);
+  muCosmicTrackNChambersCsc.push_back(track.nChambersCsc);
+  muCosmicTrackNChambersDt.push_back(track.nChambersDt);
+  muCosmicTrackNChambersRpc.push_back(track.nChambersRpc);
+  muCosmicTrackInnermostStation.push_back(track.innermostStation);
+  muCosmicTrackOutermostStation.push_back(track.outermostStation);
+  muCosmicTrackQuality.push_back(track.quality);
+  muCosmicTrackInnerPx.push_back(track.innerPx);
+  muCosmicTrackInnerPy.push_back(track.innerPy);
+  muCosmicTrackInnerPz.push_back(track.innerPz);
+  muCosmicTrackInnerOk.push_back(track.innerOk);
+  muCosmicTrackInnerX.push_back(track.innerX);
+  muCosmicTrackInnerY.push_back(track.innerY);
+  muCosmicTrackInnerZ.push_back(track.innerZ);
+  muCosmicTrackGenParticleIndex.push_back(track.genParticleIndex);
+  muCosmicTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
+  muCosmicTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  ++mu_CosmicTrack_N;
+}
+
 void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) { 
   muStandAloneCharge.push_back(track.charge);
   muStandAlonePx.push_back(track.px);
@@ -1078,7 +1198,16 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackNChambersCsc.push_back(track.nChambersCsc);
   muStandAloneTrackNChambersDt.push_back(track.nChambersDt);
   muStandAloneTrackNChambersRpc.push_back(track.nChambersRpc);
+  muStandAloneTrackInnermostStation.push_back(track.innermostStation);
+  muStandAloneTrackOutermostStation.push_back(track.outermostStation);
   muStandAloneTrackQuality.push_back(track.quality);
+  muStandAloneTrackInnerPx.push_back(track.innerPx);
+  muStandAloneTrackInnerPy.push_back(track.innerPy);
+  muStandAloneTrackInnerPz.push_back(track.innerPz);
+  muStandAloneTrackInnerOk.push_back(track.innerOk);
+  muStandAloneTrackInnerX.push_back(track.innerX);
+  muStandAloneTrackInnerY.push_back(track.innerY);
+  muStandAloneTrackInnerZ.push_back(track.innerZ);
   muStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
@@ -1114,6 +1243,26 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
   muStandAloneTrackDtTofChi2Dof.push_back(track.dtTofChi2Dof);
   muStandAloneTrackDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
+  muStandAloneTrackShowerSize_station0.push_back(track.showerSize_station0);
+  muStandAloneTrackShowerSize_station1.push_back(track.showerSize_station1);
+  muStandAloneTrackShowerSize_station2.push_back(track.showerSize_station2);
+  muStandAloneTrackShowerSize_station3.push_back(track.showerSize_station3);
+  muStandAloneTrackShowerDeltaR_station0.push_back(track.showerDeltaR_station0);
+  muStandAloneTrackShowerDeltaR_station1.push_back(track.showerDeltaR_station1);
+  muStandAloneTrackShowerDeltaR_station2.push_back(track.showerDeltaR_station2);
+  muStandAloneTrackShowerDeltaR_station3.push_back(track.showerDeltaR_station3);
+  muStandAloneTrackShowerNHits_station0.push_back(track.showerNHits_station0);
+  muStandAloneTrackShowerNHits_station1.push_back(track.showerNHits_station1);
+  muStandAloneTrackShowerNHits_station2.push_back(track.showerNHits_station2);
+  muStandAloneTrackShowerNHits_station3.push_back(track.showerNHits_station3);
+  muStandAloneTrackShowerNCorrelatedHits_station0.push_back(track.showerNCorrelatedHits_station0);
+  muStandAloneTrackShowerNCorrelatedHits_station1.push_back(track.showerNCorrelatedHits_station1);
+  muStandAloneTrackShowerNCorrelatedHits_station2.push_back(track.showerNCorrelatedHits_station2);
+  muStandAloneTrackShowerNCorrelatedHits_station3.push_back(track.showerNCorrelatedHits_station3);
+  muStandAloneTrackShowerNUncorrelatedHits_station0.push_back(track.showerNUncorrelatedHits_station0);
+  muStandAloneTrackShowerNUncorrelatedHits_station1.push_back(track.showerNUncorrelatedHits_station1);
+  muStandAloneTrackShowerNUncorrelatedHits_station2.push_back(track.showerNUncorrelatedHits_station2);
+  muStandAloneTrackShowerNUncorrelatedHits_station3.push_back(track.showerNUncorrelatedHits_station3);
   ++mu_StandAlone_N;
 }
 
@@ -1143,7 +1292,16 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackNChambersCsc.push_back(track.nChambersCsc);
   muRefittedStandAloneTrackNChambersDt.push_back(track.nChambersDt);
   muRefittedStandAloneTrackNChambersRpc.push_back(track.nChambersRpc);
+  muRefittedStandAloneTrackInnermostStation.push_back(track.innermostStation);
+  muRefittedStandAloneTrackOutermostStation.push_back(track.outermostStation);
   muRefittedStandAloneTrackQuality.push_back(track.quality);
+  muRefittedStandAloneTrackInnerPx.push_back(track.innerPx);
+  muRefittedStandAloneTrackInnerPy.push_back(track.innerPy);
+  muRefittedStandAloneTrackInnerPz.push_back(track.innerPz);
+  muRefittedStandAloneTrackInnerOk.push_back(track.innerOk);
+  muRefittedStandAloneTrackInnerX.push_back(track.innerX);
+  muRefittedStandAloneTrackInnerY.push_back(track.innerY);
+  muRefittedStandAloneTrackInnerZ.push_back(track.innerZ);
   muRefittedStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muRefittedStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muRefittedStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
@@ -1502,12 +1660,12 @@ unsigned StoppedHSCPMuonEvent::jetCaloTowers() const {
       else keepgoing=false;
     }
   }
-
+  
   return tmp;
-
+  
 }
 
 
 #if !defined(__CINT__)
-  ClassImp(StoppedHSCPMuonEvent)
+ClassImp(StoppedHSCPMuonEvent)
 #endif

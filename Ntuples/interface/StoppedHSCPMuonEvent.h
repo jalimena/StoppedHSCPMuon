@@ -15,7 +15,7 @@
 */
 //
 // Original Author:  Jim Brooke
-// $Id: StoppedHSCPMuonEvent.h,v 1.29 2013/07/19 19:00:29 jalimena Exp $
+// $Id: StoppedHSCPMuonEvent.h,v 1.31 2013/10/01 17:50:06 jalimena Exp $
 //
 //
 
@@ -24,7 +24,7 @@
 #include <vector>
 #include <functional>
 
-//#include "boost/cstdint.hpp"
+#include "boost/cstdint.hpp"
 
 namespace shscp {
 
@@ -221,7 +221,7 @@ namespace shscp {
 
   
   struct Track {
-    Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nHitsMuon(0), nHitsCsc(0), nHitsDt(0), nHitsRpc(0), nStations(0), nChambersCsc(0), nChambersDt(0), nChambersRpc(0), quality(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),dtTofInverseBetaLS(0),dtTofInverseBetaLSErr(0),dtTofYIntercept(0),dtTofYInterceptErr(0),dtTofChi2Dof(0),dtTofAveHitTimeErr(0),cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
+    Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nHitsMuon(0), nHitsCsc(0), nHitsDt(0), nHitsRpc(0), nStations(0), nChambersCsc(0), nChambersDt(0), nChambersRpc(0), innermostStation(0), outermostStation(0), quality(0),  innerPx(0), innerPy(0), innerPz(0), innerOk(0), innerX(0), innerY(0), innerZ(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),dtTofInverseBetaLS(0),dtTofInverseBetaLSErr(0),dtTofYIntercept(0),dtTofYInterceptErr(0),dtTofChi2Dof(0),dtTofAveHitTimeErr(0), showerSize_station0(0), showerSize_station1(0), showerSize_station2(0), showerSize_station3(0), showerDeltaR_station0(0), showerDeltaR_station1(0), showerDeltaR_station2(0), showerDeltaR_station3(0), showerNHits_station0(0), showerNHits_station1(0), showerNHits_station2(0), showerNHits_station3(0), showerNCorrelatedHits_station0(0), showerNCorrelatedHits_station1(0), showerNCorrelatedHits_station2(0), showerNCorrelatedHits_station3(0), showerNUncorrelatedHits_station0(0), showerNUncorrelatedHits_station1(0), showerNUncorrelatedHits_station2(0), showerNUncorrelatedHits_station3(0), cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
     int charge;
     double px;
     double py;
@@ -247,7 +247,16 @@ namespace shscp {
     int nChambersCsc;
     int nChambersDt;
     int nChambersRpc;
+    int innermostStation;
+    int outermostStation;
     int quality;
+    double innerPx;
+    double innerPy;
+    double innerPz;
+    bool innerOk;
+    double innerX; 
+    double innerY; 
+    double innerZ;
     int genParticleIndex;
     int triggerParticle20Index;
     int triggerParticle20Cha2Index;
@@ -267,6 +276,26 @@ namespace shscp {
     double dtTofYInterceptErr;
     double dtTofChi2Dof;
     double dtTofAveHitTimeErr;
+    double showerSize_station0;
+    double showerSize_station1;
+    double showerSize_station2;
+    double showerSize_station3;
+    double showerDeltaR_station0;
+    double showerDeltaR_station1;
+    double showerDeltaR_station2;
+    double showerDeltaR_station3;
+    int showerNHits_station0;
+    int showerNHits_station1;
+    int showerNHits_station2;
+    int showerNHits_station3;
+    int showerNCorrelatedHits_station0;
+    int showerNCorrelatedHits_station1;
+    int showerNCorrelatedHits_station2;
+    int showerNCorrelatedHits_station3;
+    int showerNUncorrelatedHits_station0;
+    int showerNUncorrelatedHits_station1;
+    int showerNUncorrelatedHits_station2;
+    int showerNUncorrelatedHits_station3;
     std::vector<int> cscSegEndcap;
     std::vector<int> cscSegRing;
     std::vector<int> cscSegStation;
@@ -335,6 +364,7 @@ class StoppedHSCPMuonEvent : public TObject {
   void addMuon(shscp::Muon m);
   void addDiMuon(shscp::DiMuon diMu);
   void addCosmicMuon(shscp::Muon m);
+  void addCosmicMuonTrack(shscp::Track track);
   void addStandAloneMuon(shscp::Track track);
   void addRefittedStandAloneMuon(shscp::Track track);
   void addHPD(shscp::HPD h);
@@ -947,6 +977,47 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muCosmicSumPUPt;
   std::vector<Double_t> muCosmicIso;
 
+  unsigned mu_CosmicTrack_N;
+  std::vector<Int_t> muCosmicTrackCharge;
+  std::vector<Double_t> muCosmicTrackPx;
+  std::vector<Double_t> muCosmicTrackPy;
+  std::vector<Double_t> muCosmicTrackPz;
+  std::vector<Double_t> muCosmicTrackPt;
+  std::vector<Double_t> muCosmicTrackP;
+  std::vector<Double_t> muCosmicTrackEta;
+  std::vector<Double_t> muCosmicTrackPhi;
+  std::vector<Double_t> muCosmicTrackHcalEta;
+  std::vector<Double_t> muCosmicTrackHcalPhi;
+  std::vector<Double_t> muCosmicTrackChi2;
+  std::vector<Double_t> muCosmicTrackNdof;
+  std::vector<Double_t> muCosmicTrackNormalizedChi2;
+  std::vector<Double_t> muCosmicTrackDxy;
+  std::vector<Double_t> muCosmicTrackDz;
+  std::vector<Int_t> muCosmicTrackNHits;
+  std::vector<Int_t> muCosmicTrackNLost;
+  std::vector<Int_t> muCosmicTrackNHitsMuon;
+  std::vector<Int_t> muCosmicTrackNHitsCsc;
+  std::vector<Int_t> muCosmicTrackNHitsDt;
+  std::vector<Int_t> muCosmicTrackNHitsRpc;
+  std::vector<Int_t> muCosmicTrackNStations;
+  std::vector<Int_t> muCosmicTrackNChambersCsc;
+  std::vector<Int_t> muCosmicTrackNChambersDt;
+  std::vector<Int_t> muCosmicTrackNChambersRpc;
+  std::vector<Int_t> muCosmicTrackInnermostStation;
+  std::vector<Int_t> muCosmicTrackOutermostStation;
+  std::vector<Int_t> muCosmicTrackQuality;
+  std::vector<Double_t> muCosmicTrackInnerPx;
+  std::vector<Double_t> muCosmicTrackInnerPy;
+  std::vector<Double_t> muCosmicTrackInnerPz;
+  std::vector<Bool_t> muCosmicTrackInnerOk;
+  std::vector<Double_t> muCosmicTrackInnerX; 
+  std::vector<Double_t> muCosmicTrackInnerY; 
+  std::vector<Double_t> muCosmicTrackInnerZ; 
+  std::vector<Int_t> muCosmicTrackGenParticleIndex;
+  std::vector<Int_t> muCosmicTrackTriggerParticle20Index;
+  std::vector<Int_t> muCosmicTrackTriggerParticle20Cha2Index;
+
+
   // reco standalone muon tracks
   unsigned mu_StandAlone_N;
   std::vector<Int_t> muStandAloneCharge;
@@ -974,7 +1045,16 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Int_t> muStandAloneTrackNChambersCsc;
   std::vector<Int_t> muStandAloneTrackNChambersDt;
   std::vector<Int_t> muStandAloneTrackNChambersRpc;
+  std::vector<Int_t> muStandAloneTrackInnermostStation;
+  std::vector<Int_t> muStandAloneTrackOutermostStation;
   std::vector<Int_t> muStandAloneTrackQuality;
+  std::vector<Double_t> muStandAloneTrackInnerPx;
+  std::vector<Double_t> muStandAloneTrackInnerPy;
+  std::vector<Double_t> muStandAloneTrackInnerPz;
+  std::vector<Bool_t> muStandAloneTrackInnerOk;
+  std::vector<Double_t> muStandAloneTrackInnerX; 
+  std::vector<Double_t> muStandAloneTrackInnerY; 
+  std::vector<Double_t> muStandAloneTrackInnerZ; 
   std::vector<Int_t> muStandAloneTrackGenParticleIndex;
   std::vector<Int_t> muStandAloneTrackTriggerParticle20Index;
   std::vector<Int_t> muStandAloneTrackTriggerParticle20Cha2Index;
@@ -994,6 +1074,26 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muStandAloneTrackDtTofYInterceptErr;
   std::vector<Double_t> muStandAloneTrackDtTofChi2Dof;
   std::vector<Double_t> muStandAloneTrackDtTofAveHitTimeErr;
+  std::vector<Double_t> muStandAloneTrackShowerSize_station0;
+  std::vector<Double_t> muStandAloneTrackShowerSize_station1;
+  std::vector<Double_t> muStandAloneTrackShowerSize_station2;
+  std::vector<Double_t> muStandAloneTrackShowerSize_station3;
+  std::vector<Double_t> muStandAloneTrackShowerDeltaR_station0;
+  std::vector<Double_t> muStandAloneTrackShowerDeltaR_station1;
+  std::vector<Double_t> muStandAloneTrackShowerDeltaR_station2;
+  std::vector<Double_t> muStandAloneTrackShowerDeltaR_station3;
+  std::vector<Int_t> muStandAloneTrackShowerNHits_station0;
+  std::vector<Int_t> muStandAloneTrackShowerNHits_station1;
+  std::vector<Int_t> muStandAloneTrackShowerNHits_station2;
+  std::vector<Int_t> muStandAloneTrackShowerNHits_station3;
+  std::vector<Int_t> muStandAloneTrackShowerNCorrelatedHits_station0;
+  std::vector<Int_t> muStandAloneTrackShowerNCorrelatedHits_station1;
+  std::vector<Int_t> muStandAloneTrackShowerNCorrelatedHits_station2;
+  std::vector<Int_t> muStandAloneTrackShowerNCorrelatedHits_station3;
+  std::vector<Int_t> muStandAloneTrackShowerNUncorrelatedHits_station0;
+  std::vector<Int_t> muStandAloneTrackShowerNUncorrelatedHits_station1;
+  std::vector<Int_t> muStandAloneTrackShowerNUncorrelatedHits_station2;
+  std::vector<Int_t> muStandAloneTrackShowerNUncorrelatedHits_station3;
   std::vector< std::vector<Int_t> > muStandAloneTrackCscSegEndcap;
   std::vector< std::vector<Int_t> > muStandAloneTrackCscSegRing;
   std::vector< std::vector<Int_t> > muStandAloneTrackCscSegStation;
@@ -1038,7 +1138,16 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Int_t> muRefittedStandAloneTrackNChambersCsc;
   std::vector<Int_t> muRefittedStandAloneTrackNChambersDt;
   std::vector<Int_t> muRefittedStandAloneTrackNChambersRpc;
+  std::vector<Int_t> muRefittedStandAloneTrackInnermostStation;
+  std::vector<Int_t> muRefittedStandAloneTrackOutermostStation;
   std::vector<Int_t> muRefittedStandAloneTrackQuality;
+  std::vector<Double_t> muRefittedStandAloneTrackInnerPx;
+  std::vector<Double_t> muRefittedStandAloneTrackInnerPy;
+  std::vector<Double_t> muRefittedStandAloneTrackInnerPz;
+  std::vector<Bool_t> muRefittedStandAloneTrackInnerOk;
+  std::vector<Double_t> muRefittedStandAloneTrackInnerX; 
+  std::vector<Double_t> muRefittedStandAloneTrackInnerY; 
+  std::vector<Double_t> muRefittedStandAloneTrackInnerZ; 
   std::vector<Int_t> muRefittedStandAloneTrackGenParticleIndex;
   std::vector<Int_t> muRefittedStandAloneTrackTriggerParticle20Index;
   std::vector<Int_t> muRefittedStandAloneTrackTriggerParticle20Cha2Index;
@@ -1325,7 +1434,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,24); // version 24: includes muon TOF info for standalone muons
+  ClassDef(StoppedHSCPMuonEvent,25); // version 24: includes muon TOF info for standalone muons
 
 };
 
