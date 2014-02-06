@@ -397,6 +397,10 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   l1JetEt(0),
   l1JetEta(0),
   l1JetPhi(0),
+  l1Muon_N(0),
+  l1MuonPt(0),
+  l1MuonEta(0),
+  l1MuonPhi(0),
   hlt20Muon_N(0),
   hlt20MuonPt(0),
   hlt20MuonEta(0),
@@ -890,6 +894,13 @@ void StoppedHSCPMuonEvent::addL1Jet(TrigJet j) {
     l1JetPhi.push_back(j.phi);
     ++l1Jet_N;
   }
+}
+
+void StoppedHSCPMuonEvent::addL1Muon(TrigMuon m) {
+  l1MuonPt.push_back(m.pt);
+  l1MuonEta.push_back(m.eta);
+  l1MuonPhi.push_back(m.phi);
+  ++l1Muon_N;
 }
 
 

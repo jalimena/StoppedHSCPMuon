@@ -290,6 +290,12 @@ public:
     }
   };
 
+  struct l1muon_pt : public std::binary_function<l1extra::L1MuonParticle, l1extra::L1MuonParticle, bool> {
+    bool operator()(const l1extra::L1MuonParticle& x, const l1extra::L1MuonParticle& y) {
+      return ( x.pt() > y.pt() ) ;
+    }
+  };
+
   struct jete_gt : public std::binary_function<reco::CaloJet, reco::CaloJet, bool> {
     bool operator()(const reco::CaloJet& x, const reco::CaloJet& y) {
       return ( x.energy() > y.energy() ) ;
@@ -388,6 +394,7 @@ private:
   // EDM input tags
   edm::InputTag condInEdmTag_;
   std::string l1JetsTag_;
+  std::string l1MuonsTag_;
   edm::InputTag l1BitsTag_;
   std::string l1JetNoBptxName_;
   std::string l1JetNoBptxNoHaloName_;
@@ -508,6 +515,7 @@ private:
 
   // debug stuff
   bool l1JetsMissing_;
+  bool l1MuonsMissing_;
   bool hltMuonsMissing_;
   bool hltMissing_;
   bool mcMissing_;
@@ -566,6 +574,7 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   writeHistos_(iConfig.getUntrackedParameter<bool>("writeHistos",false)),
   condInEdmTag_(iConfig.getUntrackedParameter<edm::InputTag>("conditionsInEdm",std::string("CondInEdmInputTag"))),
   l1JetsTag_(iConfig.getUntrackedParameter<std::string>("l1JetsTag",std::string("l1extraParticles"))),
+  l1MuonsTag_(iConfig.getUntrackedParameter<std::string>("l1MuonsTag",std::string("l1extraParticles"))),
   l1BitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("l1BitsTag",edm::InputTag("gtDigis"))),
   l1JetNoBptxName_(iConfig.getUntrackedParameter<std::string>("l1JetNoBptxName",std::string("L1_SingleJet20_NotBptxOR"))),  
   l1JetNoBptxNoHaloName_(iConfig.getUntrackedParameter<std::string>("l1JetNoBptxNoHaloName",std::string("L1_SingleJet20_NotBptxOR_NotMuBeamHalo"))),
@@ -647,6 +656,7 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   currentColls_(0),
   currentBunches_(0),
   l1JetsMissing_(false),
+  l1MuonsMissing_(false),
   hltMuonsMissing_(false),
   hltMissing_(false),
   mcMissing_(false),
@@ -2090,6 +2100,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+	std::cout<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<std::endl;
 	std::cout<<"mother of muon is: "<<motherId<<std::endl;
 	event_->mcMuonId.push_back(p.pdgId());
 	event_->mcMuonMass.push_back(p.mass());
@@ -2841,6 +2852,31 @@ void StoppedHSCPMuonTreeProducer::doTrigger(const edm::Event& iEvent, const edm:
   else {
     if (!l1JetsMissing_) edm::LogWarning("MissingProduct") << "L1 information not found.  Branch will not be filled" << std::endl;
     l1JetsMissing_ = true;
+  }
+
+  // L1 muons                                                                                                                                                                                                                   
+  edm::Handle<l1extra::L1MuonParticleCollection> l1Muons;
+  iEvent.getByLabel(l1MuonsTag_, "", l1Muons);
+
+  if (l1Muons.isValid() ){
+
+    std::vector<l1extra::L1MuonParticle> l1muons;
+
+    l1muons.insert(l1muons.end(), l1Muons->begin(), l1Muons->end());
+    std::sort(l1muons.begin(), l1muons.end(), l1muon_pt());
+
+    for (std::vector<l1extra::L1MuonParticle>::const_iterator muon=l1muons.begin(); muon!=l1muons.end(); ++muon) {
+      shscp::TrigMuon m;
+      m.pt = muon->pt();
+      m.phi = muon->phi();
+      m.eta = muon->eta();
+      event_->addL1Muon(m);
+    }
+
+  }
+  else {
+    if (!l1MuonsMissing_) edm::LogWarning("MissingProduct") << "L1 information not found.  Branch will not be filled" << std::endl;
+    l1MuonsMissing_ = true;
   }
 
   // get HLT muons

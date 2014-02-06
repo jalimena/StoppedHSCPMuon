@@ -325,6 +325,7 @@ class StoppedHSCPMuonEvent : public TObject {
 
   void addMCDecay(shscp::MCDecay d);
   void addL1Jet(shscp::TrigJet j);
+  void addL1Muon(shscp::TrigMuon m);
   void addHlt20Muon(shscp::TrigMuon m);
   void addHlt20Cha2Muon(shscp::TrigMuon m);
   void addJet(shscp::Jet j);
@@ -814,6 +815,11 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> l1JetEt;
   std::vector<Double_t> l1JetEta;
   std::vector<Double_t> l1JetPhi;
+
+  unsigned l1Muon_N;
+  std::vector<Double_t> l1MuonPt;
+  std::vector<Double_t> l1MuonEta;
+  std::vector<Double_t> l1MuonPhi;
 
   unsigned hlt20Muon_N;
   std::vector<Double_t> hlt20MuonPt;
