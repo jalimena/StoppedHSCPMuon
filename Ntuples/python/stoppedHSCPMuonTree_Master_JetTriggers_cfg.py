@@ -85,6 +85,15 @@ process.load('StoppedHSCPMuon/Ntuples/stoppedHSCPMuonHistograms_cfi')
 # TOF Reconstruction
 process.load('StoppedHSCPMuon/Ntuples/muontiming_cff')
 
+# Smart propagator with IP
+process.smartPropagatorWithIPESProducer = cms.ESProducer("SmartPropagatorWithIPESProducer",
+                                                         ComponentName = cms.string('SmartPropagatorWithIP'),
+                                                         TrackerPropagator = cms.string('PropagatorWithMaterial'),
+                                                         MuonPropagator = cms.string('SteppingHelixPropagatorAny'),
+                                                         PropagationDirection = cms.string('alongMomentum'),
+                                                         Epsilon = cms.double(10.0) # the standard one has 5., but uses 10 hardcoded internally...
+                                                         )
+
 # path
 process.ntuple = cms.Path(
 

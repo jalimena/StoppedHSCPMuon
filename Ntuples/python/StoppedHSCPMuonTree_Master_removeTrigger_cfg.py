@@ -74,6 +74,15 @@ process.stoppedHSCPMuonTree.jetCorrectorServiceName = cms.untracked.string("ak5C
 # histogram producer
 process.load('StoppedHSCPMuon/Ntuples/stoppedHSCPMuonHistograms_cfi')
 
+# Smart propagator with IP
+process.smartPropagatorWithIPESProducer = cms.ESProducer("SmartPropagatorWithIPESProducer",
+                                                         ComponentName = cms.string('SmartPropagatorWithIP'),
+                                                         TrackerPropagator = cms.string('PropagatorWithMaterial'),
+                                                         MuonPropagator = cms.string('SteppingHelixPropagatorAny'),
+                                                         PropagationDirection = cms.string('alongMomentum'),
+                                                         Epsilon = cms.double(10.0) # the standard one has 5., but uses 10 hardcoded internally...
+                                                         )
+
 # path
 process.ntuple = cms.Path(
 

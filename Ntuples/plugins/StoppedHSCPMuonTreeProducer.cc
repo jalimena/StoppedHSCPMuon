@@ -17,7 +17,7 @@
 //
 //
 
-
+ 
 // system include files
 #include <memory>
 
@@ -29,6 +29,8 @@
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/PluginManager/interface/ModuleDef.h"
+#include "FWCore/Framework/interface/InputSourceMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
@@ -171,13 +173,19 @@
 
 // MC
 #include "SimGeneral/HepPDTRecord/interface/ParticleDataTable.h"
+#include "Analysis/SmartPropagatorWithIP/interface/SmartPropagatorWithIP.h"
+#include "Analysis/Records/interface/SmartPropagatorWithIPComponentsRecord.h"
+
 
 // ROOT output stuff
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "TH1.h"
 #include "TTree.h"
+#include "TClass.h"
+#include "TFile.h"
 #include "TF1.h"
+#include "TROOT.h"
 
 // Helper classes
 #include "StoppedHSCP/Ntuples/interface/LhcFills.h"
@@ -189,6 +197,7 @@
 // MuonTimeExtra
 #include "DataFormats/MuonReco/interface/MuonTimeExtra.h"
 #include "DataFormats/MuonReco/interface/MuonTimeExtraMap.h"
+
 
 
 
@@ -475,6 +484,9 @@ private:
   // HepPDT table
   edm::ESHandle<HepPDT::ParticleDataTable> fPDGTable;
 
+  //mc
+  const SmartPropagatorWithIP * smartPropIP_;
+
   // cuts
   double recoGenDeltaR_;
   double recoTriggerDeltaR_;
@@ -607,6 +619,7 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   hltPathL2Mu30NoVertex2ChaNoBptx3BXNoHalo_(iConfig.getUntrackedParameter<std::string>("hltPathL2Mu30NoVertex2ChaNoBptx3BXNoHalo",std::string("HLT_L2Mu30_NoVertex_2Cha_NoBPTX3BX_NoHalo_v"))),
   hltFilterTag_20_(iConfig.getUntrackedParameter<edm::InputTag>("hltFilterTag_20",edm::InputTag("hltL2fL1sMu6NoBPTXL1f0L2Filtered20","","HLT"))),
   hltFilterTag_20Cha2_(iConfig.getUntrackedParameter<edm::InputTag>("hltFilterTag_20Cha2",edm::InputTag("hltL2fL1sMu6NoBPTXL1f0L2Filtered20Cha2","","HLT"))),
+  smartPropIP_(0),
   mcTag_(iConfig.getUntrackedParameter<edm::InputTag>("mcTag",edm::InputTag("generator"))),
   mcProducer_ (iConfig.getUntrackedParameter<std::string>("producer", "g4SimHits")),
   hepProducer_ (iConfig.getUntrackedParameter<edm::InputTag>("hepMCProducerTag", edm::InputTag("generator", "", "SIM"))),
@@ -709,7 +722,6 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
 
 
 StoppedHSCPMuonTreeProducer::~StoppedHSCPMuonTreeProducer() {
-
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
 
@@ -1152,6 +1164,11 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   const reco::Vertex::Point PV;
   reco::CompositeCandidateCollection dimuons;
 
+  // Load the propagator and IP calculator
+  edm::ESHandle<Propagator> smartPropIPHandle;
+  iSetup.get<SmartPropagatorWithIPComponentsRecord>().get("SmartPropagatorWithIP", smartPropIPHandle);
+  smartPropIP_ = dynamic_cast<const SmartPropagatorWithIP*>(&*smartPropIPHandle);
+
   if (isMC_) doMC(iEvent);
  
   // event & trigger info
@@ -1213,6 +1230,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
  
   // if making reduced ntuples, return without writing event
   // unless basic selection criteria met
+
   if (makeReducedNtuples_==true)
     {
       // reject cosmics
@@ -1237,7 +1255,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
 
   // remove calotowers
   if (!doCaloTowers_)
-    event_->removeTowers(); // caloTowers don't need to be saved, unless specified in cfg
+  event_->removeTowers(); // caloTowers don't need to be saved, unless specified in cfg
 
   // fill TTree
   tree_->Fill();
@@ -1261,7 +1279,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
     for(HepMC::GenEvent::vertex_const_iterator pitr = evt->vertices_begin();
 	pitr!= evt->vertices_end();
 	++pitr) {
-      
+
       if((*pitr)->barcode()==-1)  {
 
 	event_->rHadVtxX = (*pitr)->point3d().x();
@@ -1332,6 +1350,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	  charge = PData->charge();
 	  pdgid = PData->ID().pid();
 	}
+
 	event_->mcStoppedParticleName.push_back(names->at(i));
 	event_->mcStoppedParticleId.push_back(pdgid);
 	event_->mcStoppedParticleX.push_back(xs->at(i));
@@ -1405,7 +1424,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
       } else {
 	charge = PData->charge();
       }
-      /*
+
       event_->mcGenParticleId.push_back(p->pdg_id());
       event_->mcGenParticleMass.push_back(mass);
       event_->mcGenParticleCharge.push_back(charge);
@@ -1422,7 +1441,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
       //event_->mcGenParticleNMothers.push_back(p_reco->numberOfMothers());
       //event_->mcGenParticleNDaughters.push_back(p_reco->numberOfDaughters());
       event_->mcGenParticle_N++;
-      */
+
 
       //std::cout<<"for HepMC gen part "<<index<<", pid is: "<<p->pdg_id()<<", pt is: "<<pt<<", eta is: "<<eta<<", phi is: "<<phi<<std::endl;
 
@@ -1445,6 +1464,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 
       // Search for the original sparticle (gluino, stop - left and right handed, stau)
       // -- Assumes the first two sparticles found are the correct ones to save.
+
       if ((partId == 1000021 || partId == 1000006 || partId == 2000006 || partId == 1000015 
 	   || partId == 2000015) && event_->mcSparticle_N < 2) {
 	math::XYZTLorentzVector momentum1(p->momentum().px(),
@@ -1554,7 +1574,6 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother_ = p.mother();
 	motherId_ = mother_->pdgId();
       }
-	
       event_->mcGenParticleId.push_back(p.pdgId());
       event_->mcGenParticleMass.push_back(p.mass());
       event_->mcGenParticleCharge.push_back(charge_);
@@ -1596,6 +1615,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcTauPrimeId.push_back(p.pdgId());
 	event_->mcTauPrimeMass.push_back(p.mass());
 	event_->mcTauPrimeCharge.push_back(charge);
@@ -1638,6 +1658,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcGluinoId.push_back(p.pdgId());
 	event_->mcGluinoMass.push_back(p.mass());
 	event_->mcGluinoCharge.push_back(charge);
@@ -1680,6 +1701,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcStauId.push_back(p.pdgId());
 	event_->mcStauMass.push_back(p.mass());
 	event_->mcStauCharge.push_back(charge);
@@ -1722,6 +1744,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcStopId.push_back(p.pdgId());
 	event_->mcStopMass.push_back(p.mass());
 	event_->mcStopCharge.push_back(charge);
@@ -1764,6 +1787,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcCharginoId.push_back(p.pdgId());
 	event_->mcCharginoMass.push_back(p.mass());
 	event_->mcCharginoCharge.push_back(charge);
@@ -1782,6 +1806,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcCharginoDaughterStatus.push_back(daughterStatus);
 	event_->mcCharginoGenIndex.push_back(i);
 	event_->mcChargino_N++; 
+
       }
 
       //look at neutralinos
@@ -1806,6 +1831,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcNeutralinoId.push_back(p.pdgId());
 	event_->mcNeutralinoMass.push_back(p.mass());
 	event_->mcNeutralinoCharge.push_back(charge);
@@ -1848,6 +1874,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcGravitinoId.push_back(p.pdgId());
 	event_->mcGravitinoMass.push_back(p.mass());
 	event_->mcGravitinoCharge.push_back(charge);
@@ -1890,6 +1917,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcNeutrinoId.push_back(p.pdgId());
 	event_->mcNeutrinoMass.push_back(p.mass());
 	event_->mcNeutrinoCharge.push_back(charge);
@@ -1932,6 +1960,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcTopId.push_back(p.pdgId());
 	event_->mcTopMass.push_back(p.mass());
 	event_->mcTopCharge.push_back(charge);
@@ -1950,7 +1979,6 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcTopDaughterStatus.push_back(daughterStatus);
 	event_->mcTopGenIndex.push_back(i);
 	event_->mcTop_N++; 
-
       }
 
       //look at Ws
@@ -1975,6 +2003,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcWId.push_back(p.pdgId());
 	event_->mcWMass.push_back(p.mass());
 	event_->mcWCharge.push_back(charge);
@@ -1993,7 +2022,6 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcWDaughterStatus.push_back(daughterStatus);
 	event_->mcWGenIndex.push_back(i);
 	event_->mcW_N++; 
-
       }
 
       //look at CMshowers
@@ -2018,6 +2046,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcCMshowerId.push_back(p.pdgId());
 	event_->mcCMshowerMass.push_back(p.mass());
 	event_->mcCMshowerCharge.push_back(charge);
@@ -2036,7 +2065,6 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcCMshowerDaughterStatus.push_back(daughterStatus);
 	event_->mcCMshowerGenIndex.push_back(i);
 	event_->mcCMshower_N++; 
-
       }
 
       //look at taus
@@ -2061,6 +2089,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
+
 	event_->mcTauId.push_back(p.pdgId());
 	event_->mcTauMass.push_back(p.mass());
 	event_->mcTauCharge.push_back(charge);
@@ -2079,7 +2108,6 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcTauDaughterStatus.push_back(daughterStatus);
 	event_->mcTauGenIndex.push_back(i);
 	event_->mcTau_N++; 
-
       }
 
       //look at muons
@@ -2096,6 +2124,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	  charge = PData->charge();
 	}
 
+	int precision = 3;
 	std::vector<int> daughterId;
 	std::vector<int> daughterStatus;
 	for(size_t j=0; j<p.numberOfDaughters(); j++){
@@ -2106,8 +2135,25 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	const reco::Candidate* mother = p.mother();
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
-	std::cout<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<std::endl;
+
+	SmartPropagatorWithIP::IP ip;
+        if( sqrt(pow(p.vertex().x(),2) + pow(p.vertex().y(),2)) < 110. && fabs(p.vertex().z()) < 280. ) {
+	  ip = smartPropIP_->computeGenImpactParametersInsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
+	}
+        else {
+	  ip = smartPropIP_->computeGenImpactParametersOutsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
+        }
+
+	std::cout<<std::setprecision(precision)<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<std::endl;
+	if(p.status()==1){
+	  std::cout<<"vx is: "<<p.vx()<<", vy is: "<<p.vy()<<", vz is: "<<p.vz()<<std::endl;
+	  std::cout<<"px is: "<<p.px()<<", py is: "<<p.py()<<", pz is: "<<p.pz()<<", p is: "<<p.p()<<std::endl;
+	  std::cout<<"px/p is: "<<p.px()/p.p()<<", py/p is: "<<p.py()/p.p()<<", pz/p is: "<<p.pz()/p.p()<<std::endl;
+	  std::cout<<"dxy is: "<<ip.dxyValue<<", dz is: "<<ip.dzValue<<std::endl;
+	  //std::cout<<"alpha is: "<<TMath::ACos(p.px()/p.p())<<", beta is: "<<TMath::ACos(p.py()/p.p())<<", gamma is: "<<TMath::ACos(p.pz()/p.p())<<std::endl;
+	}
 	std::cout<<"mother of muon is: "<<motherId<<std::endl;
+
 	event_->mcMuonId.push_back(p.pdgId());
 	event_->mcMuonMass.push_back(p.mass());
 	event_->mcMuonCharge.push_back(charge);
@@ -2118,6 +2164,11 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcMuonP.push_back(p.p());
 	event_->mcMuonEta.push_back(p.eta());
 	event_->mcMuonPhi.push_back(p.phi());
+	event_->mcMuonVx.push_back(p.vx());
+	event_->mcMuonVy.push_back(p.vy());
+	event_->mcMuonVz.push_back(p.vz());
+	event_->mcMuonDxy.push_back(ip.dxyValue);
+	event_->mcMuonDz.push_back(ip.dzValue);
 	event_->mcMuonStatus.push_back(p.status());
 	event_->mcMuonNMothers.push_back(p.numberOfMothers());
 	event_->mcMuonMotherId.push_back(motherId);
@@ -2359,13 +2410,13 @@ void StoppedHSCPMuonTreeProducer::doEventInfo(const edm::Event& iEvent) {
   
   if (!lumiDetails.isValid()){
     edm::LogError("MissingProduct") << "Could not retreive LumiDetails collection for "
-				    << event_->run << ":" << event_->lb << ":" << event_->id
+      << event_->run << ":" << event_->lb << ":" << event_->id
 				    <<std::endl;
     return;
   } else if (!lumiDetails->isValid()) {
-    //edm::LogWarning("doEventInfo()") << "LumiDetails collection invalid (empty) for "
-    //<< event_->run << ":" << event_->lb << ":"
-    //<< event_->id << std::endl;
+    edm::LogWarning("doEventInfo()") << "LumiDetails collection invalid (empty) for "
+    << event_->run << ":" << event_->lb << ":"
+    << event_->id << std::endl;
     return;
   }
   
@@ -2670,7 +2721,7 @@ void StoppedHSCPMuonTreeProducer::doTrigger(const edm::Event& iEvent, const edm:
   event_->gtAlgoWord0 = gtAlgoWord0;
   event_->gtAlgoWord1 = gtAlgoWord1;
   event_->gtTechWord = gtTechWord;
-  
+
   // Get prescales for individual L1 triggers
   
   int errorCode=0;
@@ -2943,8 +2994,8 @@ void StoppedHSCPMuonTreeProducer::doTrigger(const edm::Event& iEvent, const edm:
     if (!hltMuonsMissing_) edm::LogWarning("MissingProduct") << "TriggerEvent not found.  Branch will not be filled" << std::endl;
     hltMuonsMissing_ = true;
   }
-							       
-}
+
+}//end of doTrigger
 
 void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
@@ -2990,6 +3041,7 @@ void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::Ev
 	 if (fabs(it->eta())>=studyJetMinEta_ && 
 	     fabs(it->eta())<studyJetMaxEta_)
 	   event_->addStudyJet(jet);
+
 	   // 	 std::cout << "Jet " << std::endl;
 // 	 std::cout << "   E=" << it->energy() << " eta=" << it->eta() << " phi=" << it->phi() << std::endl;
 	 // get towers
@@ -3025,6 +3077,7 @@ void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::Ev
 		 fabs(tower->eta())>=studyTowerMinEta_ && 
 		 fabs(it->eta())<studyTowerMaxEta_)
 	       event_->addStudyTower(tow);
+
 	     // 	   std::cout << "  Calo tower" << std::endl;
 	     // 	   std::cout << "    eta=" << tower->eta() << " phi=" << tower->phi() << std::endl;
 	     // 	   std::cout << "    ECAL E=" << tower->emEnergy() << " HCAL E=" << tower->hadEnergy() << std::endl;
@@ -3071,11 +3124,13 @@ void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::Ev
 	 jet.eMaxHcalTow = it->maxEInHadTowers();
 	 jet.n60 = it->n60();
 	 jet.n90 = it->n90();
+
 	 if (fabs(it->eta()) < jetMaxEta_)
 	   event_->addAK5Jet(jet);
 	 if (fabs(it->eta())>=studyJetMinEta_ && 
 	     fabs(it->eta())<studyJetMaxEta_)
 	   event_->addAK5StudyJet(jet);
+
        }
      }
 
@@ -3246,6 +3301,13 @@ void StoppedHSCPMuonTreeProducer::doCosmicMuonTracks(const edm::Event& iEvent) {
       //reco::TrackRef refittedStandAloneTrack = it->standAloneMuon();
 
       shscp::Track track;
+      int precision = 3;
+
+      std::cout<<std::setprecision(precision)<<"Cosmic muon track, pt is: "<<it->pt()<<", ptError is: "<<it->ptError()<<", eta is: "<<it->eta()<<", phi is: "<<it->phi()<<std::endl;
+      std::cout<<"vx is: "<<it->vx()<<", vy is: "<<it->vy()<<", vz is: "<<it->vz()<<std::endl;
+      std::cout<<"dxy is: "<<it->dxy()<<", dz is: "<<it->vz()<<std::endl;
+      std::cout<<"px is: "<<it->px()<<", py is: "<<it->py()<<", pz is: "<<it->pz()<<", p is: "<<it->p()<<std::endl;
+      std::cout<<"nDT chambers is: "<<it->hitPattern().dtStationsWithValidHits()<<", nDT hits is: "<<it->hitPattern().numberOfValidMuonDTHits()<<", nRPC hits is: "<<it->hitPattern().numberOfValidMuonRPCHits()<<std::endl;
 
       track.charge = it->charge();
       track.px = it->px();
@@ -3260,6 +3322,9 @@ void StoppedHSCPMuonTreeProducer::doCosmicMuonTracks(const edm::Event& iEvent) {
       track.chi2  = it->chi2();
       track.ndof  = it->ndof();
       track.normalizedChi2  = it->normalizedChi2();
+      track.vx = it->vx();
+      track.vy = it->vy();
+      track.vz = it->vz();
       track.dxy = it->dxy();
       track.dz = it->dz();
       track.nHits = it->numberOfValidHits();
@@ -3418,6 +3483,9 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuons(const edm::Event& iEvent, co
 	track.chi2  = standAloneTrack->chi2();
 	track.ndof  = standAloneTrack->ndof();
 	track.normalizedChi2  = standAloneTrack->normalizedChi2();
+	track.vx = standAloneTrack->vx();
+	track.vy = standAloneTrack->vy();
+	track.vz = standAloneTrack->vz();
 	track.dxy = standAloneTrack->dxy(PV);
 	track.dz = standAloneTrack->dz(PV);
 	track.nHits = standAloneTrack->numberOfValidHits();
@@ -3755,6 +3823,9 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
       track.chi2  = it->chi2();
       track.ndof  = it->ndof();
       track.normalizedChi2  = it->normalizedChi2();
+      track.vx = it->vx();
+      track.vy = it->vy();
+      track.vz = it->vz();
       track.dxy = it->dxy();
       track.dz = it->dz();
       track.nHits = it->numberOfValidHits();
@@ -3870,7 +3941,6 @@ void StoppedHSCPMuonTreeProducer::doVertices(const edm::Event& iEvent, const rec
     }
   }
   //std::cout<<"PV is: "<<PV<<std::endl;
-  
 } // void StoppedHSCPMuonTreeProducer::doVertices(const edm::Event& iEvent)
 
 
@@ -4501,9 +4571,10 @@ void StoppedHSCPMuonTreeProducer::doMuonDTs(const edm::Event& iEvent, const edm:
 	  event_->addDTSegment(dt);
 
 	}
+      std::cout<<"There are "<<nchamberseg<<" DT segments in chamber "<<(*chamberId).station()<<std::endl;  
       nsegments+=nchamberseg;
     }
-  //std::cout<<"finished DTs"<<std::endl;  
+  std::cout<<"There are "<<nsegments<<" total DT segments"<<std::endl;  
 } // void StoppedHSCPMuonTreeProducer::doMuonDTs
 
 
@@ -4556,6 +4627,7 @@ void StoppedHSCPMuonTreeProducer::doBeamHalo(const edm::Event& iEvent)
       if (TheSummary.HcalTightHaloId()==true)  beamhalo_hcaltight = true; 
       if (TheSummary.HcalLooseHaloId()==true)  beamhalo_hcalloose = true; 
     }
+
   event_->beamHalo_CSCTight=beamhalo_csctight;
   event_->beamHalo_CSCLoose=beamhalo_cscloose;
   event_->beamHalo_HcalTight=beamhalo_hcaltight;
@@ -4655,7 +4727,6 @@ void StoppedHSCPMuonTreeProducer::doHcalNoise(const edm::Event& iEvent) {
     edm::LogWarning("MissingProduct") << "No HBHE filter flag in Event" << std::endl;
   }
 
-
   // get RBX/HPD collection
   edm::Handle<HcalNoiseRBXCollection> rbxs;
   iEvent.getByLabel(rbxTag_,rbxs);
@@ -4727,6 +4798,7 @@ void StoppedHSCPMuonTreeProducer::doHcalNoise(const edm::Event& iEvent) {
 			  event_->topHPD5R2,
 			  event_->topHPD5RPeak,
 			  event_->topHPD5ROuter);
+
     }
   else {
     if (!hpdsMissing_) edm::LogWarning("MissingProduct") << "HCALNoiseRBXCollection not found.  Branch will not be filled" << std::endl;
@@ -5150,7 +5222,6 @@ void StoppedHSCPMuonTreeProducer::doTimingFromDigis(const edm::Event& iEvent, co
 			event_->top5DigiR2,
 			event_->top5DigiRPeak,
 			event_->top5DigiROuter);
-    
   }
   else {
     if (!digisMissing_) {

@@ -311,6 +311,11 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   mcMuonE(0),
   mcMuonPhi(0),
   mcMuonEta(0),
+  mcMuonVx(0),
+  mcMuonVy(0),
+  mcMuonVz(0),
+  mcMuonDxy(0),
+  mcMuonDz(0),
   mcMuonStatus(0),
   mcMuonNMothers(0),
   mcMuonMotherId(0),
@@ -523,6 +528,9 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muCosmicTrackChi2(0),
   muCosmicTrackNdof(0),
   muCosmicTrackNormalizedChi2(0),
+  muCosmicTrackVx(0),
+  muCosmicTrackVy(0),
+  muCosmicTrackVz(0),
   muCosmicTrackDxy(0),
   muCosmicTrackDz(0),
   muCosmicTrackNHits(0),
@@ -562,6 +570,9 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackChi2(0),
   muStandAloneTrackNdof(0),
   muStandAloneTrackNormalizedChi2(0),
+  muStandAloneTrackVx(0),
+  muStandAloneTrackVy(0),
+  muStandAloneTrackVz(0),
   muStandAloneTrackDxy(0),
   muStandAloneTrackDz(0),
   muStandAloneTrackNHits(0),
@@ -653,6 +664,9 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackChi2(0),
   muRefittedStandAloneTrackNdof(0),
   muRefittedStandAloneTrackNormalizedChi2(0),
+  muRefittedStandAloneTrackVx(0),
+  muRefittedStandAloneTrackVy(0),
+  muRefittedStandAloneTrackVz(0),
   muRefittedStandAloneTrackDxy(0),
   muRefittedStandAloneTrackDz(0),
   muRefittedStandAloneTrackNHits(0),
@@ -1144,6 +1158,9 @@ void StoppedHSCPMuonEvent::addCosmicMuonTrack(Track track) {
   muCosmicTrackChi2.push_back(track.chi2);
   muCosmicTrackNdof.push_back(track.ndof);
   muCosmicTrackNormalizedChi2.push_back(track.normalizedChi2);
+  muCosmicTrackVx.push_back(track.vx);
+  muCosmicTrackVy.push_back(track.vy);
+  muCosmicTrackVz.push_back(track.vz);
   muCosmicTrackDxy.push_back(track.dxy);
   muCosmicTrackDz.push_back(track.dz);
   muCosmicTrackNHits.push_back(track.nHits);
@@ -1186,6 +1203,9 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackChi2.push_back(track.chi2);
   muStandAloneTrackNdof.push_back(track.ndof);
   muStandAloneTrackNormalizedChi2.push_back(track.normalizedChi2);
+  muStandAloneTrackVx.push_back(track.vx);
+  muStandAloneTrackVy.push_back(track.vy);
+  muStandAloneTrackVz.push_back(track.vz);
   muStandAloneTrackDxy.push_back(track.dxy);
   muStandAloneTrackDz.push_back(track.dz);
   muStandAloneTrackNHits.push_back(track.nHits);
@@ -1280,6 +1300,9 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackChi2.push_back(track.chi2);
   muRefittedStandAloneTrackNdof.push_back(track.ndof);
   muRefittedStandAloneTrackNormalizedChi2.push_back(track.normalizedChi2);
+  muRefittedStandAloneTrackVx.push_back(track.vx);
+  muRefittedStandAloneTrackVy.push_back(track.vy);
+  muRefittedStandAloneTrackVz.push_back(track.vz);
   muRefittedStandAloneTrackDxy.push_back(track.dxy);
   muRefittedStandAloneTrackDz.push_back(track.dz);
   muRefittedStandAloneTrackNHits.push_back(track.nHits);
@@ -1664,8 +1687,3 @@ unsigned StoppedHSCPMuonEvent::jetCaloTowers() const {
   return tmp;
   
 }
-
-
-#if !defined(__CINT__)
-ClassImp(StoppedHSCPMuonEvent)
-#endif
