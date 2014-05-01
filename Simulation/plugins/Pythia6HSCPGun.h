@@ -5,6 +5,9 @@
 
 #include "GeneratorInterface/Pythia6Interface/plugins/Pythia6ParticleGun.h"
 
+namespace CLHEP {
+  class HepRandomEngine;
+}
 
 namespace gen {
 
@@ -19,7 +22,8 @@ namespace gen {
 	void produce( edm::Event& fEvt, const edm::EventSetup& iSetup );
 	  
    protected:
-	void generateEvent();
+	void generateEvent(CLHEP::HepRandomEngine*);
+	//void generateEvent();
 	
    private:
 
@@ -39,3 +43,4 @@ namespace gen {
 }
 
 #endif
+

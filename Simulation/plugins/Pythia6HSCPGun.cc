@@ -4,18 +4,19 @@
 
 #include "Pythia6HSCPGun.h"
 
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/ServiceRegistry/interface/RandomEngineSentry.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "GeneratorInterface/Pythia6Interface/interface/Pythia6Declarations.h"
 
 using namespace edm;
 using namespace gen;
@@ -65,6 +66,7 @@ namespace {
 
   void writeCommon (std::ofstream& file) {
     char buffer[1024];
+
     sprintf (buffer, "DECAY 1000022 0.\n"); 
     file << buffer; //neutralino
 
@@ -115,7 +117,9 @@ namespace {
     for (int id = 0; id < 17; ++id) {
       const char* name = specialName[id].c_str();
       int pid = specialPid[id];
+      //std::cout<<"writeRHadron pid is: "<<pid<<std::endl;
       if ((pid % 100000) > 90000) { // R-Baryon
+	//std::cout<<"writeRHadron R-baryon is: "<<pid<<std::endl;
 	int quark [3];
 	int charge = 0;
 	int qid = (pid % 10000) / 10;
@@ -137,6 +141,7 @@ namespace {
 	sprintf (buffer, "         4 1 \n"); file << buffer;
       }
       else if ((pid % 10000) > 9000) { // R-Meson
+	//std::cout<<"writeRHadron R-meson is: "<<pid<<std::endl;
 	int quark [2];
 	int qid = (pid % 1000) / 10;
 	for (int i = 0; i < 2; ++i) {
@@ -161,6 +166,7 @@ namespace {
 	sprintf (buffer, "         4 1 \n"); file << buffer;
       }
       else { // glueball
+	//std::cout<<"writeRHadron glueball is: "<<pid<<std::endl;
 	sprintf (buffer, "DECAY     %7d     1.00000000E-05\n", pid); file << buffer;
 	sprintf (buffer, "     1.00000000E+00   2   21   1000021\n");
 	file << buffer;
@@ -241,7 +247,7 @@ namespace {
   }
 
   void setAllMasses (std::ofstream& file, double sparticleMass, double neutralinoMass, double gravitinoMass) {
-    //void setAllMasses (std::ofstream& file, double sparticleMass, double neutralinoMass) {
+  //void setAllMasses (std::ofstream& file, double sparticleMass, double neutralinoMass) {
     char buffer[1024];
     sprintf (buffer, "BLOCK_MASS\n"); file << buffer;
     sprintf (buffer, "   1000022   %6.1f\n", neutralinoMass); file << buffer;
@@ -290,7 +296,7 @@ Pythia6HSCPGun::Pythia6HSCPGun( const ParameterSet& pset ) :
   double sparticleMass = (pgun_params.getParameter<double>( "sparticleMass"));
   double neutralinoMass = (pgun_params.getParameter<double>( "neutralinoMass"));
   double gravitinoMass = (pgun_params.getParameter<double>( "gravitinoMass"));
-  bool diJetGluino = (pgun_params.getParameter<bool>( "diJetGluino"));  
+  //bool diJetGluino = (pgun_params.getParameter<bool>( "diJetGluino"));  
   makeParticleTable (decayTable,sparticleMass, neutralinoMass, gravitinoMass);
   //makeParticleTable (decayTable,sparticleMass, neutralinoMass);
  
@@ -304,6 +310,8 @@ Pythia6HSCPGun::~Pythia6HSCPGun()
 // copied from Pythia6Gun::produce
 void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
   //std::cout<<"starting produce of Pythia6HSCPGun"<<std::endl;
+  RandomEngineSentry<Pythia6Service> sentry(fPy6Service, evt.streamID());
+
   bool isStoppedEvent = false;
   std::string name("none");
   mPID=0;
@@ -363,15 +371,15 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
 
      }
 
-    edm::LogInfo("Pythia6HSCPGun") << "Pythia6HSCPGun::generateEvent-> name/pid vertex: "
-				   << name << '/' << mPID << '/' << ' '
-				   << mVx << '/' << mVy << '/' << mVz 
-				   << std::endl; 
+    //edm::LogInfo("Pythia6HSCPGun") << "Pythia6HSCPGun::generateEvent-> name/pid vertex: "
+    //				   << name << '/' << mPID << '/' << ' '
+    //				   << mVx << '/' << mVy << '/' << mVz 
+    //				   << std::endl; 
 
   }
   //std::cout<<"got stopping point info"<<std::endl;
   if (isStoppedEvent) {
-    generateEvent() ;
+    generateEvent(fPy6Service->randomEngine()) ;
     
     fEvt->set_beam_particles(0,0);
     fEvt->set_event_number(evt.id().event()) ;
@@ -391,15 +399,17 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
     loadEvent( evt );
     //std::cout<<"loaded event"<<std::endl;
   }
+  //std::cout<<"end of produce method"<<std::endl;
 }
 
-void Pythia6HSCPGun::generateEvent()
+void Pythia6HSCPGun::generateEvent(CLHEP::HepRandomEngine*)
+//void Pythia6HSCPGun::generateEvent()
 {
   //std::cout<<"starting generateEvent of Pythia6HSCPGun"<<std::endl;
   // check the case where no stopped particle found
   // need to check this doesn't break stuff
   if (mPID==0) {
-    //std::cout<<"mPID is 0"<<std::endl;
+    std::cout<<"mPID is 0"<<std::endl;
     return;
   }
 
@@ -429,8 +439,10 @@ void Pythia6HSCPGun::generateEvent()
   double eta  = 0;
   double the  = 2.*atan(exp(-eta));
   
+  //std::cout<<"just before py1ent_"<<std::endl;
   py1ent_(ip, py6PID, ee, the, phi);
-  
+  //std::cout<<"did py1ent_"<<std::endl;
+
   double px     = pyjets.p[0][ip-1]; // pt*cos(phi) ;
   double py     = pyjets.p[1][ip-1]; // pt*sin(phi) ;
   double pz     = pyjets.p[2][ip-1]; // mom*cos(the) ;
