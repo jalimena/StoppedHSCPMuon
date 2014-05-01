@@ -78,8 +78,10 @@ MCStoppedEventFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   edm::Handle<std::vector<float> > xs;
   iEvent.getByLabel(mStopPointProducer_, "StoppedParticlesX", xs);
-  if (xs->size() > 0)
+  if (xs->size() > 0){
+    std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
     return true;
+  }
   else
     return false;
 }

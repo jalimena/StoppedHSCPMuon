@@ -4,15 +4,21 @@
 #include <iostream>
 #include <fstream>
 #include <ios>
+#include "TRandom3.h"
 
 #include "HepMC/SimpleVector.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/Utilities/interface/RandomNumberGenerator.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Units/SystemOfUnits.h"
-#include "CLHEP/Units/PhysicalConstants.h"
+//#include "CLHEP/Units/PhysicalConstants.h"
+#include "./PhysicalConstants.h"
+
+#include "GeneratorInterface/Pythia6Interface/interface/Pythia6Service.h"
+#include "GeneratorInterface/Pythia6Interface/interface/Pythia6Declarations.h"
 
 // dirty trick to work around encapsulation of EventVertexGenerators package
 #include "IOMC/EventVertexGenerators/src/BaseEvtVtxGenerator.cc" 
@@ -26,11 +32,12 @@ StoppedParticleEvtVtxGenerator::StoppedParticleEvtVtxGenerator(const edm::Parame
     mStopPointProducer(pset.getUntrackedParameter<std::string>("stopPointInputTag", "g4SimHits")),
     mTimeMin (pset.getParameter<double>( "timeOffsetMin") * ns * c_light),
     mTimeMax (pset.getParameter<double>( "timeOffsetMax") * ns * c_light),
-    mRandom (new CLHEP::RandFlat(getEngine())),
+    //mRandom (new CLHEP::RandFlat(getEngine())),
     mVx(0.),
     mVy(0.),
     mVz(0.)
 {
+  //std::cout<<"starting StoppedParticleEvtVtxGenerator...."<<std::endl;
   if (mReadFromFile) {
     mFile = new std::ifstream (mFileName.c_str());
   }
@@ -41,6 +48,16 @@ StoppedParticleEvtVtxGenerator::~StoppedParticleEvtVtxGenerator() {}
 
 void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSetup& ) {
 
+  //std::cout<<"starting produce of StoppedParticleEvtVtxGenerator"<<std::endl;
+  //gen::Pythia6Service::InstanceWrapper guard(fPy6Service);   // grab Py6 instance                                                                                                                 
+  edm::Service<RandomNumberGenerator> rng;
+  if (!rng.isAvailable()) {
+    throw cms::Exception("Configuration")
+      << "Attempt to get a random engine when the RandomNumberGeneratorService is not configured.\n"
+      "You must configure the service if you want an engine.\n";
+  }
+  CLHEP::HepRandomEngine* engine = &rng->getEngine(evt.streamID());
+
   getStoppingPoint(evt);
 
   if (isStoppedEvent) {
@@ -50,13 +67,15 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     
     // generate new vertex & apply the shift 
     //
-    HepMCEvt->applyVtxGen( newVertex() ) ;
+    //HepMCEvt->applyVtxGen( newVertex() ) ;
+    //HepMCEvt->applyVtxGen( newVertex(fPy6Service->randomEngine()) ) ;
+    HepMCEvt->applyVtxGen( newVertex(engine) ) ;
     
     //HepMCEvt->LorentzBoost( 0., 142.e-6 );
     HepMCEvt->boostToLab( GetInvLorentzBoost(), "vertex" );
     HepMCEvt->boostToLab( GetInvLorentzBoost(), "momentum" );
 
-    const HepMC::GenEvent* mc = HepMCEvt->GetEvent();    
+    //const HepMC::GenEvent* mc = HepMCEvt->GetEvent();    
     //mc->print( std::cout );
 
     // OK, create a (pseudo)product and put in into edm::Event
@@ -64,6 +83,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     auto_ptr<bool> NewProduct(new bool(true)) ;      
     evt.put( NewProduct ) ;
   }
+  //std::cout<<"ending produce of StoppedParticleEvtVtxGenerator"<<std::endl;
   return ;
   
 }
@@ -86,7 +106,7 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
       mFile = new std::ifstream (mFileName.c_str());
       mFile->getline (buf, 1023);
       if (!mFile->good() || buf[0]=='\n') { // something wrong
-	edm::LogError("StoppedParticles") << "Failed to open stopping points file" << std::endl;
+	std::cout << "Failed to open stopping points file" << std::endl;
       }
     }
     char nn[32];
@@ -106,7 +126,7 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
     iEvent.getByLabel (mStopPointProducer, "StoppedParticlesZ", zs);
     
     if (names->size() != xs->size() || xs->size() != ys->size() || ys->size() != zs->size()) {
-      edm::LogError ("StoppedParticles") << "mismatch array sizes name/x/y/z:"
+      std::cout << "mismatch array sizes name/x/y/z:"
 				       << names->size() << '/' << xs->size() << '/' << ys->size() << '/' << zs->size()
 				       << std::endl;
     }
@@ -124,7 +144,7 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
 
      }
 
-    edm::LogInfo("StoppedParticles") << "Pythia6HSCPGun::generateEvent-> name/pid vertex: "
+    std::cout << "Pythia6HSCPGun::generateEvent-> name/pid vertex: "
 				     << name << '/' << ' '
 				     << mVx << '/' << mVy << '/' << mVz 
 				     << std::endl; 
@@ -135,14 +155,16 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
 
 
 
-HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex() {
+//HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex() {
+HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex(CLHEP::HepRandomEngine* engine) {
 
-  mVt = CLHEP::RandFlat::shoot (mTimeMin, mTimeMax);
+  //mVt = CLHEP::RandFlat::shoot (mTimeMin, mTimeMax);
+  mVt = CLHEP::RandFlat::shoot (engine,mTimeMin, mTimeMax);
   if (!fVertex) fVertex = new HepMC::FourVector(mVx, mVy, mVz, mVt);
   else fVertex->set (mVx, mVy, mVz, mVt);
 
   if (mVerbose) {
-    edm::LogInfo("StoppedParticles") << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm, " << mVt / (ns * c_light) << " ns" << std::endl; 
+    std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm, " << mVt / (ns * c_light) << " ns" << std::endl; 
   }
 
   return fVertex;

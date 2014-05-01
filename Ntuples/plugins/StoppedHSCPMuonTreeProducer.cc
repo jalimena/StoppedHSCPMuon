@@ -29,6 +29,7 @@
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/PluginManager/interface/ModuleDef.h"
 #include "FWCore/Framework/interface/InputSourceMacros.h"
 
@@ -129,8 +130,8 @@
 #include "Geometry/CaloGeometry/interface/CaloGeometry.h" 
 #include "DataFormats/GeometryVector/interface/GlobalPoint.h" 
 #include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
-#include "CalibCalorimetry/HcalAlgos/interface/HcalLogicalMapGenerator.h"
-#include "CondFormats/HcalObjects/interface/HcalLogicalMap.h"
+//#include "CalibCalorimetry/HcalAlgos/interface/HcalLogicalMapGenerator.h"
+//#include "CondFormats/HcalObjects/interface/HcalLogicalMap.h"
 
 // CSC segments
 #include "DataFormats/CSCRecHit/interface/CSCSegment.h"
@@ -163,8 +164,8 @@
 // digis
 #include "CalibFormats/HcalObjects/interface/HcalCoderDb.h"
 #include "CalibFormats/HcalObjects/interface/HcalCalibrations.h"
-#include "CalibFormats/HcalObjects/interface/HcalDbService.h"
-#include "CalibFormats/HcalObjects/interface/HcalDbRecord.h"
+//#include "CalibFormats/HcalObjects/interface/HcalDbService.h"
+//#include "CalibFormats/HcalObjects/interface/HcalDbRecord.h"
 
 #include "DataFormats/HcalDigi/interface/HBHEDataFrame.h"
 #include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
@@ -173,8 +174,8 @@
 
 // MC
 #include "SimGeneral/HepPDTRecord/interface/ParticleDataTable.h"
-#include "Analysis/SmartPropagatorWithIP/interface/SmartPropagatorWithIP.h"
-#include "Analysis/Records/interface/SmartPropagatorWithIPComponentsRecord.h"
+//#include "Analysis/SmartPropagatorWithIP/interface/SmartPropagatorWithIP.h"
+//#include "Analysis/Records/interface/SmartPropagatorWithIPComponentsRecord.h"
 
 
 // ROOT output stuff
@@ -212,6 +213,7 @@ class MuonServiceProxy;
 
 class StoppedHSCPMuonTreeProducer : public edm::EDAnalyzer {
 public:
+  //explicit StoppedHSCPMuonTreeProducer(const edm::ParameterSet&);
   explicit StoppedHSCPMuonTreeProducer(const edm::ParameterSet&);
   ~StoppedHSCPMuonTreeProducer();
   
@@ -265,7 +267,7 @@ private:
   void fillNoiseObjectTop5DigiSamples(shscp::HPD& hpd, std::vector<double>& outvec);
 
   // write HCAL RecHits
-  void doHcalRecHits(const edm::Event&);
+  //void doHcalRecHits(const edm::Event&);
   void doHFRecHits(const edm::Event&);
 
   // write CSC segments
@@ -274,7 +276,7 @@ private:
   //void doSlices (const edm::Event& iEvent, const edm::EventSetup& iSetup); 
 
   // write variables based on digis
-  void doTimingFromDigis(const edm::Event&, const edm::EventSetup&);
+  //void doTimingFromDigis(const edm::Event&, const edm::EventSetup&);
 
   // method to calculate pulse shape variables from time samples
   void pulseShapeVariables(const std::vector<double>& samples,
@@ -485,7 +487,7 @@ private:
   edm::ESHandle<HepPDT::ParticleDataTable> fPDGTable;
 
   //mc
-  const SmartPropagatorWithIP * smartPropIP_;
+  //const SmartPropagatorWithIP * smartPropIP_;
 
   // cuts
   double recoGenDeltaR_;
@@ -512,7 +514,7 @@ private:
   double studyTowerMaxEta_;
 
   // Hcal Logical map (ieta-iphi->hardware) object
-  HcalLogicalMap* logicalMap_;  
+
   
   // bad channel status to mask;
   HcalChannelQuality* chanquality_;
@@ -547,10 +549,10 @@ private:
   bool tracksMissing_;
   bool cscSegsMissing_;
 
-  std::vector<CaloTowerPtr> jetTowers_;
+  //std::vector<CaloTowerPtr> jetTowers_;
   std::vector<unsigned> towerJets_;
 
-  std::vector<HcalDetId> hcalDetIds_;
+  //std::vector<HcalDetId> hcalDetIds_;
   std::vector<unsigned> hcalDetJets_;
 
   std::vector<HBHERecHit> recHits_;
@@ -570,6 +572,7 @@ private:
 
 
 
+//StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet& iConfig):
 StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet& iConfig):
   tree_(0),
   event_(0),
@@ -619,7 +622,7 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   hltPathL2Mu30NoVertex2ChaNoBptx3BXNoHalo_(iConfig.getUntrackedParameter<std::string>("hltPathL2Mu30NoVertex2ChaNoBptx3BXNoHalo",std::string("HLT_L2Mu30_NoVertex_2Cha_NoBPTX3BX_NoHalo_v"))),
   hltFilterTag_20_(iConfig.getUntrackedParameter<edm::InputTag>("hltFilterTag_20",edm::InputTag("hltL2fL1sMu6NoBPTXL1f0L2Filtered20","","HLT"))),
   hltFilterTag_20Cha2_(iConfig.getUntrackedParameter<edm::InputTag>("hltFilterTag_20Cha2",edm::InputTag("hltL2fL1sMu6NoBPTXL1f0L2Filtered20Cha2","","HLT"))),
-  smartPropIP_(0),
+  //smartPropIP_(0),
   mcTag_(iConfig.getUntrackedParameter<edm::InputTag>("mcTag",edm::InputTag("generator"))),
   mcProducer_ (iConfig.getUntrackedParameter<std::string>("producer", "g4SimHits")),
   hepProducer_ (iConfig.getUntrackedParameter<edm::InputTag>("hepMCProducerTag", edm::InputTag("generator", "", "SIM"))),
@@ -650,7 +653,6 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   DT4DSegmentsTag_(iConfig.getUntrackedParameter<edm::InputTag>("DT4DSegmentsTag",edm::InputTag("dt4DSegments"))),
   timeTag_(iConfig.getUntrackedParameter<edm::InputTag>("timeTag",edm::InputTag("muontimingDelayedMuons"))),
   rpcRecHitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("rpcRecHitsTag",edm::InputTag("rpcRecHits"))),
-
   recoGenDeltaR_(iConfig.getUntrackedParameter<double>("recoGenDeltaR", 0.1)),
   recoTriggerDeltaR_(iConfig.getUntrackedParameter<double>("recoTriggerDeltaR", 0.1)),
   towerMinEnergy_(iConfig.getUntrackedParameter<double>("towerMinEnergy", 1.)),
@@ -686,7 +688,7 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   rbxsMissing_(false),
   hpdsMissing_(false),
   digisMissing_(false),
-  hcalDetIds_(0),
+  //hcalDetIds_(0),
   hcalDetJets_(0)
 {
   // set up output
@@ -701,8 +703,8 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
 
   edm::LogInfo("StoppedHSCPMuonTree") << "Going to fill " << log << std::endl;
 
-  HcalLogicalMapGenerator gen;
-  logicalMap_=new HcalLogicalMap(gen.createMap());
+  //HcalLogicalMapGenerator gen;
+  //logicalMap_=new HcalLogicalMap(gen.createMap());
 
   const float epsilon = 0.001;
   Surface::RotationType rot; // unit rotation matrix
@@ -713,10 +715,12 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
 
   theHCALbarrel_ = new BoundCylinder( Surface::PositionType(0,0,0), rot, SimpleCylinderBounds( -epsilon, barrelRadius+epsilon, -barrelHalfLength, barrelHalfLength));
 
+  edm::ConsumesCollector iC = consumesCollector();
   edm::ParameterSet serviceParameters = iConfig.getParameter<edm::ParameterSet>("ServiceParameters");
   edm::ParameterSet matchParameters = iConfig.getParameter<edm::ParameterSet>("MatchParameters");
   muonService = new MuonServiceProxy(serviceParameters);
-  segmentMatcher = new MuonSegmentMatcher(matchParameters, muonService);
+  //segmentMatcher = new MuonSegmentMatcher(matchParameters, muonService);
+  segmentMatcher = new MuonSegmentMatcher(matchParameters, muonService, iC);
 
 }
 
@@ -1165,9 +1169,9 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   reco::CompositeCandidateCollection dimuons;
 
   // Load the propagator and IP calculator
-  edm::ESHandle<Propagator> smartPropIPHandle;
-  iSetup.get<SmartPropagatorWithIPComponentsRecord>().get("SmartPropagatorWithIP", smartPropIPHandle);
-  smartPropIP_ = dynamic_cast<const SmartPropagatorWithIP*>(&*smartPropIPHandle);
+  //edm::ESHandle<Propagator> smartPropIPHandle;
+  //iSetup.get<SmartPropagatorWithIPComponentsRecord>().get("SmartPropagatorWithIP", smartPropIPHandle);
+  //smartPropIP_ = dynamic_cast<const SmartPropagatorWithIP*>(&*smartPropIPHandle);
 
   if (isMC_) doMC(iEvent);
  
@@ -1207,7 +1211,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   doHcalNoise(iEvent);
 
   // HCAL RecHits & flags
-  doHcalRecHits(iEvent);
+  //doHcalRecHits(iEvent);
   doHFRecHits(iEvent);
 
   // CSC segments
@@ -1224,9 +1228,9 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   doMuonRPCs(iEvent,iSetup);
 
   // digi based variables
-  if (doDigis_) {
-    doTimingFromDigis(iEvent, iSetup);
-  }
+  //if (doDigis_) {
+  //doTimingFromDigis(iEvent, iSetup);
+  //}
  
   // if making reduced ntuples, return without writing event
   // unless basic selection criteria met
@@ -1337,8 +1341,8 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	
 	// TODO: find a way to get the pdgid, mass, and charge of the stopped particle 
 	// (the name is not in the ParticleDataTable)
-	Double_t mass = -1.0;
-	Double_t charge = 99.0;
+	//Double_t mass = -1.0;
+	//Double_t charge = 99.0;
 	Int_t pdgid = 0;
 	const HepPDT::ParticleData* PData = fPDGTable->particle(names->at(i));
 	if (PData == 0) {
@@ -1346,8 +1350,8 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 					       << " table for " << names->at(i)
 					       << std::endl;
 	} else {
-	  mass = PData->mass();
-	  charge = PData->charge();
+	  //mass = PData->mass();
+	  //charge = PData->charge();
 	  pdgid = PData->ID().pid();
 	}
 
@@ -2136,20 +2140,20 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	int motherId = -999;
 	if(mother) motherId = mother->pdgId();
 
-	SmartPropagatorWithIP::IP ip;
-        if( sqrt(pow(p.vertex().x(),2) + pow(p.vertex().y(),2)) < 110. && fabs(p.vertex().z()) < 280. ) {
-	  ip = smartPropIP_->computeGenImpactParametersInsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
-	}
-        else {
-	  ip = smartPropIP_->computeGenImpactParametersOutsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
-        }
+	//SmartPropagatorWithIP::IP ip;
+        //if( sqrt(pow(p.vertex().x(),2) + pow(p.vertex().y(),2)) < 110. && fabs(p.vertex().z()) < 280. ) {
+	//ip = smartPropIP_->computeGenImpactParametersInsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
+	//}
+        //else {
+	//ip = smartPropIP_->computeGenImpactParametersOutsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
+        //}
 
 	std::cout<<std::setprecision(precision)<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<std::endl;
 	if(p.status()==1){
 	  std::cout<<"vx is: "<<p.vx()<<", vy is: "<<p.vy()<<", vz is: "<<p.vz()<<std::endl;
 	  std::cout<<"px is: "<<p.px()<<", py is: "<<p.py()<<", pz is: "<<p.pz()<<", p is: "<<p.p()<<std::endl;
 	  std::cout<<"px/p is: "<<p.px()/p.p()<<", py/p is: "<<p.py()/p.p()<<", pz/p is: "<<p.pz()/p.p()<<std::endl;
-	  std::cout<<"dxy is: "<<ip.dxyValue<<", dz is: "<<ip.dzValue<<std::endl;
+	  //std::cout<<"dxy is: "<<ip.dxyValue<<", dz is: "<<ip.dzValue<<std::endl;
 	  //std::cout<<"alpha is: "<<TMath::ACos(p.px()/p.p())<<", beta is: "<<TMath::ACos(p.py()/p.p())<<", gamma is: "<<TMath::ACos(p.pz()/p.p())<<std::endl;
 	}
 	std::cout<<"mother of muon is: "<<motherId<<std::endl;
@@ -2167,8 +2171,8 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcMuonVx.push_back(p.vx());
 	event_->mcMuonVy.push_back(p.vy());
 	event_->mcMuonVz.push_back(p.vz());
-	event_->mcMuonDxy.push_back(ip.dxyValue);
-	event_->mcMuonDz.push_back(ip.dzValue);
+	//event_->mcMuonDxy.push_back(ip.dxyValue);
+	//event_->mcMuonDz.push_back(ip.dzValue);
 	event_->mcMuonStatus.push_back(p.status());
 	event_->mcMuonNMothers.push_back(p.numberOfMothers());
 	event_->mcMuonMotherId.push_back(motherId);
@@ -3925,7 +3929,7 @@ void StoppedHSCPMuonTreeProducer::doVertices(const edm::Event& iEvent, const rec
       
       if (!it->isFake()) { //original from stopped HSCP code
       //if (!it->isFake() && it->ndof() > 4 && fabs(it->z()) <= 24. && it->position().rho() <= 2.) { //standard? identification of primary vertex --> take first one in collection (from Zeynep & black holes)
-	if(event_->nVtx==0) const reco::Vertex::Point PV = (*it).position();
+	//if(event_->nVtx==0) const reco::Vertex::Point PV = (*it).position();
 	event_->vtxNDOF.push_back(it->ndof());
 	event_->vtxZ.push_back(it->z());
 	event_->vtxRho.push_back(it->position().rho());
@@ -4498,7 +4502,7 @@ void StoppedHSCPMuonTreeProducer::doMuonDTs(const edm::Event& iEvent, const edm:
 	  ++nchamberseg;
 
 	  const GeomDet* gdet=dtGeom->idToDet(segment4D->geographicalId());
-	  const BoundPlane& DTSurface = gdet->surface();
+	  //const BoundPlane& DTSurface = gdet->surface();
 	  LocalPoint segmentLocal = (*segment4D).localPosition();
 	  GlobalPoint segmentGlobal = gdet->toGlobal(segment4D->localPosition());
 
@@ -4850,7 +4854,7 @@ void StoppedHSCPMuonTreeProducer::fillNoiseObjectTopDigiSamples(shscp::HPD& hpd,
 
 
 
-
+/*
 /// fill rec hit 
 void
 StoppedHSCPMuonTreeProducer::doHcalRecHits(const edm::Event& iEvent)
@@ -4925,7 +4929,7 @@ StoppedHSCPMuonTreeProducer::doHcalRecHits(const edm::Event& iEvent)
   }
   
 }
-
+*/
 
 /// fill HF rec hit 
 void
@@ -5022,7 +5026,7 @@ void StoppedHSCPMuonTreeProducer::doCscSegments(const edm::Event& iEvent, const 
 	  
 	/// code taken from RecoLocalMuon/CSCValidation/src/CSCValidation.cc
 	CSCDetId id  = seg->cscDetId();
-	LocalPoint localPos = seg->localPosition();
+	//LocalPoint localPos = seg->localPosition();
 	LocalVector segDir = seg->localDirection();
 	const GeomDet* cscDet = cscGeom->idToDet(seg->geographicalId());
 	//GlobalPoint globalPos = cscGeom->chamber(id)->toGlobal(localPos);
@@ -5133,7 +5137,7 @@ void StoppedHSCPMuonTreeProducer::doSlices (const edm::Event& iEvent, const edm:
   }
 } // doSlices
 */
-  
+/*  
 void StoppedHSCPMuonTreeProducer::doTimingFromDigis(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
  // this code taken from John Paul Chou's noise info producer
   // RecoMET/METProducers/src/HcalNoiseInfoProducer.cc
@@ -5231,7 +5235,7 @@ void StoppedHSCPMuonTreeProducer::doTimingFromDigis(const edm::Event& iEvent, co
   }
   
 } // void StoppedHSCPMuonTreeProducer::doTimingFromDigis(const edm::Event& iEvent, const edm::EventSetup& iSetup)
-
+*/
 
 
 void StoppedHSCPMuonTreeProducer::pulseShapeVariables(const std::vector<double>& samples,

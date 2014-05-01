@@ -47,7 +47,7 @@ namespace shscp {
   };
   
   struct TrigJet {
-    TrigJet() : type(0), e(0.), et(0.), eta(0.), phi(0.) { }
+  TrigJet() : type(0), e(0.), et(0.), eta(0.), phi(0.) { }
     unsigned type;   // 0 - L1 jet, 1 - L1 tau, 2, HLT jet
     double e;
     double et;
@@ -56,15 +56,14 @@ namespace shscp {
   };
 
   struct TrigMuon {
-    TrigMuon() : pt(0.), eta(0.), phi(0.) { }
+  TrigMuon() : pt(0.), eta(0.), phi(0.) { }
     double pt;
     double eta;
     double phi;
   };
 
   struct Jet {
-    Jet() : e(0.),et(0.),eta(0.),phi(0.),eHad(0.),eEm(0.),eMaxEcalTow(0.),eMaxHcalTow(0.),n60(0),n90(0),n90Hits(0),fHPD(0.),
-	    r1(0.),r2(0.),rp(0.),ro(0.),r1_top5(0.),r2_top5(0.),rp_top5(0.),ro_top5(0.) { }
+  Jet() : e(0.),et(0.),eta(0.),phi(0.),eHad(0.),eEm(0.),eMaxEcalTow(0.),eMaxHcalTow(0.),n60(0),n90(0),n90Hits(0),fHPD(0.),r1(0.),r2(0.),rp(0.),ro(0.),r1_top5(0.),r2_top5(0.),rp_top5(0.),ro_top5(0.) { }
     double e;
     double e_corr;
     double et;
@@ -90,8 +89,7 @@ namespace shscp {
   };
   
   struct Muon {
-    Muon() : px(0.),py(0.),pz(0.),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.),sumChargedHadronPt(0.),sumChargedParticlePt(0.),sumNeutralHadronEt(0.),sumPhotonEt(0.),sumNeutralHadronEtHighThreshold(0.),sumPhotonEtHighThreshold(0.),sumPUPt(0.),iso(0.) { }
-
+  Muon() : px(0.),py(0.),pz(0.),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.),sumChargedHadronPt(0.),sumChargedParticlePt(0.),sumNeutralHadronEt(0.),sumPhotonEt(0.),sumNeutralHadronEtHighThreshold(0.),sumPhotonEtHighThreshold(0.),sumPUPt(0.),iso(0.) { }
     unsigned type;        // type of muon (standalone/global/cosmic/regular)
     double px;
     double py;
@@ -113,15 +111,12 @@ namespace shscp {
   };
 
   struct DiMuon {
-    DiMuon() : mass(0.) { }
-
+  DiMuon() : mass(0.) { }
     double mass;
   };
 
   struct HPD {
-  HPD() : id(0),eta(0),phi(0),totalZeros(0),maxZeros(0),nJet(0),
-      fc0(0.), fc1(0.), fc2(0.), fc3(0.), fc4(0.), fc5(0.), fc6(0.), fc7(0.), fc8(0.), fc9(0.),
-      fc5_0(0.), fc5_1(0.), fc5_2(0.), fc5_3(0.), fc5_4(0.), fc5_5(0.), fc5_6(0.), fc5_7(0.), fc5_8(0.), fc5_9(0.) { }
+  HPD() : id(0),eta(0),phi(0),totalZeros(0),maxZeros(0),nJet(0),fc0(0.), fc1(0.), fc2(0.), fc3(0.), fc4(0.), fc5(0.), fc6(0.), fc7(0.), fc8(0.), fc9(0.),fc5_0(0.), fc5_1(0.), fc5_2(0.), fc5_3(0.), fc5_4(0.), fc5_5(0.), fc5_6(0.), fc5_7(0.), fc5_8(0.), fc5_9(0.) { }
     unsigned id;
     double eta;
     double phi;
@@ -133,7 +128,7 @@ namespace shscp {
   };
 
   struct Tower {
-    Tower() : e(0.),et(0.),eta(0.),phi(0.),ieta(0),iphi(0),nJet(0),eHad(0.),etHad(0.),eEm(0.),etEm(0.) { }
+  Tower() : e(0.),et(0.),eta(0.),phi(0.),ieta(0),iphi(0),nJet(0),eHad(0.),etHad(0.),eEm(0.),etEm(0.) { }
     double e;
     double et;
     double eta;
@@ -148,7 +143,7 @@ namespace shscp {
   };
   
   struct RecHit {
-    RecHit() : e(0.),time(0.), flags(0), aux(0), eta(0.),phi(0.),ieta(0),iphi(0),depth(0), RBXindex(0), RMindex(0) { }
+  RecHit() : e(0.),time(0.), flags(0), aux(0), eta(0.),phi(0.),ieta(0),iphi(0),depth(0), RBXindex(0), RMindex(0) { }
     double e;
     double time;
     unsigned flags;
@@ -163,7 +158,7 @@ namespace shscp {
   };
 
   struct CscSegment {
-    CscSegment() : endcap(0), ring(0), station(0), chamber(0), nHits(0), phi(0.), eta(0.), z(0.), r(0.), dirPhi(0.), dirTheta(0.), time(0) { }
+  CscSegment() : endcap(0), ring(0), station(0), chamber(0), nHits(0), phi(0.), eta(0.), z(0.), r(0.), dirPhi(0.), dirTheta(0.), time(0) { }
     int endcap;
     int ring;
     int station;
@@ -180,7 +175,7 @@ namespace shscp {
 
 
   struct CscHit {
-    CscHit() : z(0), rho(0), phi(0) {}
+  CscHit() : z(0), rho(0), phi(0) {}
     double z;
     double rho;
     double phi;
@@ -188,7 +183,7 @@ namespace shscp {
   }; 
 
   struct DTD1RecHitCollection {
-    DTD1RecHitCollection() : timeCollection(0), etaCollection(0), phiCollection(0) {}
+  DTD1RecHitCollection() : timeCollection(0), etaCollection(0), phiCollection(0) {}
     std::vector<double> timeCollection;
     std::vector<double> etaCollection;
     std::vector<double> phiCollection;
@@ -196,9 +191,7 @@ namespace shscp {
   }; 
 
   struct DTSegment{
-    DTSegment(): wheel(0),station(0),sector(0),
-		 localX(0.),localY(0.),
-		 z(0.),rho(0.),phi(0.), eta(0.){}
+  DTSegment(): wheel(0),station(0),sector(0),localX(0.),localY(0.),z(0.),rho(0.),phi(0.), eta(0.){}
     int wheel;
     int station;
     int sector;
@@ -212,7 +205,7 @@ namespace shscp {
   
   
   struct RpcHit {
-    RpcHit(): z(0), rho(0), phi(0), region(0){}
+  RpcHit(): z(0), rho(0), phi(0), region(0){}
     double z;
     double rho; 
     double phi;
@@ -221,7 +214,7 @@ namespace shscp {
 
   
   struct Track {
-    Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), vx(0.), vy(0.), vz(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nHitsMuon(0), nHitsCsc(0), nHitsDt(0), nHitsRpc(0), nStations(0), nChambersCsc(0), nChambersDt(0), nChambersRpc(0), innermostStation(0), outermostStation(0), quality(0),  innerPx(0), innerPy(0), innerPz(0), innerOk(0), innerX(0), innerY(0), innerZ(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),dtTofInverseBetaLS(0),dtTofInverseBetaLSErr(0),dtTofYIntercept(0),dtTofYInterceptErr(0),dtTofChi2Dof(0),dtTofAveHitTimeErr(0), showerSize_station0(0), showerSize_station1(0), showerSize_station2(0), showerSize_station3(0), showerDeltaR_station0(0), showerDeltaR_station1(0), showerDeltaR_station2(0), showerDeltaR_station3(0), showerNHits_station0(0), showerNHits_station1(0), showerNHits_station2(0), showerNHits_station3(0), showerNCorrelatedHits_station0(0), showerNCorrelatedHits_station1(0), showerNCorrelatedHits_station2(0), showerNCorrelatedHits_station3(0), showerNUncorrelatedHits_station0(0), showerNUncorrelatedHits_station1(0), showerNUncorrelatedHits_station2(0), showerNUncorrelatedHits_station3(0), cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
+  Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), vx(0.), vy(0.), vz(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nHitsMuon(0), nHitsCsc(0), nHitsDt(0), nHitsRpc(0), nStations(0), nChambersCsc(0), nChambersDt(0), nChambersRpc(0), innermostStation(0), outermostStation(0), quality(0),  innerPx(0), innerPy(0), innerPz(0), innerOk(0), innerX(0), innerY(0), innerZ(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),dtTofInverseBetaLS(0),dtTofInverseBetaLSErr(0),dtTofYIntercept(0),dtTofYInterceptErr(0),dtTofChi2Dof(0),dtTofAveHitTimeErr(0), showerSize_station0(0), showerSize_station1(0), showerSize_station2(0), showerSize_station3(0), showerDeltaR_station0(0), showerDeltaR_station1(0), showerDeltaR_station2(0), showerDeltaR_station3(0), showerNHits_station0(0), showerNHits_station1(0), showerNHits_station2(0), showerNHits_station3(0), showerNCorrelatedHits_station0(0), showerNCorrelatedHits_station1(0), showerNCorrelatedHits_station2(0), showerNCorrelatedHits_station3(0), showerNUncorrelatedHits_station0(0), showerNUncorrelatedHits_station1(0), showerNUncorrelatedHits_station2(0), showerNUncorrelatedHits_station3(0), cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
     int charge;
     double px;
     double py;
@@ -326,7 +319,7 @@ namespace shscp {
 
 
   struct MuonTOFMap {
-     MuonTOFMap() : direction(0),nDof(0),inverseBeta(0.),inverseBetaErr(0.),freeInverseBeta(0.),freeInverseBetaErr(0.),timeAtIpInOut(0.),timeAtIpInOutErr(0.),timeAtIpOutIn(0.),timeAtIpOutInErr(0.) {}
+  MuonTOFMap() : direction(0),nDof(0),inverseBeta(0.),inverseBetaErr(0.),freeInverseBeta(0.),freeInverseBetaErr(0.),timeAtIpInOut(0.),timeAtIpInOutErr(0.),timeAtIpOutIn(0.),timeAtIpOutInErr(0.) {}
     int direction;
     int nDof;
     double inverseBeta;
@@ -747,8 +740,8 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> mcMuonVx;
   std::vector<Double_t> mcMuonVy;
   std::vector<Double_t> mcMuonVz;
-  std::vector<Double_t> mcMuonDxy;
-  std::vector<Double_t> mcMuonDz;
+  //std::vector<Double_t> mcMuonDxy;
+  //std::vector<Double_t> mcMuonDz;
   std::vector<Int_t> mcMuonStatus;
   std::vector<Int_t> mcMuonNMothers;
   std::vector<Int_t> mcMuonMotherId;
@@ -1451,8 +1444,8 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,26); // version 26: include Marco's code for IP of gen muon
-
+  ClassDef(StoppedHSCPMuonEvent,27); // version 26: include Marco's code for IP of gen muon
+  //version 27: updated to 710
 };
 
 #endif
