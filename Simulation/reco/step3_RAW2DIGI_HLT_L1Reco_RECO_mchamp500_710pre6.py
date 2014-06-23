@@ -24,14 +24,15 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    #input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(1)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_step1_710pre6/ff147a0c9f55a97f48bbabe25fe1f227/stage2_GEN-HLT_mchamp500_9_1_QAl.root')
-)
+                            secondaryFileNames = cms.untracked.vstring(),
+                            fileNames = cms.untracked.vstring('root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_step1_710pre6/ff147a0c9f55a97f48bbabe25fe1f227/stage2_GEN-HLT_mchamp500_9_1_QAl.root')
+                            )
 
 process.options = cms.untracked.PSet(
 
@@ -65,7 +66,19 @@ process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V19::All', '')
-process.GlobalTag = GlobalTag(process.GlobalTag, 'START71_V1::All', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'START71_V1::All', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS171_V4::All', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS171_V7::All', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA71_V3::All', '')
+
+
+# new DT errors
+process.GlobalTag.toGet = cms.VPSet(
+ cms.PSet(record = cms.string("DTRecoUncertaintiesRcd"),
+   tag = cms.string("DTRecoUncertainties_test"),
+   connect = cms.untracked.string("sqlite_file:/afs/cern.ch/user/n/namapane/public/DT/DTUncertainties/DTRecoUncertainties_True_v0.db")
+ )
+)
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
