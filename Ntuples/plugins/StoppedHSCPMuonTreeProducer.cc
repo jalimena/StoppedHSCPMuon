@@ -332,7 +332,8 @@ public:
       return ( x.pt() > y.pt() ) ;
     }
   };
-  
+
+  /*
   struct calotower_gt : public std::binary_function<CaloTower, CaloTower, bool> {
     bool operator()(const CaloTower& x, const CaloTower& y) {
       return ( x.hadEnergy() > y.hadEnergy() ) ;
@@ -365,7 +366,7 @@ public:
       return ( digi.id() == id ) ;
     }
   };
-  
+  */
 private:
   
   // output file
@@ -1106,7 +1107,7 @@ StoppedHSCPMuonTreeProducer::beginRun(edm::Run const & iRun, edm::EventSetup con
 
 
   // end of HLT checks
-
+  /*
   // HCAL geometry to calculate eta/phi for CaloRecHits
   edm::ESHandle<CaloGeometry> caloGeomRec;
   iSetup.get<CaloGeometryRecord>().get(caloGeomRec);
@@ -1131,6 +1132,7 @@ StoppedHSCPMuonTreeProducer::beginRun(edm::Run const & iRun, edm::EventSetup con
       //std::cout <<"\tBAD CHANNEL FOUND!"<<id<<"  STATUS = "<<status<<std::endl;
       badChannels_.insert(id);
     }
+  */
 
   // get ConditionsInRun block
   edm::Handle<edm::ConditionsInRunBlock> condInRunBlock;
@@ -4935,7 +4937,7 @@ StoppedHSCPMuonTreeProducer::doHcalRecHits(const edm::Event& iEvent)
 void
 StoppedHSCPMuonTreeProducer::doHFRecHits(const edm::Event& iEvent)
 {
-
+  /*
   // get the rechits (to select digis ordered by energy)
   edm::Handle<HFRecHitCollection> recHits;
   iEvent.getByLabel(hfRecHitTag_, recHits);
@@ -4989,7 +4991,7 @@ StoppedHSCPMuonTreeProducer::doHFRecHits(const edm::Event& iEvent)
     if (!rechitsMissing_) edm::LogWarning("MissingProduct") << "CaloRecHits not found.  Branches will not be filled" << std::endl;
     rechitsMissing_ = true;
   }
-
+  */
 }
 
 
