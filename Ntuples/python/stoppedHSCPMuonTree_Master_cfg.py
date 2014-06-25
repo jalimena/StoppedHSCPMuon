@@ -20,15 +20,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 
 # geometry & magnetic field
-if re.match( r'CMSSW_4_2_', version):
-    process.load('Configuration/StandardSequences/GeometryIdeal_cff') #for CMSSW 42X
-elif re.match( r'CMSSW_5_2_', version):
-    process.load('Configuration/StandardSequences/GeometryIdeal_cff') #for CMSSW 52X    
-elif re.match( r'CMSSW_5_3_', version):
-    process.load('Configuration.Geometry.GeometryIdeal_cff') #for CMSSSW 53X
-else:
-    # unsupported version
-    pass
+process.load('Configuration.Geometry.GeometryIdeal_cff') #for CMSSSW 53X, 71X
 process.load("Configuration.StandardSequences.MagneticField_38T_cff")
 process.load("Configuration.StandardSequences.Reconstruction_cff")
 
@@ -85,27 +77,27 @@ process.stoppedHSCPMuonTree.jetCorrectorServiceName = cms.untracked.string("ak5C
 process.load('StoppedHSCPMuon/Ntuples/stoppedHSCPMuonHistograms_cfi')
 
 # TOF Reconstruction
-process.load('StoppedHSCPMuon/Ntuples/muontiming_cff')
+#process.load('StoppedHSCPMuon/Ntuples/muontiming_cff')
 
 # Smart propagator with IP
-process.smartPropagatorWithIPESProducer = cms.ESProducer("SmartPropagatorWithIPESProducer",
-                                                         ComponentName = cms.string('SmartPropagatorWithIP'),
-                                                         TrackerPropagator = cms.string('PropagatorWithMaterial'),
-                                                         MuonPropagator = cms.string('SteppingHelixPropagatorAny'),
-                                                         PropagationDirection = cms.string('alongMomentum'),
-                                                         Epsilon = cms.double(10.0) # the standard one has 5., but uses 10 hardcoded internally...
-                                                         )
+#process.smartPropagatorWithIPESProducer = cms.ESProducer("SmartPropagatorWithIPESProducer",
+                                                         #ComponentName = cms.string('SmartPropagatorWithIP'),
+                                                         #TrackerPropagator = cms.string('PropagatorWithMaterial'),
+                                                         #MuonPropagator = cms.string('SteppingHelixPropagatorAny'),
+                                                         #PropagationDirection = cms.string('alongMomentum'),
+                                                         #Epsilon = cms.double(10.0) # the standard one has 5., but uses 10 hardcoded internally...
+                                                         #)
 
 # path
 process.ntuple = cms.Path(
 
 # refit DT segments/timing
-    process.dt4DSegmentsMT
+    #process.dt4DSegmentsMT
     #+process.muontiming
-    +process.muontimingDelayedMuons
+    #+process.muontimingDelayedMuons
 
 # filter on HLT bit
-    +process.hltHighLevel
+    process.hltHighLevel
 
 # replicate HLT filter (for early 2011 data)
     +process.hltStoppedHSCPMuonHpdFilter

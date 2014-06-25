@@ -1161,6 +1161,47 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Int_t> muRefittedStandAloneTrackGenParticleIndex;
   std::vector<Int_t> muRefittedStandAloneTrackTriggerParticle20Index;
   std::vector<Int_t> muRefittedStandAloneTrackTriggerParticle20Cha2Index;
+  std::vector<Int_t> muRefittedStandAloneTrackDtTofDirection;
+  std::vector<Int_t> muRefittedStandAloneTrackDtTofNDof; 
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBeta;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBetaErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofFreeInverseBeta;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofFreeInverseBetaErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpInOut;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpInOutErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpOutIn;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpOutInErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBetaLS;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBetaLSErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofYIntercept; 
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofYInterceptErr;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofChi2Dof;
+  std::vector<Double_t> muRefittedStandAloneTrackDtTofAveHitTimeErr;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station0;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station1;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station2;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station3;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerDeltaR_station0;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerDeltaR_station1;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerDeltaR_station2;
+  std::vector<Double_t> muRefittedStandAloneTrackShowerDeltaR_station3;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNHits_station0;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNHits_station1;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNHits_station2;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNHits_station3;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNCorrelatedHits_station0;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNCorrelatedHits_station1;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNCorrelatedHits_station2;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNCorrelatedHits_station3;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNUncorrelatedHits_station0;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNUncorrelatedHits_station1;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNUncorrelatedHits_station2;
+  std::vector<Int_t> muRefittedStandAloneTrackShowerNUncorrelatedHits_station3;
+  std::vector< std::vector<Double_t> > muRefittedStandAloneTrackRpcHitZ;
+  std::vector< std::vector<Double_t> > muRefittedStandAloneTrackRpcHitRho;
+  std::vector< std::vector<Double_t> > muRefittedStandAloneTrackRpcHitPhi;
+  std::vector< std::vector<Int_t> > muRefittedStandAloneTrackRpcHitRegion;
+  std::vector< std::vector<Int_t> > muRefittedStandAloneTrackRpcHitBx;
 
   // vertices
   unsigned nVtx;
@@ -1444,8 +1485,9 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,27); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,28); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
+  //version 28: add more RSA info
 };
 
 #endif

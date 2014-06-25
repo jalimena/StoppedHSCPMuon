@@ -103,7 +103,8 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
     DTRecHitsTag=cms.untracked.InputTag("dt1DRecHits"),
     DT4DSegmentsTag=cms.untracked.InputTag("dt4DSegments"),
 
-    timeTag=cms.untracked.InputTag("muontimingDelayedMuons"),
+    #timeTag=cms.untracked.InputTag("muontimingDelayedMuons"),
+    timeTag=cms.untracked.InputTag("muons"),
     
     digiMinFc = cms.untracked.double(30.),
     

@@ -691,6 +691,47 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackGenParticleIndex(0),
   muRefittedStandAloneTrackTriggerParticle20Index(0),
   muRefittedStandAloneTrackTriggerParticle20Cha2Index(0),
+  muRefittedStandAloneTrackDtTofDirection(0),
+  muRefittedStandAloneTrackDtTofNDof(0),
+  muRefittedStandAloneTrackDtTofInverseBeta(0),
+  muRefittedStandAloneTrackDtTofInverseBetaErr(0),
+  muRefittedStandAloneTrackDtTofFreeInverseBeta(0),
+  muRefittedStandAloneTrackDtTofFreeInverseBetaErr(0),
+  muRefittedStandAloneTrackDtTofTimeAtIpInOut(0),
+  muRefittedStandAloneTrackDtTofTimeAtIpInOutErr(0),
+  muRefittedStandAloneTrackDtTofTimeAtIpOutIn(0), 
+  muRefittedStandAloneTrackDtTofTimeAtIpOutInErr(0),
+  muRefittedStandAloneTrackDtTofInverseBetaLS(0),
+  muRefittedStandAloneTrackDtTofInverseBetaLSErr(0),
+  muRefittedStandAloneTrackDtTofYIntercept(0),
+  muRefittedStandAloneTrackDtTofYInterceptErr(0),
+  muRefittedStandAloneTrackDtTofChi2Dof(0), 
+  muRefittedStandAloneTrackDtTofAveHitTimeErr(0), 
+  muRefittedStandAloneTrackShowerSize_station0(0), 
+  muRefittedStandAloneTrackShowerSize_station1(0), 
+  muRefittedStandAloneTrackShowerSize_station2(0), 
+  muRefittedStandAloneTrackShowerSize_station3(0), 
+  muRefittedStandAloneTrackShowerDeltaR_station0(0), 
+  muRefittedStandAloneTrackShowerDeltaR_station1(0), 
+  muRefittedStandAloneTrackShowerDeltaR_station2(0), 
+  muRefittedStandAloneTrackShowerDeltaR_station3(0), 
+  muRefittedStandAloneTrackShowerNHits_station0(0), 
+  muRefittedStandAloneTrackShowerNHits_station1(0), 
+  muRefittedStandAloneTrackShowerNHits_station2(0), 
+  muRefittedStandAloneTrackShowerNHits_station3(0), 
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station0(0), 
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station1(0), 
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station2(0), 
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station3(0), 
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station0(0), 
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station1(0), 
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station2(0), 
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station3(0), 
+  muRefittedStandAloneTrackRpcHitZ(0),
+  muRefittedStandAloneTrackRpcHitRho(0),
+  muRefittedStandAloneTrackRpcHitPhi(0),
+  muRefittedStandAloneTrackRpcHitRegion(0),
+  muRefittedStandAloneTrackRpcHitBx(0),
   nVtx(0),
   vtx_N(0),
   vtxNDOF(0),
@@ -1328,6 +1369,47 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muRefittedStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muRefittedStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muRefittedStandAloneTrackRpcHitZ.push_back(track.rpcHitZ);
+  muRefittedStandAloneTrackRpcHitRho.push_back(track.rpcHitRho);
+  muRefittedStandAloneTrackRpcHitPhi.push_back(track.rpcHitPhi);
+  muRefittedStandAloneTrackRpcHitRegion.push_back(track.rpcHitRegion);
+  muRefittedStandAloneTrackRpcHitBx.push_back(track.rpcHitBx);
+  muRefittedStandAloneTrackDtTofDirection.push_back(track.dtTofDirection);
+  muRefittedStandAloneTrackDtTofNDof.push_back(track.dtTofNDof);
+  muRefittedStandAloneTrackDtTofInverseBeta.push_back(track.dtTofInverseBeta);
+  muRefittedStandAloneTrackDtTofInverseBetaErr.push_back(track.dtTofInverseBetaErr);
+  muRefittedStandAloneTrackDtTofFreeInverseBeta.push_back(track.dtTofFreeInverseBeta);
+  muRefittedStandAloneTrackDtTofFreeInverseBetaErr.push_back(track.dtTofFreeInverseBetaErr);
+  muRefittedStandAloneTrackDtTofTimeAtIpInOut.push_back(track.dtTofTimeAtIpInOut);
+  muRefittedStandAloneTrackDtTofTimeAtIpInOutErr.push_back(track.dtTofTimeAtIpInOutErr);
+  muRefittedStandAloneTrackDtTofTimeAtIpOutIn.push_back(track.dtTofTimeAtIpOutIn);
+  muRefittedStandAloneTrackDtTofTimeAtIpOutInErr.push_back(track.dtTofTimeAtIpOutInErr);
+  muRefittedStandAloneTrackDtTofInverseBetaLS.push_back(track.dtTofInverseBetaLS);
+  muRefittedStandAloneTrackDtTofInverseBetaLSErr.push_back(track.dtTofInverseBetaLSErr);
+  muRefittedStandAloneTrackDtTofYIntercept.push_back(track.dtTofYIntercept);
+  muRefittedStandAloneTrackDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
+  muRefittedStandAloneTrackDtTofChi2Dof.push_back(track.dtTofChi2Dof);
+  muRefittedStandAloneTrackDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
+  muRefittedStandAloneTrackShowerSize_station0.push_back(track.showerSize_station0);
+  muRefittedStandAloneTrackShowerSize_station1.push_back(track.showerSize_station1);
+  muRefittedStandAloneTrackShowerSize_station2.push_back(track.showerSize_station2);
+  muRefittedStandAloneTrackShowerSize_station3.push_back(track.showerSize_station3);
+  muRefittedStandAloneTrackShowerDeltaR_station0.push_back(track.showerDeltaR_station0);
+  muRefittedStandAloneTrackShowerDeltaR_station1.push_back(track.showerDeltaR_station1);
+  muRefittedStandAloneTrackShowerDeltaR_station2.push_back(track.showerDeltaR_station2);
+  muRefittedStandAloneTrackShowerDeltaR_station3.push_back(track.showerDeltaR_station3);
+  muRefittedStandAloneTrackShowerNHits_station0.push_back(track.showerNHits_station0);
+  muRefittedStandAloneTrackShowerNHits_station1.push_back(track.showerNHits_station1);
+  muRefittedStandAloneTrackShowerNHits_station2.push_back(track.showerNHits_station2);
+  muRefittedStandAloneTrackShowerNHits_station3.push_back(track.showerNHits_station3);
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station0.push_back(track.showerNCorrelatedHits_station0);
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station1.push_back(track.showerNCorrelatedHits_station1);
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station2.push_back(track.showerNCorrelatedHits_station2);
+  muRefittedStandAloneTrackShowerNCorrelatedHits_station3.push_back(track.showerNCorrelatedHits_station3);
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station0.push_back(track.showerNUncorrelatedHits_station0);
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station1.push_back(track.showerNUncorrelatedHits_station1);
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station2.push_back(track.showerNUncorrelatedHits_station2);
+  muRefittedStandAloneTrackShowerNUncorrelatedHits_station3.push_back(track.showerNUncorrelatedHits_station3);
   ++mu_RefittedStandAlone_N;
 }
 

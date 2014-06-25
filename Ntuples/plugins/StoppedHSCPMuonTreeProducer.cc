@@ -3803,6 +3803,26 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
   edm::Handle<reco::TrackCollection> refittedStandAloneMuons;
   iEvent.getByLabel(refittedStandAloneMuonTag_,refittedStandAloneMuons);
 
+  edm::Handle<reco::MuonCollection> muons;
+  iEvent.getByLabel(muonTag_,muons);
+
+  edm::Handle<reco::MuonTimeExtraMap> timeMap2;
+  iEvent.getByLabel(timeTag_.label(),"dt",timeMap2);
+  const reco::MuonTimeExtraMap & timeMapDT = *timeMap2;
+
+  edm::Handle<edm::ValueMap<reco::MuonShower>> muonShowerInfo;
+  iEvent.getByLabel(muonShowerTag_,muonShowerInfo);
+  const edm::ValueMap<reco::MuonShower> & muonShowerInfoMap = *muonShowerInfo;
+
+  edm::Handle<RPCRecHitCollection> rpcHits;
+  iEvent.getByLabel(rpcRecHitsTag_, rpcHits);
+
+  edm::ESHandle<RPCGeometry> rpcGeom;
+  iSetup.get<MuonGeometryRecord>().get(rpcGeom);
+
+  edm::ESHandle<GlobalTrackingGeometry> theTrackingGeometry;
+  iSetup.get<GlobalTrackingGeometryRecord>().get(theTrackingGeometry);
+
   if (refittedStandAloneMuons.isValid()) {
     // sort muon tracks by pt
     std::vector<Track> refittedStandAloneMuons_;
@@ -3903,10 +3923,270 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
       //track.cscSegDirPhi = cscSegDirPhi_;
       //track.cscSegDirTheta = cscSegDirTheta_;
       //track.cscSegTime = cscSegTime_;
+
+      std::vector<int> rpcHitBx_;
+      std::vector<double> rpcHitZ_;
+      std::vector<double> rpcHitRho_;
+      std::vector<double> rpcHitPhi_;
+      std::vector<int> rpcHitRegion_;
+
+      //Loop over the hits in the track
+      //std::cout<<"number of valid hits is: "<<it->numberOfValidHits()<<std::endl;
+      for(size_t i=0; i<it->recHitsSize(); i++) {
+	TrackingRecHitRef myRef = it->recHit(i);
+	const TrackingRecHit *rechit = myRef.get();
+	//std::cout<<"got hit number "<<i<<std::endl;
+
+	if(rechit->isValid()){
+	  const GeomDet* geomDet = theTrackingGeometry->idToDet(rechit->geographicalId());
+
+	  if ( (rechit)->geographicalId().det() == DetId::Muon){
+
+	    //DT Hits
+	    if(geomDet->subDetector() == GeomDetEnumerators::DT) {
+	      //std::cout<<"have DT hit"<<std::endl;
+	    }
+
+	    //CSC Hits
+	    else if (geomDet->subDetector() == GeomDetEnumerators::CSC) {
+	    }
+
+	    //RPC Hits
+	    else if ( (rechit)->geographicalId().subdetId() == MuonSubdetId::RPC ){
+	      //else if (geomDet->subDetector() == GeomDetEnumerators::RPCBarrel) {
+	      //else if (geomDet->subDetector() == GeomDetEnumerators::RPCEndcap) {
+	      //std::cout<<"have RPC hit"<<std::endl;
+	      RPCDetId rollId = (RPCDetId)(rechit)->geographicalId();
+
+	      typedef std::pair<RPCRecHitCollection::const_iterator, RPCRecHitCollection::const_iterator> rangeRecHits;
+	      rangeRecHits recHitCollection = rpcHits->get(rollId);
+
+	      RPCRecHitCollection::const_iterator recHitC;
+	      int size = 0;
+	      double z = -99.;
+	      double rho = -99.;
+	      double phi = -99.;
+	      int region = -99;
+	      int bx=-99;
+
+	      //std::cout<<"\t \t Looping on the rechits of the same roll"<<std::endl;
+	      for(recHitC = recHitCollection.first; recHitC != recHitCollection.second ; recHitC++) {
+		const RPCDetId detId = static_cast<const RPCDetId>(recHitC->rpcId());
+		const RPCRoll* roll = dynamic_cast<const RPCRoll*>(rpcGeom->roll(detId));
+		const GlobalPoint rhitglobal = roll->toGlobal(recHitC->localPosition());
+
+		z = rhitglobal.z();
+		//std::cout<<"rpc rec hit z is: "<<z<<std::endl;
+		rho = rhitglobal.perp();
+		phi = rhitglobal.phi();
+		region = detId.region(); //Region id: 0 for Barrel, +/-1 For +/- Endcap.
+		bx = (*recHitC).BunchX();
+		//std::cout<<"rpc rec hit bx is: "<<bx<<std::endl;
+		size++;
+	      }
+	      //std::cout<<"rpc rec hit size is: "<<size<<std::endl;
+	      if(size!=1){
+		//std::cout<<"\t \t \t more than one rechit in this roll discarded for filling histograms"<<std::endl;
+	      }
+	      else{
+		//std::cout<<"starting to pushback"<<std::endl;
+		rpcHitZ_.push_back(z);
+		rpcHitRho_.push_back(rho);
+		rpcHitPhi_.push_back(phi);
+		rpcHitRegion_.push_back(region);
+		rpcHitBx_.push_back(bx);
+		//std::cout<<"done with pushback"<<std::endl;
+	      }
+
+	      //the layer associated with this hit
+	      //RPCDetId myLayer(rechit->geographicalId().rawId());
+
+	      //Loop over segments in the current track
+	      //for(std::vector<int>::iterator positionIt = positionRPC.begin(); positionIt != positionRPC.end(); positionIt++) {
+	      //}
+
+	      //CSCDetId myChamber((*segmentRPC).geographicalId().rawId());
+	      //myLayer.chamberId();
+
+	    }
+	    //std::cout<<"done with RPCs"<<std::endl;
+
+	  } //end of hit is in muon system
+	  //std::cout<<"done with muon hits"<<std::endl;
+	} //end of is valid hit
+	//std::cout<<"done with valid hits"<<std::endl;
+      }//end of loop over valid hits
+      //std::cout<<"done with loop over hits"<<std::endl;
       
+      if(!rpcHitZ_.empty()){
+	//std::cout<<"rpcHitZ is not empty"<<std::endl;
+	track.rpcHitZ = rpcHitZ_;
+	track.rpcHitRho = rpcHitRho_;
+	track.rpcHitPhi = rpcHitPhi_;
+	track.rpcHitRegion = rpcHitRegion_;
+	track.rpcHitBx = rpcHitBx_;
+	//std::cout<<"filled track rpc Hit variables"<<std::endl;
+      }
+
+
+      // Match the RSA to the SA. This is needed because RSA are not in the reco::Muon and we need
+      // to access timing information (and shower information) from the reco::Muon. The RSA is a refit of the SA, the timing
+      // of the hits is the same (but do not use anything with IP or beamspot constraint).
+      // Analyze the short info stored directly in reco::Muon
+      //From displaced muons search https://github.com/msolmaz/Dilepton_Analysis_Macros/blob/master/TreeProducer/TreeProducer/plugins/LeptonAnalysis.cc
+      const math::XYZPoint & rsaInnerPoint(it->innerPosition());
+      const math::XYZPoint & rsaOuterPoint(it->outerPosition());
+
+      float minDxIn = 1000.;
+      float minDyIn = 1000.;
+      float minDzIn = 1000.;
+      float minDxOut = 1000.;
+      float minDyOut = 1000.;
+      float minDzOut = 1000.;
+
+      // Loop over the standAloneMuons and take the one with the closest inner and outer position.
+      // Only save the timing if the matching is close enough (<5cm in x,y and <50cm in z).
+      const reco::Muon * matchedSA = 0;
+      int imucount = 0;
+      int imucountMatch = -1;
+      if (muons.isValid()){
+	for (reco::MuonCollection::const_iterator sa=muons->begin(); sa!=muons->end(); ++sa, ++imucount) {
+	  if( sa->isStandAloneMuon() ) {
+	    
+	    // std::cout << "pseudoLeptonProducer: filling timing information" << std::endl;
+	    
+	    const math::XYZPoint & saInnerPoint(sa->standAloneMuon()->innerPosition());
+	    const math::XYZPoint & saOuterPoint(sa->standAloneMuon()->outerPosition());
+	    if( fabs(saInnerPoint.x() - rsaInnerPoint.x()) < minDxIn &&
+		fabs(saInnerPoint.y() - rsaInnerPoint.y()) < minDyIn &&
+		fabs(saOuterPoint.x() - rsaOuterPoint.x()) < minDxOut &&
+		fabs(saOuterPoint.y() - rsaOuterPoint.y()) < minDyOut ) {
+	      minDxIn = fabs(saInnerPoint.x() - rsaInnerPoint.x());
+	      minDyIn = fabs(saInnerPoint.y() - rsaInnerPoint.y());
+	      minDzIn = fabs(saInnerPoint.z() - rsaInnerPoint.z());
+	      minDxOut = fabs(saOuterPoint.x() - rsaOuterPoint.x());
+	      minDyOut = fabs(saOuterPoint.y() - rsaOuterPoint.y());
+	      minDzOut = fabs(saOuterPoint.z() - rsaOuterPoint.z());
+	      
+	      // Check for good matching and fill timing information
+	      if( minDxIn > 5 || minDyIn > 5 || minDxOut > 5 || minDyOut > 5 || minDzIn > 50 || minDzOut > 50 ) continue;
+	      
+	      matchedSA = &*sa;
+	      imucountMatch = imucount;
+	    } //end of diff in position between RSA and SA
+	  }//end of if SA muon
+	}//end of loop over reco::muons 
+      }//end of if muon collection is valid
+
+      if( matchedSA != 0 && imucountMatch != -1 ) {
+
+        // Save the MuonTimeExtra information                                                                                                                                                         
+	reco::MuonRef muonR(muons,imucountMatch);
+
+        // std::cout << "filling timing: for muon pt = " << lepton.pt << ", nDof = " << matchedSA->time().nDof << std::endl;                                                                          
+        // std::cout << "rsa inner position = " << rsaInnerPoint << ", outer position = " << rsaOuterPoint << std::endl;                                                                              
+        // std::cout << "sa inner position = " << matchedSA->standAloneMuon()->innerPosition() << ", outer position = " << matchedSA->standAloneMuon()->outerPosition() << std::endl;                 
+
+        // Analyze the MuonTimeExtra information                                                                                                                                                      
+	reco::MuonTimeExtra tofdt = timeMapDT[muonR];
+
+	// Store DT TOF Variables
+	track.dtTofDirection = tofdt.direction();
+	track.dtTofNDof = tofdt.nDof();
+	track.dtTofInverseBeta = tofdt.inverseBeta();
+	track.dtTofInverseBetaErr = tofdt.inverseBetaErr();
+	track.dtTofFreeInverseBeta = tofdt.freeInverseBeta();
+	track.dtTofFreeInverseBetaErr = tofdt.freeInverseBetaErr();
+	track.dtTofTimeAtIpInOut = tofdt.timeAtIpInOut();
+	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
+	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
+	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
+	track.dtTofInverseBetaLS = tofdt.invbetaLS();
+	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
+	track.dtTofYIntercept = tofdt.yIntercept();
+	track.dtTofYInterceptErr = tofdt.yInterceptError();
+	track.dtTofChi2Dof = tofdt.chi2Dof();
+	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
+	//can add individual hit info also
+
+	//muon shower info
+	reco::MuonShower muonShowerInformation = muonShowerInfoMap[muonR];
+	double stationShowerSize[4], stationShowerDeltaR[4];
+	int nStationHits[4], nStationCorrelatedHits[4], nStationUncorrelatedHits[4];
+	for(int station = 0; station < 4; ++station){
+	  stationShowerSize[station] = (muonShowerInformation.stationShowerSizeT).at(station);
+	  stationShowerDeltaR[station] = (muonShowerInformation.stationShowerDeltaR).at(station);
+	  nStationHits[station] = (muonShowerInformation.nStationHits).at(station);
+	  nStationCorrelatedHits[station] = (muonShowerInformation.nStationCorrelatedHits).at(station);
+	  nStationUncorrelatedHits[station] = (muonShowerInformation.nStationHits).at(station) - (muonShowerInformation.nStationCorrelatedHits).at(station);
+	}
+
+	track.showerSize_station0 = stationShowerSize[0];
+	track.showerSize_station1 = stationShowerSize[1];
+	track.showerSize_station2 = stationShowerSize[2];
+	track.showerSize_station3 = stationShowerSize[3];
+	track.showerDeltaR_station0 = stationShowerDeltaR[0];
+	track.showerDeltaR_station1 = stationShowerDeltaR[1];
+	track.showerDeltaR_station2 = stationShowerDeltaR[2];
+	track.showerDeltaR_station3 = stationShowerDeltaR[3];
+	track.showerNHits_station0 = nStationHits[0];
+	track.showerNHits_station1 = nStationHits[1];
+	track.showerNHits_station2 = nStationHits[2];
+	track.showerNHits_station3 = nStationHits[3];
+	track.showerNCorrelatedHits_station0 = nStationCorrelatedHits[0];
+	track.showerNCorrelatedHits_station1 = nStationCorrelatedHits[1];
+	track.showerNCorrelatedHits_station2 = nStationCorrelatedHits[2];
+	track.showerNCorrelatedHits_station3 = nStationCorrelatedHits[3];
+	track.showerNUncorrelatedHits_station0 = nStationUncorrelatedHits[0];
+	track.showerNUncorrelatedHits_station1 = nStationUncorrelatedHits[1];
+	track.showerNUncorrelatedHits_station2 = nStationUncorrelatedHits[2];
+	track.showerNUncorrelatedHits_station3 = nStationUncorrelatedHits[3];
+
+      }//end of if match to SA exists
+      else{
+        track.dtTofDirection = -999.;
+        track.dtTofNDof = -999.;
+        track.dtTofInverseBeta = -999.;
+        track.dtTofInverseBetaErr = -999.;
+        track.dtTofFreeInverseBeta = -999.;
+        track.dtTofFreeInverseBetaErr = -999.;
+        track.dtTofTimeAtIpInOut = -999.;
+        track.dtTofTimeAtIpInOutErr = -999.;
+        track.dtTofTimeAtIpOutIn = -999.;
+        track.dtTofTimeAtIpOutInErr = -999.;
+        track.dtTofInverseBetaLS = -999.;
+        track.dtTofInverseBetaLSErr = -999.;
+        track.dtTofYIntercept = -999.;
+        track.dtTofYInterceptErr = -999.;
+        track.dtTofChi2Dof = -999.;
+        track.dtTofAveHitTimeErr = -999.;
+        track.showerSize_station0 = -999.;
+        track.showerSize_station1 = -999.;
+        track.showerSize_station2 = -999.;
+        track.showerSize_station3 = -999.;
+        track.showerDeltaR_station0 = -999.;
+        track.showerDeltaR_station1 = -999.;
+        track.showerDeltaR_station2 = -999.;
+        track.showerDeltaR_station3 = -999.;
+        track.showerNHits_station0 = -999.;
+        track.showerNHits_station1 = -999.;
+        track.showerNHits_station2 = -999.;
+        track.showerNHits_station3 = -999.;
+        track.showerNCorrelatedHits_station0 = -999.;
+        track.showerNCorrelatedHits_station1 = -999.;
+        track.showerNCorrelatedHits_station2 = -999.;
+        track.showerNCorrelatedHits_station3 = -999.;
+        track.showerNUncorrelatedHits_station0 = -999.;
+        track.showerNUncorrelatedHits_station1 = -999.;
+        track.showerNUncorrelatedHits_station2 = -999.;
+        track.showerNUncorrelatedHits_station3 = -999.;
+
+      }
+
       event_->addRefittedStandAloneMuon(track);
-    }
-  }
+    }//end of loop over RSAs
+  }//end of if RSAs is valid
+
   else {
     if (!muonsMissing_) edm::LogWarning("MissingProduct") << "RefittedStandAloneMuons not found.  Branch will not be filled" << std::endl;
     muonsMissing_ = true;

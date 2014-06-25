@@ -1,7 +1,7 @@
 <lcgdict>
 
-  <class name="StoppedHSCPMuonEvent" ClassVersion="27">
-     <version ClassVersion="27" checksum="2439233677"/>
+  <class name="StoppedHSCPMuonEvent" ClassVersion="28">
+     <version ClassVersion="28" checksum="1268500717"/>
   </class>
 
 </lcgdict>
