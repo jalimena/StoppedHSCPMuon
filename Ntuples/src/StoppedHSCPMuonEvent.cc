@@ -534,16 +534,22 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muCosmicTrackDz(0),
   muCosmicTrackNHits(0),
   muCosmicTrackNLost(0),
-  muCosmicTrackNHitsMuon(0),
-  muCosmicTrackNHitsCsc(0),
-  muCosmicTrackNHitsDt(0),
-  muCosmicTrackNHitsRpc(0),
-  muCosmicTrackNStations(0),
-  muCosmicTrackNChambersCsc(0),
-  muCosmicTrackNChambersDt(0),
-  muCosmicTrackNChambersRpc(0),
-  muCosmicTrackInnermostStation(0),
-  muCosmicTrackOutermostStation(0),
+  muCosmicTrackNStationsWithAnyHits(0),
+  muCosmicTrackNCscChambersWithAnyHits(0),
+  muCosmicTrackNDtChambersWithAnyHits(0),
+  muCosmicTrackNRpcChambersWithAnyHits(0),
+  muCosmicTrackInnermostStationWithAnyHits(0),
+  muCosmicTrackOutermostStationWithAnyHits(0),
+  muCosmicTrackNValidMuonHits(0),
+  muCosmicTrackNValidCscHits(0),
+  muCosmicTrackNValidDtHits(0),
+  muCosmicTrackNValidRpcHits(0),
+  muCosmicTrackNStationsWithValidHits(0),
+  muCosmicTrackNCscChambersWithValidHits(0),
+  muCosmicTrackNDtChambersWithValidHits(0),
+  muCosmicTrackNRpcChambersWithValidHits(0),
+  muCosmicTrackInnermostStationWithValidHits(0),
+  muCosmicTrackOutermostStationWithValidHits(0),
   muCosmicTrackQuality(0),
   muCosmicTrackInnerPx(0),
   muCosmicTrackInnerPy(0),
@@ -555,6 +561,11 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muCosmicTrackGenParticleIndex(0),
   muCosmicTrackTriggerParticle20Index(0),
   muCosmicTrackTriggerParticle20Cha2Index(0),
+  muCosmicTrackRpcHitZ(0),
+  muCosmicTrackRpcHitRho(0),
+  muCosmicTrackRpcHitPhi(0),
+  muCosmicTrackRpcHitRegion(0),
+  muCosmicTrackRpcHitBx(0),
   mu_StandAlone_N(0),
   muStandAloneCharge(0),
   muStandAlonePx(0),
@@ -576,16 +587,22 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackDz(0),
   muStandAloneTrackNHits(0),
   muStandAloneTrackNLost(0),
-  muStandAloneTrackNHitsMuon(0),
-  muStandAloneTrackNHitsCsc(0),
-  muStandAloneTrackNHitsDt(0),
-  muStandAloneTrackNHitsRpc(0),
-  muStandAloneTrackNStations(0),
-  muStandAloneTrackNChambersCsc(0),
-  muStandAloneTrackNChambersDt(0),
-  muStandAloneTrackNChambersRpc(0),
-  muStandAloneTrackInnermostStation(0),
-  muStandAloneTrackOutermostStation(0),
+  muStandAloneTrackNStationsWithAnyHits(0),
+  muStandAloneTrackNCscChambersWithAnyHits(0),
+  muStandAloneTrackNDtChambersWithAnyHits(0),
+  muStandAloneTrackNRpcChambersWithAnyHits(0),
+  muStandAloneTrackInnermostStationWithAnyHits(0),
+  muStandAloneTrackOutermostStationWithAnyHits(0),
+  muStandAloneTrackNValidMuonHits(0),
+  muStandAloneTrackNValidCscHits(0),
+  muStandAloneTrackNValidDtHits(0),
+  muStandAloneTrackNValidRpcHits(0),
+  muStandAloneTrackNStationsWithValidHits(0),
+  muStandAloneTrackNCscChambersWithValidHits(0),
+  muStandAloneTrackNDtChambersWithValidHits(0),
+  muStandAloneTrackNRpcChambersWithValidHits(0),
+  muStandAloneTrackInnermostStationWithValidHits(0),
+  muStandAloneTrackOutermostStationWithValidHits(0),
   muStandAloneTrackQuality(0),
   muStandAloneTrackInnerPx(0),
   muStandAloneTrackInnerPy(0),
@@ -670,16 +687,22 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackDz(0),
   muRefittedStandAloneTrackNHits(0),
   muRefittedStandAloneTrackNLost(0),
-  muRefittedStandAloneTrackNHitsMuon(0),
-  muRefittedStandAloneTrackNHitsCsc(0),
-  muRefittedStandAloneTrackNHitsDt(0),
-  muRefittedStandAloneTrackNHitsRpc(0),
-  muRefittedStandAloneTrackNStations(0),
-  muRefittedStandAloneTrackNChambersCsc(0),
-  muRefittedStandAloneTrackNChambersDt(0),
-  muRefittedStandAloneTrackNChambersRpc(0),
-  muRefittedStandAloneTrackInnermostStation(0),
-  muRefittedStandAloneTrackOutermostStation(0),
+  muRefittedStandAloneTrackNStationsWithAnyHits(0),
+  muRefittedStandAloneTrackNCscChambersWithAnyHits(0),
+  muRefittedStandAloneTrackNDtChambersWithAnyHits(0),
+  muRefittedStandAloneTrackNRpcChambersWithAnyHits(0),
+  muRefittedStandAloneTrackInnermostStationWithAnyHits(0),
+  muRefittedStandAloneTrackOutermostStationWithAnyHits(0),
+  muRefittedStandAloneTrackNValidMuonHits(0),
+  muRefittedStandAloneTrackNValidCscHits(0),
+  muRefittedStandAloneTrackNValidDtHits(0),
+  muRefittedStandAloneTrackNValidRpcHits(0),
+  muRefittedStandAloneTrackNStationsWithValidHits(0),
+  muRefittedStandAloneTrackNCscChambersWithValidHits(0),
+  muRefittedStandAloneTrackNDtChambersWithValidHits(0),
+  muRefittedStandAloneTrackNRpcChambersWithValidHits(0),
+  muRefittedStandAloneTrackInnermostStationWithValidHits(0),
+  muRefittedStandAloneTrackOutermostStationWithValidHits(0),
   muRefittedStandAloneTrackQuality(0),
   muRefittedStandAloneTrackInnerPx(0),
   muRefittedStandAloneTrackInnerPy(0),
@@ -1206,16 +1229,22 @@ void StoppedHSCPMuonEvent::addCosmicMuonTrack(Track track) {
   muCosmicTrackDz.push_back(track.dz);
   muCosmicTrackNHits.push_back(track.nHits);
   muCosmicTrackNLost.push_back(track.nLost);
-  muCosmicTrackNHitsMuon.push_back(track.nHitsMuon);
-  muCosmicTrackNHitsCsc.push_back(track.nHitsCsc);
-  muCosmicTrackNHitsDt.push_back(track.nHitsDt);
-  muCosmicTrackNHitsRpc.push_back(track.nHitsRpc);
-  muCosmicTrackNStations.push_back(track.nStations);
-  muCosmicTrackNChambersCsc.push_back(track.nChambersCsc);
-  muCosmicTrackNChambersDt.push_back(track.nChambersDt);
-  muCosmicTrackNChambersRpc.push_back(track.nChambersRpc);
-  muCosmicTrackInnermostStation.push_back(track.innermostStation);
-  muCosmicTrackOutermostStation.push_back(track.outermostStation);
+  muCosmicTrackNStationsWithAnyHits.push_back(track.nStationsWithAnyHits);
+  muCosmicTrackNCscChambersWithAnyHits.push_back(track.nCscChambersWithAnyHits);
+  muCosmicTrackNDtChambersWithAnyHits.push_back(track.nDtChambersWithAnyHits);
+  muCosmicTrackNRpcChambersWithAnyHits.push_back(track.nRpcChambersWithAnyHits);
+  muCosmicTrackInnermostStationWithAnyHits.push_back(track.innermostStationWithAnyHits);
+  muCosmicTrackOutermostStationWithAnyHits.push_back(track.outermostStationWithAnyHits);
+  muCosmicTrackNValidMuonHits.push_back(track.nValidMuonHits);
+  muCosmicTrackNValidCscHits.push_back(track.nValidCscHits);
+  muCosmicTrackNValidDtHits.push_back(track.nValidDtHits);
+  muCosmicTrackNValidRpcHits.push_back(track.nValidRpcHits);
+  muCosmicTrackNStationsWithValidHits.push_back(track.nStationsWithValidHits);
+  muCosmicTrackNCscChambersWithValidHits.push_back(track.nCscChambersWithValidHits);
+  muCosmicTrackNDtChambersWithValidHits.push_back(track.nDtChambersWithValidHits);
+  muCosmicTrackNRpcChambersWithValidHits.push_back(track.nRpcChambersWithValidHits);
+  muCosmicTrackInnermostStationWithValidHits.push_back(track.innermostStationWithValidHits);
+  muCosmicTrackOutermostStationWithValidHits.push_back(track.outermostStationWithValidHits);
   muCosmicTrackQuality.push_back(track.quality);
   muCosmicTrackInnerPx.push_back(track.innerPx);
   muCosmicTrackInnerPy.push_back(track.innerPy);
@@ -1227,6 +1256,11 @@ void StoppedHSCPMuonEvent::addCosmicMuonTrack(Track track) {
   muCosmicTrackGenParticleIndex.push_back(track.genParticleIndex);
   muCosmicTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muCosmicTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muCosmicTrackRpcHitZ.push_back(track.rpcHitZ);
+  muCosmicTrackRpcHitRho.push_back(track.rpcHitRho);
+  muCosmicTrackRpcHitPhi.push_back(track.rpcHitPhi);
+  muCosmicTrackRpcHitRegion.push_back(track.rpcHitRegion);
+  muCosmicTrackRpcHitBx.push_back(track.rpcHitBx);
   ++mu_CosmicTrack_N;
 }
 
@@ -1251,16 +1285,22 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackDz.push_back(track.dz);
   muStandAloneTrackNHits.push_back(track.nHits);
   muStandAloneTrackNLost.push_back(track.nLost);
-  muStandAloneTrackNHitsMuon.push_back(track.nHitsMuon);
-  muStandAloneTrackNHitsCsc.push_back(track.nHitsCsc);
-  muStandAloneTrackNHitsDt.push_back(track.nHitsDt);
-  muStandAloneTrackNHitsRpc.push_back(track.nHitsRpc);
-  muStandAloneTrackNStations.push_back(track.nStations);
-  muStandAloneTrackNChambersCsc.push_back(track.nChambersCsc);
-  muStandAloneTrackNChambersDt.push_back(track.nChambersDt);
-  muStandAloneTrackNChambersRpc.push_back(track.nChambersRpc);
-  muStandAloneTrackInnermostStation.push_back(track.innermostStation);
-  muStandAloneTrackOutermostStation.push_back(track.outermostStation);
+  muStandAloneTrackNStationsWithAnyHits.push_back(track.nStationsWithAnyHits);
+  muStandAloneTrackNCscChambersWithAnyHits.push_back(track.nCscChambersWithAnyHits);
+  muStandAloneTrackNDtChambersWithAnyHits.push_back(track.nDtChambersWithAnyHits);
+  muStandAloneTrackNRpcChambersWithAnyHits.push_back(track.nRpcChambersWithAnyHits);
+  muStandAloneTrackInnermostStationWithAnyHits.push_back(track.innermostStationWithAnyHits);
+  muStandAloneTrackOutermostStationWithAnyHits.push_back(track.outermostStationWithAnyHits);
+  muStandAloneTrackNValidMuonHits.push_back(track.nValidMuonHits);
+  muStandAloneTrackNValidCscHits.push_back(track.nValidCscHits);
+  muStandAloneTrackNValidDtHits.push_back(track.nValidDtHits);
+  muStandAloneTrackNValidRpcHits.push_back(track.nValidRpcHits);
+  muStandAloneTrackNStationsWithValidHits.push_back(track.nStationsWithValidHits);
+  muStandAloneTrackNCscChambersWithValidHits.push_back(track.nCscChambersWithValidHits);
+  muStandAloneTrackNDtChambersWithValidHits.push_back(track.nDtChambersWithValidHits);
+  muStandAloneTrackNRpcChambersWithValidHits.push_back(track.nRpcChambersWithValidHits);
+  muStandAloneTrackInnermostStationWithValidHits.push_back(track.innermostStationWithValidHits);
+  muStandAloneTrackOutermostStationWithValidHits.push_back(track.outermostStationWithValidHits);
   muStandAloneTrackQuality.push_back(track.quality);
   muStandAloneTrackInnerPx.push_back(track.innerPx);
   muStandAloneTrackInnerPy.push_back(track.innerPy);
@@ -1348,16 +1388,22 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackDz.push_back(track.dz);
   muRefittedStandAloneTrackNHits.push_back(track.nHits);
   muRefittedStandAloneTrackNLost.push_back(track.nLost);
-  muRefittedStandAloneTrackNHitsMuon.push_back(track.nHitsMuon);
-  muRefittedStandAloneTrackNHitsCsc.push_back(track.nHitsCsc);
-  muRefittedStandAloneTrackNHitsDt.push_back(track.nHitsDt);
-  muRefittedStandAloneTrackNHitsRpc.push_back(track.nHitsRpc);
-  muRefittedStandAloneTrackNStations.push_back(track.nStations);
-  muRefittedStandAloneTrackNChambersCsc.push_back(track.nChambersCsc);
-  muRefittedStandAloneTrackNChambersDt.push_back(track.nChambersDt);
-  muRefittedStandAloneTrackNChambersRpc.push_back(track.nChambersRpc);
-  muRefittedStandAloneTrackInnermostStation.push_back(track.innermostStation);
-  muRefittedStandAloneTrackOutermostStation.push_back(track.outermostStation);
+  muRefittedStandAloneTrackNStationsWithAnyHits.push_back(track.nStationsWithAnyHits);
+  muRefittedStandAloneTrackNCscChambersWithAnyHits.push_back(track.nCscChambersWithAnyHits);
+  muRefittedStandAloneTrackNDtChambersWithAnyHits.push_back(track.nDtChambersWithAnyHits);
+  muRefittedStandAloneTrackNRpcChambersWithAnyHits.push_back(track.nRpcChambersWithAnyHits);
+  muRefittedStandAloneTrackInnermostStationWithAnyHits.push_back(track.innermostStationWithAnyHits);
+  muRefittedStandAloneTrackOutermostStationWithAnyHits.push_back(track.outermostStationWithAnyHits);
+  muRefittedStandAloneTrackNValidMuonHits.push_back(track.nValidMuonHits);
+  muRefittedStandAloneTrackNValidCscHits.push_back(track.nValidCscHits);
+  muRefittedStandAloneTrackNValidDtHits.push_back(track.nValidDtHits);
+  muRefittedStandAloneTrackNValidRpcHits.push_back(track.nValidRpcHits);
+  muRefittedStandAloneTrackNStationsWithValidHits.push_back(track.nStationsWithValidHits);
+  muRefittedStandAloneTrackNCscChambersWithValidHits.push_back(track.nCscChambersWithValidHits);
+  muRefittedStandAloneTrackNDtChambersWithValidHits.push_back(track.nDtChambersWithValidHits);
+  muRefittedStandAloneTrackNRpcChambersWithValidHits.push_back(track.nRpcChambersWithValidHits);
+  muRefittedStandAloneTrackInnermostStationWithValidHits.push_back(track.innermostStationWithValidHits);
+  muRefittedStandAloneTrackOutermostStationWithValidHits.push_back(track.outermostStationWithValidHits);
   muRefittedStandAloneTrackQuality.push_back(track.quality);
   muRefittedStandAloneTrackInnerPx.push_back(track.innerPx);
   muRefittedStandAloneTrackInnerPy.push_back(track.innerPy);
