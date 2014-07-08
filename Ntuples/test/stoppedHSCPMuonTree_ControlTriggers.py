@@ -8,7 +8,7 @@ import os, re
 version = os.environ['CMSSW_VERSION']
                                         
 #from StoppedHSCPMuon.Ntuples.stoppedHSCPMuonTree_MC_2012_cfg import *
-from StoppedHSCPMuon.Ntuples.stoppedHSCPMuonTree_RECO_2012_JetTriggers_cfg import *
+from StoppedHSCPMuon.Ntuples.stoppedHSCPMuonTree_RECO_2012_ControlTriggers_cfg import *
 
 process.MessageLogger.cerr.INFO.limit = cms.untracked.int32(-1)
 
