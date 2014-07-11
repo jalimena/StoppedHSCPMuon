@@ -408,7 +408,9 @@ private:
   // EDM input tags
   edm::InputTag condInEdmTag_;
   std::string l1MuonsTag_;
+  edm::EDGetTokenT<l1extra::L1MuonParticle> l1MuonsToken_;
   std::string l1JetsTag_;
+  edm::EDGetTokenT<l1extra::L1JetParticle> l1JetsToken_;
   edm::InputTag l1BitsTag_;
   std::string l1JetNoBptxName_;
   std::string l1JetNoBptxNoHaloName_;
@@ -418,7 +420,9 @@ private:
   std::string l1BptxName_;
   std::string l1MuBeamHaloName_;
   edm::InputTag hltResultsTag_;
+  edm::EDGetTokenT<edm::TriggerResults> hltResultsToken_;
   edm::InputTag hltEventTag_;
+  edm::EDGetTokenT<trigger::TriggerEvent> hltEventToken_;
   std::string hltPathJetNoBptx_;
   std::string hltPathJetNoBptxNoHalo_;
   std::string hltPathJetNoBptx3BXNoHalo_;
@@ -435,25 +439,40 @@ private:
   edm::InputTag hltFilterTag_20_;
   edm::InputTag hltFilterTag_20Cha2_;
   edm::InputTag mcTag_;
-  std::string mcProducer_;
-  edm::InputTag hepProducer_;
+  edm::EDGetTokenT<edm::HepMCProduct> mcToken_;
+  std::string mcProducerTag_;
+  edm::EDGetTokenT<edm::HepMCProduct> mcProducerToken_;
+  edm::InputTag hepProducerTag_;
+  edm::EDGetTokenT<edm::HepMCProduct> hepProducerToken_;
   edm::InputTag genParticlesTag_;
+  edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
   std::string jetCorrectorServiceName_;
   edm::InputTag jetTag_;
   edm::InputTag jetAK5Tag_;
   edm::InputTag muonTag_;
+  edm::EDGetTokenT<reco::MuonCollection> muonToken_;
   edm::InputTag muonsFromCosmicsTag_;
+  edm::EDGetTokenT<reco::MuonCollection> muonsFromCosmicsToken_;
   edm::InputTag cosmicMuonsTag_;
+  edm::EDGetTokenT<reco::TrackCollection> cosmicMuonsToken_;
   edm::InputTag standAloneMuonTag_;
+  edm::EDGetTokenT<reco::TrackCollection> standAloneMuonToken_;
   edm::InputTag refittedStandAloneMuonTag_;
+  edm::EDGetTokenT<reco::TrackCollection> refittedStandAloneMuonToken_;
   edm::InputTag muonShowerTag_;
+  edm::EDGetTokenT<edm::ValueMap<reco::MuonShower>> muonShowerToken_;
   edm::InputTag verticesTag_;
+  edm::EDGetTokenT<reco::VertexCollection> verticesToken_;
   edm::InputTag tracksTag_;
+  edm::EDGetTokenT<reco::TrackCollection> tracksToken_;
   //edm::InputTag caloTowerTag_;
   edm::InputTag caloRecHitTag_;
   edm::InputTag hcalNoiseTag_;
+  edm::EDGetTokenT<HcalNoiseSummary> hcalNoiseToken_;
   edm::InputTag hcalNoiseFilterResultTag_;
+  edm::EDGetTokenT<bool> hcalNoiseFilterResultToken_;
   edm::InputTag rbxTag_;
+  edm::EDGetTokenT<HcalNoiseRBXCollection> rbxToken_;
   edm::InputTag hpdTag_;
   edm::InputTag hcalRecHitTag_;
   edm::InputTag hfRecHitTag_;
@@ -461,9 +480,13 @@ private:
   edm::InputTag cscSegmentsTag_;
   edm::InputTag cscRecHitsTag_;
   edm::InputTag DTRecHitsTag_;
+  edm::EDGetTokenT<DTRecHitCollection> DTRecHitsToken_;
   edm::InputTag DT4DSegmentsTag_;
+  edm::EDGetTokenT<DTRecSegment4DCollection> DT4DSegmentsToken_;
   edm::InputTag timeTag_;
+  edm::EDGetTokenT<reco::MuonTimeExtraMap> timeToken_;
   edm::InputTag rpcRecHitsTag_;
+  edm::EDGetTokenT<RPCRecHitCollection> rpcRecHitsToken_;
 
   // HLT config helper
   HLTConfigProvider hltConfig_;
@@ -594,7 +617,9 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   writeHistos_(iConfig.getUntrackedParameter<bool>("writeHistos",false)),
   condInEdmTag_(iConfig.getUntrackedParameter<edm::InputTag>("conditionsInEdm",std::string("CondInEdmInputTag"))),
   l1MuonsTag_(iConfig.getUntrackedParameter<std::string>("l1MuonsTag",std::string("l1extraParticles"))),
+  l1MuonsToken_(consumes<l1extra::L1MuonParticle>(l1MuonsTag_)),
   l1JetsTag_(iConfig.getUntrackedParameter<std::string>("l1JetsTag",std::string("l1extraParticles"))),
+  l1JetsToken_(consumes<l1extra::L1JetParticle>(l1JetsTag_)),
   l1BitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("l1BitsTag",edm::InputTag("gtDigis"))),
   l1JetNoBptxName_(iConfig.getUntrackedParameter<std::string>("l1JetNoBptxName",std::string("L1_SingleJet20_NotBptxOR"))),  
   l1JetNoBptxNoHaloName_(iConfig.getUntrackedParameter<std::string>("l1JetNoBptxNoHaloName",std::string("L1_SingleJet20_NotBptxOR_NotMuBeamHalo"))),
@@ -607,7 +632,9 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   l1BptxName_(iConfig.getUntrackedParameter<std::string>("l1BptxName",std::string("L1Tech_BPTX_plus_AND_minus"))),  
   l1MuBeamHaloName_(iConfig.getUntrackedParameter<std::string>("l1MuBeamHaloName",std::string("L1_SingleMuBeamHalo"))),  
   hltResultsTag_(iConfig.getUntrackedParameter<edm::InputTag>("hltResultsTag",edm::InputTag("TriggerResults","","HLT"))),
+  hltResultsToken_(consumes<edm::TriggerResults>(hltResultsTag_)),
   hltEventTag_(iConfig.getUntrackedParameter<edm::InputTag>("hltEventTag",edm::InputTag("hltTriggerSummaryAOD","","HLT"))),
+  hltEventToken_(consumes<trigger::TriggerEvent>(hltEventTag_)),
   hltPathJetNoBptx_(iConfig.getUntrackedParameter<std::string>("hltPathJetNoBptx",std::string("HLT_JetE30_NoBPTX_v1"))),
   hltPathJetNoBptxNoHalo_(iConfig.getUntrackedParameter<std::string>("hltPathJetNoBptxNoHalo",std::string("HLT_JetE30_NoBPTX_NoHalo_v1"))),
   hltPathJetNoBptx3BXNoHalo_(iConfig.getUntrackedParameter<std::string>("hltPathJetNoBptx3BXNoHalo",std::string("HLT_JetE30_NoBPTX3BX_NoHalo_v1"))),
@@ -625,25 +652,40 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   hltFilterTag_20Cha2_(iConfig.getUntrackedParameter<edm::InputTag>("hltFilterTag_20Cha2",edm::InputTag("hltL2fL1sMu6NoBPTXL1f0L2Filtered20Cha2","","HLT"))),
   //smartPropIP_(0),
   mcTag_(iConfig.getUntrackedParameter<edm::InputTag>("mcTag",edm::InputTag("generator"))),
-  mcProducer_ (iConfig.getUntrackedParameter<std::string>("producer", "g4SimHits")),
-  hepProducer_ (iConfig.getUntrackedParameter<edm::InputTag>("hepMCProducerTag", edm::InputTag("generator", "", "SIM"))),
+  mcToken_(consumes<edm::HepMCProduct>(mcTag_)),
+  mcProducerTag_ (iConfig.getUntrackedParameter<std::string>("producer", "g4SimHits")),
+  mcProducerToken_(consumes<edm::HepMCProduct>(mcProducerTag_)),
+  hepProducerTag_ (iConfig.getUntrackedParameter<edm::InputTag>("hepMCProducerTag", edm::InputTag("generator", "", "SIM"))),
+  hepProducerToken_(consumes<edm::HepMCProduct>(hepProducerTag_)),
   genParticlesTag_(iConfig.getUntrackedParameter<edm::InputTag>("genParticlesTag",edm::InputTag("genParticles"))),
+  genParticlesToken_(consumes<reco::GenParticleCollection>(genParticlesTag_)),
   jetCorrectorServiceName_(iConfig.getUntrackedParameter<std::string>("jetCorrectorServiceName","ic5CaloL1L2L3Residual")),
   jetTag_(iConfig.getUntrackedParameter<edm::InputTag>("jetTag",edm::InputTag("iterativeCone5CaloJets"))),
   jetAK5Tag_(iConfig.getUntrackedParameter<edm::InputTag>("jetAK5Tag",edm::InputTag("ak5CaloJets"))),
   muonTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonTag",edm::InputTag("muons"))),
+  muonToken_(consumes<reco::MuonCollection>(muonTag_)),
   muonsFromCosmicsTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonsFromCosmicsTag",edm::InputTag("muonsFromCosmics"))),
+  muonsFromCosmicsToken_(consumes<reco::MuonCollection>(muonsFromCosmicsTag_)),
   cosmicMuonsTag_(iConfig.getUntrackedParameter<edm::InputTag>("cosmicMuonsTag",edm::InputTag("cosmicMuons"))),
+  cosmicMuonsToken_(consumes<reco::TrackCollection>(cosmicMuonsTag_)),
   standAloneMuonTag_(iConfig.getUntrackedParameter<edm::InputTag>("standAloneMuonTag",edm::InputTag("standAloneMuons"))),
+  standAloneMuonToken_(consumes<reco::TrackCollection>(standAloneMuonTag_)),
   refittedStandAloneMuonTag_(iConfig.getUntrackedParameter<edm::InputTag>("refittedStandAloneMuonTag",edm::InputTag("refittedStandAloneMuons"))),
+  refittedStandAloneMuonToken_(consumes<reco::TrackCollection>(refittedStandAloneMuonTag_)),
   muonShowerTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonShowerTag",edm::InputTag("muons","muonShowerInformation"))),
+  muonShowerToken_(consumes<edm::ValueMap<reco::MuonShower>>(muonShowerTag_)),
   verticesTag_(iConfig.getUntrackedParameter<edm::InputTag>("verticesTag", edm::InputTag("offlinePrimaryVertices"))),
+  verticesToken_(consumes<reco::VertexCollection>(verticesTag_)),
   tracksTag_(iConfig.getUntrackedParameter<edm::InputTag>("tracksTag", edm::InputTag("generalTracks"))),
+  tracksToken_(consumes<reco::TrackCollection>(tracksTag_)),
   //caloTowerTag_(iConfig.getUntrackedParameter<edm::InputTag>("caloTowerTag",edm::InputTag("towerMaker"))),
   caloRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("caloRecHitTag",edm::InputTag("hbhereco"))),
   hcalNoiseTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseTag",edm::InputTag("hcalnoise"))),
+  hcalNoiseToken_(consumes<HcalNoiseSummary>(hcalNoiseTag_)),
   hcalNoiseFilterResultTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseFilterResultTag",edm::InputTag("HBHENoiseFilterResultProducer"))),
+  hcalNoiseFilterResultToken_(consumes<bool>(hcalNoiseFilterResultTag_)),
   rbxTag_(iConfig.getUntrackedParameter<edm::InputTag>("rbxTag",edm::InputTag("hcalnoise"))),
+  rbxToken_(consumes<HcalNoiseRBXCollection>(rbxTag_)),
   hpdTag_(iConfig.getUntrackedParameter<edm::InputTag>("hpdTag",edm::InputTag("hcalnoise"))),
   hcalRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalRecHitTag",edm::InputTag("hbhereco"))),
   hfRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("hfRecHitTag",edm::InputTag("hfreco"))),
@@ -651,9 +693,13 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   cscSegmentsTag_(iConfig.getUntrackedParameter<edm::InputTag>("cscSegmentsTag",edm::InputTag("cscSegments"))),
   cscRecHitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("cscRecHitsTag",edm::InputTag("csc2DRecHits"))), 
   DTRecHitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("DTRecHitsTag",edm::InputTag("dt1DRecHits"))),
+  DTRecHitsToken_(consumes<DTRecHitCollection>(DTRecHitsTag_)),
   DT4DSegmentsTag_(iConfig.getUntrackedParameter<edm::InputTag>("DT4DSegmentsTag",edm::InputTag("dt4DSegments"))),
+  DT4DSegmentsToken_(consumes<DTRecSegment4DCollection>(DT4DSegmentsTag_)),
   timeTag_(iConfig.getUntrackedParameter<edm::InputTag>("timeTag",edm::InputTag("muontimingDelayedMuons"))),
+  timeToken_(consumes<reco::MuonTimeExtraMap>(timeTag_)),
   rpcRecHitsTag_(iConfig.getUntrackedParameter<edm::InputTag>("rpcRecHitsTag",edm::InputTag("rpcRecHits"))),
+  rpcRecHitsToken_(consumes<RPCRecHitCollection>(rpcRecHitsTag_)),
   recoGenDeltaR_(iConfig.getUntrackedParameter<double>("recoGenDeltaR", 0.1)),
   recoTriggerDeltaR_(iConfig.getUntrackedParameter<double>("recoTriggerDeltaR", 0.1)),
   towerMinEnergy_(iConfig.getUntrackedParameter<double>("towerMinEnergy", 1.)),
@@ -1320,15 +1366,15 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 
   // Now fill variables based on the StoppedParticles vectors made by RHStopTracer module
   edm::Handle<std::vector<std::string> > names;
-  iEvent.getByLabel (mcProducer_, "StoppedParticlesName", names);
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesName", names);
   edm::Handle<std::vector<float> > xs;
-  iEvent.getByLabel (mcProducer_, "StoppedParticlesX", xs);
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesX", xs);
   edm::Handle<std::vector<float> > ys;
-  iEvent.getByLabel (mcProducer_, "StoppedParticlesY", ys);
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesY", ys);
   edm::Handle<std::vector<float> > zs;
-  iEvent.getByLabel (mcProducer_, "StoppedParticlesZ", zs);
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesZ", zs);
   edm::Handle<std::vector<float> > times;
-  iEvent.getByLabel (mcProducer_, "StoppedParticlesTime", times);
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesTime", times);
   if (!names.isValid() || !xs.isValid() || !ys.isValid() || !zs.isValid() || !times.isValid()){
     edm::LogError ("MissingProduct") << "StoppedParticles* vectors not available. Branch "
 				     << "will not be filled." << std::endl;
@@ -1376,7 +1422,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
   //iEvent.getByLabel(genParticlesTag_, genParticles);
 
   edm::Handle<edm::HepMCProduct> hepMCproduct;
-  iEvent.getByLabel(hepProducer_, hepMCproduct);
+  iEvent.getByLabel(hepProducerTag_, hepMCproduct);
   if (!hepMCproduct.isValid()) {
     edm::LogError ("MissingProduct") << "Stage 1 HepMC product not found. Branch "
 				     << "will not be filled." << std::endl;
