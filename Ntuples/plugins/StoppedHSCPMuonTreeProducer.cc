@@ -240,7 +240,7 @@ private:
   void doTrigger(const edm::Event&, const edm::EventSetup&);
 
   // write basic RECO objects
-  void doJets(const edm::Event&, const edm::EventSetup&);
+  //void doJets(const edm::Event&, const edm::EventSetup&);
   //void doGlobalCalo(const edm::Event&);
   void doMuons(const edm::Event&, reco::CompositeCandidateCollection&);
   void doCosmicMuons(const edm::Event&);
@@ -446,9 +446,9 @@ private:
   edm::EDGetTokenT<edm::HepMCProduct> hepProducerToken_;
   edm::InputTag genParticlesTag_;
   edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
-  std::string jetCorrectorServiceName_;
-  edm::InputTag jetTag_;
-  edm::InputTag jetAK5Tag_;
+  //std::string jetCorrectorServiceName_;
+  //edm::InputTag jetTag_;
+  //edm::InputTag jetAK5Tag_;
   edm::InputTag muonTag_;
   edm::EDGetTokenT<reco::MuonCollection> muonToken_;
   edm::InputTag muonsFromCosmicsTag_;
@@ -659,9 +659,9 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   hepProducerToken_(consumes<edm::HepMCProduct>(hepProducerTag_)),
   genParticlesTag_(iConfig.getUntrackedParameter<edm::InputTag>("genParticlesTag",edm::InputTag("genParticles"))),
   genParticlesToken_(consumes<reco::GenParticleCollection>(genParticlesTag_)),
-  jetCorrectorServiceName_(iConfig.getUntrackedParameter<std::string>("jetCorrectorServiceName","ic5CaloL1L2L3Residual")),
-  jetTag_(iConfig.getUntrackedParameter<edm::InputTag>("jetTag",edm::InputTag("iterativeCone5CaloJets"))),
-  jetAK5Tag_(iConfig.getUntrackedParameter<edm::InputTag>("jetAK5Tag",edm::InputTag("ak5CaloJets"))),
+  //jetCorrectorServiceName_(iConfig.getUntrackedParameter<std::string>("jetCorrectorServiceName","ic5CaloL1L2L3Residual")),
+  //jetTag_(iConfig.getUntrackedParameter<edm::InputTag>("jetTag",edm::InputTag("iterativeCone5CaloJets"))),
+  //jetAK5Tag_(iConfig.getUntrackedParameter<edm::InputTag>("jetAK5Tag",edm::InputTag("ak5CaloJets"))),
   muonTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonTag",edm::InputTag("muons"))),
   muonToken_(consumes<reco::MuonCollection>(muonTag_)),
   muonsFromCosmicsTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonsFromCosmicsTag",edm::InputTag("muonsFromCosmics"))),
@@ -1230,7 +1230,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
 
   // general RECO info
   //doVertices(iEvent,PV); //now gets done every time doStandAloneMuons is done
-  doJets(iEvent, iSetup);
+  //doJets(iEvent, iSetup);
   //std::cout<<"finished doJets"<<std::endl;
   //commenting out doGlobalCalo because gives some errors
   //doGlobalCalo(iEvent); // uses ntuple calotower info for leadingIphiFractionValue
@@ -3049,6 +3049,7 @@ void StoppedHSCPMuonTreeProducer::doTrigger(const edm::Event& iEvent, const edm:
 
 }//end of doTrigger
 
+/*
 void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
   //std::cout<<"started jets"<<std::endl;
@@ -3190,7 +3191,7 @@ void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::Ev
 
    //std::cout<<"finished jets"<<std::endl;  
 }
-
+*/
 
 
 void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::CompositeCandidateCollection& dimuons) {
