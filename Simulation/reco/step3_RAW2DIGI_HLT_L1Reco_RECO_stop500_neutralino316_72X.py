@@ -55,8 +55,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
                                          splitLevel = cms.untracked.int32(0),
                                          eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
                                          outputCommands = process.RECOSIMEventContent.outputCommands,
-                                         fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_BETTERWAY.root'),
-                                         #fileName = cms.untracked.string('root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/reco_mchamp500_710pre7_PRESTA71V3_cosSeedSAreco_SATrajectory/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root'),
+                                         fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_stop500_neutralino316.root'),
                                          dataset = cms.untracked.PSet(
     filterName = cms.untracked.string(''),
     dataTier = cms.untracked.string('GEN-SIM-RECO')
@@ -75,8 +74,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS171_V4::All', '')
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS171_V7::All', '')
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA71_V3::All', '')
-process.GlobalTag = GlobalTag(process.GlobalTag, 'START72_V1::All', '')
-
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V4::All', '')
 
 
 # Path and EndPath definitions

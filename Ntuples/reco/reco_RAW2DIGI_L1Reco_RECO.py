@@ -50,7 +50,8 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOEventContent.outputCommands,
-    fileName = cms.untracked.string('file:reco_NoBPTX_Run2012D.root'),
+    #fileName = cms.untracked.string('file:reco_NoBPTX_Run2012D.root'),
+    fileName = cms.untracked.string('file:reco.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('RECO')
@@ -61,22 +62,8 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'GR_R_72_V2::All', '')
-
-from RecoMuon.Configuration.RecoMuonPPonly_cff import *
-
-# Seed generator
-from RecoMuon.MuonSeedGenerator.CosmicMuonSeedProducer_cfi import *
-CosmicMuonSeed.DTRecSegmentLabel = 'dt4DCosmicSegments'
-
-standAloneMuons.InputObjects = cms.InputTag("CosmicMuonSeed")
-refittedStandAloneMuons.InputObjects = cms.InputTag("CosmicMuonSeed")
-
-standAloneMuons.MuonTrajectoryBuilder = cms.string("StandAloneMuonTrajectoryBuilder")
-refittedStandAloneMuons.MuonTrajectoryBuilder = cms.string("StandAloneMuonTrajectoryBuilder")
-
-# Muon Tracking sequence
-standalonemuontracking = cms.Sequence(CosmicMuonSeed*standAloneMuons*refittedStandAloneMuons)
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'GR_R_72_V2::All', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_R_72_V6A::All', '')
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
