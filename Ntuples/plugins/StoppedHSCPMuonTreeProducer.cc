@@ -247,6 +247,7 @@ private:
   void doCosmicMuonTracks(const edm::Event&, const edm::EventSetup&);
   void doStandAloneMuons(const edm::Event&, const edm::EventSetup&);
   void doRefittedStandAloneMuons(const edm::Event&, const edm::EventSetup&);
+  void doDisplacedStandAloneMuons(const edm::Event&, const edm::EventSetup&);
   void doMuonDTs(const edm::Event&, const edm::EventSetup&, std::vector<DTRecHit1D>&);
   void doMuonRPCs(const edm::Event&, const edm::EventSetup&);
   void doVertices(const edm::Event&, const reco::Vertex::Point&);
@@ -459,6 +460,8 @@ private:
   edm::EDGetTokenT<reco::TrackCollection> standAloneMuonToken_;
   edm::InputTag refittedStandAloneMuonTag_;
   edm::EDGetTokenT<reco::TrackCollection> refittedStandAloneMuonToken_;
+  edm::InputTag displacedStandAloneMuonTag_;
+  edm::EDGetTokenT<reco::TrackCollection> displacedStandAloneMuonToken_;
   edm::InputTag muonShowerTag_;
   edm::EDGetTokenT<edm::ValueMap<reco::MuonShower>> muonShowerToken_;
   edm::InputTag verticesTag_;
@@ -672,6 +675,8 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   standAloneMuonToken_(consumes<reco::TrackCollection>(standAloneMuonTag_)),
   refittedStandAloneMuonTag_(iConfig.getUntrackedParameter<edm::InputTag>("refittedStandAloneMuonTag",edm::InputTag("refittedStandAloneMuons"))),
   refittedStandAloneMuonToken_(consumes<reco::TrackCollection>(refittedStandAloneMuonTag_)),
+  displacedStandAloneMuonTag_(iConfig.getUntrackedParameter<edm::InputTag>("displacedStandAloneMuonTag",edm::InputTag("displacedStandAloneMuons"))),
+  displacedStandAloneMuonToken_(consumes<reco::TrackCollection>(displacedStandAloneMuonTag_)),
   muonShowerTag_(iConfig.getUntrackedParameter<edm::InputTag>("muonShowerTag",edm::InputTag("muons","muonShowerInformation"))),
   muonShowerToken_(consumes<edm::ValueMap<reco::MuonShower>>(muonShowerTag_)),
   verticesTag_(iConfig.getUntrackedParameter<edm::InputTag>("verticesTag", edm::InputTag("offlinePrimaryVertices"))),
@@ -1242,6 +1247,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   doStandAloneMuons(iEvent, iSetup);
   //std::cout<<"finished doStandAloneMuons"<<std::endl;
   doRefittedStandAloneMuons(iEvent, iSetup);
+  doDisplacedStandAloneMuons(iEvent, iSetup);
 
 
   doBeamHalo(iEvent);
@@ -4376,6 +4382,412 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
 
   //std::cout<<"finished refitted standalone muons"<<std::endl;  
 } // void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons()
+
+
+void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
+  //std::cout<<"started displaced standalone muons"<<std::endl;  
+  // loop over displaced standalone muons
+  edm::Handle<reco::TrackCollection> displacedStandAloneMuons;
+  iEvent.getByLabel(displacedStandAloneMuonTag_,displacedStandAloneMuons);
+
+  edm::Handle<reco::MuonCollection> muons;
+  iEvent.getByLabel(muonTag_,muons);
+
+  edm::Handle<reco::MuonTimeExtraMap> timeMap2;
+  iEvent.getByLabel(timeTag_.label(),"dt",timeMap2);
+  const reco::MuonTimeExtraMap & timeMapDT = *timeMap2;
+
+  edm::Handle<edm::ValueMap<reco::MuonShower>> muonShowerInfo;
+  iEvent.getByLabel(muonShowerTag_,muonShowerInfo);
+  const edm::ValueMap<reco::MuonShower> & muonShowerInfoMap = *muonShowerInfo;
+
+  edm::Handle<RPCRecHitCollection> rpcHits;
+  iEvent.getByLabel(rpcRecHitsTag_, rpcHits);
+
+  edm::ESHandle<RPCGeometry> rpcGeom;
+  iSetup.get<MuonGeometryRecord>().get(rpcGeom);
+
+  edm::ESHandle<GlobalTrackingGeometry> theTrackingGeometry;
+  iSetup.get<GlobalTrackingGeometryRecord>().get(theTrackingGeometry);
+
+  if (displacedStandAloneMuons.isValid()) {
+    // sort muon tracks by pt
+    std::vector<Track> displacedStandAloneMuons_;
+    displacedStandAloneMuons_.insert(displacedStandAloneMuons_.end(), displacedStandAloneMuons->begin(), displacedStandAloneMuons->end());
+    std::sort(displacedStandAloneMuons_.begin(), displacedStandAloneMuons_.end(), track_pt() );
+
+    for(reco::TrackCollection::const_iterator it =displacedStandAloneMuons_.begin();
+	it!=displacedStandAloneMuons_.end();
+	it++) {
+      //reco::TrackRef displacedStandAloneTrack = it->standAloneMuon();
+
+      shscp::Track track;
+
+      track.charge = it->charge();
+      track.px = it->px();
+      track.py = it->py();
+      track.pz = it->pz();
+      track.pt = it->pt();
+      track.p = it->p();
+      track.eta = it->eta();
+      track.phi = it->phi();
+      track.hcalEta = 0.;  // TODO extrapolate GlobalMuon track to HCAL surface and store position!
+      track.hcalPhi = 0.;
+      track.chi2  = it->chi2();
+      track.ndof  = it->ndof();
+      track.normalizedChi2  = it->normalizedChi2();
+      track.vx = it->vx();
+      track.vy = it->vy();
+      track.vz = it->vz();
+      track.dxy = it->dxy();
+      track.dz = it->dz();
+      track.nHits = it->numberOfValidHits();
+      track.nLost = it->numberOfLostHits();
+
+      //int muonStations (int subdet, int hitType) const
+      //subdet = 0(all), 1(DT), 2(CSC), 3(RPC); hitType=-1(all), 0=valid, 3=bad 
+      //track.nHitsMuonStations = it->hitPattern().muonStations(0,0);
+      track.nStationsWithAnyHits = it->hitPattern().muonStationsWithAnyHits(); //muon stations in track fit; same varaible as hitPattern().muonStations(0,0)
+      track.nCscChambersWithAnyHits = it->hitPattern().cscStationsWithAnyHits(); //csc chambers in track fit
+      track.nDtChambersWithAnyHits = it->hitPattern().dtStationsWithAnyHits(); //dt chambers in track fit
+      track.nRpcChambersWithAnyHits = it->hitPattern().rpcStationsWithAnyHits(); //rpc chambers in track fit
+      track.innermostStationWithAnyHits = it->hitPattern().innermostMuonStationWithAnyHits();
+      track.outermostStationWithAnyHits = it->hitPattern().outermostMuonStationWithAnyHits();
+
+      track.nStationsWithValidHits = it->hitPattern().muonStationsWithValidHits(); //muon stations anywhere near track; same varaible as hitPattern().muonStations(0,0)
+      track.nCscChambersWithValidHits = it->hitPattern().cscStationsWithValidHits(); //csc chambers anywhere near track
+      track.nDtChambersWithValidHits = it->hitPattern().dtStationsWithValidHits(); //dt chambers anywhere near track
+      track.nRpcChambersWithValidHits = it->hitPattern().rpcStationsWithValidHits(); //rpc chambers anywhere near track
+      track.nValidMuonHits = it->hitPattern().numberOfValidMuonHits(); //muon hits anywhere near track
+      track.nValidCscHits = it->hitPattern().numberOfValidMuonCSCHits(); //CSC hits anywhere near track
+      track.nValidDtHits = it->hitPattern().numberOfValidMuonDTHits(); //DT hits anywhere near track
+      track.nValidRpcHits = it->hitPattern().numberOfValidMuonRPCHits(); //RPC hits anywhere near track
+      track.innermostStationWithValidHits = it->hitPattern().innermostMuonStationWithValidHits();
+      track.outermostStationWithValidHits = it->hitPattern().outermostMuonStationWithValidHits();
+
+      reco::TrackBase::TrackQuality q = reco::TrackBase::qualityByName("highPurity");
+      track.quality = (it->quality(q) ? 1 : 0);
+
+      track.innerPx = it->innerMomentum().x();
+      track.innerPy = it->innerMomentum().y();
+      track.innerPz = it->innerMomentum().z();
+      track.innerOk = it->innerOk();
+      track.innerX = it->innerPosition().x();
+      track.innerY = it->innerPosition().y();
+      track.innerZ = it->innerPosition().z();
+
+      //matching gen particle index
+      //if data, gen particle index will be -1; if no matched gen particle, index will be -999
+      int GenParticleIndex = -1;
+      if(isMC_) GenParticleIndex = getGenParticleMatch(iEvent, it);
+      track.genParticleIndex = GenParticleIndex;
+
+      //matching Trigger particle index
+      //if data, Trigger particle index will be -1; if no matched Trigger particle, index will be -999
+      int TriggerParticle20Index = -1;
+      if(!isMC_) TriggerParticle20Index = getTriggerObjectMatch20(iEvent, it);
+      track.triggerParticle20Index = TriggerParticle20Index;
+
+      //matching Trigger particle index
+      //if data, Trigger particle index will be -1; if no matched Trigger particle, index will be -999
+      int TriggerParticle20Cha2Index = -1;
+      if(!isMC_) TriggerParticle20Cha2Index = getTriggerObjectMatch20Cha2(iEvent, it);
+      track.triggerParticle20Cha2Index = TriggerParticle20Cha2Index;
+
+      std::vector<int> cscSegEndcap_;
+      std::vector<int> cscSegRing_;
+      std::vector<int> cscSegStation_;
+      std::vector<int> cscSegChamber_;
+      std::vector<int> cscSegNHits_;
+      std::vector<double> cscSegPhi_;
+      std::vector<double> cscSegZ_;
+      std::vector<double> cscSegR_;
+      std::vector<double> cscSegDirPhi_;
+      std::vector<double> cscSegDirTheta_;
+      std::vector<double> cscSegTime_;
+      //doCscSegments(iEvent, iSetup, it, cscSegEndcap_, cscSegRing_, cscSegStation_, cscSegChamber_, cscSegNHits_, cscSegPhi_, cscSegZ_, cscSegR_, cscSegDirPhi_, cscSegDirTheta_, cscSegTime_);
+      //track.cscSegEndcap = cscSegEndcap_;
+      //track.cscSegRing = cscSegRing_;
+      //track.cscSegStation = cscSegStation_;
+      //track.cscSegChamber = cscSegChamber_;
+      //track.cscSegNHits = cscSegNHits_;
+      //track.cscSegPhi = cscSegPhi_;
+      //track.cscSegZ = cscSegZ_;
+      //track.cscSegR = cscSegR_;
+      //track.cscSegDirPhi = cscSegDirPhi_;
+      //track.cscSegDirTheta = cscSegDirTheta_;
+      //track.cscSegTime = cscSegTime_;
+
+      std::vector<int> rpcHitBx_;
+      std::vector<double> rpcHitZ_;
+      std::vector<double> rpcHitRho_;
+      std::vector<double> rpcHitPhi_;
+      std::vector<int> rpcHitRegion_;
+
+      //Loop over the hits in the track
+      //std::cout<<"number of valid hits is: "<<it->numberOfValidHits()<<std::endl;
+      for(size_t i=0; i<it->recHitsSize(); i++) {
+	TrackingRecHitRef myRef = it->recHit(i);
+	const TrackingRecHit *rechit = myRef.get();
+	//std::cout<<"got hit number "<<i<<std::endl;
+
+	if(rechit->isValid()){
+	  const GeomDet* geomDet = theTrackingGeometry->idToDet(rechit->geographicalId());
+
+	  if ( (rechit)->geographicalId().det() == DetId::Muon){
+
+	    //DT Hits
+	    if(geomDet->subDetector() == GeomDetEnumerators::DT) {
+	      //std::cout<<"have DT hit"<<std::endl;
+	    }
+
+	    //CSC Hits
+	    else if (geomDet->subDetector() == GeomDetEnumerators::CSC) {
+	    }
+
+	    //RPC Hits
+	    else if ( (rechit)->geographicalId().subdetId() == MuonSubdetId::RPC ){
+	      //else if (geomDet->subDetector() == GeomDetEnumerators::RPCBarrel) {
+	      //else if (geomDet->subDetector() == GeomDetEnumerators::RPCEndcap) {
+	      //std::cout<<"have RPC hit"<<std::endl;
+	      RPCDetId rollId = (RPCDetId)(rechit)->geographicalId();
+
+	      typedef std::pair<RPCRecHitCollection::const_iterator, RPCRecHitCollection::const_iterator> rangeRecHits;
+	      rangeRecHits recHitCollection = rpcHits->get(rollId);
+
+	      RPCRecHitCollection::const_iterator recHitC;
+	      int size = 0;
+	      double z = -99.;
+	      double rho = -99.;
+	      double phi = -99.;
+	      int region = -99;
+	      int bx=-99;
+
+	      //std::cout<<"\t \t Looping on the rechits of the same roll"<<std::endl;
+	      for(recHitC = recHitCollection.first; recHitC != recHitCollection.second ; recHitC++) {
+		const RPCDetId detId = static_cast<const RPCDetId>(recHitC->rpcId());
+		const RPCRoll* roll = dynamic_cast<const RPCRoll*>(rpcGeom->roll(detId));
+		const GlobalPoint rhitglobal = roll->toGlobal(recHitC->localPosition());
+
+		z = rhitglobal.z();
+		//std::cout<<"rpc rec hit z is: "<<z<<std::endl;
+		rho = rhitglobal.perp();
+		phi = rhitglobal.phi();
+		region = detId.region(); //Region id: 0 for Barrel, +/-1 For +/- Endcap.
+		bx = (*recHitC).BunchX();
+		//std::cout<<"rpc rec hit bx is: "<<bx<<std::endl;
+		size++;
+	      }
+	      //std::cout<<"rpc rec hit size is: "<<size<<std::endl;
+	      if(size!=1){
+		//std::cout<<"\t \t \t more than one rechit in this roll discarded for filling histograms"<<std::endl;
+	      }
+	      else{
+		//std::cout<<"starting to pushback"<<std::endl;
+		rpcHitZ_.push_back(z);
+		rpcHitRho_.push_back(rho);
+		rpcHitPhi_.push_back(phi);
+		rpcHitRegion_.push_back(region);
+		rpcHitBx_.push_back(bx);
+		//std::cout<<"done with pushback"<<std::endl;
+	      }
+
+	      //the layer associated with this hit
+	      //RPCDetId myLayer(rechit->geographicalId().rawId());
+
+	      //Loop over segments in the current track
+	      //for(std::vector<int>::iterator positionIt = positionRPC.begin(); positionIt != positionRPC.end(); positionIt++) {
+	      //}
+
+	      //CSCDetId myChamber((*segmentRPC).geographicalId().rawId());
+	      //myLayer.chamberId();
+
+	    }
+	    //std::cout<<"done with RPCs"<<std::endl;
+
+	  } //end of hit is in muon system
+	  //std::cout<<"done with muon hits"<<std::endl;
+	} //end of is valid hit
+	//std::cout<<"done with valid hits"<<std::endl;
+      }//end of loop over valid hits
+      //std::cout<<"done with loop over hits"<<std::endl;
+      
+      if(!rpcHitZ_.empty()){
+	//std::cout<<"rpcHitZ is not empty"<<std::endl;
+	track.rpcHitZ = rpcHitZ_;
+	track.rpcHitRho = rpcHitRho_;
+	track.rpcHitPhi = rpcHitPhi_;
+	track.rpcHitRegion = rpcHitRegion_;
+	track.rpcHitBx = rpcHitBx_;
+	//std::cout<<"filled track rpc Hit variables"<<std::endl;
+      }
+
+
+      // Match the RSA to the SA. This is needed because RSA are not in the reco::Muon and we need
+      // to access timing information (and shower information) from the reco::Muon. The RSA is a refit of the SA, the timing
+      // of the hits is the same (but do not use anything with IP or beamspot constraint).
+      // Analyze the short info stored directly in reco::Muon
+      //From displaced muons search https://github.com/msolmaz/Dilepton_Analysis_Macros/blob/master/TreeProducer/TreeProducer/plugins/LeptonAnalysis.cc
+      const math::XYZPoint & rsaInnerPoint(it->innerPosition());
+      const math::XYZPoint & rsaOuterPoint(it->outerPosition());
+
+      float minDxIn = 1000.;
+      float minDyIn = 1000.;
+      float minDzIn = 1000.;
+      float minDxOut = 1000.;
+      float minDyOut = 1000.;
+      float minDzOut = 1000.;
+
+      // Loop over the standAloneMuons and take the one with the closest inner and outer position.
+      // Only save the timing if the matching is close enough (<5cm in x,y and <50cm in z).
+      const reco::Muon * matchedSA = 0;
+      int imucount = 0;
+      int imucountMatch = -1;
+      if (muons.isValid()){
+	for (reco::MuonCollection::const_iterator sa=muons->begin(); sa!=muons->end(); ++sa, ++imucount) {
+	  if( sa->isStandAloneMuon() ) {
+	    
+	    // std::cout << "pseudoLeptonProducer: filling timing information" << std::endl;
+	    
+	    const math::XYZPoint & saInnerPoint(sa->standAloneMuon()->innerPosition());
+	    const math::XYZPoint & saOuterPoint(sa->standAloneMuon()->outerPosition());
+	    if( fabs(saInnerPoint.x() - rsaInnerPoint.x()) < minDxIn &&
+		fabs(saInnerPoint.y() - rsaInnerPoint.y()) < minDyIn &&
+		fabs(saOuterPoint.x() - rsaOuterPoint.x()) < minDxOut &&
+		fabs(saOuterPoint.y() - rsaOuterPoint.y()) < minDyOut ) {
+	      minDxIn = fabs(saInnerPoint.x() - rsaInnerPoint.x());
+	      minDyIn = fabs(saInnerPoint.y() - rsaInnerPoint.y());
+	      minDzIn = fabs(saInnerPoint.z() - rsaInnerPoint.z());
+	      minDxOut = fabs(saOuterPoint.x() - rsaOuterPoint.x());
+	      minDyOut = fabs(saOuterPoint.y() - rsaOuterPoint.y());
+	      minDzOut = fabs(saOuterPoint.z() - rsaOuterPoint.z());
+	      
+	      // Check for good matching and fill timing information
+	      if( minDxIn > 5 || minDyIn > 5 || minDxOut > 5 || minDyOut > 5 || minDzIn > 50 || minDzOut > 50 ) continue;
+	      
+	      matchedSA = &*sa;
+	      imucountMatch = imucount;
+	    } //end of diff in position between RSA and SA
+	  }//end of if SA muon
+	}//end of loop over reco::muons 
+      }//end of if muon collection is valid
+
+      if( matchedSA != 0 && imucountMatch != -1 ) {
+
+        // Save the MuonTimeExtra information                                                                                                                                                         
+	reco::MuonRef muonR(muons,imucountMatch);
+
+        // std::cout << "filling timing: for muon pt = " << lepton.pt << ", nDof = " << matchedSA->time().nDof << std::endl;                                                                          
+        // std::cout << "rsa inner position = " << rsaInnerPoint << ", outer position = " << rsaOuterPoint << std::endl;                                                                              
+        // std::cout << "sa inner position = " << matchedSA->standAloneMuon()->innerPosition() << ", outer position = " << matchedSA->standAloneMuon()->outerPosition() << std::endl;                 
+
+        // Analyze the MuonTimeExtra information                                                                                                                                                      
+	reco::MuonTimeExtra tofdt = timeMapDT[muonR];
+
+	// Store DT TOF Variables
+	track.dtTofDirection = tofdt.direction();
+	track.dtTofNDof = tofdt.nDof();
+	track.dtTofInverseBeta = tofdt.inverseBeta();
+	track.dtTofInverseBetaErr = tofdt.inverseBetaErr();
+	track.dtTofFreeInverseBeta = tofdt.freeInverseBeta();
+	track.dtTofFreeInverseBetaErr = tofdt.freeInverseBetaErr();
+	track.dtTofTimeAtIpInOut = tofdt.timeAtIpInOut();
+	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
+	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
+	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
+	track.dtTofInverseBetaLS = tofdt.invbetaLS();
+	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
+	track.dtTofYIntercept = tofdt.yIntercept();
+	track.dtTofYInterceptErr = tofdt.yInterceptError();
+	track.dtTofChi2Dof = tofdt.chi2Dof();
+	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
+	//can add individual hit info also
+
+	//muon shower info
+	reco::MuonShower muonShowerInformation = muonShowerInfoMap[muonR];
+	double stationShowerSize[4], stationShowerDeltaR[4];
+	int nStationHits[4], nStationCorrelatedHits[4], nStationUncorrelatedHits[4];
+	for(int station = 0; station < 4; ++station){
+	  stationShowerSize[station] = (muonShowerInformation.stationShowerSizeT).at(station);
+	  stationShowerDeltaR[station] = (muonShowerInformation.stationShowerDeltaR).at(station);
+	  nStationHits[station] = (muonShowerInformation.nStationHits).at(station);
+	  nStationCorrelatedHits[station] = (muonShowerInformation.nStationCorrelatedHits).at(station);
+	  nStationUncorrelatedHits[station] = (muonShowerInformation.nStationHits).at(station) - (muonShowerInformation.nStationCorrelatedHits).at(station);
+	}
+
+	track.showerSize_station0 = stationShowerSize[0];
+	track.showerSize_station1 = stationShowerSize[1];
+	track.showerSize_station2 = stationShowerSize[2];
+	track.showerSize_station3 = stationShowerSize[3];
+	track.showerDeltaR_station0 = stationShowerDeltaR[0];
+	track.showerDeltaR_station1 = stationShowerDeltaR[1];
+	track.showerDeltaR_station2 = stationShowerDeltaR[2];
+	track.showerDeltaR_station3 = stationShowerDeltaR[3];
+	track.showerNHits_station0 = nStationHits[0];
+	track.showerNHits_station1 = nStationHits[1];
+	track.showerNHits_station2 = nStationHits[2];
+	track.showerNHits_station3 = nStationHits[3];
+	track.showerNCorrelatedHits_station0 = nStationCorrelatedHits[0];
+	track.showerNCorrelatedHits_station1 = nStationCorrelatedHits[1];
+	track.showerNCorrelatedHits_station2 = nStationCorrelatedHits[2];
+	track.showerNCorrelatedHits_station3 = nStationCorrelatedHits[3];
+	track.showerNUncorrelatedHits_station0 = nStationUncorrelatedHits[0];
+	track.showerNUncorrelatedHits_station1 = nStationUncorrelatedHits[1];
+	track.showerNUncorrelatedHits_station2 = nStationUncorrelatedHits[2];
+	track.showerNUncorrelatedHits_station3 = nStationUncorrelatedHits[3];
+
+      }//end of if match to SA exists
+      else{
+        track.dtTofDirection = -999.;
+        track.dtTofNDof = -999.;
+        track.dtTofInverseBeta = -999.;
+        track.dtTofInverseBetaErr = -999.;
+        track.dtTofFreeInverseBeta = -999.;
+        track.dtTofFreeInverseBetaErr = -999.;
+        track.dtTofTimeAtIpInOut = -999.;
+        track.dtTofTimeAtIpInOutErr = -999.;
+        track.dtTofTimeAtIpOutIn = -999.;
+        track.dtTofTimeAtIpOutInErr = -999.;
+        track.dtTofInverseBetaLS = -999.;
+        track.dtTofInverseBetaLSErr = -999.;
+        track.dtTofYIntercept = -999.;
+        track.dtTofYInterceptErr = -999.;
+        track.dtTofChi2Dof = -999.;
+        track.dtTofAveHitTimeErr = -999.;
+        track.showerSize_station0 = -999.;
+        track.showerSize_station1 = -999.;
+        track.showerSize_station2 = -999.;
+        track.showerSize_station3 = -999.;
+        track.showerDeltaR_station0 = -999.;
+        track.showerDeltaR_station1 = -999.;
+        track.showerDeltaR_station2 = -999.;
+        track.showerDeltaR_station3 = -999.;
+        track.showerNHits_station0 = -999.;
+        track.showerNHits_station1 = -999.;
+        track.showerNHits_station2 = -999.;
+        track.showerNHits_station3 = -999.;
+        track.showerNCorrelatedHits_station0 = -999.;
+        track.showerNCorrelatedHits_station1 = -999.;
+        track.showerNCorrelatedHits_station2 = -999.;
+        track.showerNCorrelatedHits_station3 = -999.;
+        track.showerNUncorrelatedHits_station0 = -999.;
+        track.showerNUncorrelatedHits_station1 = -999.;
+        track.showerNUncorrelatedHits_station2 = -999.;
+        track.showerNUncorrelatedHits_station3 = -999.;
+
+      }
+
+      event_->addDisplacedStandAloneMuon(track);
+    }//end of loop over RSAs
+  }//end of if RSAs is valid
+
+  else {
+    if (!muonsMissing_) edm::LogWarning("MissingProduct") << "DisplacedStandAloneMuons not found.  Branch will not be filled" << std::endl;
+    muonsMissing_ = true;
+  }
+
+  //std::cout<<"finished displaced standalone muons"<<std::endl;  
+} // void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons()
   
 
 

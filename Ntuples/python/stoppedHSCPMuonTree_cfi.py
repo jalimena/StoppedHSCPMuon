@@ -59,6 +59,7 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
     # muon tracks
     standAloneMuonTag = cms.untracked.InputTag("standAloneMuons"),
     refittedStandAloneMuonTag = cms.untracked.InputTag("refittedStandAloneMuons"),
+    displacedStandAloneMuonTag = cms.untracked.InputTag("displacedStandAloneMuons"),
     cosmicMuonsTag = cms.untracked.InputTag("cosmicMuons"),
     #as opposed to cosmicMuons1Leg, globalCosmicMuons, or globalCosmicMuons1Leg
 

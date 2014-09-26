@@ -51,37 +51,77 @@ process.source = cms.Source("PoolSource",
 )
 
 process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange(
-    '208593:1-208593:30'
-    #'208593:31-208593:60'
-    #'208593:61-208593:90'
-    #'208593:91-208593:120'
-    #'208593:121-208593:150'
-    #'208593:151-208593:180'
-    #'208593:181-208593:210'
-    #'208593:211-208593:245'
+    '208593:1-208593:10'
+    #'208593:11-208593:20' 
+    #'208593:21-208593:30'
+    #'208593:31-208593:40'
+    #'208593:41-208593:50'
+    #'208593:51-208593:60'
+    #'208593:61-208593:70'
+    #'208593:71-208593:80'
+    #'208593:81-208593:90'
+    #'208593:91-208593:100'
+    #'208593:101-208593:110'
+    #'208593:111-208593:120'
+    #'208593:121-208593:130'
+    #'208593:131-208593:140'
+    #'208593:141-208593:150'
+    #'208593:151-208593:160'
+    #'208593:161-208593:170'
+    #'208593:171-208593:180'
+    #'208593:181-208593:190'
+    #'208593:191-208593:200'
+    #'208593:201-208593:210'
+    #'208593:211-208593:220'
+    #'208593:221-208593:230'
+    #'208593:231-208593:240'
+    #'208593:241-208593:245'
 
     #'208628:1-208628:5'
 
     #'208635:1-208635:9'
 
-    #'208636:1-208636:17'
+    #'208636:1-208636:10'
+    #'208636:11-208636:17'
 
-    #'208651:1-208651:30'
-    #'208651:31-208651:60'
-    #'208651:61-208651:90'
-    #'208651:91-208651:128'
+    #'208651:1-208651:10'
+    #'208651:11-208651:20'
+    #'208651:21-208651:30'
+    #'208651:31-208651:40'
+    #'208651:41-208651:50'
+    #'208651:51-208651:60'
+    #'208651:61-208651:70'
+    #'208651:71-208651:80'
+    #'208651:81-208651:90'
+    #'208651:91-208651:100'
+    #'208651:101-208651:110'
+    #'208651:111-208651:120'
+    #'208651:121-208651:128'
 
-    #'208655:1-208655:35'
+    #'208655:1-208655:10'
+    #'208655:11-208655:20'
+    #'208655:21-208655:30'
+    #'208655:31-208655:35'
 
-    #'208660:1-208660:30'
-    #'208660:31-208660:60'
-    #'208660:61-208660:89'
+    #'208660:1-208660:10'
+    #'208660:11-208660:20'
+    #'208660:21-208660:30'
+    #'208660:31-208660:40'
+    #'208660:41-208660:50'
+    #'208660:51-208660:60'
+    #'208660:61-208660:70'
+    #'208660:71-208660:80'
+    #'208660:81-208660:89'
 
-    #'208663:1-208663:24'
+    #'208663:1-208663:10'
+    #'208663:11-208663:20'
+    #'208663:21-208663:24'
 
     #'208664:1-208664:11'
 
-    #'208666:1-208666:30'
+    #'208666:1-208666:10'
+    #'208666:11-208666:20'
+    #'208666:21-208666:30'
 
     )
 
@@ -113,22 +153,9 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'GR_R_72_V2::All', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'GR_R_72_V2::All', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_R_72_V6A::All', '')
 
-from RecoMuon.Configuration.RecoMuonPPonly_cff import *
-
-# Seed generator
-from RecoMuon.MuonSeedGenerator.CosmicMuonSeedProducer_cfi import *
-CosmicMuonSeed.DTRecSegmentLabel = 'dt4DCosmicSegments'
-
-standAloneMuons.InputObjects = cms.InputTag("CosmicMuonSeed")
-refittedStandAloneMuons.InputObjects = cms.InputTag("CosmicMuonSeed")
-
-standAloneMuons.MuonTrajectoryBuilder = cms.string("StandAloneMuonTrajectoryBuilder")
-refittedStandAloneMuons.MuonTrajectoryBuilder = cms.string("StandAloneMuonTrajectoryBuilder")
-
-# Muon Tracking sequence
-standalonemuontracking = cms.Sequence(CosmicMuonSeed*standAloneMuons*refittedStandAloneMuons)
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)

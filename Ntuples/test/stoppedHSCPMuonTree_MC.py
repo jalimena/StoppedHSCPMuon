@@ -17,7 +17,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1)
 #process.GlobalTag.globaltag = 'START53_V19::All' #for 53X reco signal MC
 #process.GlobalTag.globaltag = 'START53_V27::All' #for 53X reco signal MC
 #process.GlobalTag.globaltag = 'PRE_STA71_V3::All' #for 71X reco signal MC of 2012 MC
-process.GlobalTag.globaltag = 'START72_V1::All' #for 72X reco signal MC of 2012 MC
+#process.GlobalTag.globaltag = 'START72_V1::All' #for 72X reco signal MC of 2012 MC
+process.GlobalTag.globaltag = 'PRE_STA72_V4::All' #for 72X reco signal MC of 2012 MC
 
 
 #process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )

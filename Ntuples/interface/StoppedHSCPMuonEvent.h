@@ -369,6 +369,7 @@ class StoppedHSCPMuonEvent : public TObject {
   void addCosmicMuonTrack(shscp::Track track);
   void addStandAloneMuon(shscp::Track track);
   void addRefittedStandAloneMuon(shscp::Track track);
+  void addDisplacedStandAloneMuon(shscp::Track track);
   void addHPD(shscp::HPD h);
   void addTower(shscp::Tower t);
   void removeTowers();
@@ -1232,6 +1233,97 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector< std::vector<Int_t> > muRefittedStandAloneTrackRpcHitRegion;
   std::vector< std::vector<Int_t> > muRefittedStandAloneTrackRpcHitBx;
 
+  // reco displaced standalone muon tracks
+  unsigned mu_DisplacedStandAlone_N;
+  std::vector<Int_t> muDisplacedStandAloneCharge;
+  std::vector<Double_t> muDisplacedStandAlonePx;
+  std::vector<Double_t> muDisplacedStandAlonePy;
+  std::vector<Double_t> muDisplacedStandAlonePz;
+  std::vector<Double_t> muDisplacedStandAlonePt;
+  std::vector<Double_t> muDisplacedStandAloneP;
+  std::vector<Double_t> muDisplacedStandAloneEta;
+  std::vector<Double_t> muDisplacedStandAlonePhi;
+  std::vector<Double_t> muDisplacedStandAloneHcalEta;     // track intersection with HCAL front-face (?)
+  std::vector<Double_t> muDisplacedStandAloneHcalPhi;
+  std::vector<Double_t> muDisplacedStandAloneTrackChi2;
+  std::vector<Double_t> muDisplacedStandAloneTrackNdof;
+  std::vector<Double_t> muDisplacedStandAloneTrackNormalizedChi2;
+  std::vector<Double_t> muDisplacedStandAloneTrackVx;
+  std::vector<Double_t> muDisplacedStandAloneTrackVy;
+  std::vector<Double_t> muDisplacedStandAloneTrackVz;
+  std::vector<Double_t> muDisplacedStandAloneTrackDxy;
+  std::vector<Double_t> muDisplacedStandAloneTrackDz;
+  std::vector<Int_t> muDisplacedStandAloneTrackNHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNLost;
+  std::vector<Int_t> muDisplacedStandAloneTrackNStationsWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNCscChambersWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNDtChambersWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNRpcChambersWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackInnermostStationWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackOutermostStationWithAnyHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNValidMuonHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNValidCscHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNValidDtHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNValidRpcHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNStationsWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNCscChambersWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNDtChambersWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackNRpcChambersWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackInnermostStationWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackOutermostStationWithValidHits;
+  std::vector<Int_t> muDisplacedStandAloneTrackQuality;
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerPx;
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerPy;
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerPz;
+  std::vector<Bool_t> muDisplacedStandAloneTrackInnerOk;
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerX; 
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerY; 
+  std::vector<Double_t> muDisplacedStandAloneTrackInnerZ; 
+  std::vector<Int_t> muDisplacedStandAloneTrackGenParticleIndex;
+  std::vector<Int_t> muDisplacedStandAloneTrackTriggerParticle20Index;
+  std::vector<Int_t> muDisplacedStandAloneTrackTriggerParticle20Cha2Index;
+  std::vector<Int_t> muDisplacedStandAloneTrackDtTofDirection;
+  std::vector<Int_t> muDisplacedStandAloneTrackDtTofNDof; 
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBeta;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBetaErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofFreeInverseBeta;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofFreeInverseBetaErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpInOut;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpOutIn;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBetaLS;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBetaLSErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofYIntercept; 
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofYInterceptErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofChi2Dof;
+  std::vector<Double_t> muDisplacedStandAloneTrackDtTofAveHitTimeErr;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station0;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station1;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station2;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station3;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerDeltaR_station0;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerDeltaR_station1;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerDeltaR_station2;
+  std::vector<Double_t> muDisplacedStandAloneTrackShowerDeltaR_station3;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNHits_station0;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNHits_station1;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNHits_station2;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNHits_station3;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNCorrelatedHits_station0;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNCorrelatedHits_station1;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNCorrelatedHits_station2;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNCorrelatedHits_station3;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNUncorrelatedHits_station0;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNUncorrelatedHits_station1;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNUncorrelatedHits_station2;
+  std::vector<Int_t> muDisplacedStandAloneTrackShowerNUncorrelatedHits_station3;
+  std::vector< std::vector<Double_t> > muDisplacedStandAloneTrackRpcHitZ;
+  std::vector< std::vector<Double_t> > muDisplacedStandAloneTrackRpcHitRho;
+  std::vector< std::vector<Double_t> > muDisplacedStandAloneTrackRpcHitPhi;
+  std::vector< std::vector<Int_t> > muDisplacedStandAloneTrackRpcHitRegion;
+  std::vector< std::vector<Int_t> > muDisplacedStandAloneTrackRpcHitBx;
+
   // vertices
   unsigned nVtx;
   unsigned vtx_N;
@@ -1514,10 +1606,11 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,29); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,30); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
+  //version 30: add displacedStandAloneMuons collection
 };
 
 #endif
