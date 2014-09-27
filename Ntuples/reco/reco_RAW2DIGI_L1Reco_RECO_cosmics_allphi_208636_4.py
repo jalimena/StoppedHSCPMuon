@@ -51,7 +51,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange(
-    '208593:1-208593:10'
+    #'208593:1-208593:10'
     #'208593:11-208593:20' 
     #'208593:21-208593:30'
     #'208593:31-208593:40'
@@ -84,7 +84,7 @@ process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange(
     #'208636:1-208636:5'
     #'208636:6-208636:10'
     #'208636:11-208636:14'
-    #'208636:15-208636:17'
+    '208636:15-208636:17'
 
     #'208651:1-208651:10'
     #'208651:11-208651:20'
@@ -144,7 +144,7 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOEventContent.outputCommands,
-    fileName = cms.untracked.string('file:/afs/cern.ch/work/j/jalimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi.root'),
+    fileName = cms.untracked.string('file:/afs/cern.ch/work/j/jalimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208636_4.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('RECO')
