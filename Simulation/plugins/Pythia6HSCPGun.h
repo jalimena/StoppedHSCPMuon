@@ -5,37 +5,42 @@
 
 #include "GeneratorInterface/Pythia6Interface/plugins/Pythia6ParticleGun.h"
 
+namespace CLHEP {
+  class HepRandomEngine;
+}
 
 namespace gen {
 
-  class Pythia6HSCPGun : public Pythia6ParticleGun
-  {
+   class Pythia6HSCPGun : public Pythia6ParticleGun
+   {
+   
+      public:
+      
+        Pythia6HSCPGun( const edm::ParameterSet& );
+        virtual ~Pythia6HSCPGun();
 
-  public:
+	void produce( edm::Event& fEvt, const edm::EventSetup& iSetup );
+	  
+   protected:
+	void generateEvent(CLHEP::HepRandomEngine*);
+	//void generateEvent();
+	
+   private:
 
-    Pythia6HSCPGun( const edm::ParameterSet& );
-    virtual ~Pythia6HSCPGun();
+	bool mReadFromFile;
+	std::string mStopPointProducer;
+	std::string mFileName;
+	std::ifstream* mFile;
 
-    void produce( edm::Event& fEvt, const edm::EventSetup& iSetup );
+	int mPID;
+	float mVx;
+	float mVy;
+	float mVz;
 
-  protected:
-    void generateEvent();
-
-  private:
-
-    bool mReadFromFile;
-    std::string mStopPointProducer;
-    std::string mFileName;
-    std::ifstream* mFile;
-    
-    int mPID;
-    float mVx;
-    float mVy;
-    float mVz;
-    
-  };
-
+   };
+  
 
 }
 
 #endif
+
