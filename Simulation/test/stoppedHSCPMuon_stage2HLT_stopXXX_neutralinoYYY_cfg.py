@@ -1,8 +1,8 @@
 # Modify these variables to switch masses, input stopped points files, and flavor of RHadron
-SPARTICLE_MASS=500
-NEUTRALINO_MASS=200
+SPARTICLE_MASS=XXX
+NEUTRALINO_MASS=YYY
 GRAVITINO_MASS=0.00001
-OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'.root'
+OUTPUTFILE='stage2_GEN-HLT_stop' + str(SPARTICLE_MASS)+'_'+str(NEUTRALINO_MASS)+'.root'
 
 import FWCore.ParameterSet.Config as cms
 
@@ -50,8 +50,8 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    #input = cms.untracked.int32(10)
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10)
+    #input = cms.untracked.int32(-1)
     )
 
 process.options = cms.untracked.PSet(
@@ -60,7 +60,8 @@ process.options = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source ("PoolSource",
-                             fileNames=cms.untracked.vstring('root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+                             fileNames=cms.untracked.vstring(#'root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+        'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
                                                              )
                              )
 
@@ -93,7 +94,7 @@ process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
 
 # Other statements
 #process.GlobalTag.globaltag = 'START53_V7A::All'
-process.GlobalTag.globaltag = 'START71_V1::All'
+process.GlobalTag.globaltag = 'START71_V8A::All'
 
 process.generator = cms.EDProducer("Pythia6HSCPGun",
                                    readFromFile = cms.untracked.bool(False),

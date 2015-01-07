@@ -22,7 +22,8 @@ process.load('Configuration.StandardSequences.SimIdeal_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
 process.load('Configuration.StandardSequences.DigiToRaw_cff')
-process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+#process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+process.load('HLTrigger.Configuration.HLT_2013_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
@@ -74,7 +75,8 @@ process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
 # Additional output definition
 
 # Other statements
-process.GlobalTag.globaltag = 'START53_V7A::All'
+#process.GlobalTag.globaltag = 'START53_V7A::All'
+process.GlobalTag.globaltag = 'START71_V8A::All'
 
 process.generator = cms.EDProducer("Pythia6HSCPGun",
                                    readFromFile = cms.untracked.bool(False),

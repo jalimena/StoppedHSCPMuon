@@ -1,6 +1,6 @@
 # Modify these variables to switch masses, input stopped points files, and flavor of RHadron
-SPARTICLE_MASS=400
-NEUTRALINO_MASS=283
+SPARTICLE_MASS=XXX
+NEUTRALINO_MASS=YYY
 GRAVITINO_MASS=0.00001
 OUTPUTFILE='stage2_GEN-HLT_gluino' + str(SPARTICLE_MASS)+'_'+str(NEUTRALINO_MASS)+'.root'
 

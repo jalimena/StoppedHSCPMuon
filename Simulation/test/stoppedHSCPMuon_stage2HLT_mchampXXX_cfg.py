@@ -1,8 +1,8 @@
 # Modify these variables to switch masses, input stopped points files, and flavor of RHadron
-SPARTICLE_MASS=126
-NEUTRALINO_MASS=YYY
+SPARTICLE_MASS=XXX
+NEUTRALINO_MASS=200
 GRAVITINO_MASS=0.00001
-OUTPUTFILE='stage2_GEN-HLT_ppstau' + str(SPARTICLE_MASS)+'_p0001.root'
+OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'.root'
 
 import FWCore.ParameterSet.Config as cms
 
@@ -50,7 +50,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(100)
     #input = cms.untracked.int32(-1)
     )
 
@@ -60,8 +60,7 @@ process.options = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source ("PoolSource",
-                             fileNames=cms.untracked.vstring(#'root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
-        'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
+                             fileNames=cms.untracked.vstring('file:A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
                                                              )
                              )
 
@@ -94,6 +93,7 @@ process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
 
 # Other statements
 #process.GlobalTag.globaltag = 'START53_V7A::All'
+#process.GlobalTag.globaltag = 'START71_V1::All'
 process.GlobalTag.globaltag = 'START71_V8A::All'
 
 process.generator = cms.EDProducer("Pythia6HSCPGun",
@@ -108,8 +108,8 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
                                                              MaxEta = cms.double(10),
                                                              MaxPhi = cms.double(3.14159265359),
                                                              diJetGluino = cms.bool(False),
-                                                             decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
-                                                             #decayTable = cms.string('../../../stage2ParticlesTable.txt') #for interactive:  where you do cmsenv
+                                                             #decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
+                                                             decayTable = cms.string('../../../stage2ParticlesTable.txt') #for interactive:  where you do cmsenv
                                                              ),
                                    #pythiaPylistVerbosity = cms.untracked.int32(2),
                                    pythiaPylistVerbosity = cms.untracked.int32(3),
@@ -124,56 +124,7 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
                                                                                                 'IMSS(11)=1          ! allow process with gravitino as LSP!',
                                                                                                 'IMSS(21) = 33       ! LUN number for SLHA File (must be 33) ',
                                                                                                 'IMSS(22) = 33       ! Read-in SLHA decay table ',
-                                                                                                'MDME(89,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(90,1) = 1 ! tau decay to mu and neutrinos ',
-                                                                                                'MDME(91,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(92,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(93,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(94,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(95,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(96,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(97,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(98,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(99,1) = 0 ! tau decay to whatever ',
-                                                                                                'MDME(100,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(101,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(102,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(103,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(104,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(105,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(106,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(107,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(108,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(109,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(110,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(111,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(112,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(113,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(114,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(115,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(116,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(117,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(118,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(119,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(120,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(121,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(122,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(123,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(124,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(125,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(126,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(127,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(128,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(129,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(130,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(131,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(132,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(133,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(134,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(135,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(136,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(137,1)= 0 ! tau decay to whatever ',
-                                                                                                'MDME(138,1)= 0 ! tau decay to whatever ' 
+                                                                                                'KCHG(17,1)=-6        ! set charge of tau prime to be 2'
                                                                                                 ),
                                                                 parameterSets = cms.vstring('processParameters',
                                                                                             'SLHAParameters'),

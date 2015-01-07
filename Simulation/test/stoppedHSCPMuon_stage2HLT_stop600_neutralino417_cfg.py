@@ -1,12 +1,32 @@
 # Modify these variables to switch masses, input stopped points files, and flavor of RHadron
 SPARTICLE_MASS=600
 NEUTRALINO_MASS=417
-GRAVITINO_MASS=0.0001
+GRAVITINO_MASS=0.00001
 OUTPUTFILE='stage2_GEN-HLT_stop' + str(SPARTICLE_MASS)+'_'+str(NEUTRALINO_MASS)+'.root'
 
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
+
+process.load("FWCore.MessageService.MessageLogger_cfi")
+process.MessageLogger = cms.Service("MessageLogger",
+                                    destinations  = cms.untracked.vstring( 'Info',
+                                                                           'Errors',
+                                                                           'Warnings',
+                                                                           'Debug'),
+                                    categories    = cms.untracked.vstring( 'eventNumber',
+                                                                           'Root_Information',
+                                                                           'EventSetupDependency'
+                                                                           ),
+                                    Info          = cms.untracked.PSet( threshold = cms.untracked.string('INFO'),
+                                                                        Root_Information     = cms.untracked.PSet( limit = cms.untracked.int32(0) ),
+                                                                        EventSetupDependency = cms.untracked.PSet( limit = cms.untracked.int32(0) )
+                                                                        ),
+                                    Errors        = cms.untracked.PSet( threshold = cms.untracked.string('ERROR') ),
+                                    Warnings      = cms.untracked.PSet( threshold = cms.untracked.string('WARNING') ),
+                                    Debug         = cms.untracked.PSet( threshold =  cms.untracked.string('DEBUG') ),
+                                    debugModules  = cms.untracked.vstring('*')
+                                    )
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -22,26 +42,27 @@ process.load('Configuration.StandardSequences.SimIdeal_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
 process.load('Configuration.StandardSequences.DigiToRaw_cff')
-process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+#process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+process.load('HLTrigger.Configuration.HLT_2013_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-        input = cms.untracked.int32(-1)
-        )
+    input = cms.untracked.int32(10)
+    #input = cms.untracked.int32(-1)
+    )
 
 process.options = cms.untracked.PSet(
-        SkipEvent = cms.untracked.vstring( 'g4SimHits','G4HadronicProcess' )
-        )
+    SkipEvent = cms.untracked.vstring( 'g4SimHits','G4HadronicProcess' )
+    )
 
 # Input source
 process.source = cms.Source ("PoolSource",
-                             fileNames=cms.untracked.vstring(
-    #'file:HSCPstau_M-308_7TeV-pythia6_Summer11-START311_V2-v1_GEN-SIM.root',
-    'root://eoscms//eos/cms/store/user/jalimena/stop_GEN-SIM/EE1B358C-CAFE-E111-909D-0030485FD988.root'
-    )
+                             fileNames=cms.untracked.vstring(#'root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+        'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
+                                                             )
                              )
 
 # Output definition
@@ -54,13 +75,11 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
                                         eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
                                         outputCommands = process.RAWSIMEventContent.outputCommands,
                                         fileName = cms.untracked.string(OUTPUTFILE),
-                                        dataset = cms.untracked.PSet(
-    filterName = cms.untracked.string(''),
-                    dataTier = cms.untracked.string('')
-    ),
-                                        SelectEvents = cms.untracked.PSet(
-    SelectEvents = cms.vstring('filter_step')
-    )
+                                        dataset = cms.untracked.PSet( filterName = cms.untracked.string(''),
+                                                                      dataTier = cms.untracked.string('')
+                                                                      ),
+                                        SelectEvents = cms.untracked.PSet( SelectEvents = cms.vstring('filter_step')
+                                                                           )
                                         )
 
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
@@ -74,40 +93,43 @@ process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
 # Additional output definition
 
 # Other statements
-process.GlobalTag.globaltag = 'START53_V7A::All'
+#process.GlobalTag.globaltag = 'START53_V7A::All'
+process.GlobalTag.globaltag = 'START71_V8A::All'
 
 process.generator = cms.EDProducer("Pythia6HSCPGun",
                                    readFromFile = cms.untracked.bool(False),
                                    stoppedData = cms.string(''),
-                                   PGunParameters = cms.PSet(
-    MinPhi = cms.double(-3.14159265359),
-    ParticleID = cms.vint32(11),
-    neutralinoMass = cms.double(NEUTRALINO_MASS),
-    gravitinoMass = cms.double(GRAVITINO_MASS),
-    MinEta = cms.double(-10),
-    sparticleMass = cms.double(SPARTICLE_MASS),
-    MaxEta = cms.double(10),
-    MaxPhi = cms.double(3.14159265359),
-    diJetGluino = cms.bool(False),
-    decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
-    #decayTable = cms.string('../../../stage2ParticlesTable.txt') #for interactive
-    ),
-                                   pythiaPylistVerbosity = cms.untracked.int32(2),
+                                   PGunParameters = cms.PSet(MinPhi = cms.double(-3.14159265359),
+                                                             ParticleID = cms.vint32(11),
+                                                             neutralinoMass = cms.double(NEUTRALINO_MASS),
+                                                             gravitinoMass = cms.double(GRAVITINO_MASS),
+                                                             MinEta = cms.double(-10),
+                                                             sparticleMass = cms.double(SPARTICLE_MASS),
+                                                             MaxEta = cms.double(10),
+                                                             MaxPhi = cms.double(3.14159265359),
+                                                             diJetGluino = cms.bool(False),
+                                                             decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
+                                                             #decayTable = cms.string('../../../stage2ParticlesTable.txt') #for interactive:  where you do cmsenv
+                                                             ),
+                                   #pythiaPylistVerbosity = cms.untracked.int32(2),
+                                   pythiaPylistVerbosity = cms.untracked.int32(3),
                                    gluinoHadrons = cms.bool(False),
+                                   #gluinoHadrons = cms.bool(True),
                                    stopHadrons = cms.bool(True),
-                                   pythiaHepMCVerbosity = cms.untracked.bool(False),
-                                   maxEventsToPrint = cms.untracked.int32(1),
-                                   PythiaParameters = cms.PSet(
-    processParameters = cms.vstring('IMSS(1)=11          ! User defined processes',
-                                    'IMSS(11)=1          ! allow process with gravitino as LSP!',                                    
-                                    'IMSS(21) = 33       ! LUN number for SLHA File (must be 33) ',
-                                    'IMSS(22) = 33       ! Read-in SLHA decay table ',
-                                    'KCHG(17,1)=-6        ! set charge of tau prime to be 2'
-                                    ),
-    parameterSets = cms.vstring('processParameters',
-                                'SLHAParameters'),
-    SLHAParameters = cms.vstring('SLHAFILE=stage2ParticlesTable.txt') # this file needs to be where you do cmsenv
-    )
+                                   #stopHadrons = cms.bool(False),
+                                   #pythiaHepMCVerbosity = cms.untracked.bool(False),
+                                   pythiaHepMCVerbosity = cms.untracked.bool(True),
+                                   maxEventsToPrint = cms.untracked.int32(10),
+                                   PythiaParameters = cms.PSet( processParameters = cms.vstring('IMSS(1)=11          ! User defined processes',
+                                                                                                'IMSS(11)=1          ! allow process with gravitino as LSP!',
+                                                                                                'IMSS(21) = 33       ! LUN number for SLHA File (must be 33) ',
+                                                                                                'IMSS(22) = 33       ! Read-in SLHA decay table ',
+                                                                                                'KCHG(17,1)=-6        ! set charge of tau prime to be 2'
+                                                                                                ),
+                                                                parameterSets = cms.vstring('processParameters',
+                                                                                            'SLHAParameters'),
+                                                                SLHAParameters = cms.vstring('SLHAFILE=stage2ParticlesTable.txt')
+                                                                )
                                    )
 
 process.genParticles = cms.EDProducer("GenParticleProducer",

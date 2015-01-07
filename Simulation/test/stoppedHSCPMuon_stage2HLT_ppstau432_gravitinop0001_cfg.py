@@ -1,12 +1,32 @@
 # Modify these variables to switch masses, input stopped points files, and flavor of RHadron
 SPARTICLE_MASS=432
-NEUTRALINO_MASS=200
-GRAVITINO_MASS=0.0001
+NEUTRALINO_MASS=YYY
+GRAVITINO_MASS=0.00001
 OUTPUTFILE='stage2_GEN-HLT_ppstau' + str(SPARTICLE_MASS)+'_p0001.root'
 
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
+
+process.load("FWCore.MessageService.MessageLogger_cfi")
+process.MessageLogger = cms.Service("MessageLogger",
+                                    destinations  = cms.untracked.vstring( 'Info',
+                                                                           'Errors',
+                                                                           'Warnings',
+                                                                           'Debug'),
+                                    categories    = cms.untracked.vstring( 'eventNumber',
+                                                                           'Root_Information',
+                                                                           'EventSetupDependency'
+                                                                           ),
+                                    Info          = cms.untracked.PSet( threshold = cms.untracked.string('INFO'),
+                                                                        Root_Information     = cms.untracked.PSet( limit = cms.untracked.int32(0) ),
+                                                                        EventSetupDependency = cms.untracked.PSet( limit = cms.untracked.int32(0) )
+                                                                        ),
+                                    Errors        = cms.untracked.PSet( threshold = cms.untracked.string('ERROR') ),
+                                    Warnings      = cms.untracked.PSet( threshold = cms.untracked.string('WARNING') ),
+                                    Debug         = cms.untracked.PSet( threshold =  cms.untracked.string('DEBUG') ),
+                                    debugModules  = cms.untracked.vstring('*')
+                                    )
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -22,27 +42,27 @@ process.load('Configuration.StandardSequences.SimIdeal_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
 process.load('Configuration.StandardSequences.DigiToRaw_cff')
-process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+#process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+process.load('HLTrigger.Configuration.HLT_2013_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-        input = cms.untracked.int32(-1)
-        #input = cms.untracked.int32(73)
-        )
+    input = cms.untracked.int32(10)
+    #input = cms.untracked.int32(-1)
+    )
 
 process.options = cms.untracked.PSet(
-        SkipEvent = cms.untracked.vstring( 'g4SimHits','G4HadronicProcess' )
-        )
+    SkipEvent = cms.untracked.vstring( 'g4SimHits','G4HadronicProcess' )
+    )
 
 # Input source
 process.source = cms.Source ("PoolSource",
-                             fileNames=cms.untracked.vstring(
-    #'file:HSCPstau_M-308_7TeV-pythia6_Summer11-START311_V2-v1_GEN-SIM.root',
-    'root://eoscms//eos/cms/store/user/jalimena/ppstau_GEN-SIM/223338F4-64FE-E111-A6F5-001F2908CE58.root'
-    )
+                             fileNames=cms.untracked.vstring(#'root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+        'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
+                                                             )
                              )
 
 # Output definition
@@ -55,109 +75,110 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
                                         eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
                                         outputCommands = process.RAWSIMEventContent.outputCommands,
                                         fileName = cms.untracked.string(OUTPUTFILE),
-                                        dataset = cms.untracked.PSet(
-    filterName = cms.untracked.string(''),
-                    dataTier = cms.untracked.string('')
-    ),
-                                        SelectEvents = cms.untracked.PSet(
-    SelectEvents = cms.vstring('filter_step')
-    )
+                                        dataset = cms.untracked.PSet( filterName = cms.untracked.string(''),
+                                                                      dataTier = cms.untracked.string('')
+                                                                      ),
+                                        SelectEvents = cms.untracked.PSet( SelectEvents = cms.vstring('filter_step')
+                                                                           )
                                         )
 
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 
-process.eventFilter = cms.EDFilter("MCStoppedEventFilter"
+process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
                                    )
 
 # Additional output definition
 
 # Other statements
-process.GlobalTag.globaltag = 'START53_V7A::All'
+#process.GlobalTag.globaltag = 'START53_V7A::All'
+process.GlobalTag.globaltag = 'START71_V8A::All'
 
 process.generator = cms.EDProducer("Pythia6HSCPGun",
                                    readFromFile = cms.untracked.bool(False),
                                    stoppedData = cms.string(''),
-                                   PGunParameters = cms.PSet(
-    MinPhi = cms.double(-3.14159265359),
-    ParticleID = cms.vint32(11),
-    neutralinoMass = cms.double(NEUTRALINO_MASS),
-    gravitinoMass = cms.double(GRAVITINO_MASS),
-    MinEta = cms.double(-10),
-    sparticleMass = cms.double(SPARTICLE_MASS),
-    MaxEta = cms.double(10),
-    MaxPhi = cms.double(3.14159265359),
-    diJetGluino = cms.bool(False),
-    decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
-    #decayTable = cms.string('../../../stage2ParticlesTable.txt')
-    ),
-                                   pythiaPylistVerbosity = cms.untracked.int32(2),
+                                   PGunParameters = cms.PSet(MinPhi = cms.double(-3.14159265359),
+                                                             ParticleID = cms.vint32(11),
+                                                             neutralinoMass = cms.double(NEUTRALINO_MASS),
+                                                             gravitinoMass = cms.double(GRAVITINO_MASS),
+                                                             MinEta = cms.double(-10),
+                                                             sparticleMass = cms.double(SPARTICLE_MASS),
+                                                             MaxEta = cms.double(10),
+                                                             MaxPhi = cms.double(3.14159265359),
+                                                             diJetGluino = cms.bool(False),
+                                                             decayTable = cms.string('src/stage2ParticlesTable.txt') #for crab
+                                                             #decayTable = cms.string('../../../stage2ParticlesTable.txt') #for interactive:  where you do cmsenv
+                                                             ),
+                                   #pythiaPylistVerbosity = cms.untracked.int32(2),
+                                   pythiaPylistVerbosity = cms.untracked.int32(3),
                                    gluinoHadrons = cms.bool(False),
+                                   #gluinoHadrons = cms.bool(True),
                                    stopHadrons = cms.bool(True),
-                                   pythiaHepMCVerbosity = cms.untracked.bool(False),
-                                   maxEventsToPrint = cms.untracked.int32(1),
-                                   PythiaParameters = cms.PSet(
-    processParameters = cms.vstring('IMSS(1)=11          ! User defined processes with SUSY SLHA file',
-                                    'IMSS(11)=1          ! allow process with gravitino as LSP!',
-                                    'IMSS(21) = 33       ! LUN number for SLHA File (must be 33) ',
-                                    'IMSS(22) = 33       ! Read-in SLHA decay table ',
-                                    'MDME(89,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(90,1) = 1       ! tau decay to mu and neutrinos     ',
-                                    'MDME(91,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(92,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(93,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(94,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(95,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(96,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(97,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(98,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(99,1) = 0       ! tau decay to whatever     ',
-                                    'MDME(100,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(101,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(102,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(103,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(104,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(105,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(106,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(107,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(108,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(109,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(110,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(111,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(112,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(113,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(114,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(115,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(116,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(117,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(118,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(119,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(120,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(121,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(122,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(123,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(124,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(125,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(126,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(127,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(128,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(129,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(130,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(131,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(132,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(133,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(134,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(135,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(136,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(137,1)= 0       ! tau decay to whatever     ',
-                                    'MDME(138,1)= 0       ! tau decay to whatever     '
-                                    ),
-    parameterSets = cms.vstring('processParameters',
-                                'SLHAParameters'),
-    SLHAParameters = cms.vstring('SLHAFILE=stage2ParticlesTable.txt') # this file needs to be where you do cmsenv
-    )
+                                   #stopHadrons = cms.bool(False),
+                                   #pythiaHepMCVerbosity = cms.untracked.bool(False),
+                                   pythiaHepMCVerbosity = cms.untracked.bool(True),
+                                   maxEventsToPrint = cms.untracked.int32(10),
+                                   PythiaParameters = cms.PSet( processParameters = cms.vstring('IMSS(1)=11          ! User defined processes',
+                                                                                                'IMSS(11)=1          ! allow process with gravitino as LSP!',
+                                                                                                'IMSS(21) = 33       ! LUN number for SLHA File (must be 33) ',
+                                                                                                'IMSS(22) = 33       ! Read-in SLHA decay table ',
+                                                                                                'MDME(89,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(90,1) = 1 ! tau decay to mu and neutrinos ',
+                                                                                                'MDME(91,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(92,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(93,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(94,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(95,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(96,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(97,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(98,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(99,1) = 0 ! tau decay to whatever ',
+                                                                                                'MDME(100,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(101,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(102,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(103,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(104,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(105,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(106,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(107,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(108,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(109,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(110,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(111,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(112,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(113,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(114,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(115,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(116,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(117,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(118,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(119,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(120,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(121,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(122,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(123,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(124,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(125,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(126,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(127,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(128,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(129,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(130,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(131,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(132,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(133,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(134,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(135,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(136,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(137,1)= 0 ! tau decay to whatever ',
+                                                                                                'MDME(138,1)= 0 ! tau decay to whatever ' 
+                                                                                                ),
+                                                                parameterSets = cms.vstring('processParameters',
+                                                                                            'SLHAParameters'),
+                                                                SLHAParameters = cms.vstring('SLHAFILE=stage2ParticlesTable.txt')
+                                                                )
                                    )
 
 process.genParticles = cms.EDProducer("GenParticleProducer",
