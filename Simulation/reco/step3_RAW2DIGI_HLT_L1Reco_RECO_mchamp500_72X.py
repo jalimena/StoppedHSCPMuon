@@ -24,8 +24,8 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    #input = cms.untracked.int32(-1)
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
+    #input = cms.untracked.int32(100)
     #input = cms.untracked.int32(1)
 )
 
@@ -33,8 +33,9 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        'root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_step1_710pre6/ff147a0c9f55a97f48bbabe25fe1f227/stage2_GEN-HLT_mchamp500_9_1_QAl.root'
+        #'root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_step1_710pre6/ff147a0c9f55a97f48bbabe25fe1f227/stage2_GEN-HLT_mchamp500_9_1_QAl.root'
         #"file:/afs/cern.ch/work/j/jalimena/CMSSW_7_1_0_pre7/src/UserCode/utility_macros/skim/skim.root"
+        "file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500.root"
         )
                             )
 
@@ -73,7 +74,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'START71_V1::All', '')
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA71_V3::All', '')
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'START72_V1::All', '')
-process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V4::All', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V6::All', '')
 
 
 
