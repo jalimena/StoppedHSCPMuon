@@ -108,9 +108,9 @@
 #include "DataFormats/METReco/interface/BeamHaloSummary.h"
 
 // HCAL noise
-#include "DataFormats/METReco/interface/HcalNoiseHPD.h"
-#include "DataFormats/METReco/interface/HcalNoiseRBX.h"
-#include "DataFormats/METReco/interface/HcalNoiseSummary.h"
+//#include "DataFormats/METReco/interface/HcalNoiseHPD.h"
+//#include "DataFormats/METReco/interface/HcalNoiseRBX.h"
+//#include "DataFormats/METReco/interface/HcalNoiseSummary.h"
 
 // HCAL Channel Status
 #include "CondFormats/HcalObjects/interface/HcalChannelStatus.h"
@@ -263,7 +263,7 @@ private:
   void doREFITTOFCSC(const edm::Event&);
 
   // write variables based on HCAL noise summary
-  void doHcalNoise(const edm::Event&);
+  //void doHcalNoise(const edm::Event&);
   void fillNoiseObjectTopDigiSamples(shscp::HPD& hpd, std::vector<double>& outvec);
   void fillNoiseObjectTop5DigiSamples(shscp::HPD& hpd, std::vector<double>& outvec);
 
@@ -470,13 +470,13 @@ private:
   edm::EDGetTokenT<reco::TrackCollection> tracksToken_;
   //edm::InputTag caloTowerTag_;
   edm::InputTag caloRecHitTag_;
-  edm::InputTag hcalNoiseTag_;
-  edm::EDGetTokenT<HcalNoiseSummary> hcalNoiseToken_;
-  edm::InputTag hcalNoiseFilterResultTag_;
-  edm::EDGetTokenT<bool> hcalNoiseFilterResultToken_;
-  edm::InputTag rbxTag_;
-  edm::EDGetTokenT<HcalNoiseRBXCollection> rbxToken_;
-  edm::InputTag hpdTag_;
+  //edm::InputTag hcalNoiseTag_;
+  //edm::EDGetTokenT<HcalNoiseSummary> hcalNoiseToken_;
+  //edm::InputTag hcalNoiseFilterResultTag_;
+  //edm::EDGetTokenT<bool> hcalNoiseFilterResultToken_;
+  //edm::InputTag rbxTag_;
+  //edm::EDGetTokenT<HcalNoiseRBXCollection> rbxToken_;
+  //edm::InputTag hpdTag_;
   edm::InputTag hcalRecHitTag_;
   edm::InputTag hfRecHitTag_;
   edm::InputTag hcalDigiTag_;
@@ -685,13 +685,13 @@ StoppedHSCPMuonTreeProducer::StoppedHSCPMuonTreeProducer(const edm::ParameterSet
   tracksToken_(consumes<reco::TrackCollection>(tracksTag_)),
   //caloTowerTag_(iConfig.getUntrackedParameter<edm::InputTag>("caloTowerTag",edm::InputTag("towerMaker"))),
   caloRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("caloRecHitTag",edm::InputTag("hbhereco"))),
-  hcalNoiseTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseTag",edm::InputTag("hcalnoise"))),
-  hcalNoiseToken_(consumes<HcalNoiseSummary>(hcalNoiseTag_)),
-  hcalNoiseFilterResultTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseFilterResultTag",edm::InputTag("HBHENoiseFilterResultProducer"))),
-  hcalNoiseFilterResultToken_(consumes<bool>(hcalNoiseFilterResultTag_)),
-  rbxTag_(iConfig.getUntrackedParameter<edm::InputTag>("rbxTag",edm::InputTag("hcalnoise"))),
-  rbxToken_(consumes<HcalNoiseRBXCollection>(rbxTag_)),
-  hpdTag_(iConfig.getUntrackedParameter<edm::InputTag>("hpdTag",edm::InputTag("hcalnoise"))),
+  //hcalNoiseTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseTag",edm::InputTag("hcalnoise"))),
+  //hcalNoiseToken_(consumes<HcalNoiseSummary>(hcalNoiseTag_)),
+  //hcalNoiseFilterResultTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalNoiseFilterResultTag",edm::InputTag("HBHENoiseFilterResultProducer"))),
+  //hcalNoiseFilterResultToken_(consumes<bool>(hcalNoiseFilterResultTag_)),
+  //rbxTag_(iConfig.getUntrackedParameter<edm::InputTag>("rbxTag",edm::InputTag("hcalnoise"))),
+  //rbxToken_(consumes<HcalNoiseRBXCollection>(rbxTag_)),
+  //hpdTag_(iConfig.getUntrackedParameter<edm::InputTag>("hpdTag",edm::InputTag("hcalnoise"))),
   hcalRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalRecHitTag",edm::InputTag("hbhereco"))),
   hfRecHitTag_(iConfig.getUntrackedParameter<edm::InputTag>("hfRecHitTag",edm::InputTag("hfreco"))),
   hcalDigiTag_(iConfig.getUntrackedParameter<edm::InputTag>("hcalDigiTag",edm::InputTag("hcalDigis"))),
@@ -1262,7 +1262,7 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
   doREFITTOFCSC(iEvent);
 
   // HCAL noise summary info
-  doHcalNoise(iEvent);
+  //doHcalNoise(iEvent);
 
   // HCAL RecHits & flags
   //doHcalRecHits(iEvent);
@@ -2236,65 +2236,70 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcMuonGenIndex.push_back(i);
 	event_->mcMuon_N++; 
 
-	if(mother->mother()){
-	  const reco::Candidate* mother2 = mother->mother();
-	  int motherId2 = -999;
-	  if(mother2) motherId2 = mother2->pdgId();
-	  std::cout<<"mother of mother of muon is: "<<motherId2<<std::endl;
+	std::cout<<"end of fill mcMuon events"<<std::endl;
 
-	  if(mother2->mother()){
-	    const reco::Candidate* mother3 = mother2->mother();
-	    int motherId3 = -999;
-	    if(mother3) motherId3 = mother3->pdgId();
-	    std::cout<<"mother of mother of mother of muon is: "<<motherId3<<std::endl;
-
-	    if(mother3->mother()){
-	      const reco::Candidate* mother4 = mother3->mother();
-	      int motherId4 = -999;
-	      if(mother4) motherId4 = mother4->pdgId();
-	      std::cout<<"mother of mother of mother of mother of muon is: "<<motherId4<<std::endl;
-
-	      if(mother4->mother()){
-		const reco::Candidate* mother5 = mother4->mother();
-		int motherId5 = -999;
-		if(mother5) motherId5 = mother5->pdgId();
-		std::cout<<"mother of mother of mother of mother of mother of muon is: "<<motherId5<<std::endl;
-
-		if(mother5->mother()){
-		  const reco::Candidate* mother6 = mother5->mother();
-		  int motherId6 = -999;
-		  if(mother6) motherId6 = mother6->pdgId();
-		  std::cout<<"mother of mother of mother of mother of mother of mother of muon is: "<<motherId6<<std::endl;
-
-		  if(mother6->mother()){
-		    const reco::Candidate* mother7 = mother6->mother();
-		    int motherId7 = -999;
-		    if(mother7) motherId7 = mother7->pdgId();
-		    std::cout<<"mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId7<<std::endl;
-
-		    if(mother7->mother()){
-		      const reco::Candidate* mother8 = mother7->mother();
-		      int motherId8 = -999;
-		      if(mother8) motherId8 = mother8->pdgId();
-		      std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId8<<std::endl;
-
-		      if(mother8->mother()){
-			const reco::Candidate* mother9 = mother8->mother();
-			int motherId9 = -999;
-			if(mother9) motherId9 = mother9->pdgId();
-			std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId9<<std::endl;
-
-			if(mother9->mother()){
-			  const reco::Candidate* mother10 = mother9->mother();
-			  int motherId10 = -999;
-			  if(mother10) motherId10 = mother10->pdgId();
-			  std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId10<<std::endl;
+	if(motherId!=-999){
+	  if(mother->mother()){
+	    std::cout<<"mother has mother"<<std::endl;
+	    const reco::Candidate* mother2 = mother->mother();
+	    int motherId2 = -999;
+	    if(mother2) motherId2 = mother2->pdgId();
+	    std::cout<<"mother of mother of muon is: "<<motherId2<<std::endl;
+	    
+	    if(mother2->mother()){
+	      const reco::Candidate* mother3 = mother2->mother();
+	      int motherId3 = -999;
+	      if(mother3) motherId3 = mother3->pdgId();
+	      std::cout<<"mother of mother of mother of muon is: "<<motherId3<<std::endl;
+	      
+	      if(mother3->mother()){
+		const reco::Candidate* mother4 = mother3->mother();
+		int motherId4 = -999;
+		if(mother4) motherId4 = mother4->pdgId();
+		std::cout<<"mother of mother of mother of mother of muon is: "<<motherId4<<std::endl;
+		
+		if(mother4->mother()){
+		  const reco::Candidate* mother5 = mother4->mother();
+		  int motherId5 = -999;
+		  if(mother5) motherId5 = mother5->pdgId();
+		  std::cout<<"mother of mother of mother of mother of mother of muon is: "<<motherId5<<std::endl;
+		  
+		  if(mother5->mother()){
+		    const reco::Candidate* mother6 = mother5->mother();
+		    int motherId6 = -999;
+		    if(mother6) motherId6 = mother6->pdgId();
+		    std::cout<<"mother of mother of mother of mother of mother of mother of muon is: "<<motherId6<<std::endl;
+		    
+		    if(mother6->mother()){
+		      const reco::Candidate* mother7 = mother6->mother();
+		      int motherId7 = -999;
+		      if(mother7) motherId7 = mother7->pdgId();
+		      std::cout<<"mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId7<<std::endl;
+		      
+		      if(mother7->mother()){
+			const reco::Candidate* mother8 = mother7->mother();
+			int motherId8 = -999;
+			if(mother8) motherId8 = mother8->pdgId();
+			std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId8<<std::endl;
+			
+			if(mother8->mother()){
+			  const reco::Candidate* mother9 = mother8->mother();
+			  int motherId9 = -999;
+			  if(mother9) motherId9 = mother9->pdgId();
+			  std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId9<<std::endl;
 			  
-			  if(mother10->mother()){
-			    const reco::Candidate* mother11 = mother10->mother();
-			    int motherId11 = -999;
-			    if(mother11) motherId11 = mother11->pdgId();
-			    std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId11<<std::endl;
+			  if(mother9->mother()){
+			    const reco::Candidate* mother10 = mother9->mother();
+			    int motherId10 = -999;
+			    if(mother10) motherId10 = mother10->pdgId();
+			    std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId10<<std::endl;
+			    
+			    if(mother10->mother()){
+			      const reco::Candidate* mother11 = mother10->mother();
+			      int motherId11 = -999;
+			      if(mother11) motherId11 = mother11->pdgId();
+			      std::cout<<"mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of mother of muon is: "<<motherId11<<std::endl;
+			    }
 			  }
 			}
 		      }
@@ -2305,6 +2310,8 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	    }
 	  }
 	}
+
+	std::cout<<"finished mother saga"<<std::endl;
 
 	int mother_of_W_Id = -999;
 	int mother_of_Z_Id = -999;
@@ -2321,10 +2328,11 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	  if(mother_of_Z) mother_of_Z_Id = mother_of_Z->pdgId();
 	}
 	event_->mcMuonMotherOfZId.push_back(mother_of_Z_Id);
-
       }
+      std::cout<<"end of muons"<<std::endl;
 
     }//end of loop over gen particles
+    std::cout<<"end of loop over gen particles"<<std::endl;
   }
 
 }
@@ -5564,7 +5572,7 @@ void StoppedHSCPMuonTreeProducer::doGlobalCalo(const edm::Event& iEvent) {
 } // void StoppedHSCPMuonTreeProducer::doGlobalCalo(const edm::Event& iEvent)
 */
 
-
+/*
 void StoppedHSCPMuonTreeProducer::doHcalNoise(const edm::Event& iEvent) {
   
   // get noise summary
@@ -5686,7 +5694,7 @@ void StoppedHSCPMuonTreeProducer::doHcalNoise(const edm::Event& iEvent) {
   }
   
 }// doHcalNoise(...)
-
+*/
 
 void StoppedHSCPMuonTreeProducer::fillNoiseObjectTop5DigiSamples(shscp::HPD& hpd, std::vector<double>& outvec)
 {

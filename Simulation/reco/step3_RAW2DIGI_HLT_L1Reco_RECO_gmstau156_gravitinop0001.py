@@ -1,8 +1,8 @@
 # Auto generated configuration file
 # using: 
-# Revision: 1.381.2.18 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
-# with command line options: step3 --filein file:step2_DIGI_L1_DIGI2RAW_HLT.root --step RAW2DIGI,HLT:7E33v3,L1Reco,RECO --conditions START53_V19::All --pileup NoPileUp --datamix NODATAMIXER --datatier GEN-SIM-RECO --eventcontent RECOSIM -n -1 --no_exec
+# Revision: 1.19 
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# with command line options: step3 --filein file:step2_DIGI_L1_DIGI2RAW_HLT.root --step RAW2DIGI,HLT:2014,L1Reco,RECO --conditions PRE_STA72_V6::All --pileup NoPileUp --datamix NODATAMIXER --datatier GEN-SIM-RECO --eventcontent RECOSIM -n -1 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT2')
@@ -16,11 +16,11 @@ process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
-process.load('HLTrigger.Configuration.HLT_7E33v3_cff')
+process.load('HLTrigger.Configuration.HLT_2014_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.Reconstruction_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
@@ -29,7 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/tmp/jalimena/Simulation/stage2_GEN-HLT_ppstau494_p0001.root')
+    fileNames = cms.untracked.vstring('file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -38,32 +38,33 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.1 $'),
+    version = cms.untracked.string('$Revision: 1.19 $'),
     annotation = cms.untracked.string('step3 nevts:-1'),
-    name = cms.untracked.string('PyReleaseValidation')
+    name = cms.untracked.string('Applications')
 )
 
 # Output definition
 
 process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
-                                         splitLevel = cms.untracked.int32(0),
-                                         eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-                                         outputCommands = process.RECOSIMEventContent.outputCommands,
-                                         fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_gmstau156_gravitinop0001.root'),
-                                         dataset = cms.untracked.PSet(
-    filterName = cms.untracked.string(''),
-    dataTier = cms.untracked.string('GEN-SIM-RECO')
+    splitLevel = cms.untracked.int32(0),
+    eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
+    outputCommands = process.RECOSIMEventContent.outputCommands,
+    fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_gmstau156_gravitinop0001.root'),
+    dataset = cms.untracked.PSet(
+        filterName = cms.untracked.string(''),
+        dataTier = cms.untracked.string('GEN-SIM-RECO')
     )
-                                         )
+)
 process.RECOSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 
+
 # Additional output definition
 
 # Other statements
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V19::All', '')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V6::All', '')
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
@@ -86,3 +87,4 @@ from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC
 process = customizeHLTforMC(process)
 
 # End of customisation functions
+

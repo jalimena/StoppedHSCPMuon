@@ -93,10 +93,10 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
     GlobalMinTOF    = cms.untracked.double(-999999999.),
  
     # HCAL digis/noise
-    hcalNoiseTag = cms.untracked.InputTag("hcalnoise"),
-    hcalNoiseFilterResultTag = cms.untracked.InputTag("HBHENoiseFilterResultProducer:HBHENoiseFilterResult"),
-    rbxTag = cms.untracked.InputTag("hcalnoise"),
-    hpdTag = cms.untracked.InputTag("hcalnoise"),
+    #hcalNoiseTag = cms.untracked.InputTag("hcalnoise"),
+    #hcalNoiseFilterResultTag = cms.untracked.InputTag("HBHENoiseFilterResultProducer:HBHENoiseFilterResult"),
+    #rbxTag = cms.untracked.InputTag("hcalnoise"),
+    #hpdTag = cms.untracked.InputTag("hcalnoise"),
     hcalDigiTag = cms.untracked.InputTag("hcalDigis"),
     cscSegmentsTag = cms.untracked.InputTag("cscSegments"),
     cscRecHitsTag = cms.untracked.InputTag("csc2DRecHits"),

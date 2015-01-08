@@ -36,5 +36,7 @@ readFiles.extend( [
         #"file:/mnt/hadoop/users/alimena/CMS/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root"
         #"root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/reco_mchamp500_710pre7_PRESTA71V3/757fb463512dc747d0567e39a49bf997/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_9_1_cFa.root"
         #"root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/reco_mchamp500_720pre3_cosSeedSAreco_SATrajectory/f6a451b5aa7c5090472a2533b8425b2a/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_9_1_PnS.root"
-        "file:/home/alimena/Analysis/CMSSW_7_2_3_patch1/src/StoppedHSCPMuon/Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        #"file:/home/alimena/Analysis/CMSSW_7_2_3_patch1/src/StoppedHSCPMuon/Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        #"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_1_1_jkG.root"
+        "file:../cosmicMC/CosmicMC.root"
         ] );

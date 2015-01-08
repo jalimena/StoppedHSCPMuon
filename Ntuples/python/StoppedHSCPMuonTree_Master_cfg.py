@@ -51,13 +51,13 @@ process.hltStoppedHSCPMuonHpdFilter = cms.EDFilter( "HLTHPDFilter",
 )
 
 # add a flag indicating the HBHE noise 
-process.load('CommonTools/RecoAlgos/HBHENoiseFilterResultProducer_cfi')
-process.HBHENoiseFilterResultProducer.minNumIsolatedNoiseChannels = cms.int32(999999)
-process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumE = cms.double(999999.)
-process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumEt = cms.double(999999.)
-process.HBHENoiseFilterResultProducer.useTS4TS5=False
-process.HBHENoiseFilterResultProducer.maxRatio=0.96
-process.HBHENoiseFilterResultProducer.minRatio=0.70
+#process.load('CommonTools/RecoAlgos/HBHENoiseFilterResultProducer_cfi')
+#process.HBHENoiseFilterResultProducer.minNumIsolatedNoiseChannels = cms.int32(999999)
+#process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumE = cms.double(999999.)
+#process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumEt = cms.double(999999.)
+#process.HBHENoiseFilterResultProducer.useTS4TS5=False
+#process.HBHENoiseFilterResultProducer.maxRatio=0.96
+#process.HBHENoiseFilterResultProducer.minRatio=0.70
 
 # get RAW data
 process.load('Configuration/StandardSequences/RawToDigi_Data_cff')
@@ -94,7 +94,7 @@ process.ntuple = cms.Path(
     +process.hltStoppedHSCPMuonHpdFilter
 
 # filter HCAL noise
-    +process.HBHENoiseFilterResultProducer
+    #+process.HBHENoiseFilterResultProducer
 
 # get hcal digis
     +process.gctDigis
