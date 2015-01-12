@@ -2227,13 +2227,21 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcMuonVz.push_back(p.vz());
 	//event_->mcMuonDxy.push_back(ip.dxyValue);
 	//event_->mcMuonDz.push_back(ip.dzValue);
+	std::cout<<"end of fill mcMuon vertexes"<<std::endl;
 	event_->mcMuonStatus.push_back(p.status());
+	std::cout<<"end of fill mcMuon status"<<std::endl;
 	event_->mcMuonNMothers.push_back(p.numberOfMothers());
+	std::cout<<"end of fill mcMuon numberOfMothers"<<std::endl;
 	event_->mcMuonMotherId.push_back(motherId);
+	std::cout<<"end of fill mcMuon motherID"<<std::endl;
 	event_->mcMuonNDaughters.push_back(p.numberOfDaughters());
+	std::cout<<"end of fill mcMuon number of daughters"<<std::endl;
 	event_->mcMuonDaughterId.push_back(daughterId);
+	std::cout<<"end of fill mcMuon daughterId"<<std::endl;
 	event_->mcMuonDaughterStatus.push_back(daughterStatus);
+	std::cout<<"end of fill mcMuon daughter status"<<std::endl;
 	event_->mcMuonGenIndex.push_back(i);
+	std::cout<<"end of fill mcMuon gen index"<<std::endl;
 	event_->mcMuon_N++; 
 
 	std::cout<<"end of fill mcMuon events"<<std::endl;

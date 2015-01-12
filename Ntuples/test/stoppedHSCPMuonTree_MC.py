@@ -38,5 +38,16 @@ readFiles.extend( [
         #"root://eoscms//eos/cms/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/reco_mchamp500_720pre3_cosSeedSAreco_SATrajectory/f6a451b5aa7c5090472a2533b8425b2a/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_9_1_PnS.root"
         #"file:/home/alimena/Analysis/CMSSW_7_2_3_patch1/src/StoppedHSCPMuon/Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
         #"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_1_1_jkG.root"
-        "file:../cosmicMC/CosmicMC.root"
+        #"file:../cosmicMC/CosmicMC.root"
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_10_1_lk9.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_1_1_OP8.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_2_1_I3W.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_3_1_txk.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_4_1_drO.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_5_1_tFu.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_6_1_PuV.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_7_1_Ifb.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_8_1_KNC.root",
+"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_9_1_gqy.root"
+
         ] );
