@@ -28,8 +28,8 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500.root')
+                            secondaryFileNames = cms.untracked.vstring(),
+                            fileNames = cms.untracked.vstring('file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_mchamp500_710/8b87dfe2c686dbf29ba606a0c8789460/stage2_GEN-HLT_mchamp500_1_1_53s.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -49,7 +49,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_stop700_neutralino518.root'),
+    fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchampXXX.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')

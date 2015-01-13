@@ -64,7 +64,7 @@ process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V6::All', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_STA72_V6', '')
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
