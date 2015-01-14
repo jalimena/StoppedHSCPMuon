@@ -10,6 +10,7 @@ RUN_NUMBER=208660
 LUMI1=81
 LUMI2=89
 LUMI_LIST=str(RUN_NUMBER)+':'+str(LUMI1)+'-'+str(RUN_NUMBER)+':'+str(LUMI2)
+OUTPUTFILE="file:reco_NoBPTX_Run2012D_cosmics_allphi_"+str(INDEX)+".root"
 
 process = cms.Process('RECO')
 
@@ -28,7 +29,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
-    #input = cms.untracked.int32(10)
+    #input = cms.untracked.int32(2)
 )
 
 # Input source
@@ -77,7 +78,7 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOEventContent.outputCommands,
-    fileName = cms.untracked.string("file:reco_NoBPTX_Run2012D_cosmics_allphi_57.root"),
+    fileName = cms.untracked.string(OUTPUTFILE),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('RECO')

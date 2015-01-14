@@ -26,7 +26,7 @@ setenv SCRAM_ARCH slc6_amd64_gcc481
 source /cvmfs/cms.cern.ch/cmsset_default.csh
 cd /home/alimena/Analysis/CMSSW_7_2_3_patch1/src/StoppedHSCPMuon/Ntuples/reco/
 eval `scram runtime -sh`
-cmsRun """+newCfgName+"""
+cmsRun """+oldCfgName+"""
 lcg-cp -b -v -D srmv2 file:./"""+outputFileName+""" srm://srm.hep.brown.edu:8443/srm/v2/server'?'SFN=/mnt/hadoop/store/user/jalimena/cosmics_allphi_reco/"""+outputFileName+"""
 rm """+outputFileName+"""
 """
