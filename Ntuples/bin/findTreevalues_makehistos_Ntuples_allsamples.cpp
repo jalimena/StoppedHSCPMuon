@@ -546,10 +546,12 @@ private:
   void gluinos( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
   void mchamps( StoppedHSCPMuonEvent*, bool&, bool (&)[15], bool (&)[15], bool (&)[15], int&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, Double_t&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&);
   void staus( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&);
+  void cosmicMC( StoppedHSCPMuonEvent*, bool&);
   void stop_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluino_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
   void mchamp_counts( StoppedHSCPMuonEvent*, int&, double&, double&);
   void stau_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&);
+  void cosmicMC_counts( StoppedHSCPMuonEvent*, bool&);
 
   void StoppedParticles( StoppedHSCPMuonEvent*);
   void StoppingRegionAcceptance( StoppedHSCPMuonEvent*);
@@ -1204,6 +1206,18 @@ void findTreevalues_makehistos_Ntuples_allsamples::staus( StoppedHSCPMuonEvent* 
   } //end of loop over mc muons  
 }//end of staus
 
+void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC( StoppedHSCPMuonEvent* events, bool& status1muon){
+
+  //check first to see if there is a status 1 muon in the event
+  for (UInt_t j=0; j<events->mcMuon_N; j++) {
+    //cout<<"looping over cosmic mcMuons: "<<j<<endl;
+    if(events->mcMuonStatus[j]==1){
+      //cout<<"cosmic mcMuon has status 1"<<endl;
+      status1muon = true;
+    }
+  }
+}//end of cosmicMC
+
 void findTreevalues_makehistos_Ntuples_allsamples::stop_counts( StoppedHSCPMuonEvent* events, bool& WFromTop, bool& status1muon, bool& status1muonFromMuon, bool& status1muonFromW ){
   if( (doGenMuCut && events->mcTop_N>0) || (!doGenMuCut)){
     pass_Ntops_cut++;
@@ -1283,6 +1297,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::stau_counts( StoppedHSCPMuonE
     }
   }
 }//end of stau_counts
+
+void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC_counts( StoppedHSCPMuonEvent* events, bool& status1muon ){
+  if( (doGenMuCut && events->mcMuon_N>0) || (!doGenMuCut)){
+    pass_muon_cut++;
+    if( (doGenMuCut && status1muon) || (!doGenMuCut)){
+      pass_status1muon_cut++;
+      pass_generatorMuon_cut++;
+    }
+  }
+}//end of cosmicMC_counts
 
 void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCPMuonEvent* events ){
   // Identify which detector region the particles stopped in. For ME and MB, this definition includes                                                                            
@@ -1548,13 +1572,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
   //upper hemisphere cut
   if( (doUpperCut && events->muDisplacedStandAlonePhi[0]>0.) || (!doUpperCut)){
     pass_Upper_cut++;
-    
+    //cout<<"passed upper cut"<<endl;
+
     //pt cut
-    //if ( (doPtCut && events->muDisplacedStandAlonePt[0]>PtCutValue_) || (!doPtCut) ){
-    if ( (doPtCut && events->muRefittedStandAlonePt[0]<PtCutValue_) || (!doPtCut) ){
+    if ( (doPtCut && events->muDisplacedStandAlonePt[0]>PtCutValue_) || (!doPtCut) ){
+    //if ( (doPtCut && events->muRefittedStandAlonePt[0]<PtCutValue_) || (!doPtCut) ){
     //if ( (doPtCut && events->muCosmicTrackPt[0]<PtCutValue_) || (!doPtCut) ){
       pass_pt_cut++;
       StoppingRegionAcceptance(events);
+      //cout<<"passed pt cut"<<endl;
 
       //2 chamber cut
       if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[0])>ChaCutValue_) || (!doChaCut)) {
@@ -1564,10 +1590,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 	//eta cut
 	if ( (doEtaCut && TMath::Abs(events->muDisplacedStandAloneEta[0])<EtaCutValue_ ) || (!doEtaCut) ){
 	  pass_eta_cut++;
-	  
+	  //cout<<"passed eta cut"<<endl;
+
 	  //number of RPC hits cut
 	  if( (doRpcCut && events->muDisplacedStandAloneTrackRpcHitZ.at(0).size()>RpcCutValue_) || (!doRpcCut)){
 	    pass_RPC_cut++;
+	    //cout<<"passed rpc cut"<<endl;
 
 	    //distance btw stations cut
 	    bool refitted = false;	    
@@ -1646,8 +1674,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //cout<<"trigger hists done"<<endl;
 
 			  double muDisplacedStandAlone_pt_resolution = -99.;
-			  double muRefittedStandAlone_pt_resolution = -99.;
-			  double muCosmic_pt_resolution = -99.;
+			  //double muRefittedStandAlone_pt_resolution = -99.;
+			  //double muCosmic_pt_resolution = -99.;
 
 			  //cout<<"standalone pt resolution is: "<<muDisplacedStandAlone_pt_resolution<<endl;
 			  //cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
@@ -1657,8 +1685,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  if( file_dataset_ != "NoBP" && file_dataset_ != "Sing" && file_dataset_ != "Zmum"){
 			    if(events->mcMuonPt[0]>0.){
 			      muDisplacedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muDisplacedStandAlonePt[0])/(events->mcMuonPt[0]); 
-			      muRefittedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muRefittedStandAlonePt[0])/(events->mcMuonPt[0]);
-			      muCosmic_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muCosmicTrackPt[0])/(events->mcMuonPt[0]);
+			      //muRefittedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muRefittedStandAlonePt[0])/(events->mcMuonPt[0]);
+			      //muCosmic_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muCosmicTrackPt[0])/(events->mcMuonPt[0]);
 			      
 			      //cout<<"standalone pt resolution is: "<<muDisplacedStandAlone_pt_resolution<<endl;
 			      //cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
@@ -1672,27 +1700,27 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //cout<<"cosmic pt resolution is: "<<muCosmic_pt_resolution<<endl;
 
 			  muDisplacedStandAlonePtResolution_hist->Fill(muDisplacedStandAlone_pt_resolution,1.0);
-			  muRefittedStandAlonePtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,1.0);
-			  muCosmicPtResolution_hist->Fill(muCosmic_pt_resolution,1.0);
+			  //muRefittedStandAlonePtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,1.0);
+			  //muCosmicPtResolution_hist->Fill(muCosmic_pt_resolution,1.0);
 
 			  //cout<<"resolution hists1 done"<<endl;
-			  muRefittedStandAlonePtResolution_muCosmicPtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,muCosmic_pt_resolution,1.0);
+			  //muRefittedStandAlonePtResolution_muCosmicPtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,muCosmic_pt_resolution,1.0);
 
 			  muDisplacedStandAloneNChambersDt_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
-			  muRefittedStandAloneNChambersDt_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
-			  muCosmicNChambersDt_PtResolution_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
+			  //muRefittedStandAloneNChambersDt_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
+			  //muCosmicNChambersDt_PtResolution_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
 			  muDisplacedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
-			  muRefittedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
-			  muCosmicNChambersRpc_PtResolution_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
+			  //muRefittedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
+			  //muCosmicNChambersRpc_PtResolution_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
 
 			  //cout<<"resolution hists2 done"<<endl;
 
 			  muDisplacedStandAloneNChambersDt_Pt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
-			  muRefittedStandAloneNChambersDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
-			  muCosmicNChambersDt_Pt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
+			  //muRefittedStandAloneNChambersDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
+			  //muCosmicNChambersDt_Pt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
 			  muDisplacedStandAloneNChambersRpc_Pt_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
-			  muRefittedStandAloneNChambersRpc_Pt_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
-			  muCosmicNChambersRpc_Pt_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
+			  //muRefittedStandAloneNChambersRpc_Pt_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
+			  //muCosmicNChambersRpc_Pt_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
 
 			  //cout<<"2D pt hists done"<<endl;
 
@@ -1700,14 +1728,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    if(events->l1Muon_N>0) mcMuonPt_l1MuonPt_hist->Fill(events->mcMuonPt[0],events->l1MuonPt[0],1.0);
 			    if(events->hlt20Cha2Muon_N>0) mcMuonPt_hlt20Cha2MuonPt_hist->Fill(events->mcMuonPt[0],events->hlt20Cha2MuonPt[0],1.0);
 			    
-			    //cout<<"trigger hists done"<<endl;
+			    //cout<<"trigger hists2 done"<<endl;
 			    mcMuonPt_hist->Fill(events->mcMuonPt[0],1.0);
 			    
 			      mcMuonPt_muDisplacedStandAlonePt_hist->Fill(events->mcMuonPt[0],events->muDisplacedStandAlonePt[0],1.0);
-			      mcMuonPt_muRefittedStandAlonePt_hist->Fill(events->mcMuonPt[0],events->muRefittedStandAlonePt[0],1.0);
-			      mcMuonPt_muCosmicPt_hist->Fill(events->mcMuonPt[0],events->muCosmicPt[0],1.0);
-			      mcMuonPt_muCosmicTrackPt_hist->Fill(events->mcMuonPt[0],events->muCosmicTrackPt[0],1.0);
-			      muDisplacedStandAlonePt_muCosmicTrackPt_hist->Fill(events->muDisplacedStandAlonePt[0],events->muCosmicTrackPt[0],1.0);
+			      //mcMuonPt_muRefittedStandAlonePt_hist->Fill(events->mcMuonPt[0],events->muRefittedStandAlonePt[0],1.0);
+			      //mcMuonPt_muCosmicPt_hist->Fill(events->mcMuonPt[0],events->muCosmicPt[0],1.0);
+			      //mcMuonPt_muCosmicTrackPt_hist->Fill(events->mcMuonPt[0],events->muCosmicTrackPt[0],1.0);
+			      //muDisplacedStandAlonePt_muCosmicTrackPt_hist->Fill(events->muDisplacedStandAlonePt[0],events->muCosmicTrackPt[0],1.0);
 			      
 			      //cout<<"other 2d hists done"<<endl;
 			      
@@ -1728,10 +1756,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			      //cout<<"mcMuon hists done"<<endl;
 
 
-			      muRefittedStandAloneNHitsDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNValidDtHits[0],events->muRefittedStandAlonePt[0],1.0);
+			      //muRefittedStandAloneNHitsDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNValidDtHits[0],events->muRefittedStandAlonePt[0],1.0);
 			      //muRefittedStandAloneNChambersDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0],events->muRefittedStandAlonePt[0],1.0);
-			      mcStoppedParticleR_muRefittedStandAlonePt_hist->Fill(events->mcStoppedParticleR[0]/10.,events->muRefittedStandAlonePt[0],1.0);
+			      if( file_dataset_ != "cosm"){
+			      //mcStoppedParticleR_muRefittedStandAlonePt_hist->Fill(events->mcStoppedParticleR[0]/10.,events->muRefittedStandAlonePt[0],1.0);
 			      mcStoppedParticleR_mcMuonPt_hist->Fill(events->mcStoppedParticleR[0]/10.,events->mcMuonPt[0],1.0);			      
+			      }
 			  }
 
 			  //cout<<"blah"<<endl;
@@ -1740,13 +1770,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    muDisplacedStandAloneTrackDistanceStations_hist->Fill(distanceBetweenStations(events, a, refitted) ,1.0);
 			    muDisplacedStandAloneTrackDistanceStations_Pt_hist->Fill(distanceBetweenStations(events, a, refitted), events->muDisplacedStandAlonePt[0],1.0);
 
+			    /*
 			    refitted = true;
 			    muRefittedStandAloneTrackDistanceStations_hist->Fill(distanceBetweenStations(events, a, refitted) ,1.0);
 			    muRefittedStandAloneTrackDistanceStations_Pt_hist->Fill(distanceBetweenStations(events, a, refitted), events->muRefittedStandAlonePt[0],1.0);
 
 			    
 			    muCosmicTrackInnerPt_hist->Fill(TMath::Sqrt((events->muCosmicTrackInnerPx[0])*(events->muCosmicTrackInnerPx[0])+(events->muCosmicTrackInnerPy[0])*(events->muCosmicTrackInnerPy[0])),1.0);
-			  
+			    */
 			  
 			  muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
 			  muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[0],1.0);
@@ -1825,7 +1856,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    muIso_hist->Fill(events->muIso[0],1.0);
 			    muEta_muPhi_hist->Fill(events->muEta[0],events->muPhi[0],1.0);
 			    //}	      
-			  
+			    /*
 			  muCosmic_N_hist->Fill(events->mu_Cosmic_N,1.0);
 			  //for (UInt_t j=0; j<events->mu_Cosmic_N; j++) {
 			    //cout<<"cosmic mu number "<<j<<endl;
@@ -1835,11 +1866,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    muCosmicType_hist->Fill(events->muCosmicType[0],1.0);
 			    muCosmicEta_muCosmicPhi_hist->Fill(events->muCosmicEta[0],events->muCosmicPhi[0],1.0);
 			    //}
-			  
+			    */
+
 			  muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
-			  muRefittedStandAlone_N_hist->Fill(events->mu_RefittedStandAlone_N,1.0);
-			  muStandAloneTof_N_hist->Fill(events->muStandAloneTof_N,1.0);
-			  refitMuStandAloneTof_N_hist->Fill(events->refitMuStandAloneTof_N,1.0);						
+			  //muRefittedStandAlone_N_hist->Fill(events->mu_RefittedStandAlone_N,1.0);
+			  //muStandAloneTof_N_hist->Fill(events->muStandAloneTof_N,1.0);
+			  //refitMuStandAloneTof_N_hist->Fill(events->refitMuStandAloneTof_N,1.0);						
 			  
 			  //cout<<"blah3"<<endl;
 			  //if ( (do_other_cut && TMath::Abs(events->muDisplacedStandAloneEta[j])<1.0 && events->muDisplacedStandAlonePhi[j]>0.5 && events->muDisplacedStandAlonePhi[j]<(TMath::Pi()-0.5) && events->muStandAloneTofDirection[j]!=0 && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[j] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[j])>1 && pass_pt_cut[j] && TMath::Abs(events->muStandAloneTofTimeAtIpInOut[j])<50.) || (!do_other_cut) ){
@@ -1850,10 +1882,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  
 			  //for (UInt_t j=0; j<events->mu_RefittedStandAlone_N; j++) {
 			    //cout<<"refitted standalone mu number "<<j<<endl;
-			    muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[0],1.0);
-			    muRefittedStandAloneEta_hist->Fill(events->muRefittedStandAloneEta[0],1.0);
-			    muRefittedStandAlonePhi_hist->Fill(events->muRefittedStandAlonePhi[0],1.0);
-			    muRefittedStandAloneEta_muRefittedStandAlonePhi_hist->Fill(events->muRefittedStandAloneEta[0],events->muRefittedStandAlonePhi[0],1.0);
+			    //muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[0],1.0);
+			    //muRefittedStandAloneEta_hist->Fill(events->muRefittedStandAloneEta[0],1.0);
+			    //muRefittedStandAlonePhi_hist->Fill(events->muRefittedStandAlonePhi[0],1.0);
+			    //muRefittedStandAloneEta_muRefittedStandAlonePhi_hist->Fill(events->muRefittedStandAloneEta[0],events->muRefittedStandAlonePhi[0],1.0);
 			    //}
 
 			    //cout<<"blah4"<<endl;			  
@@ -2117,7 +2149,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 			    //cout<<"diMuMass is: "<<events->diMuMass[j]<<endl;
 			    diMuMass_hist->Fill(events->diMuMass[j],1.0);
 			  }
-			  
+			 
+			  /*
 			  Upper_StandAloneTofTimeAtIpInOut_hist->Fill(events->muStandAloneTofTimeAtIpInOut[upper_index],1.0);
 			  Upper_StandAloneTofTimeAtIpOutIn_hist->Fill(events->muStandAloneTofTimeAtIpOutIn[upper_index],1.0);
 			  Lower_StandAloneTofTimeAtIpInOut_hist->Fill(events->muStandAloneTofTimeAtIpInOut[lower_index],1.0);
@@ -2126,7 +2159,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 			  mudiff_StandAloneTofTimeAtIpOutIn_hist->Fill(events->muStandAloneTofTimeAtIpOutIn[upper_index] - events->muStandAloneTofTimeAtIpOutIn[lower_index],1.0);
 			  Upper_Lower_StandAloneTofTimeAtIpInOut_hist->Fill(events->muStandAloneTofTimeAtIpInOut[upper_index],events->muStandAloneTofTimeAtIpInOut[lower_index],1.0);
 			  Upper_Lower_StandAloneTofTimeAtIpOutIn_hist->Fill(events->muStandAloneTofTimeAtIpOutIn[upper_index],events->muStandAloneTofTimeAtIpOutIn[lower_index],1.0);
-			  
+			  */
 			Upper_StandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[upper_index],1.0);
 			Upper_StandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[upper_index],1.0);
 			Upper_StandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[upper_index],1.0);
@@ -2208,6 +2241,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
     }//end of eta cut
   }//end of chamber cut
 
+  /*
   //RSA
   if( (doChaCut && (events->muRefittedStandAloneTrackNDtChambersWithValidHits[0] + events->muRefittedStandAloneTrackNCscChambersWithValidHits[0])>ChaCutValue_) || (!doChaCut)) {
     if ( (doEtaCut && TMath::Abs(events->muRefittedStandAloneEta[0])<EtaCutValue_ ) || (!doEtaCut) ){
@@ -2226,6 +2260,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
       }//end of pass L1
     }//end of eta cut
   }//end of chamber cut
+  */
 
 }//end of TriggerTurnOn
 
@@ -2936,7 +2971,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   //NoBP, Sing, Zmum
   string file_dataset_=file_dataset.substr(0,4);
   bool is_data=false;
+  bool is_cosmicMC=false;
   if(file_dataset_ == "NoBP" || file_dataset_ == "Sing" || file_dataset_ == "Zmum") is_data=true;
+  if(file_dataset_ == "cosm") is_cosmicMC=true;
 
   TString file = "blah";
   if(host_=="cmsl"){
@@ -2945,7 +2982,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //else cout<<"problem with resT3!!!!!!"<<endl;
     file = "/uscms_data/d3/alimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   }
-  if(host_=="brux") file = "/mnt/hadoop/users/alimena/CMS/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
+  //if(host_=="brux") file = "/mnt/hadoop/users/alimena/CMS/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
+  if(host_=="brux") file = "/mnt/hadoop/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   if(host_=="lxpl") file = "root://eoscms//eos/cms/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   //if(host_=="lxpl") file = "/afs/cern.ch/work/j/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
 
@@ -3168,6 +3206,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 					genMuUpper_px, genMuUpper_py, genMuUpper_pz, genMuUpper_pt, genMuUpper_p, genMuUpper_eta, genMuUpper_phi, genMuUpper_charge,
 					genMuLower_px, genMuLower_py, genMuLower_pz, genMuLower_pt, genMuLower_p, genMuLower_eta, genMuLower_phi, genMuLower_charge);
     if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) staus(events, tauFromStau, status1muon, status1muonFromTau, status1muonFromMuon, status1muonFromNeutralino);
+    if(file_dataset_ == "cosm") cosmicMC(events, status1muon);
 
     //bx cut
     if ( (doBxCut && file_dataset_ != "Zmum" && TMath::Abs(events->bxWrtCollision)>=BxCutValue_ && TMath::Abs(events->bxWrtBunch)>=BxCutValue_) || (!doBxCut) || (file_dataset_ == "Zmum") ){
@@ -3176,7 +3215,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       StoppedParticles(events);
 
       //long-lived particle stopping in cavern walls? mcStoppedParticle variables are in mm 
-      if( (!is_data && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) ){
+      if( (!is_data && !is_cosmicMC && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) || (is_cosmicMC)){
 	//double r = events->mcStoppedParticleR[0]/10.0;
 	//double z = events->mcStoppedParticleZ[0]/10.0;
 	//double particle_eta = eta(events->mcStoppedParticleX[0],events->mcStoppedParticleY[0],
@@ -3186,23 +3225,27 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	//if (r < 20.0 && fabs(particle_eta) <= 1.0 && fabs(z) < 20.0){
         pass_cavern_cut++;
 
-	//does signal MC pass gen level criteria
+	//does MC pass gen level criteria
 	if(file_dataset_ == "stop") stop_counts(events, WFromTop, status1muon, status1muonFromMuon, status1muonFromW );
 	if(file_dataset_ == "glui") gluino_counts(events, status1muon, status1muonFromW, status1muonFromTau, status1muonFromMuon, status1muonFromBbaryon, status1muonFromCbaryon, status1muonFromSbaryon, status1muonFromBmeson, status1muonFromCmeson, status1muonFromJPsi, status1muonFromLightMeson);
 	if(file_dataset_ == "mcha") mchamp_counts(events, good_genMuons, genMu0_charge, genMu1_charge );
 	if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) stau_counts(events, tauFromStau, status1muon, status1muonFromTau );
+	if(file_dataset_ == "cosm") cosmicMC_counts(events, status1muon);
+	//cout<<"finished cosmicMC_counts"<<endl;
 
 	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && genMu0_charge==genMu1_charge))) || (!doGenMuCut) || (is_data)){
-	  
+	  //cout<<"finished status1muon"<<endl;
 	  if(doPrintout){
 	    printout_setup(events);
 	    //if(!is_data) printout_gen(events);
 	  }
 
 	  //SA muon cut
-	  if ((doSACut && events->mu_DisplacedStandAlone_N>0 && events->mu_RefittedStandAlone_N>0) || (!doSACut)){
+	  //if ((doSACut && events->mu_DisplacedStandAlone_N>0 && events->mu_RefittedStandAlone_N>0) || (!doSACut)){
+	  if ((doSACut && events->mu_DisplacedStandAlone_N>0 ) || (!doSACut)){
 	    pass_standaloneMuon_cut++;
-	    
+	    //cout<<"finished standalonemuon"<<endl;
+
 	    //SA matched to gen muon?
 	    if ((!is_data && doGenMuMatchedCut && genMuonMatched(events)) || (!doGenMuMatchedCut) || (is_data)){
 	      pass_genMuonMatched_cut++;
@@ -3215,6 +3258,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	      //pass trigger
 	      if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum")){
 		pass_trigger_cut++;
+		//cout<<"finished trigger"<<endl;
 
 		HighestPtSA_counts(events, file_dataset_, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_);
 		//cout<<"finished HighestPtSA_counts"<<endl;

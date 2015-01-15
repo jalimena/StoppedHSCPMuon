@@ -1,7 +1,7 @@
 #!/bin/tcsh
 
-foreach x ( `seq 1 1 3` )
-#foreach x ( `seq 4 1 7` )
+#foreach x ( `seq 1 1 3` )
+foreach x ( `seq 4 1 7` )
 #foreach x ( `seq 8 1 11` )
 #foreach x ( `seq 12 1 15` )
 #foreach x ( `seq 16 1 19` )
