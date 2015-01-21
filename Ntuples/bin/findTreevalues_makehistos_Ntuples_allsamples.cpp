@@ -564,10 +564,10 @@ private:
   double dR_OppositeSeg( StoppedHSCPMuonEvent*, UInt_t&, double&, double& );
   int distanceBetweenStations( StoppedHSCPMuonEvent*, UInt_t&, bool&);
 
-  void HighestPtSA_counts( StoppedHSCPMuonEvent*, string&, float&, Int_t&, float&, UInt_t&, Int_t&, Int_t&, Int_t&, float&, float&, float&, float&);
+  void HighestPtSA_counts( StoppedHSCPMuonEvent*, string&, float&, Int_t&, float&, Int_t&, Int_t&, Int_t&, Int_t&, float&, float&, float&, float&);
   void pick_UpperAndLowerSA( StoppedHSCPMuonEvent*, UInt_t&, UInt_t&, float&, float&);
-  void UpperAndLowerSA_counts( StoppedHSCPMuonEvent*, string&, float&, float&, Int_t&, float&, UInt_t&,  Int_t&, Int_t&, float&, float&);
-  void TriggerTurnOn( StoppedHSCPMuonEvent*, string&, Int_t&, float&, UInt_t&, Int_t&, Int_t&);
+  void UpperAndLowerSA_counts( StoppedHSCPMuonEvent*, string&, float&, float&, Int_t&, float&, Int_t&,  Int_t&, Int_t&, float&, float&);
+  void TriggerTurnOn( StoppedHSCPMuonEvent*, string&, Int_t&, float&, Int_t&, Int_t&, Int_t&);
 
   void printout_setup(StoppedHSCPMuonEvent*);
   void printout_gen(StoppedHSCPMuonEvent*);
@@ -578,7 +578,7 @@ private:
   void printout_L1(StoppedHSCPMuonEvent*);
 
   bool doBxCut, doCavCut, doGenMuCut, doSACut, doGenMuMatchedCut, doTriggerCut, doPtCut, doChaCut, doEtaCut, doUpperCut, doRpcCut, doDisStCut, doRpcBxCut, doDtHitsCut, doCscHitsCut, doDtInvBetaCut, doTimeInOutCut, doOppEtaCut, doOppPhiCut, doTightPhi, doCosEnrich, doPrintout;
-  UInt_t RpcCutValue_;
+  Int_t RpcCutValue_;
   Int_t DisStCutValue_, BxCutValue_, ChaCutValue_, DtHitsCutValue_, CscHitsCutValue_;
   float PtCutValue_, Pt0CutValue_, Pt1CutValue_, EtaCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_;
 
@@ -1559,7 +1559,7 @@ int findTreevalues_makehistos_Ntuples_allsamples::distanceBetweenStations( Stopp
 }//end of distanceBetweenStations
 
 
-void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHSCPMuonEvent* events, string& file_dataset, float& PtCutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, UInt_t& RpcCutValue_, Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_, float& OppEtaCutValue_, float& OppPhiCutValue_){
+void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHSCPMuonEvent* events, string& file_dataset, float& PtCutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_, Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_, float& OppEtaCutValue_, float& OppPhiCutValue_){
 
   string file_dataset_=file_dataset.substr(0,4);
   //cout<<"file_dataset_ is: "<<file_dataset_<<endl;
@@ -1583,7 +1583,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
       //cout<<"passed pt cut"<<endl;
 
       //2 chamber cut
-      if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[0])>ChaCutValue_) || (!doChaCut)) {
+      //if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[0])>ChaCutValue_) || (!doChaCut)) {
+      if( (doChaCut && events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0]>ChaCutValue_) || (!doChaCut)) {
 	pass_cha_cut++;
 	//cout<<"passed chamber cut"<<endl;
 
@@ -1593,7 +1594,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 	  //cout<<"passed eta cut"<<endl;
 
 	  //number of RPC hits cut
-	  if( (doRpcCut && events->muDisplacedStandAloneTrackRpcHitZ.at(0).size()>RpcCutValue_) || (!doRpcCut)){
+	  if( (doRpcCut && events->muDisplacedStandAloneTrackNValidRpcHits[0]>RpcCutValue_) || (!doRpcCut)){
 	    pass_RPC_cut++;
 	    //cout<<"passed rpc cut"<<endl;
 
@@ -1730,6 +1731,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    
 			    //cout<<"trigger hists2 done"<<endl;
 			    mcMuonPt_hist->Fill(events->mcMuonPt[0],1.0);
+			    mcMuonEta_hist->Fill(events->mcMuonEta[0],1.0);
+			    mcMuonPhi_hist->Fill(events->mcMuonPhi[0],1.0);
 			    
 			      mcMuonPt_muDisplacedStandAlonePt_hist->Fill(events->mcMuonPt[0],events->muDisplacedStandAlonePt[0],1.0);
 			      //mcMuonPt_muRefittedStandAlonePt_hist->Fill(events->mcMuonPt[0],events->muRefittedStandAlonePt[0],1.0);
@@ -1809,6 +1812,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  muDisplacedStandAloneOppositeSegDR_hist->Fill(segment_dR,1.0);
 			  muDisplacedStandAloneOppositeSegDEta_hist->Fill(segment_dEta,1.0);
 			  muDisplacedStandAloneOppositeSegDPhi_hist->Fill(segment_dPhi,1.0);
+
+			  muDisplacedStandAloneDTTofDirection_hist->Fill(events->muDisplacedStandAloneTrackDtTofDirection[0],1.0);
+			  muDisplacedStandAloneDTTofNDof_hist->Fill(events->muDisplacedStandAloneTrackDtTofNDof[0],1.0);
+			  muDisplacedStandAloneDTTofInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofInverseBeta[0],1.0);
+			  muDisplacedStandAloneDTTofInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofInverseBetaErr[0],1.0);
+			  muDisplacedStandAloneDTTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[0],1.0);
+			  muDisplacedStandAloneDTTofFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[0],1.0);
+			  muDisplacedStandAloneDTTofTimeAtIpInOut_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[0],1.0);
+			  muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[0],1.0);
+			  muDisplacedStandAloneDTTofTimeAtIpOutIn_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpOutIn[0],1.0);
+			  muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr[0],1.0);
 
 			  muDisplacedStandAloneTrackShowerSize_station0_hist->Fill(events->muDisplacedStandAloneTrackShowerSize_station0[0],1.0);
 			  muDisplacedStandAloneTrackShowerSize_station1_hist->Fill(events->muDisplacedStandAloneTrackShowerSize_station1[0],1.0);
@@ -1921,16 +1935,6 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //muDisplacedStandAloneDTTof_N_hist->Fill(events->muDisplacedStandAloneDTTof_N,1.0);
 			  //for (UInt_t j=0; j<events->muDisplacedStandAloneDTTof_N; j++) {
 			    //cout<<"TOF DT mu number "<<j<<endl;
-			    //muDisplacedStandAloneDTTofDirection_hist->Fill(events->muDisplacedStandAloneDTTofDirection[0],1.0);
-			    //muDisplacedStandAloneDTTofNDof_hist->Fill(events->muDisplacedStandAloneDTTofNDof[0],1.0);
-			    //muDisplacedStandAloneDTTofInverseBeta_hist->Fill(events->muDisplacedStandAloneDTTofInverseBeta[0],1.0);
-			    //muDisplacedStandAloneDTTofInverseBetaErr_hist->Fill(events->muDisplacedStandAloneDTTofInverseBetaErr[0],1.0);
-			  // muDisplacedStandAloneDTTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneDTTofFreeInverseBeta[0],1.0);
-			  //muDisplacedStandAloneDTTofFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneDTTofFreeInverseBetaErr[0],1.0);
-			  //muDisplacedStandAloneDTTofTimeAtIpInOut_hist->Fill(events->muDisplacedStandAloneDTTofTimeAtIpInOut[0],1.0);
-			  //muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist->Fill(events->muDisplacedStandAloneDTTofTimeAtIpInOutErr[0],1.0);
-			  //muDisplacedStandAloneDTTofTimeAtIpOutIn_hist->Fill(events->muDisplacedStandAloneDTTofTimeAtIpOutIn[0],1.0);
-			  //muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist->Fill(events->muDisplacedStandAloneDTTofTimeAtIpOutInErr[0],1.0);
 			    //}
 			  
 			  //muDisplacedStandAloneCSCTof_N_hist->Fill(events->muDisplacedStandAloneCSCTof_N,1.0);
@@ -2062,7 +2066,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::pick_UpperAndLowerSA( Stopped
 
 }//end of pick_UpperAndLowerSA
 
-void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( StoppedHSCPMuonEvent* events, string& file_dataset, float& Pt0CutValue_, float& Pt1CutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, UInt_t& RpcCutValue_,  Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_){
+void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( StoppedHSCPMuonEvent* events, string& file_dataset, float& Pt0CutValue_, float& Pt1CutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_,  Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_){
 
   UInt_t upper_index=999;
   UInt_t lower_index=999;
@@ -2085,7 +2089,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
     if((file_dataset=="Zmumu_Run2012B" && diMuMass_Cut(events)) || (file_dataset!="Zmumu_Run2012B")){             	
       
       //2 chamber cut
-      if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[upper_index] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[upper_index])>ChaCutValue_ && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[lower_index] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[lower_index])>ChaCutValue_) || (!doChaCut)) {
+      //if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[upper_index] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[upper_index])>ChaCutValue_ && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[lower_index] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[lower_index])>ChaCutValue_) || (!doChaCut)) {
+      if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[upper_index])>ChaCutValue_ && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[lower_index])>ChaCutValue_) || (!doChaCut)) {
 	pass_cha_2_cut++;
 	
 	//eta cut
@@ -2093,7 +2098,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 	  pass_eta_2_cut++;
 	  
 	  //RPC hits cut
-	  if( (doRpcCut && events->muDisplacedStandAloneTrackRpcHitZ.at(upper_index).size()>RpcCutValue_ && events->muDisplacedStandAloneTrackRpcHitZ.at(lower_index).size()>RpcCutValue_) || (!doRpcCut)){
+	  if( (doRpcCut && events->muDisplacedStandAloneTrackNValidRpcHits[upper_index]>RpcCutValue_ && events->muDisplacedStandAloneTrackNValidRpcHits[lower_index]>RpcCutValue_) || (!doRpcCut)){
 	    pass_RPC_2_cut++;			  
 	    
 	    Upper_muDisplacedStandAloneBxPattern_hist->Fill(Rpc_Bx_Pattern(events,upper_index));
@@ -2220,7 +2225,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
   }//end of if 2 standalone muons in upper and lower with pt>30, 20
 }//end of UpperAndLowerSA_counts()
 
-void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuonEvent* events, string& file_dataset, Int_t& ChaCutValue_, float& EtaCutValue_, UInt_t& RpcCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_){
+void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuonEvent* events, string& file_dataset, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_){
 
   //sta
   if( (doChaCut && (events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0] + events->muDisplacedStandAloneTrackNCscChambersWithValidHits[0])>ChaCutValue_) || (!doChaCut)) {
@@ -2308,9 +2313,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
   cout  << setw(7) << events->run;
   cout  << setw(9) << events->id;
   cout  << setw(8) << "SPart"<<" ";
-  cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStoppedParticleZ[0]/10.;
-  cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStoppedParticleR[0]/10.;
-  cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStoppedParticlePhi[0];
+  if(events->mcStoppedParticle_N>0){
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStoppedParticleZ[0]/10.;
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStoppedParticleR[0]/10.;
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStoppedParticlePhi[0];
+  }
+  else{
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) <<  " ";
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) <<  " ";
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) <<  " ";
+  }
   cout  << fixed << setw(7) << " ";
   cout  << fixed << setw(7) << " ";
   cout  << fixed << setw(14) << " ";
@@ -2699,8 +2711,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_SA( StoppedHSCPMuonE
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[j];
     cout  << fixed << setw(5) << events->muStandAloneTofDirection[j];
     cout  << fixed << setprecision(TimeAtIpInOutPrecision) << setw(7) << events->muStandAloneTofTimeAtIpInOut[j];
-    cout  << fixed << setw(7) << events->muDisplacedStandAloneTrackDtTofInverseBetaLS[j];
-    cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofInverseBetaLSErr[j];
+    cout  << fixed << setw(7) << events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[j];
+    cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[j];
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofChi2Dof[j];
     cout  << fixed << setw(5) << segment_dEta;
     cout  << fixed << setw(5) << segment_dPhi << endl;
@@ -2826,13 +2838,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L2( StoppedHSCPMuonE
   //cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
   //line++;
 
-  for (UInt_t j=0; j<events->hlt20Cha2Muon_N; j++) {
+  for (UInt_t j=0; j<events->hlt20Muon_N; j++) {
     cout  << setw(7) << events->run;
     cout  << setw(9) << events->id;
     cout  << setw(8) << "L2 "<<j;
-    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20Cha2MuonPt[j];
-    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20Cha2MuonEta[j];
-    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20Cha2MuonPhi[j]<<endl;
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20MuonPt[j];
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20MuonEta[j];
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20MuonPhi[j]<<endl;
+    //cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20Cha2MuonPt[j];
+    //cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20Cha2MuonEta[j];
+    //cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20Cha2MuonPhi[j]<<endl;
     line++;
   }//end of loop over L2 muons
 }//end of printout_L2()

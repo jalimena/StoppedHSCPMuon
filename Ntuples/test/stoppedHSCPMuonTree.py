@@ -126,7 +126,7 @@ readFiles.extend( [
     #cosmic data
     #'/store/data/Run2012B/NoBPTX/RECO/PromptReco-v1/000/195/155/2E8E0BB2-C0AA-E111-8562-5404A638869B.root',
     #'/store/data/Run2012B/NoBPTX/RECO/PromptReco-v1/000/195/155/6C7AAC49-BDAA-E111-96C0-003048F117EA.root'
-    'root://eoscms//eos/cms/store/user/jalimena/NoBPTX_Run2012D_cosmics_allphi_RECO/208593/46518E45-9840-E211-9BB3-E0CB4E4408E3.root'
+    #'root://eoscms//eos/cms/store/user/jalimena/NoBPTX_Run2012D_cosmics_allphi_RECO/208593/46518E45-9840-E211-9BB3-E0CB4E4408E3.root'
     #'root://eoscms//eos/cms/store/user/jalimena/NoBPTX_Run2012D_cosmics_allphi_RECO/208651/4AAD6151-9540-E211-8551-0025B32035A2.root' #10.4GB
     #'root://eoscms//eos/cms/store/user/jalimena/NoBPTX_Run2012D_cosmics_allphi_RECO/208660/722C6988-9640-E211-966A-0025901D5D9A.root' #9.0GB
 
@@ -134,6 +134,22 @@ readFiles.extend( [
     #'rfio:/castor/cern.ch/cms/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/0AD096D0-A4C7-E111-A193-001D09F2447F.root',
     #'/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/A4D557CA-A4C7-E111-A8B8-0025B32034EA.root',
     #'rfio:/castor/cern.ch/cms/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/A8DABA86-9FC7-E111-ABF9-BCAEC53296F7.root'
+
+
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208666_1.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208593_8.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208660_4.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208660_5.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208660_3.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208660_7.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208660_2.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208651_7.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208651_4.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208655_4.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208655_2.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208664_1.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208651_11.root',
+'file:/home/alimena/reco_NoBPTX_cosmics_allphi/reco_NoBPTX_Run2012D_cosmics_allphi_208655_3.root'
 
     
     ] );
