@@ -295,6 +295,8 @@ public:
     muCosmicType_hist = new TH1D("muCosmicType_hist","Cosmic Muon Type",4000,0,4000);
     muCosmicEta_muCosmicPhi_hist = new TH2D("muCosmicEta_muCosmicPhi_hist","Cosmic Muon #eta vs #phi",120,-6,6,64,-3.2,3.2);
     
+    muCosmicTrackNChambersDt_hist = new TH1D("muCosmicTrackNChambersDt_hist","DT Chambers in Cosmic Muon Track",10,0,10);
+
     muCosmicTrackInnerPt_hist = new TH1D("muCosmicTrackInnerPt_hist","Cosmic Track Muon Inner p_{T}",100,0,1000);
 
     muDisplacedStandAlone_N_other_cut_hist = new TH1D("muDisplacedStandAlone_N_other_cut_hist","Number of StandAlone Muons with #phi>0 and >1 stations",100,0,100);
@@ -725,6 +727,8 @@ private:
   TH2D* muCosmicEta_muCosmicPhi_hist;
 
   TH1D* muCosmicTrackInnerPt_hist;
+
+  TH1D* muCosmicTrackNChambersDt_hist;
 
   TH1D* muDisplacedStandAlone_N_other_cut_hist;
 
@@ -1574,7 +1578,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
   string file_dataset_=file_dataset.substr(0,4);
   //cout<<"file_dataset_ is: "<<file_dataset_<<endl;
 
-  //cout<<"starting HighestPtSA_counts"<<endl;
+  cout<<"starting HighestPtSA_counts"<<endl;
   double segment_dPhi, segment_dEta;
   UInt_t a=0;
   double segment_dR = dR_OppositeSeg(events, a, segment_dPhi, segment_dEta);
@@ -1623,14 +1627,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 		  
 		  //OppEta cut
 		  if( (doOppEtaCut && !doCosEnrich && TMath::Abs(segment_dEta)>OppEtaCutValue_) ||
-		      (doOppEtaCut && doCosEnrich && TMath::Abs(segment_dEta)<OppEtaCutValue_) ||
-		      (!doOppEtaCut) ){
+		    (doOppEtaCut && doCosEnrich && TMath::Abs(segment_dEta)<OppEtaCutValue_) ||
+		    (!doOppEtaCut) ){
 		    pass_OppEta_cut++;
 		    
 		    //OppPhi cut
 		    if( (doOppPhiCut && !doCosEnrich && TMath::Abs(segment_dPhi)>OppPhiCutValue_) ||
-			(doOppPhiCut && doCosEnrich && TMath::Abs(segment_dPhi)<OppPhiCutValue_) ||
-			(!doOppPhiCut)){
+		    	(doOppPhiCut && doCosEnrich && TMath::Abs(segment_dPhi)<OppPhiCutValue_) ||
+		    	(!doOppPhiCut)){
 		      pass_OppPhi_cut++;
 		      
 		      UInt_t muon_number = 0;
@@ -1684,7 +1688,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  }
 			  //cout<<"trigger hists done"<<endl;
 
-			  double muDisplacedStandAlone_pt_resolution = -99.;
+			  //double muDisplacedStandAlone_pt_resolution = -99.;
 			  //double muRefittedStandAlone_pt_resolution = -99.;
 			  //double muCosmic_pt_resolution = -99.;
 
@@ -1695,7 +1699,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 
 			  if( file_dataset_ != "NoBP" && file_dataset_ != "Sing" && file_dataset_ != "Zmum"){
 			    if(events->mcMuonPt[0]>0.){
-			      muDisplacedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muDisplacedStandAlonePt[0])/(events->mcMuonPt[0]); 
+			      //muDisplacedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muDisplacedStandAlonePt[0])/(events->mcMuonPt[0]); 
 			      //muRefittedStandAlone_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muRefittedStandAlonePt[0])/(events->mcMuonPt[0]);
 			      //muCosmic_pt_resolution = 1.0*(events->mcMuonPt[0] - events->muCosmicTrackPt[0])/(events->mcMuonPt[0]);
 			      
@@ -1710,26 +1714,26 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
 			  //cout<<"cosmic pt resolution is: "<<muCosmic_pt_resolution<<endl;
 
-			  muDisplacedStandAlonePtResolution_hist->Fill(muDisplacedStandAlone_pt_resolution,1.0);
+			  //muDisplacedStandAlonePtResolution_hist->Fill(muDisplacedStandAlone_pt_resolution,1.0);
 			  //muRefittedStandAlonePtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,1.0);
 			  //muCosmicPtResolution_hist->Fill(muCosmic_pt_resolution,1.0);
 
 			  //cout<<"resolution hists1 done"<<endl;
 			  //muRefittedStandAlonePtResolution_muCosmicPtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,muCosmic_pt_resolution,1.0);
 
-			  muDisplacedStandAloneNChambersDt_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
+			  //muDisplacedStandAloneNChambersDt_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
 			  //muRefittedStandAloneNChambersDt_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
 			  //muCosmicNChambersDt_PtResolution_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
-			  muDisplacedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
+			  //muDisplacedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], muDisplacedStandAlone_pt_resolution,1.0);
 			  //muRefittedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], muRefittedStandAlone_pt_resolution,1.0);
 			  //muCosmicNChambersRpc_PtResolution_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], muCosmic_pt_resolution,1.0);
 
 			  //cout<<"resolution hists2 done"<<endl;
 
-			  muDisplacedStandAloneNChambersDt_Pt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
+			  //muDisplacedStandAloneNChambersDt_Pt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
 			  //muRefittedStandAloneNChambersDt_Pt_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
 			  //muCosmicNChambersDt_Pt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
-			  muDisplacedStandAloneNChambersRpc_Pt_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
+			  //muDisplacedStandAloneNChambersRpc_Pt_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[0], events->muDisplacedStandAlonePt[0],1.0);
 			  //muRefittedStandAloneNChambersRpc_Pt_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[0], events->muRefittedStandAlonePt[0],1.0);
 			  //muCosmicNChambersRpc_Pt_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[0], events->muCosmicTrackPt[0],1.0);
 
@@ -1787,8 +1791,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 				mcMuonPhi_hlt20Cha2MuonPhi_hist->Fill(events->mcMuonPhi[0],events->hlt20Cha2MuonPhi[0],1.0);
 			      }
 			      
-			      mcMuonEta_muDisplacedStandAloneEta_hist->Fill(events->mcMuonEta[0],events->muDisplacedStandAloneEta[0],1.0);
-			      mcMuonPhi_muDisplacedStandAlonePhi_hist->Fill(events->mcMuonPhi[0],events->muDisplacedStandAlonePhi[0],1.0);
+			      //mcMuonEta_muDisplacedStandAloneEta_hist->Fill(events->mcMuonEta[0],events->muDisplacedStandAloneEta[0],1.0);
+			      //mcMuonPhi_muDisplacedStandAlonePhi_hist->Fill(events->mcMuonPhi[0],events->muDisplacedStandAlonePhi[0],1.0);
 			      //muPt_hist->Fill(events->muPt[0],1.0);			
 			      
 			      //cout<<"mcMuon hists done"<<endl;
@@ -1805,8 +1809,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //cout<<"blah"<<endl;
 
 			  //bool refitted = false;
-			    muDisplacedStandAloneTrackDistanceStations_hist->Fill(distanceBetweenStations(events, a, refitted) ,1.0);
-			    muDisplacedStandAloneTrackDistanceStations_Pt_hist->Fill(distanceBetweenStations(events, a, refitted), events->muDisplacedStandAlonePt[0],1.0);
+			  //muDisplacedStandAloneTrackDistanceStations_hist->Fill(distanceBetweenStations(events, a, refitted) ,1.0);
+			  //muDisplacedStandAloneTrackDistanceStations_Pt_hist->Fill(distanceBetweenStations(events, a, refitted), events->muDisplacedStandAlonePt[0],1.0);
 
 			    /*
 			    refitted = true;
@@ -1816,7 +1820,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    
 			    muCosmicTrackInnerPt_hist->Fill(TMath::Sqrt((events->muCosmicTrackInnerPx[0])*(events->muCosmicTrackInnerPx[0])+(events->muCosmicTrackInnerPy[0])*(events->muCosmicTrackInnerPy[0])),1.0);
 			    */
-			  
+
 			  muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
 			  muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[0],1.0);
 			  muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[0],1.0);
@@ -1881,7 +1885,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  muDisplacedStandAloneTrackShowerNUncorrelatedHits_station3_hist->Fill(events->muDisplacedStandAloneTrackShowerNUncorrelatedHits_station3[0],1.0);
 
 			  muDisplacedStandAlonePhi_muDisplacedStandAloneDTTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAlonePhi[0],events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[0],1.0);
-			  
+
 			  //cout<<"______________________"<<endl;
 			  //cout<<endl<<"For event "<<i<<", event # is: "<<events->id<<", run # is: "<<events->run<<", mu_StandAlone_N is: "<<events->mu_StandAlone_N<<", mu_RefittedStandAlone_N is: "<<events->mu_RefittedStandAlone_N<<", muStandAloneTof_N is: "<<events->muStandAloneTof_N<<", refitMuStandAloneTof_N is: "<<events->refitMuStandAloneTof_N<<endl;	
 			  //cout<<"For event "<<i<<", event # is: "<<events->id<<", run # is: "<<events->run<<", bx is: "<<events->bx<<", mu_N is: "<<events->mu_N<<", mu_Cosmic_N is: "<<events->mu_Cosmic_N<<", mu_StandAlone_N is: "<<events->mu_StandAlone_N<<", mu_RefittedStandAlone_N is: "<<events->mu_RefittedStandAlone_N<<endl;
@@ -1895,9 +1899,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			  //cout<<"  , TOF direction is: "<<events->muStandAloneTofDirection[j]<<", TOF ndof is: "<<events->muStandAloneTofNDof[j]<<", TimeAtIpInOut is: "<<events->muStandAloneTofTimeAtIpInOut[j]<<endl;
 			  //}
 			  //cout<<"blah2"<<endl;
-			  
+
+
 			  mu_N_hist->Fill(events->mu_N,1.0);
-			  //for (UInt_t j=0; j<events->mu_N; j++) {
+			  for (UInt_t j=0; j<events->mu_N; j++) {
 			    //cout<<"mu number "<<j<<endl;
 			    muPt_hist->Fill(events->muPt[0],1.0);
 			    muEta_hist->Fill(events->muEta[0],1.0);
@@ -1905,7 +1910,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    muType_hist->Fill(events->muType[0],1.0);
 			    muIso_hist->Fill(events->muIso[0],1.0);
 			    muEta_muPhi_hist->Fill(events->muEta[0],events->muPhi[0],1.0);
-			    //}	      
+			    }	      
 			    /*
 			  muCosmic_N_hist->Fill(events->mu_Cosmic_N,1.0);
 			  //for (UInt_t j=0; j<events->mu_Cosmic_N; j++) {
@@ -1918,7 +1923,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( StoppedHS
 			    //}
 			    */
 
-			  muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
+			  //muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
 			  //muRefittedStandAlone_N_hist->Fill(events->mu_RefittedStandAlone_N,1.0);
 			  //muStandAloneTof_N_hist->Fill(events->muStandAloneTof_N,1.0);
 			  //refitMuStandAloneTof_N_hist->Fill(events->refitMuStandAloneTof_N,1.0);						
@@ -2201,6 +2206,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 			  Upper_Lower_StandAloneTofTimeAtIpInOut_hist->Fill(events->muStandAloneTofTimeAtIpInOut[upper_index],events->muStandAloneTofTimeAtIpInOut[lower_index],1.0);
 			  Upper_Lower_StandAloneTofTimeAtIpOutIn_hist->Fill(events->muStandAloneTofTimeAtIpOutIn[upper_index],events->muStandAloneTofTimeAtIpOutIn[lower_index],1.0);
 			  */
+			  /*
 			Upper_StandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[upper_index],1.0);
 			Upper_StandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[upper_index],1.0);
 			Upper_StandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[upper_index],1.0);
@@ -2246,6 +2252,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 			Lower_StandAloneTrackDtTofChi2Dof_hist->Fill(events->muDisplacedStandAloneTrackDtTofChi2Dof[lower_index],1.0);
 			Lower_StandAloneTrackNHitsRpc_Lower_StandAloneTrackNormalizedChi2_hist->Fill(events->muDisplacedStandAloneTrackNValidRpcHits[lower_index],events->muDisplacedStandAloneTrackNormalizedChi2[lower_index],1.0);
 			Lower_StandAloneTrackNHitsRpc_Lower_StandAloneTrackNHitsDt_hist->Fill(events->muDisplacedStandAloneTrackNValidRpcHits[lower_index],events->muDisplacedStandAloneTrackNValidDtHits[lower_index],1.0);
+			  */
 			
 			}//end of timeInOut cut for 2 muons
 		      }//end of dt inv beta cut for 2 muons
@@ -3294,6 +3301,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	  //SA muon cut
 	  //if ((doSACut && events->mu_DisplacedStandAlone_N>0 && events->mu_RefittedStandAlone_N>0) || (!doSACut)){
 	  if ((doSACut && events->mu_DisplacedStandAlone_N>0 ) || (!doSACut)){
+	  //if ((doSACut && events->mu_Cosmic_N>0 ) || (!doSACut)){
 	    pass_standaloneMuon_cut++;
 	    cout<<"finished standalonemuon"<<endl;
 
@@ -3324,6 +3332,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		bxWrtCollision_hist->Fill(events->bxWrtCollision,1.0);
 		bxWrtBunch_hist->Fill(events->bxWrtBunch,1.0);
 
+		if(events->mu_Cosmic_N>0){
+		  muCosmicPt_hist->Fill(events->muCosmicPt[0],1.0);
+		  muCosmicEta_hist->Fill(events->muCosmicEta[0],1.0);
+		  muCosmicPhi_hist->Fill(events->muCosmicPhi[0],1.0);
+		}
+		if(events->mu_CosmicTrack_N>0){
+		  muCosmicTrackNChambersDt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0],1.0);
+		}
 	    
 		//for (UInt_t j=0; j<events->mu_DisplacedStandAlone_N; j++) {
 		//cout<<endl<<"number of Csc segments is: "<<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).size()<<endl;
@@ -3613,6 +3629,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muCosmicType_hist->Write();
     muCosmicEta_muCosmicPhi_hist->Write(); 
     muCosmicTrackInnerPt_hist->Write();   
+    muCosmicTrackNChambersDt_hist->Write();
     muDisplacedStandAlone_N_other_cut_hist->Write();    
     muDisplacedStandAlone_N_hist->Write();
     muDisplacedStandAlonePt_hist->Write();
@@ -3809,6 +3826,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     refitMuStandAloneCSCTofTimeAtIpOutIn_hist->Write();
     refitMuStandAloneCSCTofTimeAtIpOutInErr_hist->Write();
     DTSegment_N_hist->Write();
+
 
   }
   

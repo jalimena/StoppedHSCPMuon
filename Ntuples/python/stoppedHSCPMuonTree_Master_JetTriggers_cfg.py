@@ -98,7 +98,7 @@ process.ntuple = cms.Path(
     process.hltHighLevel
 
 # replicate HLT filter (for early 2011 data)
-    +process.hltStoppedHSCPMuonHpdFilter
+    #+process.hltStoppedHSCPMuonHpdFilter
 
 # filter HCAL noise
     #+process.HBHENoiseFilterResultProducer
@@ -147,7 +147,7 @@ process.source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNa
 
 
 # Global Tag and input files
-process.GlobalTag.globaltag = "GR10_P_V10::All"
+#process.GlobalTag.globaltag = "GR10_P_V10::All"
 
 readFiles.extend( [
 

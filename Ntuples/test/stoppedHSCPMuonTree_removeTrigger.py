@@ -15,7 +15,8 @@ process.MessageLogger.cerr.INFO.limit = cms.untracked.int32(-1)
 # change Global Tag
 #process.GlobalTag.globaltag = 'GR_P_V32::All'
 #process.GlobalTag.globaltag = 'GR_P_V41_AN2::All' #for Run2012C-v2 prompt reco, Run2012D prompt reco (53X)
-process.GlobalTag.globaltag = 'FT_53_V21_AN3::All' #for Run2012A,B,C,D Jan22_2013 rereco (53X)
+#process.GlobalTag.globaltag = 'FT_53_V21_AN3::All' #for Run2012A,B,C,D Jan22_2013 rereco (53X)
+process.GlobalTag.globaltag = 'PRE_R_72_V11A::All' #for Run2012A,B,C,D Jan22_2013 rereco in 72X 
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
@@ -24,6 +25,7 @@ readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 process.source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNames = secFiles)
 readFiles.extend( [
+        'file:/home/alimena/Analysis/CMSSW_7_2_3_patch1/src/StoppedHSCPMuon/Ntuples/skim/ZMu.root'
     #'/store/data/Run2012A/SingleMu/RECO/PromptReco-v1/000/190/456/5E1A8343-F380-E111-8FFD-003048D2BA82.root',
     #'/store/data/Run2012A/SingleMu/RECO/PromptReco-v1/000/190/456/A24CD3A0-0681-E111-AFE8-001D09F2AD4D.root',
     #'/store/data/Run2012A/SingleMu/RECO/PromptReco-v1/000/190/456/BA028006-F480-E111-BAA5-BCAEC5329727.root',
@@ -127,7 +129,7 @@ readFiles.extend( [
     #'rfio:/castor/cern.ch/cms/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/0AD096D0-A4C7-E111-A193-001D09F2447F.root',
     #'/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/A4D557CA-A4C7-E111-A8B8-0025B32034EA.root',
     #'rfio:/castor/cern.ch/cms/store/data/Run2012C/NoBPTX/RECO/PromptReco-v1/000/198/230/A8DABA86-9FC7-E111-ABF9-BCAEC53296F7.root'
-    'root://eoscms//eos/cms/store/data/Run2012C/NoBPTX/RAW-RECO/LogError-PromptSkim-v2/000/198/230/00000/A6B42FB7-35C8-E111-8CA0-D8D385FF4A7C.root'
+    #'root://eoscms//eos/cms/store/data/Run2012C/NoBPTX/RAW-RECO/LogError-PromptSkim-v2/000/198/230/00000/A6B42FB7-35C8-E111-8CA0-D8D385FF4A7C.root'
     
     ] );
 process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange(

@@ -15,10 +15,10 @@ source cut_values.csh
     #rm tmp2
 
 foreach x (mchamp100_723patch1 mchamp200_723patch1 mchamp300_723patch1 mchamp400_723patch1 mchamp500_723patch1 mchamp600_723patch1 mchamp700_723patch1 mchamp800_723patch1 mchamp900_723patch1 mchamp1000_723patch1)
-    #findTreevalues $x $cuts $cut_values > & "out_"$x"_"$cuts_ &
     findTreevalues $x $cuts $cut_values > & $x"_"$cuts_ &
 end
    
+#findTreevalues cosmicRecoTestmchamp500 $cuts $cut_values > & "cosTestmchamp500_"$cuts_ &
 
     #./findTreevalues_makehistos_Ntuples_allsamples mchamp500_l1muons $cuts $cut_values > & "out_mchamp500l1_"$cuts_ &
     #./findTreevalues_makehistos_Ntuples_allsamples mchamp100_changeCosmicPt $cuts $cut_values > & "out_mchamp100co_"$cuts_ &
