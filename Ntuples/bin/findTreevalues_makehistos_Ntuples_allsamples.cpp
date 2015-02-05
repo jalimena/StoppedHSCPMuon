@@ -40,6 +40,7 @@ public:
     doGenMuCut = false;
     doSACut = false;
     doGenMuMatchedCut = false;
+    doTriggerTurnOn = false;
     doTriggerCut = false;
     doPtCut = false;
     doChaCut = false;
@@ -560,17 +561,17 @@ public:
   
   ~findTreevalues_makehistos_Ntuples_allsamples() {};
   
-  virtual void loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& OppEtaCut, string& OppPhiCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& Pt0CutValue, TString& Pt1CutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue);
+  virtual void loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& OppEtaCut, string& OppPhiCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& Pt0CutValue, TString& Pt1CutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue);
 
 private:
   void stops( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluinos( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
-  void mchamps( StoppedHSCPMuonEvent*, bool&, bool (&)[15], bool (&)[15], bool (&)[15], int&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, Double_t&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&);
+  void mchamps( StoppedHSCPMuonEvent*, bool&, bool (&)[15], bool (&)[15], bool (&)[15], int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, Double_t&);
   void staus( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&);
   void cosmicMC( StoppedHSCPMuonEvent*, bool&);
   void stop_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluino_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
-  void mchamp_counts( StoppedHSCPMuonEvent*, int&, double&, double&);
+  void mchamp_counts( StoppedHSCPMuonEvent*, int&, UInt_t&, UInt_t&);
   void stau_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&);
   void cosmicMC_counts( StoppedHSCPMuonEvent*, bool&);
 
@@ -599,7 +600,7 @@ private:
   void printout_L2(StoppedHSCPMuonEvent*);
   void printout_L1(StoppedHSCPMuonEvent*);
 
-  bool doBxCut, doCavCut, doGenMuCut, doSACut, doGenMuMatchedCut, doTriggerCut, doPtCut, doChaCut, doEtaCut, doUpperCut, doRpcCut, doDisStCut, doRpcBxCut, doDtHitsCut, doCscHitsCut, doDtInvBetaCut, doTimeInOutCut, doOppEtaCut, doOppPhiCut, doTightPhi, doCosEnrich, doPrintout;
+  bool doBxCut, doCavCut, doGenMuCut, doSACut, doGenMuMatchedCut, doTriggerCut, doTriggerTurnOn, doPtCut, doChaCut, doEtaCut, doUpperCut, doRpcCut, doDisStCut, doRpcBxCut, doDtHitsCut, doCscHitsCut, doDtInvBetaCut, doTimeInOutCut, doOppEtaCut, doOppPhiCut, doTightPhi, doCosEnrich, doPrintout;
   Int_t PreRpcCutValue_, PreChaCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_;
   float PrePtCutValue_, PreEtaCutValue_;
   Int_t RpcCutValue_, DisStCutValue_, BxCutValue_, ChaCutValue_, DtHitsCutValue_, CscHitsCutValue_;
@@ -1067,20 +1068,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::gluinos( StoppedHSCPMuonEvent
 void findTreevalues_makehistos_Ntuples_allsamples::mchamps( StoppedHSCPMuonEvent* events,
 							    bool& muonFromMchamp, bool (&status1muon_)[15], bool (&status1muonFromMchamp_)[15], 
 							    bool (&status1muonFromMuon_)[15], int& good_genMuons, 
-							    double& genMu0_px, double& genMu0_py, double& genMu0_pz, double& genMu0_pt, double& genMu0_p,
-							    double& genMu0_eta, double& genMu0_phi, double& genMu0_charge,
-							    double& genMu0_vx, double& genMu0_vy, double& genMu0_vz,
-							    double& genMu1_px, double& genMu1_py, double& genMu1_pz, double& genMu1_pt, double& genMu1_p, 
-							    double& genMu1_eta, double& genMu1_phi, double& genMu1_charge,
-							    double& genMu1_vx, double& genMu1_vy, double& genMu1_vz,
-							    Double_t& angle,
-							    double& genMuUpper_px, double& genMuUpper_py, double& genMuUpper_pz, double& genMuUpper_pt, double& genMuUpper_p,
-							    double& genMuUpper_eta, double& genMuUpper_phi, double& genMuUpper_charge, 
-							    double& genMuUpper_vx, double& genMuUpper_vy, double& genMuUpper_vz,
-							    double& genMuLower_px, double& genMuLower_py, double& genMuLower_pz, double& genMuLower_pt, double& genMuLower_p, 
-							    double& genMuLower_eta, double& genMuLower_phi, double& genMuLower_charge,
-							    double& genMuLower_vx, double& genMuLower_vy, double& genMuLower_vz
-							    ){
+							    UInt_t& genMu0_index, UInt_t& genMu1_index, UInt_t& genMuUpper_index, UInt_t& genMuLower_index,
+							    Double_t& angle ){
 
   //each event must contain at least one top 
   //don't check that top came directly from stop, but check that there is at least one top and one stop in the event 
@@ -1133,92 +1122,28 @@ void findTreevalues_makehistos_Ntuples_allsamples::mchamps( StoppedHSCPMuonEvent
   for (UInt_t j=0; j<events->mcMuon_N; j++) {
     if(status1muonFromMchamp_[j] || status1muonFromMuon_[j]){
       good_genMuons++;
-      if(good_genMuons==1){
-	genMu0_px=events->mcMuonPx[j];
-	genMu0_py=events->mcMuonPy[j];
-	genMu0_pz=events->mcMuonPz[j];
-	genMu0_pt=events->mcMuonPt[j];
-	genMu0_p=events->mcMuonP[j];
-	genMu0_eta=events->mcMuonEta[j];
-	genMu0_phi=events->mcMuonPhi[j];
-	genMu0_charge=events->mcMuonCharge[j];
-	genMu0_vx=events->mcMuonVx[j];
-	genMu0_vy=events->mcMuonVy[j];
-	genMu0_vz=events->mcMuonVz[j];
-      }
-      if(good_genMuons==2){
-	genMu1_px=events->mcMuonPx[j];
-	genMu1_py=events->mcMuonPy[j];
-	genMu1_pz=events->mcMuonPz[j];
-	genMu1_pt=events->mcMuonPt[j];
-	genMu1_p=events->mcMuonP[j];
-	genMu1_eta=events->mcMuonEta[j];
-	genMu1_phi=events->mcMuonPhi[j];
-	genMu1_charge=events->mcMuonCharge[j];
-	genMu1_vx=events->mcMuonVx[j];
-	genMu1_vy=events->mcMuonVy[j];
-	genMu1_vz=events->mcMuonVz[j];
-
-      }
+      if(good_genMuons==1) genMu0_index = j;
+      if(good_genMuons==2) genMu1_index = j;
     }
   }
 
   if(good_genMuons!=2) cout<<"for event "<<events->id<<", have "<<good_genMuons<<" good generator muons"<<endl;
 
   // 3D angle between generator muons
-  if(good_genMuons==2 && genMu0_p!=0. && genMu1_p!=0.){
-    angle = TMath::ACos((genMu0_px*genMu1_px + genMu0_py*genMu1_py + genMu0_pz*genMu1_pz)/(genMu0_p*genMu1_p));
+  if(good_genMuons==2 && events->mcMuonP[genMu0_index]!=0. && events->mcMuonP[genMu1_index]!=0.){
+    angle = TMath::ACos(( (events->mcMuonPx[genMu0_index])*(events->mcMuonPx[genMu1_index]) + (events->mcMuonPy[genMu0_index])*(events->mcMuonPy[genMu1_index]) + (events->mcMuonPz[genMu0_index])*(events->mcMuonPz[genMu1_index]))/((events->mcMuonP[genMu0_index])*(events->mcMuonP[genMu1_index])));
   }
 
   //one in upper, one in lower?
-  if(genMu0_phi>genMu1_phi){
-    genMuUpper_px=genMu0_px;
-    genMuUpper_py=genMu0_py;
-    genMuUpper_pz=genMu0_pz;
-    genMuUpper_pt=genMu0_pt;
-    genMuUpper_p=genMu0_p;
-    genMuUpper_eta=genMu0_eta;
-    genMuUpper_phi=genMu0_phi;
-    genMuUpper_charge=genMu0_charge;
-    genMuUpper_vx=genMu0_vx;
-    genMuUpper_vy=genMu0_vy;
-    genMuUpper_vz=genMu0_vz;
-    genMuLower_px=genMu1_px;
-    genMuLower_py=genMu1_py;
-    genMuLower_pz=genMu1_pz;
-    genMuLower_pt=genMu1_pt;
-    genMuLower_p=genMu1_p;
-    genMuLower_eta=genMu1_eta;
-    genMuLower_phi=genMu1_phi;
-    genMuLower_charge=genMu1_charge;
-    genMuLower_vx=genMu1_vx;
-    genMuLower_vy=genMu1_vy;
-    genMuLower_vz=genMu1_vz;
+  if(events->mcMuonPhi[genMu0_index] > events->mcMuonPhi[genMu1_index]){
+    genMuUpper_index = genMu0_index;
+    genMuLower_index = genMu1_index;
   }
-  if(genMu1_phi>genMu0_phi){
-    genMuUpper_px=genMu1_px;
-    genMuUpper_py=genMu1_py;
-    genMuUpper_pz=genMu1_pz;
-    genMuUpper_pt=genMu1_pt;
-    genMuUpper_p=genMu1_p;
-    genMuUpper_eta=genMu1_eta;
-    genMuUpper_phi=genMu1_phi;
-    genMuUpper_charge=genMu1_charge;
-    genMuUpper_vx=genMu1_vx;
-    genMuUpper_vy=genMu1_vy;
-    genMuUpper_vz=genMu1_vz;
-    genMuLower_px=genMu0_px;
-    genMuLower_py=genMu0_py;
-    genMuLower_pz=genMu0_pz;
-    genMuLower_pt=genMu0_pt;
-    genMuLower_p=genMu0_p;
-    genMuLower_eta=genMu0_eta;
-    genMuLower_phi=genMu0_phi;
-    genMuLower_charge=genMu0_charge;
-    genMuLower_vx=genMu0_vx;
-    genMuLower_vy=genMu0_vy;
-    genMuLower_vz=genMu0_vz;
+  if(events->mcMuonPhi[genMu1_index] > events->mcMuonPhi[genMu0_index]){
+    genMuUpper_index = genMu1_index;
+    genMuLower_index = genMu0_index;
   }
+
 }//end of mchamps
 
 void findTreevalues_makehistos_Ntuples_allsamples::staus( StoppedHSCPMuonEvent* events, bool& tauFromStau, bool& status1muon, bool& status1muonFromTau, bool& status1muonFromMuon, bool& status1muonFromNeutralino){
@@ -1318,7 +1243,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::stop_counts( StoppedHSCPMuonE
   }
 }//end of gluino_counts
 
-void findTreevalues_makehistos_Ntuples_allsamples::mchamp_counts( StoppedHSCPMuonEvent* events, int& good_genMuons, double& genMu0_charge, double& genMu1_charge ){
+void findTreevalues_makehistos_Ntuples_allsamples::mchamp_counts( StoppedHSCPMuonEvent* events, int& good_genMuons, UInt_t& genMu0_index,  UInt_t& genMu1_index){
   if( (doGenMuCut && events->mcTauPrime_N>0) || (!doGenMuCut)){
     pass_Nmchamps_cut++;
     if( (doGenMuCut && events->mcMuon_N>0) || (!doGenMuCut)){
@@ -1327,7 +1252,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::mchamp_counts( StoppedHSCPMuo
       //if( (doGenMuCut && status1muon) || (!doGenMuCut)){                                                                                           
       pass_status1muon_cut++;
       if( (doGenMuCut && good_genMuons>1) || (!doGenMuCut)){
-	if( (doGenMuCut && genMu0_charge==genMu1_charge) || (!doGenMuCut)){
+	if( (doGenMuCut && events->mcMuonCharge[genMu0_index]==events->mcMuonCharge[genMu1_index]) || (!doGenMuCut)){
 	  pass_generatorMuon_cut++;
 	}
       }
@@ -2383,16 +2308,21 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts( Stopp
 
 void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuonEvent* events, string& file_dataset, UInt_t& presel0_index, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_){
 
+  cout<<"starting TriggerTurnOn"<<endl;
   muDisplacedStandAlonePt_denominator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
-  
+  cout<<"filled denominator hist"<<endl;
+
   //pass HLT                                                                                                                                                                                                     
-  if ( (doTriggerCut && file_dataset != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) ){ 
+  //if ( (doTriggerCut && file_dataset != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) ){ 
+  if ( (doTriggerCut && file_dataset != "Zmum" && ( events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) ){ 
+    cout<<"passed HLT"<<endl;
     muDisplacedStandAlonePt_HLTnumerator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
   }//end of pass hlt
   
   //pass L1
   //[2] is main BX
   if ( (doTriggerCut && events->l1SingleMu6NoBptx[2] ) || (!doTriggerCut) ){
+    cout<<"passed L1"<<endl;
     muDisplacedStandAlonePt_L1numerator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
   }//end of pass L1
   
@@ -2997,13 +2927,13 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L1( StoppedHSCPMuonE
 }//end of printout_L1()
 
 int main(int argc, char* argv[]){
-  if(argc!=45){
+  if(argc!=46){
     cout<<"ERROR, need more arguments!"<<endl;
     cout<<"seeing "<<argc<<" arguments"<<endl;
     return 1;
   }
 
-  string file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, OppEtaCut, OppPhiCut, TightPhi, CosEnrich, resT3, Printout;
+  string file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, OppEtaCut, OppPhiCut, TightPhi, CosEnrich, resT3, Printout;
   TString PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreRpcBxCutValue, PreDtHitsCutValue, PreCscHitsCutValue;
   TString BxCutValue, PtCutValue, Pt0CutValue, Pt1CutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, RpcBxCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue;
 
@@ -3014,6 +2944,7 @@ int main(int argc, char* argv[]){
   SACut = "wSACut";
   GenMuMatchedCut = "wGenMuMatchedCut";
   TriggerCut = "wTriggerCut";
+  TriggerTurnOn_ = "wTriggerTurnOn";
   PtCut = "wPtCut";
   ChaCut = "wChaCut";
   EtaCut = "wEtaCut";
@@ -3054,7 +2985,7 @@ int main(int argc, char* argv[]){
   OppEtaCutValue = "0.1";
   OppPhiCutValue = "0.1";
   
-  if(argc==45){
+  if(argc==46){
     file_dataset = argv[1];
     BxCut = argv[2];
     CavCut = argv[3];
@@ -3062,58 +2993,59 @@ int main(int argc, char* argv[]){
     SACut = argv[5];
     GenMuMatchedCut = argv[6];
     TriggerCut = argv[7];
-    PtCut = argv[8];
-    ChaCut = argv[9];
-    EtaCut = argv[10];
-    UpperCut = argv[11];
-    RpcCut = argv[12];
-    DisStCut = argv[13];
-    RpcBxCut = argv[14];
-    DtHitsCut = argv[15];
-    CscHitsCut = argv[16];
-    DtInvBetaCut = argv[17];
-    TimeInOutCut = argv[18];
-    OppEtaCut = argv[19];
-    OppPhiCut = argv[20];
-    TightPhi = argv[21];
-    CosEnrich = argv[22];
-    resT3 = argv[23];
-    Printout = argv[24];
+    TriggerTurnOn_ = argv[8];
+    PtCut = argv[9];
+    ChaCut = argv[10];
+    EtaCut = argv[11];
+    UpperCut = argv[12];
+    RpcCut = argv[13];
+    DisStCut = argv[14];
+    RpcBxCut = argv[15];
+    DtHitsCut = argv[16];
+    CscHitsCut = argv[17];
+    DtInvBetaCut = argv[18];
+    TimeInOutCut = argv[19];
+    OppEtaCut = argv[20];
+    OppPhiCut = argv[21];
+    TightPhi = argv[22];
+    CosEnrich = argv[23];
+    resT3 = argv[24];
+    Printout = argv[25];
 
-    BxCutValue = argv[25];
+    BxCutValue = argv[26];
 
-    PrePtCutValue = argv[26]; 
-    PreChaCutValue = argv[27]; 
-    PreEtaCutValue = argv[28]; 
-    PreRpcCutValue = argv[29]; 
-    PreDtHitsCutValue = argv[30]; 
-    PreCscHitsCutValue = argv[31]; 
+    PrePtCutValue = argv[27]; 
+    PreChaCutValue = argv[28]; 
+    PreEtaCutValue = argv[29]; 
+    PreRpcCutValue = argv[30]; 
+    PreDtHitsCutValue = argv[31]; 
+    PreCscHitsCutValue = argv[32]; 
 
-    PtCutValue = argv[32];
-    Pt0CutValue = argv[33];
-    Pt1CutValue = argv[34];
-    ChaCutValue = argv[35];
-    EtaCutValue = argv[36];
-    RpcCutValue = argv[37];
-    DisStCutValue = argv[38];
-    DtHitsCutValue = argv[39];
-    CscHitsCutValue = argv[40];
-    DtInvBetaCutValue = argv[41];
-    TimeInOutCutValue = argv[42];
-    OppEtaCutValue = argv[43];
-    OppPhiCutValue = argv[44];
+    PtCutValue = argv[33];
+    Pt0CutValue = argv[34];
+    Pt1CutValue = argv[35];
+    ChaCutValue = argv[36];
+    EtaCutValue = argv[37];
+    RpcCutValue = argv[38];
+    DisStCutValue = argv[39];
+    DtHitsCutValue = argv[40];
+    CscHitsCutValue = argv[41];
+    DtInvBetaCutValue = argv[42];
+    TimeInOutCutValue = argv[43];
+    OppEtaCutValue = argv[44];
+    OppPhiCutValue = argv[45];
 
-    cout<<", file_dataset is: "<<file_dataset<<", BxCut is: "<<BxCut<<", CavCut is: "<<CavCut<<", GenMuCut is: "<<GenMuCut<<", SA cut is: "<<SACut<<", GenMuMatchedCut is; "<<GenMuMatchedCut<<", TriggerCut is: "<<TriggerCut<<", PtCut is: "<<PtCut<<", ChaCut is: "<<ChaCut<<", EtaCut is: "<<EtaCut<<", UpperCut is: "<<UpperCut<<", RpcCut is: "<<RpcCut<<", DisStCut is: "<<DisStCut<<", RpcBxCut is: "<<RpcBxCut<<", DtHitsCut is: "<<DtHitsCut<<", CscHitsCut is: "<<CscHitsCut<<", DtInvBetaCut is: "<<DtInvBetaCut<<", TimeInOutCut is: "<<TimeInOutCut<<", OppEtaCut is: "<<OppEtaCut<<", OppPhiCut is: "<<OppPhiCut<<", TightPhi is: "<<TightPhi<<", CosEnrich is: "<<CosEnrich<<", resT3 is: "<<resT3<<", Printout is "<<Printout<<endl;
+    cout<<", file_dataset is: "<<file_dataset<<", BxCut is: "<<BxCut<<", CavCut is: "<<CavCut<<", GenMuCut is: "<<GenMuCut<<", SA cut is: "<<SACut<<", GenMuMatchedCut is; "<<GenMuMatchedCut<<", TriggerCut is: "<<TriggerCut<<", TriggerTurnOn_ is: "<<TriggerTurnOn_<<", PtCut is: "<<PtCut<<", ChaCut is: "<<ChaCut<<", EtaCut is: "<<EtaCut<<", UpperCut is: "<<UpperCut<<", RpcCut is: "<<RpcCut<<", DisStCut is: "<<DisStCut<<", RpcBxCut is: "<<RpcBxCut<<", DtHitsCut is: "<<DtHitsCut<<", CscHitsCut is: "<<CscHitsCut<<", DtInvBetaCut is: "<<DtInvBetaCut<<", TimeInOutCut is: "<<TimeInOutCut<<", OppEtaCut is: "<<OppEtaCut<<", OppPhiCut is: "<<OppPhiCut<<", TightPhi is: "<<TightPhi<<", CosEnrich is: "<<CosEnrich<<", resT3 is: "<<resT3<<", Printout is "<<Printout<<endl;
   }
 
   TH1D::SetDefaultSumw2();
 
   findTreevalues_makehistos_Ntuples_allsamples analyzer(argc, argv);
 
-  analyzer.loop(file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, OppEtaCut, OppPhiCut, TightPhi, CosEnrich, resT3, Printout, BxCutValue, PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreDtHitsCutValue, PreCscHitsCutValue, PtCutValue, Pt0CutValue, Pt1CutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue);
+  analyzer.loop(file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, OppEtaCut, OppPhiCut, TightPhi, CosEnrich, resT3, Printout, BxCutValue, PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreDtHitsCutValue, PreCscHitsCutValue, PtCutValue, Pt0CutValue, Pt1CutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue);
 }
 
-void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& OppEtaCut, string& OppPhiCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& Pt0CutValue, TString& Pt1CutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue){
+void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& OppEtaCut, string& OppPhiCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& Pt0CutValue, TString& Pt1CutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue){
 
   string host=getenv("HOST");
   string host_=host.substr(0,4);
@@ -3171,6 +3103,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if (TriggerCut=="wTriggerCut") doTriggerCut = true;
   if (TriggerCut=="woTriggerCut") doTriggerCut = false;
   cout<<"doTriggerCut is: "<<doTriggerCut<<endl;
+
+  if (TriggerTurnOn_=="wTriggerTurnOn") doTriggerTurnOn = true;
+  if (TriggerTurnOn_=="woTriggerTurnOn") doTriggerTurnOn = false;
+  cout<<"doTriggerTurnOn_ is: "<<doTriggerTurnOn<<endl;
 
   if (PtCut=="wPtCut") doPtCut = true;
   if (PtCut=="woPtCut") doPtCut = false;
@@ -3286,6 +3222,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if (SACut!="wSACut" && SACut!="woSACut") cout<<"problem w SACut assignment!!!"<<endl;
   if (GenMuMatchedCut!="wGenMuMatchedCut" && GenMuMatchedCut!="woGenMuMatchedCut") cout<<"problem w GenMuMatchedCut assignment!!!"<<endl;
   if (TriggerCut!="wTriggerCut" && TriggerCut!="woTriggerCut") cout<<"problem w TriggerCut assignment!!!"<<endl;
+  if (TriggerTurnOn_!="wTriggerTurnOn" && TriggerTurnOn_!="woTriggerTurnOn") cout<<"problem w TriggerTurnOn assignment!!!"<<endl;
   if (PtCut!="wPtCut" && PtCut!="woPtCut") cout<<"problem w PtCut assignment!!!"<<endl;
   if (ChaCut!="wChaCut" && ChaCut!="woChaCut") cout<<"problem w ChaCut assignment!!!"<<endl;
   if (EtaCut!="wEtaCut" && EtaCut!="woEtaCut") cout<<"problem w EtaCut assignment!!!"<<endl;
@@ -3357,11 +3294,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       status1muonFromMuon_[j]=false;
     }
     int good_genMuons = 0;
-    double genMu0_px, genMu0_py, genMu0_pz, genMu0_pt, genMu0_p, genMu0_eta, genMu0_phi, genMu0_charge, genMu0_vx, genMu0_vy, genMu0_vz;
-    double genMu1_px, genMu1_py, genMu1_pz, genMu1_pt, genMu1_p, genMu1_eta, genMu1_phi, genMu1_charge, genMu1_vx, genMu1_vy, genMu1_vz;
+    UInt_t genMu0_index, genMu1_index, genMuUpper_index, genMuLower_index;
     Double_t angle=-999.;
-    double genMuUpper_px, genMuUpper_py, genMuUpper_pz, genMuUpper_pt, genMuUpper_p, genMuUpper_eta, genMuUpper_phi, genMuUpper_charge, genMuUpper_vx, genMuUpper_vy, genMuUpper_vz;
-    double genMuLower_px, genMuLower_py, genMuLower_pz, genMuLower_pt, genMuLower_p, genMuLower_eta, genMuLower_phi, genMuLower_charge, genMuLower_vx, genMuLower_vy, genMuLower_vz;
 
     int n_passPreselection;
     UInt_t presel0_index, presel1_index;
@@ -3372,14 +3306,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 					status1muonFromBbaryon, status1muonFromCbaryon, status1muonFromSbaryon, status1muonFromBmeson, status1muonFromCmeson,
 					status1muonFromJPsi, status1muonFromLightMeson);
     if(file_dataset_ == "mcha") mchamps(events, muonFromMchamp, status1muon_, status1muonFromMchamp_, status1muonFromMuon_, good_genMuons, 
-					genMu0_px,  genMu0_py,  genMu0_pz,  genMu0_pt,  genMu0_p,  genMu0_eta,  genMu0_phi,  genMu0_charge, genMu0_vx,  genMu0_vy,  genMu0_vz,
-					genMu1_px,  genMu1_py,  genMu1_pz,  genMu1_pt,  genMu1_p,  genMu1_eta,  genMu1_phi,  genMu1_charge, genMu1_vx,  genMu1_vy,  genMu1_vz,
-					angle,
-					genMuUpper_px, genMuUpper_py, genMuUpper_pz, genMuUpper_pt, genMuUpper_p, genMuUpper_eta, genMuUpper_phi, genMuUpper_charge,
-					genMuUpper_vx,  genMuUpper_vy,  genMuUpper_vz,
-					genMuLower_px, genMuLower_py, genMuLower_pz, genMuLower_pt, genMuLower_p, genMuLower_eta, genMuLower_phi, genMuLower_charge,
-					genMuLower_vx,  genMuLower_vy,  genMuLower_vz
-					);
+					genMu0_index, genMu1_index, genMuUpper_index, genMuLower_index,
+					angle );
     if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) staus(events, tauFromStau, status1muon, status1muonFromTau, status1muonFromMuon, status1muonFromNeutralino);
     if(file_dataset_ == "cosm") cosmicMC(events, status1muon);
 
@@ -3403,12 +3331,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	//does MC pass gen level criteria
 	if(file_dataset_ == "stop") stop_counts(events, WFromTop, status1muon, status1muonFromMuon, status1muonFromW );
 	if(file_dataset_ == "glui") gluino_counts(events, status1muon, status1muonFromW, status1muonFromTau, status1muonFromMuon, status1muonFromBbaryon, status1muonFromCbaryon, status1muonFromSbaryon, status1muonFromBmeson, status1muonFromCmeson, status1muonFromJPsi, status1muonFromLightMeson);
-	if(file_dataset_ == "mcha") mchamp_counts(events, good_genMuons, genMu0_charge, genMu1_charge );
+	if(file_dataset_ == "mcha") mchamp_counts(events, good_genMuons, genMu0_index, genMu1_index );
 	if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) stau_counts(events, tauFromStau, status1muon, status1muonFromTau );
 	if(file_dataset_ == "cosm") cosmicMC_counts(events, status1muon);
 	cout<<"finished cosmicMC_counts"<<endl;
 
-	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && genMu0_charge==genMu1_charge))) || (!doGenMuCut) || (is_data)){
+	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && events->mcMuonCharge[genMu0_index]==events->mcMuonCharge[genMu1_index]))) || (!doGenMuCut) || (is_data)){
 	  cout<<"finished status1muon"<<endl;
 	  if(doPrintout){
 	    printout_setup(events);
@@ -3426,44 +3354,48 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	    if ((!is_data && doGenMuMatchedCut && genMuonMatched(events) && doSACut) || (!doGenMuMatchedCut) || (is_data)){
 	      pass_genMuonMatched_cut++;
 
-	      cout<<"right before turnon curve"<<endl;
-	      //do trigger turn on curve
-	      if(doSACut && n_passPreselection>0) TriggerTurnOn(events, file_dataset_, presel0_index, ChaCutValue_, EtaCutValue_, RpcCutValue_, DtHitsCutValue_, CscHitsCutValue_);
-	      cout<<"right after turnon curve"<<endl;
-
-	      //pass trigger
-	      if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum")){
-		pass_trigger_cut++;
-		//cout<<"finished trigger"<<endl;
-
-		if(doSACut){
+	      if(doSACut){
+		
+		cout<<"right before turnon curve"<<endl;
+		//do trigger turn on curve
+		if(doTriggerTurnOn){
 		  PreselectionSA_counts(events, n_passPreselection, presel0_index, presel1_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_);
-		  if(n_passPreselection>0) HighestPtSA_counts(events, file_dataset_, presel0_index, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_);
+		  if(n_passPreselection>0) TriggerTurnOn(events, file_dataset_, presel0_index, ChaCutValue_, EtaCutValue_, RpcCutValue_, DtHitsCutValue_, CscHitsCutValue_);
+		  cout<<"right after turnon curve"<<endl;
+		}
+		else {	     
+		  //pass trigger
+		  if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum")){
+		    pass_trigger_cut++;
+		    //cout<<"finished trigger"<<endl;
+		    
+		    PreselectionSA_counts(events, n_passPreselection, presel0_index, presel1_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_);
+		    if(n_passPreselection>0) HighestPtSA_counts(events, file_dataset_, presel0_index, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_);
 		  //cout<<"finished HighestPtSA_counts"<<endl;
-		  if(n_passPreselection>1) UpperAndLowerSA_counts(events, file_dataset_, Pt0CutValue_, Pt1CutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_);
+		    if(n_passPreselection>1) UpperAndLowerSA_counts(events, file_dataset_, Pt0CutValue_, Pt1CutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_);
 		//cout<<"finished UpperAndLowerSA_counts"<<endl;
-		}
+		  
 
-		id_hist->Fill(events->id,1.0);
-		run_hist->Fill(events->run,1.0);
-		bx_hist->Fill(events->bx,1.0);
-		bxWrtCollision_hist->Fill(events->bxWrtCollision,1.0);
-		bxWrtBunch_hist->Fill(events->bxWrtBunch,1.0);
-
-		if(events->mu_Cosmic_N>0){
-		  muCosmicPt_hist->Fill(events->muCosmicPt[0],1.0);
-		  muCosmicEta_hist->Fill(events->muCosmicEta[0],1.0);
-		  muCosmicPhi_hist->Fill(events->muCosmicPhi[0],1.0);
-		}
-		if(events->mu_CosmicTrack_N>0){
-		  muCosmicTrackNChambersDt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0],1.0);
-		}
-	    
-		//for (UInt_t j=0; j<events->mu_DisplacedStandAlone_N; j++) {
-		//cout<<endl<<"number of Csc segments is: "<<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).size()<<endl;
-		//loop over Csc segments
-		//for (UInt_t k=0; k<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).size(); k++) {
-		//cout<<"  , for Csc segment number "<<k<<", endcap is: "<<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).at(k)<<", ring is: "<<events->muDisplacedStandAloneTrackCscSegRing.at(j).at(k)<<", station is: "<<events->muDisplacedStandAloneTrackCscSegStation.at(j).at(k)<<", chamber is: "<<events->muDisplacedStandAloneTrackCscSegChamber.at(j).at(k)<<", number of hits is: "<<events->muDisplacedStandAloneTrackCscSegNHits.at(j).at(k)<<", phi is: "<<events->muDisplacedStandAloneTrackCscSegPhi.at(j).at(k)<<", z is: "<<events->muDisplacedStandAloneTrackCscSegZ.at(j).at(k)<<", R is: "<<events->muDisplacedStandAloneTrackCscSegR.at(j).at(k)<<", dir phi is: "<<events->muDisplacedStandAloneTrackCscSegDirPhi.at(j).at(k)<<", dir theta is: "<<events->muDisplacedStandAloneTrackCscSegDirTheta.at(j).at(k)<<", segment time is: "<<events->muDisplacedStandAloneTrackCscSegTime.at(j).at(k)<<endl;
+		    id_hist->Fill(events->id,1.0);
+		    run_hist->Fill(events->run,1.0);
+		    bx_hist->Fill(events->bx,1.0);
+		    bxWrtCollision_hist->Fill(events->bxWrtCollision,1.0);
+		    bxWrtBunch_hist->Fill(events->bxWrtBunch,1.0);
+		    
+		    if(events->mu_Cosmic_N>0){
+		      muCosmicPt_hist->Fill(events->muCosmicPt[0],1.0);
+		      muCosmicEta_hist->Fill(events->muCosmicEta[0],1.0);
+		      muCosmicPhi_hist->Fill(events->muCosmicPhi[0],1.0);
+		    }
+		    if(events->mu_CosmicTrack_N>0){
+		      muCosmicTrackNChambersDt_hist->Fill(events->muCosmicTrackNDtChambersWithValidHits[0],1.0);
+		    }
+		    
+		    //for (UInt_t j=0; j<events->mu_DisplacedStandAlone_N; j++) {
+		    //cout<<endl<<"number of Csc segments is: "<<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).size()<<endl;
+		    //loop over Csc segments
+		    //for (UInt_t k=0; k<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).size(); k++) {
+		    //cout<<"  , for Csc segment number "<<k<<", endcap is: "<<events->muDisplacedStandAloneTrackCscSegEndcap.at(j).at(k)<<", ring is: "<<events->muDisplacedStandAloneTrackCscSegRing.at(j).at(k)<<", station is: "<<events->muDisplacedStandAloneTrackCscSegStation.at(j).at(k)<<", chamber is: "<<events->muDisplacedStandAloneTrackCscSegChamber.at(j).at(k)<<", number of hits is: "<<events->muDisplacedStandAloneTrackCscSegNHits.at(j).at(k)<<", phi is: "<<events->muDisplacedStandAloneTrackCscSegPhi.at(j).at(k)<<", z is: "<<events->muDisplacedStandAloneTrackCscSegZ.at(j).at(k)<<", R is: "<<events->muDisplacedStandAloneTrackCscSegR.at(j).at(k)<<", dir phi is: "<<events->muDisplacedStandAloneTrackCscSegDirPhi.at(j).at(k)<<", dir theta is: "<<events->muDisplacedStandAloneTrackCscSegDirTheta.at(j).at(k)<<", segment time is: "<<events->muDisplacedStandAloneTrackCscSegTime.at(j).at(k)<<endl;
 		//}
 		//}		
 		
@@ -3490,7 +3422,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		  }
 		*/					    				
 		
-	      } //end of pass trigger
+		  }//end of pass trigger
+		}//end of if not doTriggerTurnOn
+	      } //end doSACut
 	    }//end of genMuonMatched cut
 	  } //end of at least one SA
 	}//end of status1muon

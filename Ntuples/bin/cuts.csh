@@ -10,6 +10,8 @@ set GenMuMatchedCut = woGenMuMatchedCut
 #set GenMuMatchedCut = wGenMuMatchedCut 
 set TriggerCut = wTriggerCut 
 #set TriggerCut = woTriggerCut 
+#set TriggerTurnOn = wTriggerTurnOn 
+set TriggerTurnOn = woTriggerTurnOn 
 set PtCut = wPtCut 
 #set PtCut = woPtCut 
 set ChaCut = wChaCut 
@@ -50,5 +52,5 @@ else
     set cuts_ = $Printout    
 endif
 
-set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $OppEtaCut $OppPhiCut $TightPhi $CosEnrich $resT3 $Printout"
+set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $OppEtaCut $OppPhiCut $TightPhi $CosEnrich $resT3 $Printout"
 
