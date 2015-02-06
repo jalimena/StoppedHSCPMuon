@@ -16,7 +16,8 @@ process.MessageLogger.cerr.INFO.limit = cms.untracked.int32(-1)
 #process.GlobalTag.globaltag = 'GR_P_V32::All'
 #process.GlobalTag.globaltag = 'FT_53_V10_AN2::All' #for Run2012A,B July13_2012 rereco, Run2012C-v1 Aug24_2012 rereco (53X)
 #process.GlobalTag.globaltag = 'FT_53_V21_AN3::All' #for Run2012A,B,C,D Jan22_2013 rereco (53X)
-process.GlobalTag.globaltag = 'FT_R_70_V1::All' #for Run2012D Jan22_2013 rerecod in 70X 
+#process.GlobalTag.globaltag = 'FT_R_70_V1::All' #for Run2012D Jan22_2013 rerecod in 70X 
+process.GlobalTag.globaltag = 'PRE_R_72_V11A::All' #for Run2012A,B,C,D Jan22_2013 rereco in 72X                                                                                      
 
 #process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(2000) )

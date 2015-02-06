@@ -11,8 +11,7 @@ set PreDtHitsCutValue = 0
 set PreCscHitsCutValue = 0
 
 set PtCutValue = 20.
-set Pt0CutValue = 30.
-set Pt1CutValue = 20.
+#set PtCutValue = 30.
 set ChaCutValue = 2
 #set ChaCutValue = 3
 set EtaCutValue = 1.0
@@ -36,4 +35,4 @@ set OppPhiCutValue = 0.1
 #set OppPhiCutValue = 2.0
 #set OppPhiCutValue = 3.0
 
-set cut_values = "$BxCutValue $PrePtCutValue $PreChaCutValue $PreEtaCutValue $PreRpcCutValue $PreDtHitsCutValue $PreCscHitsCutValue $PtCutValue $Pt0CutValue $Pt1CutValue $ChaCutValue $EtaCutValue $RpcCutValue $DisStCutValue $DtHitsCutValue $CscHitsCutValue $DtInvBetaCutValue $TimeInOutCutValue $OppEtaCutValue $OppPhiCutValue"
+set cut_values = "$BxCutValue $PrePtCutValue $PreChaCutValue $PreEtaCutValue $PreRpcCutValue $PreDtHitsCutValue $PreCscHitsCutValue $PtCutValue $ChaCutValue $EtaCutValue $RpcCutValue $DisStCutValue $DtHitsCutValue $CscHitsCutValue $DtInvBetaCutValue $TimeInOutCutValue $OppEtaCutValue $OppPhiCutValue"
