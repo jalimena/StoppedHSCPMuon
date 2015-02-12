@@ -38,6 +38,8 @@ set TimeInOutCut = woTimeInOutCut
 set OppEtaCut = woOppEtaCut 
 #set OppPhiCut = wOppPhiCut 
 set OppPhiCut = woOppPhiCut 
+set ChargeCut = woChargeCut
+#set ChargeCut = wChargeCut
 set TightPhi = woTightPhi
 #set CosEnrich = wCosEnrich
 set CosEnrich = woCosEnrich
@@ -47,10 +49,10 @@ set Printout = woPrintout
 #set Printout = wPrintout
 
 if ($Printout == "woPrintout") then
-    set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$OppEtaCut"_"$OppPhiCut"_"$TightPhi"_"$CosEnrich
+    set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$OppEtaCut"_"$OppPhiCut"_"$ChargeCut"_"$TightPhi"_"$CosEnrich
 else
     set cuts_ = $Printout    
 endif
 
-set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $OppEtaCut $OppPhiCut $TightPhi $CosEnrich $resT3 $Printout"
+set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $OppEtaCut $OppPhiCut $ChargeCut $TightPhi $CosEnrich $resT3 $Printout"
 
