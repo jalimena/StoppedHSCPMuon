@@ -80,17 +80,18 @@
 #    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_stopXXX_neutralinoYYY_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2HLT_stop${i}_neutralino${j}_cfg.py
 #end
 
-echo staus... 
-foreach i (100 126 156 200 247 308 370 432 494)
-    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_ppstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_ppstau${i}_gravitinop0001_cfg.py
-    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_gmstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_gmstau${i}_gravitinop0001_cfg.py
-end
-
-
-#echo mchamps...
-#foreach i (100 200 300 400 500 600 700 800 900 1000)
-#    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_cfg.py
+#echo staus... 
+#foreach i (100 126 156 200 247 308 370 432 494)
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_ppstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_ppstau${i}_gravitinop0001_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_gmstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_gmstau${i}_gravitinop0001_cfg.py
 #end
+
+
+echo mchamps...
+foreach i (100 200 300 400 500 600 700 800 900 1000)
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_cfg.py
+    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampPlusXXX_cfg.py > stoppedHSCPMuon_stage2HLT_mchampPlus${i}_cfg.py
+end
 
 
 
