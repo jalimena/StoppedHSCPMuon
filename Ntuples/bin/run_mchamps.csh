@@ -15,7 +15,7 @@ source cut_values.csh
     #rm tmp2
 
 #foreach x (mchamp100_723patch1 mchamp200_723patch1 mchamp300_723patch1 mchamp400_723patch1 mchamp500_723patch1 mchamp600_723patch1 mchamp700_723patch1 mchamp800_723patch1 mchamp900_723patch1 mchamp1000_723patch1)
-foreach x (mchamp500_723patch1)
+foreach x (mchamp100_723patch1 mchamp500_723patch1 mchamp1000_723patch1)
     findTreevalues $x $cuts $cut_values > & $x"_"$cuts_ &
 end
    

@@ -5,17 +5,27 @@ set BxCutValue = 2
 set PrePtCutValue = 10.
 set PreChaCutValue = 1
 set PreEtaCutValue = 1.0
-set PreRpcCutValue = 0
-set PreDtHitsCutValue = 0
-#set PreDtHitsCutValue = 8
+#set PreRpcCutValue = 0
+set PreRpcCutValue = 2
+#set PreDtHitsCutValue = 0
+set PreDtHitsCutValue = 8
 set PreCscHitsCutValue = 0
 
-set PtCutValue = 20.
+set PtCutValue = 10.
 #set PtCutValue = 30.
-set ChaCutValue = 2
+set ChaCutValue = 1
 #set ChaCutValue = 3
 set EtaCutValue = 1.0
-set RpcCutValue = 0
+set RpcCutValue = 2
+
+
+
+#set PtCutValue = 20.
+#set PtCutValue = 30.
+#set ChaCutValue = 2
+#set ChaCutValue = 3
+#set EtaCutValue = 1.0
+#set RpcCutValue = 0
 #set RpcCutValue = 1
 #set RpcCutValue = 2
 #set RpcCutValue = 3

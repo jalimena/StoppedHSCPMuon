@@ -16,8 +16,8 @@ set PtCut = wPtCut
 #set PtCut = woPtCut 
 set ChaCut = wChaCut 
 #set ChaCut = woChaCut 
-set EtaCut = wEtaCut 
-#set EtaCut = woEtaCut 
+#set EtaCut = wEtaCut 
+set EtaCut = woEtaCut 
 set UpperCut = woUpperCut 
 #set UpperCut = wUpperCut 
 set RpcCut = wRpcCut 
@@ -43,8 +43,8 @@ set TightPhi = woTightPhi
 set CosEnrich = woCosEnrich
 #set resT3 = res
 set resT3 = T3
-#set Printout = woPrintout
-set Printout = wPrintout
+set Printout = woPrintout
+#set Printout = wPrintout
 
 if ($Printout == "woPrintout") then
     set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$OppEtaCut"_"$OppPhiCut"_"$TightPhi"_"$CosEnrich
