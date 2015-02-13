@@ -172,7 +172,7 @@ public:
     X2DOFPrecision = 1;
     TimeAtIpInOutPrecision = 2;    
     line = 2;
-    
+
     //define histograms
     id_hist = new TH1D("id_hist","Event Number",100000,0,100000);
     run_hist = new TH1D("run_hist","Run Number",8000,192000,200000);
@@ -245,6 +245,7 @@ public:
     mcMuonEta_hlt20Cha2MuonEta_hist = new TH2D("mcMuonEta_hlt20Cha2MuonEta_hist","Gen Muon #eta vs. L2 Muon #eta",120,-6,6,120,-6,6);
     mcMuonPhi_hlt20Cha2MuonPhi_hist = new TH2D("mcMuonPhi_hlt20Cha2MuonPhi_hist","Gen Muon #phi vs. L2 Muon #phi",64,-3.2,3.2,64,-3.2,3.2);
 
+    mcMuonPt_muDisplacedStandAlonePt_hist = new TH2D("mcMuonPt_muDisplacedStandAlonePt_hist","Gen Muon p_{T} vs. SA Muon p_{T}",100,0,1000,100,0,1000);
     mcMuonPt_muRefittedStandAlonePt_hist = new TH2D("mcMuonPt_muRefittedStandAlonePt_hist","Gen Muon p_{T} vs. Refitted SA Muon p_{T}",100,0,1000,100,0,1000);
     //mcMuonPt_muRefittedStandAlonePt_hist = new TH2D("mcMuonPt_muRefittedStandAlonePt_hist","Gen Muon p_{T} vs. Refitted SA Muon p_{T}",100,0,100,100,0,100);
     mcMuonPt_muCosmicPt_hist = new TH2D("mcMuonPt_muCosmicPt_hist","Gen Muon p_{T} vs. Cosmic Muon p_{T}",100,0,1000,100,0,1000);
@@ -278,13 +279,12 @@ public:
     mcMuonPt_muCosmicTrackPt_hist->SetTitle(";Generator Muon p_{T} [GeV];Cosmic Track p_{T} [GeV]");
 
     mcMuonN_muDisplacedStandAloneN_hist = new TH2D("mcMuonN_muDisplacedStandAloneN_hist","N Gen Muons vs. N SA Muons",10,0,10,10,0,10);
-    mcMuonPt_muDisplacedStandAlonePt_hist = new TH2D("mcMuonPt_muDisplacedStandAlonePt_hist","Gen Muon p_{T} vs. SA Muon p_{T}",100,0,1000,100,0,1000);
     mcMuonEta_muDisplacedStandAloneEta_hist = new TH2D("mcMuonEta_muDisplacedStandAloneEta_hist","Gen Muon #eta vs. SA Muon #eta",120,-6,6,120,-6,6);
     mcMuonPhi_muDisplacedStandAlonePhi_hist = new TH2D("mcMuonPhi_muDisplacedStandAlonePhi_hist","Gen Muon #phi vs. SA Muon #phi",64,-3.2,3.2,64,-3.2,3.2);
     mcMuonCharge_muDisplacedStandAloneCharge_hist = new TH2D("mcMuonCharge_muDisplacedStandAloneCharge_hist","Gen Muon Charge vs. SA Muon Charge",3,-1,2,3,-1,2);
     mcMuonLxy_muDisplacedStandAloneLxy_hist = new TH2D("mcMuonLxy_muDisplacedStandAloneLxy_hist","Gen Muon Lxy vs. SA Muon Lxy",100,0,1000,100,0,1000);
     mcMuonDxy_muDisplacedStandAloneDxy_hist = new TH2D("mcMuonDxy_muDisplacedStandAloneDxy_hist","Gen Muon Dxy vs. SA Muon Dxy",2000,-1000,1000,2000,-1000,1000);
-    mcMuonInverseBeta_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH2D("mcMuonInverseBetaa_muDisplacedStandAloneTrackDtTofFreeInverseBeta__hist","Gen Muon Inverse Beta vs SA Muon DT Free Inverse Beta",1000,-50,50,1000,-50,50);
+    mcMuonInverseBeta_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH2D("mcMuonInverseBetaa_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Gen Muon Inverse Beta vs SA Muon DT Free Inverse Beta",1000,-50,50,1000,-50,50);
 
     muRefittedStandAloneNHitsDt_Pt_hist = new TH2D("muRefittedStandAloneNHitsDt_Pt_hist","",50,0,50,100,0,1000);
     //muRefittedStandAloneNChambersDt_Pt_hist = new TH2D("muRefittedStandAloneNChambersDt_Pt_hist","",5,0,5,100,0,1000);
@@ -546,7 +546,6 @@ public:
     muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist","Error of Time at IP OutIn of StandAlone Muons",100,0,20);    
     
     DTSegment_N_hist = new TH1D("DTSegment_N_hist","Number of DT Segments",100,0,100);
-        
   }
   
   ~findTreevalues_makehistos_Ntuples_allsamples() {};
@@ -2877,7 +2876,7 @@ int main(int argc, char* argv[]){
     OppEtaCutValue = argv[43];
     OppPhiCutValue = argv[44];
 
-    cout<<", file_dataset is: "<<file_dataset<<", BxCut is: "<<BxCut<<", CavCut is: "<<CavCut<<", GenMuCut is: "<<GenMuCut<<", SA cut is: "<<SACut<<", GenMuMatchedCut is; "<<GenMuMatchedCut<<", TriggerCut is: "<<TriggerCut<<", TriggerTurnOn_ is: "<<TriggerTurnOn_<<", PtCut is: "<<PtCut<<", ChaCut is: "<<ChaCut<<", EtaCut is: "<<EtaCut<<", UpperCut is: "<<UpperCut<<", RpcCut is: "<<RpcCut<<", DisStCut is: "<<DisStCut<<", RpcBxCut is: "<<RpcBxCut<<", DtHitsCut is: "<<DtHitsCut<<", CscHitsCut is: "<<CscHitsCut<<", DtInvBetaCut is: "<<DtInvBetaCut<<", TimeInOutCut is: "<<TimeInOutCut<<", OppEtaCut is: "<<OppEtaCut<<", OppPhiCut is: "<<OppPhiCut<<", TightPhi is: "<<TightPhi<<", CosEnrich is: "<<CosEnrich<<", resT3 is: "<<resT3<<", Printout is "<<Printout<<endl;
+    cout<<", file_dataset is: "<<file_dataset<<", BxCut is: "<<BxCut<<", CavCut is: "<<CavCut<<", GenMuCut is: "<<GenMuCut<<", SA cut is: "<<SACut<<", GenMuMatchedCut is; "<<GenMuMatchedCut<<", TriggerCut is: "<<TriggerCut<<", TriggerTurnOn_ is: "<<TriggerTurnOn_<<", PtCut is: "<<PtCut<<", ChaCut is: "<<ChaCut<<", EtaCut is: "<<EtaCut<<", UpperCut is: "<<UpperCut<<", RpcCut is: "<<RpcCut<<", DisStCut is: "<<DisStCut<<", RpcBxCut is: "<<RpcBxCut<<", DtHitsCut is: "<<DtHitsCut<<", CscHitsCut is: "<<CscHitsCut<<", DtInvBetaCut is: "<<DtInvBetaCut<<", TimeInOutCut is: "<<TimeInOutCut<<", OppEtaCut is: "<<OppEtaCut<<", OppPhiCut is: "<<OppPhiCut<<", ChargeCut is: "<<ChargeCut<<", OppPhiCutValue is: "<<OppPhiCutValue<<", TightPhi is: "<<TightPhi<<", CosEnrich is: "<<CosEnrich<<", resT3 is: "<<resT3<<", Printout is "<<Printout<<endl;
   }
 
   TH1D::SetDefaultSumw2();
