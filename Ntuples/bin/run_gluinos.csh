@@ -2,7 +2,7 @@
 source cuts.csh
 source cut_values.csh
 
-#foreach x (gluino300_neutralino173 gluino400_neutralino283 gluino500_neutralino387 gluino600_neutralino490 gluino700_neutralino592 gluino800_neutralino693 gluino900_neutralino794 gluino1000_neutralino894 gluino1100_neutralino995 gluino1200_neutralino1095 gluino1300_neutralino1196 gluino1400_neutralino1296 gluino1500_neutralino1396)
-foreach x (gluino300_neutralino173_723patch1)
-    findTreevalues $x $cuts $cut_values > & "out_"$x"_"$cuts_ &
+foreach x (gluino300_neutralino173_723patch1 gluino400_neutralino283_723patch1 gluino500_neutralino387_723patch1 gluino600_neutralino490_723patch1 gluino700_neutralino592_723patch1 gluino800_neutralino693_723patch1 gluino900_neutralino794_723patch1 gluino1000_neutralino894_723patch1 gluino1100_neutralino995_723patch1 gluino1200_neutralino1095_723patch1 gluino1300_neutralino1196_723patch1 gluino1400_neutralino1296_723patch1 gluino1500_neutralino1396_723patch1)
+#foreach x (gluino300_neutralino173_723patch1)
+    findTreevalues $x $cuts $cut_values > & "out_"$x &
 end
