@@ -184,6 +184,7 @@ public:
     mcStoppedParticleY_hist = new TH1D("mcStoppedParticleY_hist","Stopped Particle Y",300,-1500,1500);
     mcStoppedParticleZ_hist = new TH1D("mcStoppedParticleZ_hist","Stopped Particle Z",300,-1500,1500);
     mcStoppedParticleR_hist = new TH1D("mcStoppedParticleR_hist","Stopped Particle R",300,0,1500);
+    mcStoppedParticleEta_hist = new TH1D("mcStoppedParticleEta_hist","StoppedParticle #eta",120,-6,6);
     mcStoppedParticlePhi_hist = new TH1D("mcStoppedParticlePhi_hist","StoppedParticle #phi",64,-3.2,3.2);
     mcStoppedParticleXY_hist = new TH2D("mcStoppedParticleXY_hist","Stopped Particle X vs Y",300,-1500,1500,300,-1500,1500);
     mcStoppedParticleR_muDisplacedStandAloneEta_hist = new TH2D("mcStoppedParticleR_muDisplacedStandAloneEta_hist","Stopped Particle R vs SA #eta",300,0,1500,120,-6,6);
@@ -619,6 +620,7 @@ private:
   TH1D* mcStoppedParticleY_hist; 
   TH1D* mcStoppedParticleZ_hist; 
   TH1D* mcStoppedParticleR_hist; 
+  TH1D* mcStoppedParticleEta_hist;
   TH1D* mcStoppedParticlePhi_hist;
   TH2D* mcStoppedParticleXY_hist; 
   TH2D* mcStoppedParticleR_muDisplacedStandAloneEta_hist;
@@ -3337,6 +3339,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    if(events->diMuMass.size()>0) diMuMass_hist->Fill(events->diMuMass[0],1.0);
 
 		    if(!is_data){
+		      if(file_dataset_!="cosm"){
+			mcStoppedParticle_N_hist->Fill(events->mcStoppedParticle_N,1.0);
+			mcStoppedParticleX_hist->Fill(events->mcStoppedParticleX[0]/10.0,1.0);
+			mcStoppedParticleY_hist->Fill(events->mcStoppedParticleY[0]/10.0,1.0);
+			mcStoppedParticleZ_hist->Fill(events->mcStoppedParticleZ[0]/10.0,1.0);
+			mcStoppedParticleR_hist->Fill(events->mcStoppedParticleR[0]/10.0,1.0);
+			double particle_eta = eta(events->mcStoppedParticleX[0],events->mcStoppedParticleY[0],
+						  events->mcStoppedParticleZ[0],events->mcStoppedParticleTime[0]);			
+			mcStoppedParticleEta_hist->Fill(particle_eta,1.0);
+			mcStoppedParticlePhi_hist->Fill(events->mcStoppedParticlePhi[0],1.0);
+			mcStoppedParticleXY_hist->Fill(events->mcStoppedParticleX[0]/10.0,events->mcStoppedParticleY[0]/10.0,1.0);
+		      }
+
 		      mcMuon_N_hist->Fill(good_genMuons,1.0); //only status 1 good muons
 		      mcMuonPt_hist->Fill(events->mcMuonPt[genMu0_index],1.0);
 		      mcMuonEta_hist->Fill(events->mcMuonEta[genMu0_index],1.0);
@@ -3855,6 +3870,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcStoppedParticleY_hist->Write(); 
     mcStoppedParticleZ_hist->Write(); 
     mcStoppedParticleR_hist->Write(); 
+    mcStoppedParticleEta_hist->Write();
     mcStoppedParticlePhi_hist->Write();
     mcStoppedParticleXY_hist->Write(); 
     mcStoppedParticleR_muDisplacedStandAloneEta_hist->Write();    
