@@ -9,13 +9,15 @@ set PreEtaCutValue = 1.0
 set PreRpcCutValue = 1
 #set PreRpcCutValue = 2
 #set PreDtHitsCutValue = 0
-set PreDtHitsCutValue = 8
+#set PreDtHitsCutValue = 8
+set PreDtHitsCutValue = 7
+#set PreDtHitsCutValue = 0
 set PreCscHitsCutValue = 0
 
 #set PtCutValue = 10.
 #set ChaCutValue = 1
 #set EtaCutValue = 1.0
-#set RpcCutValue = 2
+#set RpcCutValue = 1
 
 
 
@@ -32,7 +34,8 @@ set RpcCutValue = 2
 #set RpcCutValue = 5
 #set DisStCutValue = 1
 set DisStCutValue = 2
-set DtHitsCutValue = 8
+set DtHitsCutValue = 7
+#set DtHitsCutValue = 0
 set CscHitsCutValue = 0
 set DtInvBetaCutValue = 0.2
 #set DtInvBetaCutValue = 0.0
