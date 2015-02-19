@@ -423,7 +423,7 @@ public:
     Upper_muDisplacedStandAloneTrackNChambersRpc_hist = new TH1D("Upper_muDisplacedStandAloneTrackNChambersRpc_hist","RPC Chambers in StandAlone Muon Track",10,0,10);
     Upper_muDisplacedStandAloneTrackDtTofNDof_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofNDof_hist","StandAlone Muons TOF Number of Degrees of Freedom",40,0,40);
     Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
-    Upper_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",100,0,5);
+    Upper_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     Upper_muDisplacedStandAloneTrackDtTofYIntercept_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofYIntercept_hist","Y-Intercept of StandAlone Muons",200,-100,100);
     Upper_muDisplacedStandAloneTrackDtTofYInterceptErr_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofYInterceptErr_hist","Y-Intercept Error of StandAlone Muons",100,0,100);
     Upper_muDisplacedStandAloneTrackDtTofChi2Dof_hist = new TH1D("Upper_muDisplacedStandAloneTrackDtTofChi2Dof_hist","chi2/dof of StandAlone Muons",500,0,500);
@@ -454,7 +454,7 @@ public:
     Lower_muDisplacedStandAloneTrackNChambersRpc_hist = new TH1D("Lower_muDisplacedStandAloneTrackNChambersRpc_hist","RPC Chambers in StandAlone Muon Track",10,0,10);
     Lower_muDisplacedStandAloneTrackDtTofNDof_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofNDof_hist","StandAlone Muons TOF Number of Degrees of Freedom",40,0,40);
     Lower_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
-    Lower_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",100,0,5);
+    Lower_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     Lower_muDisplacedStandAloneTrackDtTofYIntercept_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofYIntercept_hist","Y-Intercept of StandAlone Muons",200,-100,100);
     Lower_muDisplacedStandAloneTrackDtTofYInterceptErr_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofYInterceptErr_hist","Y-Intercept Error of StandAlone Muons",100,0,100);
     Lower_muDisplacedStandAloneTrackDtTofChi2Dof_hist = new TH1D("Lower_muDisplacedStandAloneTrackDtTofChi2Dof_hist","chi2/dof of StandAlone Muons",500,0,500);
@@ -496,7 +496,7 @@ public:
     Both_muDisplacedStandAloneTrackNChambersRpc_hist = new TH1D("Both_muDisplacedStandAloneTrackNChambersRpc_hist","RPC Chambers in StandAlone Muon Track",10,0,10);
     Both_muDisplacedStandAloneTrackDtTofNDof_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofNDof_hist","StandAlone Muons TOF Number of Degrees of Freedom",40,0,40);
     Both_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
-    Both_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",100,0,5);
+    Both_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     Both_muDisplacedStandAloneTrackDtTofYIntercept_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofYIntercept_hist","Y-Intercept of StandAlone Muons",200,-100,100);
     Both_muDisplacedStandAloneTrackDtTofYInterceptErr_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofYInterceptErr_hist","Y-Intercept Error of StandAlone Muons",100,0,100);
     Both_muDisplacedStandAloneTrackDtTofChi2Dof_hist = new TH1D("Both_muDisplacedStandAloneTrackDtTofChi2Dof_hist","chi2/dof of StandAlone Muons",500,0,500);
@@ -3383,8 +3383,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      muEta_muPhi_hist->Fill(events->muEta[0],events->muPhi[0],1.0);
 		    }	      
 
-		    DTSegment_N_hist->Fill(events->DTSegment_N,1.0);
-		    CSCSegment_N_hist->Fill(events->cscSeg_N,1.0);
+		    //DTSegment_N_hist->Fill(events->DTSegment_N,1.0); //moved to after preselection
+		    //CSCSegment_N_hist->Fill(events->cscSeg_N,1.0); //moved to after preselection
 		    
 		    //cout<<"number of dimuon candidates is: "<<events->diMuMass.size()<<endl;
 		    diMu_N_hist->Fill(events->diMuMass.size(),1.0);
@@ -3452,11 +3452,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    }//end of if MC
 
 		    if(n_passPreselection>0){
-		      //1D n tracks histos
+		      
+		      //1D n tracks and total n segments histos
 		      muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
 		      //muDisplacedStandAlone_N_hist->Fill(n_passPreselection,1.0);
 		      muRefittedStandAlone_N_hist->Fill(events->mu_RefittedStandAlone_N,1.0);
 		      muStandAloneTof_N_hist->Fill(events->muStandAloneTof_N,1.0);
+
+		      DTSegment_N_hist->Fill(events->DTSegment_N,1.0);
+		      CSCSegment_N_hist->Fill(events->cscSeg_N,1.0);
 			  
 		      //1D displaced SA highest pt histos
 		      muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
