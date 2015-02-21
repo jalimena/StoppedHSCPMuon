@@ -50,6 +50,7 @@ public:
     doDisStCut = false;
     doRpcBxCut = false;
     doDtHitsCut = false;
+    doInvBetaErrCut = false;
     doCscHitsCut = false;
     doDtInvBetaCut = false;
     doTimeInOutCut = false;
@@ -66,6 +67,7 @@ public:
     PreChaCutValue_ = 1;
     PreRpcCutValue_ = 2;
     PreDtHitsCutValue_ = 8;
+    PreInvBetaErrCutValue_ = 10.;
     PreCscHitsCutValue_ = 0;
     PreEtaCutValue_ = 1.0;
 
@@ -132,6 +134,7 @@ public:
     pass_Preeta_cut = 0;
     pass_PreRPC_cut = 0;
     pass_PreDtHits_cut = 0;
+    pass_PreInvBetaErr_cut = 0;
     pass_PreCscHits_cut = 0;
     pass_pt_cut = 0;
     pass_cha_cut = 0;
@@ -558,7 +561,7 @@ public:
   
   ~findTreevalues_makehistos_Ntuples_allsamples() {};
   
-  virtual void loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& TofDirCut, string& OppEtaCut, string& OppPhiCut, string& ChargeCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue);
+  virtual void loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& InvBetaErrCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& TofDirCut, string& OppEtaCut, string& OppPhiCut, string& ChargeCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreInvBetaErrCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue);
 
 private:
   void stops( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&);
@@ -583,14 +586,15 @@ private:
   double dR_OppositeSeg( StoppedHSCPMuonEvent*, UInt_t&, double&, double& );
   int distanceBetweenStations( StoppedHSCPMuonEvent*, UInt_t&, bool&);
 
-  void PreselectionSA( StoppedHSCPMuonEvent* , int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, float&, Int_t&, float&, Int_t&, Int_t&, Int_t&, bool&, bool&, bool&, bool&, bool&, bool&);
-  void PreselectionSA_counts(bool&, bool&, bool&, bool&, bool&, bool&);
+  void PreselectionSA( StoppedHSCPMuonEvent* , int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, float&, Int_t&, float&, Int_t&, Int_t&, float&, Int_t&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
+  //void PreselectionSA( StoppedHSCPMuonEvent* , int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, float&, Int_t&, float&, UInt_t&, Int_t&, float&, Int_t&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
+  void PreselectionSA_counts(bool&, bool&, bool&, bool&, bool&, bool&, bool&);
   void HighestPtSA( StoppedHSCPMuonEvent* events, string& file_dataset, UInt_t& presel0_index, UInt_t& presel1_index, UInt_t& presel2_index, UInt_t& presel3_index, UInt_t& highestPt_index, float& PtCutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_, Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_, float& OppEtaCutValue_, float& OppPhiCutValue_, bool& pass_Upper, bool& pass_pt, bool& pass_cha, bool& pass_eta, bool& pass_RPC, bool& pass_DisSt, bool& pass_DtHits, bool& pass_CscHits, bool& pass_DtInvBeta, bool& pass_TimeInOut, bool& pass_TofDir, bool& pass_Rpc_Bx, bool& pass_OppEta, bool& pass_OppPhi);
   void HighestPtSA_counts( bool& pass_Upper, bool& pass_pt, bool& pass_cha, bool& pass_eta, bool& pass_RPC, bool& pass_DisSt, bool& pass_DtHits, bool& pass_CscHits, bool& pass_DtInvBeta, bool& pass_TimeInOut, bool& pass_TofDir,  bool& pass_Rpc_Bx, bool& pass_OppEta, bool& pass_OppPhi);
   void pick_UpperAndLowerSA( StoppedHSCPMuonEvent*, int&,int&,int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, UInt_t&);
   void UpperAndLowerSA( StoppedHSCPMuonEvent* events, string& file_dataset, UInt_t& upper0_index, UInt_t& lower0_index, UInt_t& upper1_index, UInt_t& lower1_index, UInt_t& upper2_index, UInt_t& lower2_index, UInt_t& upper_index, UInt_t& lower_index, float& PtCutValue_, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_,  Int_t& DisStCutValue_, Int_t& DtHitsCutValue_, float& DtInvBetaCutValue_, float& TimeInOutCutValue_, bool& pass_UpperAndLower, bool& pass_pt_2, bool& pass_cha_2, bool& pass_eta_2, bool& pass_RPC_2,  bool& pass_DisSt_2, bool& pass_DtHits_2, bool& pass_OppEta_2, bool& pass_OppPhi_2, bool& pass_Rpc_Bx_2, bool& pass_DtInvBeta_2, bool& pass_TimeInOut_2, bool& pass_TofDir_2, bool& pass_charge_2);
   void UpperAndLowerSA_counts(bool& pass_UpperAndLower, bool& pass_pt_2, bool& pass_cha_2, bool& pass_eta_2, bool& pass_RPC_2,  bool& pass_DisSt_2, bool& pass_DtHits_2, bool& pass_OppEta_2, bool& pass_OppPhi_2, bool& pass_Rpc_Bx_2, bool& pass_DtInvBeta_2, bool& pass_TimeInOut_2, bool& pass_TofDir_2, bool& pass_charge_2);
-  void TriggerTurnOn( StoppedHSCPMuonEvent*, string&, UInt_t&, Int_t&, float&, Int_t&, Int_t&, Int_t&);
+  void TriggerTurnOn( StoppedHSCPMuonEvent*, string&, UInt_t&);
 
   void printout_setup(StoppedHSCPMuonEvent*);
   void printout_gen(StoppedHSCPMuonEvent*);
@@ -600,9 +604,11 @@ private:
   void printout_L2(StoppedHSCPMuonEvent*);
   void printout_L1(StoppedHSCPMuonEvent*);
 
-  bool doBxCut, doCavCut, doGenMuCut, doSACut, doGenMuMatchedCut, doTriggerCut, doTriggerTurnOn, doPtCut, doChaCut, doEtaCut, doUpperCut, doRpcCut, doDisStCut, doRpcBxCut, doDtHitsCut, doCscHitsCut, doDtInvBetaCut, doTimeInOutCut, doTofDirCut, doOppEtaCut, doOppPhiCut, doChargeCut, doTightPhi, doCosEnrich, doPrintout;
+  bool doBxCut, doCavCut, doGenMuCut, doSACut, doGenMuMatchedCut, doTriggerCut, doTriggerTurnOn, doPtCut, doChaCut, doEtaCut, doUpperCut, doRpcCut, doDisStCut, doRpcBxCut, doDtHitsCut, doInvBetaErrCut, doCscHitsCut, doDtInvBetaCut, doTimeInOutCut, doTofDirCut, doOppEtaCut, doOppPhiCut, doChargeCut, doTightPhi, doCosEnrich, doPrintout;
   Int_t PreRpcCutValue_, PreChaCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_;
-  float PrePtCutValue_, PreEtaCutValue_;
+  //Int_t PreChaCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_;
+  //UInt_t PreRpcCutValue_;
+  float PrePtCutValue_, PreEtaCutValue_, PreInvBetaErrCutValue_;
   Int_t RpcCutValue_, DisStCutValue_, BxCutValue_, ChaCutValue_, DtHitsCutValue_, CscHitsCutValue_;
   float PtCutValue_, EtaCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_;
 
@@ -611,7 +617,7 @@ private:
   int pass_bx_cut, pass_cavern_cut,
     pass_Ntops_cut, pass_Nstops_cut, pass_Ngluinos_cut, pass_Nmchamps_cut, pass_Nstaus_cut, pass_tauFromStau_cut, pass_WFromTop_cut, pass_muon_cut, pass_status1muon_cut, pass_status1muonFromW_cut, pass_status1muonFromTau_cut, pass_status1muonFromMuon_cut, pass_status1muonFromBbaryon_cut, pass_status1muonFromCbaryon_cut, pass_status1muonFromSbaryon_cut, pass_status1muonFromBmeson_cut, pass_status1muonFromCmeson_cut, pass_status1muonFromJPsi_cut, pass_status1muonFromLightMeson_cut, 
     pass_generatorMuon_cut, pass_standaloneMuon_cut, pass_genMuonMatched_cut, pass_trigger_cut, 
-    pass_Prept_cut, pass_Precha_cut, pass_Preeta_cut,  pass_PreRPC_cut, pass_PreDtHits_cut, pass_PreCscHits_cut, 
+    pass_Prept_cut, pass_Precha_cut, pass_Preeta_cut,  pass_PreRPC_cut, pass_PreDtHits_cut, pass_PreInvBetaErr_cut, pass_PreCscHits_cut, 
     pass_pt_cut, pass_cha_cut, pass_eta_cut, pass_Upper_cut, pass_RPC_cut, pass_DisSt_cut, pass_Rpc_Bx_cut, pass_DtHits_cut, pass_CscHits_cut, pass_DtInvBeta_cut, pass_TimeInOut_cut, pass_TofDir_cut, pass_OppEta_cut, pass_OppPhi_cut,
     pass_SA_2_cut, pass_UpperAndLower_cut, pass_UpperOnly_cut, pass_LowerOnly_cut, pass_pt_2_cut, pass_UpperAndLower_pt30_cut, pass_cha_2_cut, pass_eta_2_cut, pass_RPC_2_cut, pass_DisSt_2_cut, pass_Rpc_Bx_2_cut, pass_DtHits_2_cut, pass_DtInvBeta_2_cut, pass_TimeInOut_2_cut, pass_TofDir_2_cut, pass_OppEta_2_cut, pass_OppPhi_2_cut, pass_charge_2_cut;
   int PtPrecision, EtaPrecision, PhiPrecision, ChargePrecision, X2DOFPrecision, TimeAtIpInOutPrecision, line;
@@ -1604,7 +1610,7 @@ int findTreevalues_makehistos_Ntuples_allsamples::distanceBetweenStations( Stopp
 
 }//end of distanceBetweenStations
 
-void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMuonEvent* events, int& n_passPreselection, UInt_t& presel0_index, UInt_t& presel1_index, UInt_t& presel2_index, UInt_t& presel3_index, float& PrePtCutValue_, Int_t& PreChaCutValue_, float& PreEtaCutValue_, Int_t& PreRpcCutValue_, Int_t& PreDtHitsCutValue_, Int_t& PreCscHitsCutValue_, bool& pass_Prept, bool& pass_Precha, bool& pass_Preeta, bool& pass_PreRPC, bool& pass_PreDtHits, bool& pass_PreCscHits){
+void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMuonEvent* events, int& n_passPreselection, UInt_t& presel0_index, UInt_t& presel1_index, UInt_t& presel2_index, UInt_t& presel3_index, float& PrePtCutValue_, Int_t& PreChaCutValue_, float& PreEtaCutValue_, Int_t& PreRpcCutValue_, Int_t& PreDtHitsCutValue_, float& PreInvBetaErrCutValue_, Int_t& PreCscHitsCutValue_, bool& pass_Prept, bool& pass_Precha, bool& pass_Preeta, bool& pass_PreRPC, bool& pass_PreDtHits, bool& pass_PreInvBetaErr, bool& pass_PreCscHits){
 
   cout<<"starting PreselectionSA"<<endl;
 
@@ -1633,6 +1639,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMu
 	  
 	  //number of RPC hits cut
 	  if( (doRpcCut && events->muDisplacedStandAloneTrackNValidRpcHits[j]>PreRpcCutValue_) || (!doRpcCut)){
+	  //if( (doRpcCut && events->muDisplacedStandAloneTrackRpcHitZ.at(j).size()>PreRpcCutValue_) || (!doRpcCut)){
 	    pass_PreRPC = true;
 	    //cout<<"passed rpc cut"<<endl;
 	    
@@ -1645,17 +1652,22 @@ void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMu
 	    if( (doDtHitsCut && events->muDisplacedStandAloneTrackDtTofNDof[j]>PreDtHitsCutValue_) || (!doDtHitsCut)){
 	      pass_PreDtHits = true;
 	      
-	      //number of CSC hits cut
-	      if( (doCscHitsCut && events->muDisplacedStandAloneTrackNValidCscHits[j]==PreCscHitsCutValue_) || (!doCscHitsCut)){
-		pass_PreCscHits = true;
+	      //inv beta error cut
+	      if( (doInvBetaErrCut && events->muDisplacedStandAloneTrackDtTofInverseBetaErr[j]<PreInvBetaErrCutValue_) || (!doInvBetaErrCut)){
+		pass_PreInvBetaErr = true;
 		
-		n_passPreselection++;
-		if(n_passPreselection == 1) presel0_index = j;
-		if(n_passPreselection == 2) presel1_index = j;
-		if(n_passPreselection == 3) presel2_index = j;
-		if(n_passPreselection == 4) presel3_index = j;
-		
-	      }// end of csc hits
+		//number of CSC hits cut
+		if( (doCscHitsCut && events->muDisplacedStandAloneTrackNValidCscHits[j]==PreCscHitsCutValue_) || (!doCscHitsCut)){
+		  pass_PreCscHits = true;
+		  
+		  n_passPreselection++;
+		  if(n_passPreselection == 1) presel0_index = j;
+		  if(n_passPreselection == 2) presel1_index = j;
+		  if(n_passPreselection == 3) presel2_index = j;
+		  if(n_passPreselection == 4) presel3_index = j;
+		  
+		}// end of csc hits
+	      }//end of inv beta err cut
 	    }//end of dt hits
 	    //} //end of dist btw stations
 	  }//end of at least 1 RPC hit
@@ -1669,7 +1681,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMu
 
 }//end of PreselectionSA()
 
-void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA_counts(bool& pass_Prept, bool& pass_Precha, bool& pass_Preeta, bool& pass_PreRPC, bool& pass_PreDtHits, bool& pass_PreCscHits){
+void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA_counts(bool& pass_Prept, bool& pass_Precha, bool& pass_Preeta, bool& pass_PreRPC, bool& pass_PreDtHits, bool& pass_PreInvBetaErr, bool& pass_PreCscHits){
 
   cout<<"starting PreselectionSA_counts"<<endl;
 
@@ -1701,12 +1713,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA_counts(bool& p
 	  //number of DT hits cut
 	  if(pass_PreDtHits){
 	    pass_PreDtHits_cut++;
-	    
-	    //number of CSC hits cut
-	    if(pass_PreCscHits){
-	      pass_PreCscHits_cut++;
+
+	    //inverse beta error cut
+	    if(pass_PreInvBetaErr){
+	      pass_PreInvBetaErr_cut++;
 	      
-	    }// end of csc hits
+	      //number of CSC hits cut
+	      if(pass_PreCscHits){
+		pass_PreCscHits_cut++;
+		
+	      }// end of csc hits
+	    }// end of inv beta error cut
 	  }//end of dt hits
 	  //} //end of dist btw stations
 	}//end of at least 1 RPC hit
@@ -2173,7 +2190,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts(bool& 
   }//end of if pass Upper and Lower
 }//end of UpperAndLowerSA_counts()
 
-void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuonEvent* events, string& file_dataset, UInt_t& presel0_index, Int_t& ChaCutValue_, float& EtaCutValue_, Int_t& RpcCutValue_, Int_t& DtHitsCutValue_, Int_t& CscHitsCutValue_){
+void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuonEvent* events, string& file_dataset, UInt_t& presel0_index){
 
   cout<<"starting TriggerTurnOn"<<endl;
   muDisplacedStandAlonePt_denominator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
@@ -2796,14 +2813,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L1( StoppedHSCPMuonE
 
 
 int main(int argc, char* argv[]){
-  if(argc!=46){
+  if(argc!=48){
     cout<<"ERROR, need more arguments!"<<endl;
     cout<<"seeing "<<argc<<" arguments"<<endl;
     return 1;
   }
 
-  string file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, TofDirCut, OppEtaCut, OppPhiCut, ChargeCut, TightPhi, CosEnrich, resT3, Printout;
-  TString PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreRpcBxCutValue, PreDtHitsCutValue, PreCscHitsCutValue;
+  string file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, InvBetaErrCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, TofDirCut, OppEtaCut, OppPhiCut, ChargeCut, TightPhi, CosEnrich, resT3, Printout;
+  TString PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreRpcBxCutValue, PreDtHitsCutValue, PreInvBetaErrCutValue, PreCscHitsCutValue;
   TString BxCutValue, PtCutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, RpcBxCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue;
 
   file_dataset = "NoBPTX_Run2012B";
@@ -2822,6 +2839,7 @@ int main(int argc, char* argv[]){
   DisStCut = "wDisStCut";
   RpcBxCut = "wRpcBxCut";
   DtHitsCut = "wDtHitsCut";
+  InvBetaErrCut = "wInvBetaErrCut";
   CscHitsCut = "wCscHitsCut";
   DtInvBetaCut = "wDtInvBetaCut";
   TimeInOutCut = "wTimeInOutCut";
@@ -2840,6 +2858,7 @@ int main(int argc, char* argv[]){
   PreEtaCutValue = "1.0";
   PreRpcCutValue = "2";
   PreDtHitsCutValue = "8";
+  PreInvBetaErrCutValue = "10";
   PreCscHitsCutValue = "0";
 
   PtCutValue = "30.";
@@ -2854,7 +2873,7 @@ int main(int argc, char* argv[]){
   OppEtaCutValue = "0.1";
   OppPhiCutValue = "0.1";
   
-  if(argc==46){
+  if(argc==48){
     file_dataset = argv[1];
     BxCut = argv[2];
     CavCut = argv[3];
@@ -2871,38 +2890,40 @@ int main(int argc, char* argv[]){
     DisStCut = argv[14];
     RpcBxCut = argv[15];
     DtHitsCut = argv[16];
-    CscHitsCut = argv[17];
-    DtInvBetaCut = argv[18];
-    TimeInOutCut = argv[19];
-    TofDirCut = argv[20];
-    OppEtaCut = argv[21];
-    OppPhiCut = argv[22];
-    ChargeCut = argv[23];
-    TightPhi = argv[24];
-    CosEnrich = argv[25];
-    resT3 = argv[26];
-    Printout = argv[27];
+    InvBetaErrCut = argv[17];
+    CscHitsCut = argv[18];
+    DtInvBetaCut = argv[19];
+    TimeInOutCut = argv[20];
+    TofDirCut = argv[21];
+    OppEtaCut = argv[22];
+    OppPhiCut = argv[23];
+    ChargeCut = argv[24];
+    TightPhi = argv[25];
+    CosEnrich = argv[26];
+    resT3 = argv[27];
+    Printout = argv[28];
 
-    BxCutValue = argv[28];
+    BxCutValue = argv[29];
 
-    PrePtCutValue = argv[29]; 
-    PreChaCutValue = argv[30]; 
-    PreEtaCutValue = argv[31]; 
-    PreRpcCutValue = argv[32]; 
-    PreDtHitsCutValue = argv[33]; 
-    PreCscHitsCutValue = argv[34]; 
+    PrePtCutValue = argv[30]; 
+    PreChaCutValue = argv[31]; 
+    PreEtaCutValue = argv[32]; 
+    PreRpcCutValue = argv[33]; 
+    PreDtHitsCutValue = argv[34]; 
+    PreInvBetaErrCutValue = argv[35]; 
+    PreCscHitsCutValue = argv[36]; 
 
-    PtCutValue = argv[35];
-    ChaCutValue = argv[36];
-    EtaCutValue = argv[37];
-    RpcCutValue = argv[38];
-    DisStCutValue = argv[39];
-    DtHitsCutValue = argv[40];
-    CscHitsCutValue = argv[41];
-    DtInvBetaCutValue = argv[42];
-    TimeInOutCutValue = argv[43];
-    OppEtaCutValue = argv[44];
-    OppPhiCutValue = argv[45];
+    PtCutValue = argv[37];
+    ChaCutValue = argv[38];
+    EtaCutValue = argv[39];
+    RpcCutValue = argv[40];
+    DisStCutValue = argv[41];
+    DtHitsCutValue = argv[42];
+    CscHitsCutValue = argv[43];
+    DtInvBetaCutValue = argv[44];
+    TimeInOutCutValue = argv[45];
+    OppEtaCutValue = argv[46];
+    OppPhiCutValue = argv[47];
 
     cout<<", file_dataset is: "<<file_dataset<<", BxCut is: "<<BxCut<<", CavCut is: "<<CavCut<<", GenMuCut is: "<<GenMuCut<<", SA cut is: "<<SACut<<", GenMuMatchedCut is; "<<GenMuMatchedCut<<", TriggerCut is: "<<TriggerCut<<", TriggerTurnOn_ is: "<<TriggerTurnOn_<<", PtCut is: "<<PtCut<<", ChaCut is: "<<ChaCut<<", EtaCut is: "<<EtaCut<<", UpperCut is: "<<UpperCut<<", RpcCut is: "<<RpcCut<<", DisStCut is: "<<DisStCut<<", RpcBxCut is: "<<RpcBxCut<<", DtHitsCut is: "<<DtHitsCut<<", CscHitsCut is: "<<CscHitsCut<<", DtInvBetaCut is: "<<DtInvBetaCut<<", TimeInOutCut is: "<<TimeInOutCut<<", OppEtaCut is: "<<OppEtaCut<<", OppPhiCut is: "<<OppPhiCut<<", ChargeCut is: "<<ChargeCut<<", OppPhiCutValue is: "<<OppPhiCutValue<<", TightPhi is: "<<TightPhi<<", CosEnrich is: "<<CosEnrich<<", resT3 is: "<<resT3<<", Printout is "<<Printout<<endl;
   }
@@ -2913,10 +2934,10 @@ int main(int argc, char* argv[]){
   findTreevalues_makehistos_Ntuples_allsamples analyzer(argc, argv);
 
   cout<<"just before analyzer.loop"<<endl;
-  analyzer.loop(file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, TofDirCut, OppEtaCut, OppPhiCut, ChargeCut, TightPhi, CosEnrich, resT3, Printout, BxCutValue, PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreDtHitsCutValue, PreCscHitsCutValue, PtCutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue);
+  analyzer.loop(file_dataset, BxCut, CavCut, GenMuCut, SACut, GenMuMatchedCut, TriggerCut, TriggerTurnOn_, PtCut, ChaCut, EtaCut, UpperCut, RpcCut, DisStCut, RpcBxCut, DtHitsCut, InvBetaErrCut, CscHitsCut, DtInvBetaCut, TimeInOutCut, TofDirCut, OppEtaCut, OppPhiCut, ChargeCut, TightPhi, CosEnrich, resT3, Printout, BxCutValue, PrePtCutValue, PreChaCutValue, PreEtaCutValue, PreRpcCutValue, PreDtHitsCutValue, PreInvBetaErrCutValue, PreCscHitsCutValue, PtCutValue, ChaCutValue, EtaCutValue, RpcCutValue, DisStCutValue, DtHitsCutValue, CscHitsCutValue, DtInvBetaCutValue, TimeInOutCutValue, OppEtaCutValue, OppPhiCutValue);
 }
 
-void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& TofDirCut, string& OppEtaCut, string& OppPhiCut, string& ChargeCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue){
+void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& InvBetaErrCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& TofDirCut, string& OppEtaCut, string& OppPhiCut, string& ChargeCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreInvBetaErrCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue){
 
   cout<<"just started loop"<<endl;
 
@@ -3013,6 +3034,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if (DtHitsCut=="woDtHitsCut") doDtHitsCut = false;
   cout<<"doDtHitsCut is: "<<doDtHitsCut<<endl;
 
+  if (InvBetaErrCut=="wInvBetaErrCut") doInvBetaErrCut = true;
+  if (InvBetaErrCut=="woInvBetaErrCut") doInvBetaErrCut = false;
+  cout<<"doInvBetaErrCut is: "<<doInvBetaErrCut<<endl;
+
   if (CscHitsCut=="wCscHitsCut") doCscHitsCut = true;
   if (CscHitsCut=="woCscHitsCut") doCscHitsCut = false;
   cout<<"doCscHitsCut is: "<<doCscHitsCut<<endl;
@@ -3060,6 +3085,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   sscanf(PreEtaCutValue,"%f",&PreEtaCutValue_);
   sscanf(PreRpcCutValue,"%d",&PreRpcCutValue_);
   sscanf(PreDtHitsCutValue,"%d",&PreDtHitsCutValue_);
+  sscanf(PreInvBetaErrCutValue,"%f",&PreInvBetaErrCutValue_);
   sscanf(PreCscHitsCutValue,"%d",&PreCscHitsCutValue_);
 
   sscanf(PtCutValue,"%f",&PtCutValue_);
@@ -3110,6 +3136,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if (DisStCut!="wDisStCut" && DisStCut!="woDisStCut") cout<<"problem w DisStCut assignment!!!"<<endl;
   if (RpcBxCut!="wRpcBxCut" && RpcBxCut!="woRpcBxCut") cout<<"problem w RpcBxCut assignment!!!"<<endl;
   if (DtHitsCut!="wDtHitsCut" && DtHitsCut!="woDtHitsCut") cout<<"problem w DtHitsCut assignment!!!"<<endl;
+  if (InvBetaErrCut!="wInvBetaErrCut" && InvBetaErrCut!="woInvBetaErrCut") cout<<"problem w InvBetaErrCut assignment!!!"<<endl;
   if (CscHitsCut!="wCscHitsCut" && CscHitsCut!="woCscHitsCut") cout<<"problem w CscHitsCut assignment!!!"<<endl;
   if (DtInvBetaCut!="wDtInvBetaCut" && DtInvBetaCut!="woDtInvBetaCut") cout<<"problem w DtInvBetaCut assignment!!!"<<endl;
   if (TimeInOutCut!="wTimeInOutCut" && TimeInOutCut!="woTimeInOutCut") cout<<"problem w TimeInOutCut assignment!!!"<<endl;
@@ -3188,6 +3215,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     bool pass_Preeta = false; 
     bool pass_PreRPC = false; 
     bool pass_PreDtHits = false; 
+    bool pass_PreInvBetaErr = false; 
     bool pass_PreCscHits = false;
     bool pass_Upper = false; 
     bool pass_pt = false; 
@@ -3296,9 +3324,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		cout<<"right before turnon curve"<<endl;
 		//do trigger turn on curve
 		if(doTriggerTurnOn){		  
-		  PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreCscHits);		  
-		  PreselectionSA_counts(pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreCscHits);
-		  if(n_passPreselection>0) TriggerTurnOn(events, file_dataset_, presel0_index, ChaCutValue_, EtaCutValue_, RpcCutValue_, DtHitsCutValue_, CscHitsCutValue_);
+		  PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreInvBetaErrCutValue_, PreCscHitsCutValue_, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);		  
+		  PreselectionSA_counts(pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
+		  if(n_passPreselection>0) TriggerTurnOn(events, file_dataset_, presel0_index);
 		  cout<<"right after turnon curve"<<endl;
 		}
 		
@@ -3310,8 +3338,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    cout<<"finished trigger cut"<<endl;
 		    //StoppingRegionAcceptance(events);
 
-		    PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreCscHitsCutValue_, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreCscHits);
-		    PreselectionSA_counts(pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreCscHits);
+		    PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreInvBetaErrCutValue_, PreCscHitsCutValue_, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
+		    PreselectionSA_counts(pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
 		    if(n_passPreselection>0){
 		      StoppingRegionAcceptance(events);
 		      HighestPtSA(events, file_dataset_, presel0_index, presel1_index, presel2_index, presel3_index, highestPt_index, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, OppEtaCutValue_, OppPhiCutValue_, pass_Upper,pass_pt,pass_cha,pass_eta,pass_RPC,pass_DisSt,pass_DtHits,pass_CscHits,pass_DtInvBeta,pass_TimeInOut,pass_TofDir,pass_Rpc_Bx,pass_OppEta,pass_OppPhi);
@@ -3883,6 +3911,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if(doEtaCut)                                    cout<<"number of events passing |eta[0]|<"<<PreEtaCutValue_<<" cut is: "<<pass_Preeta_cut<<endl;
   if(doRpcCut)                                    cout<<"number of events passing >"<<PreRpcCutValue_<<" RPC hit cut is: "<<pass_PreRPC_cut<<endl;
   if(doDtHitsCut)                                 cout<<"number of events passing >"<<PreDtHitsCutValue_<<" DT hits cut is: "<<pass_PreDtHits_cut<<endl;
+  if(doInvBetaErrCut)                             cout<<"number of events passing >"<<PreInvBetaErrCutValue_<<" DT hits cut is: "<<pass_PreInvBetaErr_cut<<endl;
   if(doCscHitsCut)                                cout<<"number of events passing =="<<PreCscHitsCutValue_<<" CSC hits cut is: "<<pass_PreCscHits_cut<<endl;
   if(doUpperCut)                                  cout<<"number of events passing upper hemisphere cut is: "<<pass_Upper_cut<<endl;
   if(doPtCut)                                     cout<<"number of events passing pt[0]>"<<PtCutValue_<<" cut is: "<<pass_pt_cut<<endl;

@@ -1695,7 +1695,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
       }
 
       //look at REAL doubly charged Higgs
-      if (TMath::Abs(p.pdgId()) == 61) {
+      if (TMath::Abs(p.pdgId()) == 9900041) {
 	Double_t charge = 999.0;
 	const HepPDT::ParticleData* PData = fPDGTable->particle(HepPDT::ParticleID(p.pdgId()));
 	if(PData==0) {

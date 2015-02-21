@@ -16,8 +16,8 @@ set PtCut = wPtCut
 #set PtCut = woPtCut 
 set ChaCut = wChaCut 
 #set ChaCut = woChaCut 
-set EtaCut = wEtaCut 
-#set EtaCut = woEtaCut 
+#set EtaCut = wEtaCut 
+set EtaCut = woEtaCut 
 set UpperCut = woUpperCut 
 #set UpperCut = wUpperCut 
 set RpcCut = wRpcCut 
@@ -28,6 +28,8 @@ set RpcBxCut = woRpcBxCut
 #set RpcBxCut = wRpcBxCut
 set DtHitsCut = wDtHitsCut 
 #set DtHitsCut = woDtHitsCut 
+set InvBetaErrCut = wInvBetaErrCut 
+#set InvBetaErrCut = woInvBetaErrCut 
 set CscHitsCut = wCscHitsCut 
 #set CscHitsCut = woCscHitsCut 
 #set DtInvBetaCut = wDtInvBetaCut 
@@ -51,10 +53,10 @@ set Printout = woPrintout
 #set Printout = wPrintout
 
 if ($Printout == "woPrintout") then
-    set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$TofDirCut"_"$OppEtaCut"_"$OppPhiCut"_"$ChargeCut"_"$TightPhi"_"$CosEnrich
+    set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$InvBetaErrCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$TofDirCut"_"$OppEtaCut"_"$OppPhiCut"_"$ChargeCut"_"$TightPhi"_"$CosEnrich
 else
     set cuts_ = $Printout    
 endif
 
-set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $TofDirCut $OppEtaCut $OppPhiCut $ChargeCut $TightPhi $CosEnrich $resT3 $Printout"
+set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $InvBetaErrCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $TofDirCut $OppEtaCut $OppPhiCut $ChargeCut $TightPhi $CosEnrich $resT3 $Printout"
 
