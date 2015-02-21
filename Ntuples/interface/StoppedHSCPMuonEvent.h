@@ -563,6 +563,27 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector< std::vector<Int_t> > mcTauPrimeDaughterStatus;
   std::vector<Int_t> mcTauPrimeGenIndex;
 
+  // MC doubly charged Higgs
+  unsigned mcDoublyChargedHiggs_N;
+  std::vector<Int_t> mcDoublyChargedHiggsId;
+  std::vector<Double_t> mcDoublyChargedHiggsMass;
+  std::vector<Double_t> mcDoublyChargedHiggsCharge; // Not currently filled
+  std::vector<Double_t> mcDoublyChargedHiggsPx;
+  std::vector<Double_t> mcDoublyChargedHiggsPy;
+  std::vector<Double_t> mcDoublyChargedHiggsPz;
+  std::vector<Double_t> mcDoublyChargedHiggsPt;
+  std::vector<Double_t> mcDoublyChargedHiggsP;
+  std::vector<Double_t> mcDoublyChargedHiggsE;
+  std::vector<Double_t> mcDoublyChargedHiggsPhi;
+  std::vector<Double_t> mcDoublyChargedHiggsEta;
+  std::vector<Int_t> mcDoublyChargedHiggsStatus;
+  std::vector<Int_t> mcDoublyChargedHiggsNMothers;
+  std::vector<Int_t> mcDoublyChargedHiggsMotherId;
+  std::vector<Int_t> mcDoublyChargedHiggsNDaughters;
+  std::vector< std::vector<Int_t> > mcDoublyChargedHiggsDaughterId;
+  std::vector< std::vector<Int_t> > mcDoublyChargedHiggsDaughterStatus;
+  std::vector<Int_t> mcDoublyChargedHiggsGenIndex;
+
   // MC chargino
   unsigned mcChargino_N;
   std::vector<Int_t> mcCharginoId;
@@ -1606,11 +1627,12 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,30); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,31); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
   //version 30: add displacedStandAloneMuons collection
+  //version 31: add doubly charged higgs
 };
 
 #endif

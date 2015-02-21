@@ -3,11 +3,13 @@
 set BxCutValue = 2
 
 set PrePtCutValue = 10.
-set PreChaCutValue = 1
+#set PreChaCutValue = 1
+set PreChaCutValue = 2
 set PreEtaCutValue = 1.0
 #set PreRpcCutValue = 0
 set PreRpcCutValue = 1
 #set PreRpcCutValue = 2
+#set PreRpcCutValue = 3
 #set PreDtHitsCutValue = 0
 #set PreDtHitsCutValue = 8
 set PreDtHitsCutValue = 7

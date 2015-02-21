@@ -1694,6 +1694,49 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	event_->mcTauPrime_N++; 
       }
 
+      //look at REAL doubly charged Higgs
+      if (TMath::Abs(p.pdgId()) == 61) {
+	Double_t charge = 999.0;
+	const HepPDT::ParticleData* PData = fPDGTable->particle(HepPDT::ParticleID(p.pdgId()));
+	if(PData==0) {
+	  LogDebug ("StoppedHSCPMuonTreeProducer") << "Error getting HepPDT data table for "
+					       << p.pdgId() << ". Unable to fill charge "
+					       << "of tauPrime." << std::endl;
+	} else {
+	  charge = PData->charge();
+	}
+
+	std::vector<int> daughterId;
+	std::vector<int> daughterStatus;
+	for(size_t j=0; j<p.numberOfDaughters(); j++){
+	  const reco::Candidate* daughter = p.daughter(j);
+	  daughterId.push_back(daughter->pdgId());
+	  daughterStatus.push_back(daughter->status());
+	}
+	const reco::Candidate* mother = p.mother();
+	int motherId = -999;
+	if(mother) motherId = mother->pdgId();
+
+	event_->mcDoublyChargedHiggsId.push_back(p.pdgId());
+	event_->mcDoublyChargedHiggsMass.push_back(p.mass());
+	event_->mcDoublyChargedHiggsCharge.push_back(charge);
+	event_->mcDoublyChargedHiggsPx.push_back(p.px());
+	event_->mcDoublyChargedHiggsPy.push_back(p.py());
+	event_->mcDoublyChargedHiggsPz.push_back(p.pz());
+	event_->mcDoublyChargedHiggsPt.push_back(p.pt());
+	event_->mcDoublyChargedHiggsP.push_back(p.p());
+	event_->mcDoublyChargedHiggsEta.push_back(p.eta());
+	event_->mcDoublyChargedHiggsPhi.push_back(p.phi());
+	event_->mcDoublyChargedHiggsStatus.push_back(p.status());
+	event_->mcDoublyChargedHiggsNMothers.push_back(p.numberOfMothers());
+	event_->mcDoublyChargedHiggsMotherId.push_back(motherId);
+	event_->mcDoublyChargedHiggsNDaughters.push_back(p.numberOfDaughters());
+	event_->mcDoublyChargedHiggsDaughterId.push_back(daughterId);
+	event_->mcDoublyChargedHiggsDaughterStatus.push_back(daughterStatus);
+	event_->mcDoublyChargedHiggsGenIndex.push_back(i);
+	event_->mcDoublyChargedHiggs_N++; 
+      }
+
       //look at gluinos
       if (TMath::Abs(p.pdgId()) == 1000021) {
 	Double_t charge = 999.0;

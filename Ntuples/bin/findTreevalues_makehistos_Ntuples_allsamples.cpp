@@ -2180,15 +2180,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
   cout<<"filled denominator hist"<<endl;
 
   //pass HLT                                                                                                                                                                                                     
-  //if ( (doTriggerCut && file_dataset != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) ){ 
-  if ( (doTriggerCut && file_dataset != "Zmum" && ( events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) ){ 
+  if(file_dataset != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo) ){ 
+  //if(file_dataset != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo) ){ 
+  //if(file_dataset != "Zmum" && ( events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo) ){ 
     cout<<"passed HLT"<<endl;
     muDisplacedStandAlonePt_HLTnumerator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
   }//end of pass hlt
   
   //pass L1
   //[2] is main BX
-  if ( (doTriggerCut && events->l1SingleMu6NoBptx[2] ) || (!doTriggerCut) ){
+  if (events->l1SingleMu6NoBptx[2]){
     cout<<"passed L1"<<endl;
     muDisplacedStandAlonePt_L1numerator_hist->Fill(events->muDisplacedStandAlonePt[presel0_index],1.0);
   }//end of pass L1
@@ -3143,7 +3144,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   //Int_t nentries = tree->GetEntries();
   cout<<"number of entries is: "<<nentries<<endl;
   
-  //for (Int_t i=0; i<500000; i++) {
+  //for (Int_t i=0; i<1000000; i++) {
+    //for (Int_t i=0; i<500000; i++) {
   for (Int_t i=0; i<nentries; i++) {
   //for (Int_t i=0; i<2000; i++) {    
   //for (Int_t i=0; i<100; i++) {
@@ -3328,16 +3330,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 		    if(doPrintout){
 		      if(n_passPreselection>0){
+			//if(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[presel0_index]>20){
+			if(events->DTSegment_N>20){
+			  //if(events->cscSeg_N>0){
 			//if(highestPt_index!=999 || (n_Upper>0 && n_Lower>0)){
-			if((n_Upper>0 && n_Lower>0)){
-			  if(pass_charge_2){
+			//if((n_Upper>0 && n_Lower>0)){
+			    //if(pass_charge_2){			   
 			    if(!is_data) printout_gen(events);
 			    printout_SA(events);
 			    printout_RSA(events);
 			    printout_cosmic(events);
 			    printout_L2(events);
 			    printout_L1(events);
-			  }
+			    //}
 			}
 		      }
 		    }
@@ -3452,7 +3457,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    }//end of if MC
 
 		    if(n_passPreselection>0){
-		      
+			
 		      //1D n tracks and total n segments histos
 		      muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
 		      //muDisplacedStandAlone_N_hist->Fill(n_passPreselection,1.0);
