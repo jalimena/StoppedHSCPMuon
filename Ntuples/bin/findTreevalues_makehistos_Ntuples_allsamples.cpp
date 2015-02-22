@@ -204,6 +204,13 @@ public:
     mcLLMass_hist = new TH1D("mcLLMass_hist","Gen LL Particle Mass",40,0,0.2);
     mcLLNDaughters_hist = new TH1D("mcLLNDaughters_hist","Number of Daughters of Gen LL Particles",10,0,10);
     mcLLDaughterId_hist = new TH1D("mcLLDaughterId_hist","Daughter Id of Gen LL Particles",50,-25,25);
+
+    mcHPlusPlusPt_hist = new TH1D("mcHPlusPlusPt_hist","Gen H++ p_{T}",1000,0,1000);
+    mcHPlusPlusEta_hist = new TH1D("mcHPlusPlusEta_hist","Gen H++ #eta",120,-6,6);
+    mcHPlusPlusPhi_hist = new TH1D("mcHPlusPlusPhi_hist","Gen H++ #phi",64,-3.2,3.2);
+    mcHMinusMinusPt_hist = new TH1D("mcHMinusMinusPt_hist","Gen H-- p_{T}",1000,0,1000);
+    mcHMinusMinusEta_hist = new TH1D("mcHMinusMinusEta_hist","Gen H-- #eta",120,-6,6);
+    mcHMinusMinusPhi_hist = new TH1D("mcHMinusMinusPhi_hist","Gen H-- #phi",64,-3.2,3.2);
     
     mcTop_N_hist = new TH1D("mcTop_N_hist","Number of Generated Tops",10,0,10);
     mcTopStatus_hist = new TH1D("mcTopStatus_hist","Gen Top Status",10,0,10);
@@ -569,6 +576,9 @@ private:
   void mchamps( StoppedHSCPMuonEvent*, bool&, bool (&)[15], bool (&)[15], bool (&)[15], int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&, Double_t&);
   void staus( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&);
   void cosmicMC( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&);
+  void doublyChargedHiggs( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
+  void tauPrime( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
+
   void stop_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluino_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
   void mchamp_counts( StoppedHSCPMuonEvent*, int&, UInt_t&, UInt_t&);
@@ -648,6 +658,13 @@ private:
   TH1D* mcLLMass_hist;
   TH1D* mcLLNDaughters_hist;
   TH1D* mcLLDaughterId_hist;
+
+  TH1D* mcHPlusPlusPt_hist;
+  TH1D* mcHPlusPlusEta_hist;
+  TH1D* mcHPlusPlusPhi_hist;
+  TH1D* mcHMinusMinusPt_hist;
+  TH1D* mcHMinusMinusEta_hist;
+  TH1D* mcHMinusMinusPhi_hist;
 
   TH1D* mcTop_N_hist;
   TH1D* mcTopStatus_hist;
@@ -1269,6 +1286,77 @@ void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC( StoppedHSCPMuonEven
 
   if(genMu0_index!=999) good_genMuons = 1;
 }//end of cosmicMC
+
+void findTreevalues_makehistos_Ntuples_allsamples::doublyChargedHiggs( StoppedHSCPMuonEvent* events,
+								       bool (&status2H_)[15], int& good_genH, 
+								       UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index,
+								       Double_t& angle ){
+
+  //check first to see if there is a status 1 muon in the event 
+  for (UInt_t j=0; j<events->mcDoublyChargedHiggs_N; j++) {
+    if(events->mcDoublyChargedHiggsStatus[j]==2){
+      status2H_[j] = true;
+      good_genH++;
+      if(good_genH==1) genH0_index = j;
+      if(good_genH==2) genH1_index = j;
+    }
+  }
+
+  if(good_genH!=2) cout<<"for event "<<events->id<<", have "<<good_genH<<" good generator doubly charged higgs"<<endl;
+
+  // 3D angle between doubly charged higgs
+  if(good_genH==2 && events->mcDoublyChargedHiggsP[genH0_index]!=0. && events->mcDoublyChargedHiggsP[genH1_index]!=0.){
+    angle = TMath::ACos(( (events->mcDoublyChargedHiggsPx[genH0_index])*(events->mcDoublyChargedHiggsPx[genH1_index]) + (events->mcDoublyChargedHiggsPy[genH0_index])*(events->mcDoublyChargedHiggsPy[genH1_index]) + (events->mcDoublyChargedHiggsPz[genH0_index])*(events->mcDoublyChargedHiggsPz[genH1_index]))/((events->mcDoublyChargedHiggsP[genH0_index])*(events->mcDoublyChargedHiggsP[genH1_index])));
+  }
+
+  //one in positive, one negative?
+  if(events->mcDoublyChargedHiggsCharge[genH0_index] == -2 && events->mcDoublyChargedHiggsCharge[genH1_index] == 2){
+    genHpos_index = genH1_index;
+    genHneg_index = genH0_index;
+  }
+  if(events->mcDoublyChargedHiggsCharge[genH1_index] == -2 && events->mcDoublyChargedHiggsCharge[genH0_index] == 2){
+    genHpos_index = genH0_index;
+    genHneg_index = genH1_index;
+  }
+
+}//end of doublyChargedHiggs
+
+void findTreevalues_makehistos_Ntuples_allsamples::tauPrime( StoppedHSCPMuonEvent* events,
+								       bool (&status2H_)[15], int& good_genH, 
+								       UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index,
+								       Double_t& angle ){
+
+  //check first to see if there is a status 1 muon in the event 
+  for (UInt_t j=0; j<events->mcTauPrime_N; j++) {
+    if(events->mcTauPrimeStatus[j]==1){
+      status2H_[j] = true;
+      good_genH++;
+      if(good_genH==1) genH0_index = j;
+      if(good_genH==2) genH1_index = j;
+      cout<<"genH0 index is: "<<genH0_index<<", genH1_index is: "<<genH1_index<<endl;
+    }
+  }
+
+  if(good_genH!=2) cout<<"for event "<<events->id<<", have "<<good_genH<<" good generator tauPrimes"<<endl;
+
+  // 3D angle between doubly charged higgs
+  if(good_genH==2 && events->mcTauPrimeP[genH0_index]!=0. && events->mcTauPrimeP[genH1_index]!=0.){
+    angle = TMath::ACos(( (events->mcTauPrimePx[genH0_index])*(events->mcTauPrimePx[genH1_index]) + (events->mcTauPrimePy[genH0_index])*(events->mcTauPrimePy[genH1_index]) + (events->mcTauPrimePz[genH0_index])*(events->mcTauPrimePz[genH1_index]))/((events->mcTauPrimeP[genH0_index])*(events->mcTauPrimeP[genH1_index])));
+  }
+
+  //one in positive, one negative?
+  if(events->mcTauPrimeCharge[genH0_index] == -1 && events->mcTauPrimeCharge[genH1_index] == 1){
+    genHpos_index = genH1_index;
+    genHneg_index = genH0_index;
+    cout<<"genHpos index is: "<<genHpos_index<<", genHneg_index is: "<<genHneg_index<<endl;
+  }
+  if(events->mcTauPrimeCharge[genH1_index] == -1 && events->mcTauPrimeCharge[genH0_index] == 1){
+    genHpos_index = genH0_index;
+    genHneg_index = genH1_index;
+    cout<<"genHpos index is: "<<genHpos_index<<", genHneg_index is: "<<genHneg_index<<endl;
+  }
+
+}//end of TauPrime
 
 void findTreevalues_makehistos_Ntuples_allsamples::stop_counts( StoppedHSCPMuonEvent* events, bool& WFromTop, bool& status1muon, bool& status1muonFromMuon, bool& status1muonFromW ){
   if( (doGenMuCut && events->mcTop_N>0) || (!doGenMuCut)){
@@ -2957,9 +3045,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   //NoBP, Sing, Zmum
   string file_dataset_=file_dataset.substr(0,4);
   bool is_data=false;
-  bool is_cosmicMC=false;
+  bool is_otherMC=false;
   if(file_dataset_ == "NoBP" || file_dataset_ == "Sing" || file_dataset_ == "Zmum") is_data=true;
-  if(file_dataset_ == "cosm") is_cosmicMC=true;
+  if(file_dataset_ == "cosm" || file_dataset_ == "tauP" || file_dataset_ == "doub") is_otherMC=true;
 
   TString file = "blah";
   if(host_=="cmsl"){
@@ -3196,6 +3284,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     bool status1muonFromLightMeson = false;
     bool muonFromMchamp = false;
     bool status1muon_[15];
+    bool status2H_[15];
     bool status1muonFromMchamp_[15];
     bool status1muonFromMuon_[15];
     for (UInt_t j=0; j<events->mcMuon_N; j++) {
@@ -3209,6 +3298,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     UInt_t genMuUpper_index = 999;
     UInt_t genMuLower_index;
     Double_t angle=-999.;
+
+    int good_genH = 0;
+    UInt_t genH0_index = 999;
+    UInt_t genH1_index = 999;
+    UInt_t genHpos_index = 999;
+    UInt_t genHneg_index;
 
     bool pass_Prept = false; 
     bool pass_Precha = false; 
@@ -3271,6 +3366,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 					angle );
     if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) staus(events, good_genMuons, genMu0_index, tauFromStau, status1muon, status1muonFromTau, status1muonFromMuon, status1muonFromNeutralino);
     if(file_dataset_ == "cosm") cosmicMC(events, good_genMuons, genMu0_index, status1muon);
+    if(file_dataset_ == "tauP") tauPrime(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
+    if(file_dataset_ == "doub") doublyChargedHiggs(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
 
     //bx cut
     if ( (doBxCut && file_dataset_ != "Zmum" && TMath::Abs(events->bxWrtCollision)>=BxCutValue_ && TMath::Abs(events->bxWrtBunch)>=BxCutValue_) || (!doBxCut) || (file_dataset_ == "Zmum") ){
@@ -3279,7 +3376,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       StoppedParticles(events);
 
       //long-lived particle stopping in cavern walls? mcStoppedParticle variables are in mm 
-      if( (!is_data && !is_cosmicMC && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) || (is_cosmicMC)){
+      if( (!is_data && !is_otherMC && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) || (is_otherMC)){
 	//double r = events->mcStoppedParticleR[0]/10.0;
 	//double z = events->mcStoppedParticleZ[0]/10.0;
 	//double particle_eta = eta(events->mcStoppedParticleX[0],events->mcStoppedParticleY[0],
@@ -3424,7 +3521,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    if(events->diMuMass.size()>0) diMuMass_hist->Fill(events->diMuMass[0],1.0);
 
 		    if(!is_data){
-		      if(file_dataset_!="cosm"){
+		      if(!is_otherMC){
 			mcStoppedParticle_N_hist->Fill(events->mcStoppedParticle_N,1.0);
 			mcStoppedParticleX_hist->Fill(events->mcStoppedParticleX[0]/10.0,1.0);
 			mcStoppedParticleY_hist->Fill(events->mcStoppedParticleY[0]/10.0,1.0);
@@ -3437,38 +3534,66 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			mcStoppedParticleXY_hist->Fill(events->mcStoppedParticleX[0]/10.0,events->mcStoppedParticleY[0]/10.0,1.0);
 		      }
 
+		      if(is_otherMC && file_dataset != "cosm"){
+			cout<<"starting to plot HPlusPlus histos"<<endl;
+			if(good_genH==2){
+			  cout<<"2 good gen HPlusPlus"<<endl;
+			  if(file_dataset_ == "doub"){
+			    mcHPlusPlusPt_hist->Fill(events->mcDoublyChargedHiggsPt[genHpos_index],1.0);
+			    mcHPlusPlusEta_hist->Fill(events->mcDoublyChargedHiggsEta[genHpos_index],1.0);
+			    mcHPlusPlusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHpos_index],1.0);
+			    mcHMinusMinusPt_hist->Fill(events->mcDoublyChargedHiggsPt[genHneg_index],1.0);
+			    mcHMinusMinusEta_hist->Fill(events->mcDoublyChargedHiggsEta[genHneg_index],1.0);
+			    mcHMinusMinusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHneg_index],1.0);
+			  }
+			  if(file_dataset_ == "tauP"){
+			    cout<<"file dataset is tauP"<<endl;
+			    mcHPlusPlusPt_hist->Fill(events->mcTauPrimePt[genHpos_index],1.0);
+			    mcHPlusPlusEta_hist->Fill(events->mcTauPrimeEta[genHpos_index],1.0);
+			    mcHPlusPlusPhi_hist->Fill(events->mcTauPrimePhi[genHpos_index],1.0);
+			    mcHMinusMinusPt_hist->Fill(events->mcTauPrimePt[genHneg_index],1.0);
+			    mcHMinusMinusEta_hist->Fill(events->mcTauPrimeEta[genHneg_index],1.0);
+			    mcHMinusMinusPhi_hist->Fill(events->mcTauPrimePhi[genHneg_index],1.0);
+			    cout<<"plotted H histos"<<endl;
+			  }
+			}
+		      }
+
 		      mcMuon_N_hist->Fill(good_genMuons,1.0); //only status 1 good muons
-		      mcMuonPt_hist->Fill(events->mcMuonPt[genMu0_index],1.0);
-		      mcMuonEta_hist->Fill(events->mcMuonEta[genMu0_index],1.0);
-		      mcMuonPhi_hist->Fill(events->mcMuonPhi[genMu0_index],1.0);
-		      mcMuonStatus_hist->Fill(events->mcMuonStatus[genMu0_index],1.0);
-		      mcMuonCharge_hist->Fill(events->mcMuonCharge[genMu0_index],1.0);
-		      mcMuonMass_hist->Fill(events->mcMuonMass[genMu0_index],1.0);
-		      mcMuonVx_hist->Fill(events->mcMuonVx[genMu0_index],1.0);
-		      mcMuonVy_hist->Fill(events->mcMuonVy[genMu0_index],1.0);
-		      mcMuonVz_hist->Fill(events->mcMuonVz[genMu0_index],1.0);
-
-		      double lxy = (events->mcMuonVx[genMu0_index])*(events->mcMuonVx[genMu0_index])+(events->mcMuonVy[genMu0_index])*(events->mcMuonVy[genMu0_index]);
-		      lxy = TMath::Sqrt(lxy);
-		      mcMuonLxy_hist->Fill(lxy,1.0);
-
-		      double dxy = -999.;
-		      if(events->mcMuonPt[genMu0_index]!=0.){
-			dxy = (events->mcMuonVx[genMu0_index]*events->mcMuonPy[genMu0_index] - events->mcMuonVy[genMu0_index]*events->mcMuonPx[genMu0_index])/(events->mcMuonPt[genMu0_index]);
+		      if(genMu0_index!= 999){
+			mcMuonPt_hist->Fill(events->mcMuonPt[genMu0_index],1.0);
+			mcMuonEta_hist->Fill(events->mcMuonEta[genMu0_index],1.0);
+			mcMuonPhi_hist->Fill(events->mcMuonPhi[genMu0_index],1.0);
+			mcMuonStatus_hist->Fill(events->mcMuonStatus[genMu0_index],1.0);
+			mcMuonCharge_hist->Fill(events->mcMuonCharge[genMu0_index],1.0);
+			mcMuonMass_hist->Fill(events->mcMuonMass[genMu0_index],1.0);
+			mcMuonVx_hist->Fill(events->mcMuonVx[genMu0_index],1.0);
+			mcMuonVy_hist->Fill(events->mcMuonVy[genMu0_index],1.0);
+			mcMuonVz_hist->Fill(events->mcMuonVz[genMu0_index],1.0);
+			
+			double lxy = (events->mcMuonVx[genMu0_index])*(events->mcMuonVx[genMu0_index])+(events->mcMuonVy[genMu0_index])*(events->mcMuonVy[genMu0_index]);
+			lxy = TMath::Sqrt(lxy);
+			mcMuonLxy_hist->Fill(lxy,1.0);
+			
+			double dxy = -999.;
+			if(events->mcMuonPt[genMu0_index]!=0.){
+			  dxy = (events->mcMuonVx[genMu0_index]*events->mcMuonPy[genMu0_index] - events->mcMuonVy[genMu0_index]*events->mcMuonPx[genMu0_index])/(events->mcMuonPt[genMu0_index]);
+			}
+			mcMuonDxy_hist->Fill(dxy,1.0);
+			
+			double invBeta = -999.;
+			if(events->mcMuonP[genMu0_index]!=0.){
+			  invBeta = (events->mcMuonMass[genMu0_index]*events->mcMuonMass[genMu0_index])/(events->mcMuonP[genMu0_index]*events->mcMuonP[genMu0_index])+1;
+			  invBeta = TMath::Sqrt(invBeta);
+			}
+			mcMuonInverseBeta_hist->Fill(invBeta,1.0);
+			
+			if(good_genMuons==2){
+			  mcMuon3Dangle_hist->Fill(angle,1.0);
+			  mcMuonDeltaPhi_hist->Fill(events->mcMuonPhi[genMuUpper_index] - events->mcMuonPhi[genMuLower_index],1.0);
+			}			
 		      }
-		      mcMuonDxy_hist->Fill(dxy,1.0);
-
-		      double invBeta = -999.;
-		      if(events->mcMuonP[genMu0_index]!=0.){
-			invBeta = (events->mcMuonMass[genMu0_index]*events->mcMuonMass[genMu0_index])/(events->mcMuonP[genMu0_index]*events->mcMuonP[genMu0_index])+1;
-			invBeta = TMath::Sqrt(invBeta);
-		      }
-		      mcMuonInverseBeta_hist->Fill(invBeta,1.0);
-
-		      if(good_genMuons==2){
-			mcMuon3Dangle_hist->Fill(angle,1.0);
-			mcMuonDeltaPhi_hist->Fill(events->mcMuonPhi[genMuUpper_index] - events->mcMuonPhi[genMuLower_index],1.0);
-		      }
+		      cout<<"finished genMu histos"<<endl;
 
 		      if(events->l1Muon_N>0){
 			mcMuonPt_l1MuonPt_hist->Fill(events->mcMuonPt[genMu0_index],events->l1MuonPt[0],1.0);		      
@@ -3980,6 +4105,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcLLMass_hist->Write();
     mcLLNDaughters_hist->Write();
     mcLLDaughterId_hist->Write();    
+    mcHPlusPlusPt_hist->Write();    
+    mcHPlusPlusEta_hist->Write();    
+    mcHPlusPlusPhi_hist->Write();    
+    mcHMinusMinusPt_hist->Write();    
+    mcHMinusMinusEta_hist->Write();    
+    mcHMinusMinusPhi_hist->Write();    
     mcTop_N_hist->Write();
     mcTopStatus_hist->Write();
     mcTopPt_hist->Write();
