@@ -1741,7 +1741,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::PreselectionSA( StoppedHSCPMu
 	      pass_PreDtHits = true;
 	      
 	      //inv beta error cut
-	      if( (doInvBetaErrCut && events->muDisplacedStandAloneTrackDtTofInverseBetaErr[j]<PreInvBetaErrCutValue_) || (!doInvBetaErrCut)){
+	      if( (doInvBetaErrCut && events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[j]<PreInvBetaErrCutValue_) || (!doInvBetaErrCut)){
 		pass_PreInvBetaErr = true;
 		
 		//number of CSC hits cut
@@ -4036,7 +4036,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if(doEtaCut)                                    cout<<"number of events passing |eta[0]|<"<<PreEtaCutValue_<<" cut is: "<<pass_Preeta_cut<<endl;
   if(doRpcCut)                                    cout<<"number of events passing >"<<PreRpcCutValue_<<" RPC hit cut is: "<<pass_PreRPC_cut<<endl;
   if(doDtHitsCut)                                 cout<<"number of events passing >"<<PreDtHitsCutValue_<<" DT hits cut is: "<<pass_PreDtHits_cut<<endl;
-  if(doInvBetaErrCut)                             cout<<"number of events passing >"<<PreInvBetaErrCutValue_<<" DT hits cut is: "<<pass_PreInvBetaErr_cut<<endl;
+  if(doInvBetaErrCut)                             cout<<"number of events passing <"<<PreInvBetaErrCutValue_<<" Free inverse beta error cut is: "<<pass_PreInvBetaErr_cut<<endl;
   if(doCscHitsCut)                                cout<<"number of events passing =="<<PreCscHitsCutValue_<<" CSC hits cut is: "<<pass_PreCscHits_cut<<endl;
   if(doUpperCut)                                  cout<<"number of events passing upper hemisphere cut is: "<<pass_Upper_cut<<endl;
   if(doPtCut)                                     cout<<"number of events passing pt[0]>"<<PtCutValue_<<" cut is: "<<pass_pt_cut<<endl;
