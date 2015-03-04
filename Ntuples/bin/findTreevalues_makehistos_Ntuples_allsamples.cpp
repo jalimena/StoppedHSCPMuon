@@ -218,11 +218,19 @@ public:
     mcLLNDaughters_hist = new TH1D("mcLLNDaughters_hist","Number of Daughters of Gen LL Particles",10,0,10);
     mcLLDaughterId_hist = new TH1D("mcLLDaughterId_hist","Daughter Id of Gen LL Particles",50,-25,25);
 
-    mcHPlusPlusPt_hist = new TH1D("mcHPlusPlusPt_hist","Gen H++ p_{T}",1000,0,1000);
-    mcHPlusPlusEta_hist = new TH1D("mcHPlusPlusEta_hist","Gen H++ #eta",120,-6,6);
+    mcHPlusPlusP_hist = new TH1D("mcHPlusPlusP_hist","Gen H++ p",5000,0,5000);
+    mcHPlusPlusPx_hist = new TH1D("mcHPlusPlusPx_hist","Gen H++ p_{x}",5000,-5000,5000);
+    mcHPlusPlusPy_hist = new TH1D("mcHPlusPlusPy_hist","Gen H++ p_{y}",5000,-5000,5000);
+    mcHPlusPlusPz_hist = new TH1D("mcHPlusPlusPz_hist","Gen H++ p_{z}",5000,-5000,5000);
+    mcHPlusPlusPt_hist = new TH1D("mcHPlusPlusPt_hist","Gen H++ p_{T}",5000,0,5000);
+    mcHPlusPlusEta_hist = new TH1D("mcHPlusPlusEta_hist","Gen H++ #eta",160,-8,8);
     mcHPlusPlusPhi_hist = new TH1D("mcHPlusPlusPhi_hist","Gen H++ #phi",64,-3.2,3.2);
-    mcHMinusMinusPt_hist = new TH1D("mcHMinusMinusPt_hist","Gen H-- p_{T}",1000,0,1000);
-    mcHMinusMinusEta_hist = new TH1D("mcHMinusMinusEta_hist","Gen H-- #eta",120,-6,6);
+    mcHMinusMinusP_hist = new TH1D("mcHMinusMinusP_hist","Gen H-- p",5000,0,5000);
+    mcHMinusMinusPx_hist = new TH1D("mcHMinusMinusPx_hist","Gen H-- p_{x}",5000,-5000,5000);
+    mcHMinusMinusPy_hist = new TH1D("mcHMinusMinusPy_hist","Gen H-- p_{y}",5000,-5000,5000);
+    mcHMinusMinusPz_hist = new TH1D("mcHMinusMinusPz_hist","Gen H-- p_{z}",5000,-5000,5000);
+    mcHMinusMinusPt_hist = new TH1D("mcHMinusMinusPt_hist","Gen H-- p_{T}",5000,0,5000);
+    mcHMinusMinusEta_hist = new TH1D("mcHMinusMinusEta_hist","Gen H-- #eta",160,-8,8);
     mcHMinusMinusPhi_hist = new TH1D("mcHMinusMinusPhi_hist","Gen H-- #phi",64,-3.2,3.2);
     
     mcTop_N_hist = new TH1D("mcTop_N_hist","Number of Generated Tops",10,0,10);
@@ -604,6 +612,12 @@ private:
   void doublyChargedHiggs( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
   void tauPrime( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
 
+  double eventWeightTauPrimeEtaPos( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, double (&eventweightEtaPos)[160]);
+  double eventWeightTauPrimeEtaNeg( StoppedHSCPMuonEvent* events, UInt_t& genHneg_index, double (&eventweightEtaNeg)[160]);
+
+  //double eventWeightTauPrimePPos( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, double (&eventweightPPos)[500]);
+  //double eventWeightTauPrimePNeg( StoppedHSCPMuonEvent* events, UInt_t& genHneg_index, double (&eventweightPNeg)[500]);
+
   void stop_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluino_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
   void mchamp_counts( StoppedHSCPMuonEvent*, int&, UInt_t&, UInt_t&);
@@ -687,9 +701,17 @@ private:
   TH1D* mcLLNDaughters_hist;
   TH1D* mcLLDaughterId_hist;
 
+  TH1D* mcHPlusPlusP_hist;
+  TH1D* mcHPlusPlusPx_hist;
+  TH1D* mcHPlusPlusPy_hist;
+  TH1D* mcHPlusPlusPz_hist;
   TH1D* mcHPlusPlusPt_hist;
   TH1D* mcHPlusPlusEta_hist;
   TH1D* mcHPlusPlusPhi_hist;
+  TH1D* mcHMinusMinusP_hist;
+  TH1D* mcHMinusMinusPx_hist;
+  TH1D* mcHMinusMinusPy_hist;
+  TH1D* mcHMinusMinusPz_hist;
   TH1D* mcHMinusMinusPt_hist;
   TH1D* mcHMinusMinusEta_hist;
   TH1D* mcHMinusMinusPhi_hist;
@@ -1397,6 +1419,36 @@ void findTreevalues_makehistos_Ntuples_allsamples::tauPrime( StoppedHSCPMuonEven
   }
 
 }//end of TauPrime
+
+double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrimeEtaPos( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, double(&eventweightEtaPos)[160]){
+  double eventWeight = 1.0;
+  const int NumBins = 160;
+  double binWidth = 0.1;
+
+  for(int i=0;i<NumBins; i++){
+    if(events->mcTauPrimeEta[genHpos_index] > (-8.+binWidth*i) && events->mcTauPrimeEta[genHpos_index] < (-8.+binWidth*(i+1)) ){
+      eventWeight = eventweightEtaPos[i];
+      //cout<<"event weight is being set"<<endl;
+    }
+    //cout<<"eventweightPos["<<i<<"] is: "<<eventweightPos[i]<<endl;
+  }
+
+  //cout<<"TauPrimeEta is: "<<events->mcTauPrimeEta[genHpos_index]<<", eventWeight is: "<<eventWeight<<endl;
+
+  return eventWeight;
+}//end of eventWeightTauPrimeEtaPos
+
+double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrimeEtaNeg( StoppedHSCPMuonEvent* events, UInt_t& genHneg_index, double(&eventweightEtaNeg)[160]){
+  double eventWeight = 1.0;
+  const int NumBins = 160;
+  double binWidth = 0.1;
+
+  for(int i=0;i<NumBins; i++){
+    if(events->mcTauPrimeEta[genHneg_index] > (-8.+binWidth*i) && events->mcTauPrimeEta[genHneg_index] < (-8.+binWidth*(i+1)) ) eventWeight = eventweightEtaNeg[i];
+  }
+
+  return eventWeight;
+}//end of eventWeightTauPrimeNeg
 
 void findTreevalues_makehistos_Ntuples_allsamples::stop_counts( StoppedHSCPMuonEvent* events, bool& WFromTop, bool& status1muon, bool& status1muonFromMuon, bool& status1muonFromW ){
   if( (doGenMuCut && events->mcTop_N>0) || (!doGenMuCut)){
@@ -3107,7 +3159,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   bool is_data=false;
   bool is_otherMC=false;
   if(file_dataset_ == "NoBP" || file_dataset_ == "Sing" || file_dataset_ == "Zmum") is_data=true;
-  if(file_dataset_ == "cosm" || file_dataset_ == "tauP" || file_dataset_ == "doub") is_otherMC=true;
+  if(file_dataset_ == "tauP" || file_dataset_ == "doub") is_otherMC=true;
 
   TString file = "blah";
   if(host_=="cmsl"){
@@ -3311,6 +3363,23 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     cout<<"opened output file"<<endl;
   }
 
+  //get text files
+  const int NumBins = 160;
+  double eventweightEtaPos[NumBins];
+  double eventweightEtaNeg[NumBins];
+
+  ifstream inPos, inNeg;
+  inPos.open("/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/PlusPlusEtaWeights.txt", ios::in);
+  inNeg.open("/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/MinusMinusEtaWeights.txt", ios::in);
+
+  for(int i=0;i<NumBins; i++){
+    inPos >> eventweightEtaPos[i];
+    inNeg >> eventweightEtaNeg[i];
+    cout<<"eventweightPos["<<i<<"] is: "<<eventweightEtaPos[i]<<endl;
+    if (!inPos.good()) break;
+    if (!inNeg.good()) break;
+  }
+
 
   //get tree
   TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
@@ -3328,9 +3397,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   //Int_t nentries = tree->GetEntries();
   cout<<"number of entries is: "<<nentries<<endl;
   
-  //for (Int_t i=0; i<1000000; i++) {
+  for (Int_t i=0; i<100000; i++) {
     //for (Int_t i=0; i<500000; i++) {
-  for (Int_t i=0; i<nentries; i++) {
+  //for (Int_t i=0; i<nentries; i++) {
   //for (Int_t i=0; i<2000; i++) {    
   //for (Int_t i=0; i<100; i++) {
     tree->GetEntry(i);
@@ -3372,7 +3441,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     UInt_t genH0_index = 999;
     UInt_t genH1_index = 999;
     UInt_t genHpos_index = 999;
-    UInt_t genHneg_index;
+    UInt_t genHneg_index = 999;
 
     bool pass_PreNdsa = false; 
     bool pass_Prept = false; 
@@ -3446,7 +3515,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       StoppedParticles(events);
 
       //long-lived particle stopping in cavern walls? mcStoppedParticle variables are in mm 
-      if( (!is_data && !is_otherMC && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) || (is_otherMC)){
+      if( (!is_data && (!is_otherMC ||file_dataset_!= "cosm") && doCavCut && events->mcStoppedParticle_N>0 && events->mcStoppedParticleR[0]<7285. && TMath::Abs(events->mcStoppedParticleZ[0]<10800)) || (!doCavCut) || (is_data) || (is_otherMC)){
 	//double r = events->mcStoppedParticleR[0]/10.0;
 	//double z = events->mcStoppedParticleZ[0]/10.0;
 	//double particle_eta = eta(events->mcStoppedParticleX[0],events->mcStoppedParticleY[0],
@@ -3469,7 +3538,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	  //printout_gen(events);
 	}
 	
-	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && events->mcMuonCharge[genMu0_index]==events->mcMuonCharge[genMu1_index]))) || (!doGenMuCut) || (is_data)){
+	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && events->mcMuonCharge[genMu0_index]==events->mcMuonCharge[genMu1_index]))) || (!doGenMuCut) || (is_data) || (is_otherMC)){
 	  cout<<"finished status1muon"<<endl;
 
 	  //SA muon cut
@@ -3594,7 +3663,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    if(events->diMuMass.size()>0) diMuMass_hist->Fill(events->diMuMass[0],1.0);
 
 		    if(!is_data){
-		      if(!is_otherMC){
+		      if(!is_otherMC && file_dataset_!="cosm"){
 			mcStoppedParticle_N_hist->Fill(events->mcStoppedParticle_N,1.0);
 			mcStoppedParticleX_hist->Fill(events->mcStoppedParticleX[0]/10.0,1.0);
 			mcStoppedParticleY_hist->Fill(events->mcStoppedParticleY[0]/10.0,1.0);
@@ -3612,21 +3681,57 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			if(good_genH==2){
 			  cout<<"2 good gen HPlusPlus"<<endl;
 			  if(file_dataset_ == "doub"){
+			    mcHPlusPlusP_hist->Fill(events->mcDoublyChargedHiggsP[genHpos_index],1.0);
+			    mcHPlusPlusPx_hist->Fill(events->mcDoublyChargedHiggsPx[genHpos_index],1.0);
+			    mcHPlusPlusPy_hist->Fill(events->mcDoublyChargedHiggsPy[genHpos_index],1.0);
+			    mcHPlusPlusPz_hist->Fill(events->mcDoublyChargedHiggsPz[genHpos_index],1.0);
 			    mcHPlusPlusPt_hist->Fill(events->mcDoublyChargedHiggsPt[genHpos_index],1.0);
 			    mcHPlusPlusEta_hist->Fill(events->mcDoublyChargedHiggsEta[genHpos_index],1.0);
 			    mcHPlusPlusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHpos_index],1.0);
+			    mcHMinusMinusP_hist->Fill(events->mcDoublyChargedHiggsP[genHneg_index],1.0);
+			    mcHMinusMinusPx_hist->Fill(events->mcDoublyChargedHiggsPx[genHneg_index],1.0);
+			    mcHMinusMinusPy_hist->Fill(events->mcDoublyChargedHiggsPy[genHneg_index],1.0);
+			    mcHMinusMinusPz_hist->Fill(events->mcDoublyChargedHiggsPz[genHneg_index],1.0);
 			    mcHMinusMinusPt_hist->Fill(events->mcDoublyChargedHiggsPt[genHneg_index],1.0);
 			    mcHMinusMinusEta_hist->Fill(events->mcDoublyChargedHiggsEta[genHneg_index],1.0);
 			    mcHMinusMinusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHneg_index],1.0);
 			  }
 			  if(file_dataset_ == "tauP"){
 			    cout<<"file dataset is tauP"<<endl;
+			    cout<<"TauPrimeEta[genHpos_index] is: "<<events->mcTauPrimeEta[genHpos_index]<<", and eventWeightTauPrimeEtaPos is: "<<eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos)<<endl;
+			    cout<<"TauPrimeEta[genHneg_index] is: "<<events->mcTauPrimeEta[genHneg_index]<<", and eventWeightTauPrimeEtaNeg is: "<<eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg)<<endl;
+			    
+			    mcHPlusPlusP_hist->Fill(events->mcTauPrimeP[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusPx_hist->Fill(events->mcTauPrimePx[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusPy_hist->Fill(events->mcTauPrimePy[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusPz_hist->Fill(events->mcTauPrimePz[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusPt_hist->Fill(events->mcTauPrimePt[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusEta_hist->Fill(events->mcTauPrimeEta[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHPlusPlusPhi_hist->Fill(events->mcTauPrimePhi[genHpos_index],eventWeightTauPrimeEtaPos(events,genHpos_index,eventweightEtaPos));
+			    mcHMinusMinusP_hist->Fill(events->mcTauPrimeP[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusPx_hist->Fill(events->mcTauPrimePx[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusPy_hist->Fill(events->mcTauPrimePy[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusPz_hist->Fill(events->mcTauPrimePz[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusPt_hist->Fill(events->mcTauPrimePt[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusEta_hist->Fill(events->mcTauPrimeEta[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    mcHMinusMinusPhi_hist->Fill(events->mcTauPrimePhi[genHneg_index],eventWeightTauPrimeEtaNeg(events,genHneg_index,eventweightEtaNeg));
+			    
+			    /*
+			    mcHPlusPlusP_hist->Fill(events->mcTauPrimeP[genHpos_index],1.0);
+			    mcHPlusPlusPx_hist->Fill(events->mcTauPrimePx[genHpos_index],1.0);
+			    mcHPlusPlusPy_hist->Fill(events->mcTauPrimePy[genHpos_index],1.0);
+			    mcHPlusPlusPz_hist->Fill(events->mcTauPrimePz[genHpos_index],1.0);
 			    mcHPlusPlusPt_hist->Fill(events->mcTauPrimePt[genHpos_index],1.0);
 			    mcHPlusPlusEta_hist->Fill(events->mcTauPrimeEta[genHpos_index],1.0);
 			    mcHPlusPlusPhi_hist->Fill(events->mcTauPrimePhi[genHpos_index],1.0);
+			    mcHMinusMinusP_hist->Fill(events->mcTauPrimeP[genHneg_index],1.0);
+			    mcHMinusMinusPx_hist->Fill(events->mcTauPrimePx[genHneg_index],1.0);
+			    mcHMinusMinusPy_hist->Fill(events->mcTauPrimePy[genHneg_index],1.0);
+			    mcHMinusMinusPz_hist->Fill(events->mcTauPrimePz[genHneg_index],1.0);
 			    mcHMinusMinusPt_hist->Fill(events->mcTauPrimePt[genHneg_index],1.0);
 			    mcHMinusMinusEta_hist->Fill(events->mcTauPrimeEta[genHneg_index],1.0);
 			    mcHMinusMinusPhi_hist->Fill(events->mcTauPrimePhi[genHneg_index],1.0);
+			    */
 			    cout<<"plotted H histos"<<endl;
 			  }
 			}
@@ -4216,9 +4321,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcLLMass_hist->Write();
     mcLLNDaughters_hist->Write();
     mcLLDaughterId_hist->Write();    
+    mcHPlusPlusP_hist->Write();    
+    mcHPlusPlusPx_hist->Write();    
+    mcHPlusPlusPy_hist->Write();    
+    mcHPlusPlusPz_hist->Write();    
     mcHPlusPlusPt_hist->Write();    
     mcHPlusPlusEta_hist->Write();    
     mcHPlusPlusPhi_hist->Write();    
+    mcHMinusMinusP_hist->Write();    
+    mcHMinusMinusPx_hist->Write();    
+    mcHMinusMinusPy_hist->Write();    
+    mcHMinusMinusPz_hist->Write();    
     mcHMinusMinusPt_hist->Write();    
     mcHMinusMinusEta_hist->Write();    
     mcHMinusMinusPhi_hist->Write();    
