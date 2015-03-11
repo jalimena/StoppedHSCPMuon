@@ -193,7 +193,7 @@ public:
 
     //define histograms
     id_hist = new TH1D("id_hist","Event Number",100000,0,100000);
-    run_hist = new TH1D("run_hist","Run Number",8000,192000,200000);
+    run_hist = new TH1D("run_hist","Run Number",10000,190000,210000);
     bx_hist = new TH1D("bx_hist","BX",8000,0,4000);
     bxWrtCollision_hist = new TH1D("bxWrtCollision_hist","BX w.r.t. Collision",4000,-1000,1000);
     bxWrtBunch_hist = new TH1D("bxWrtBunch_hist","BX w.r.t. Bunch",4000,-1000,1000);
@@ -448,6 +448,8 @@ public:
     runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist = new TH2D("runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist","",10000,190000,210000,1000,-50,50);
     runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","",10000,190000,210000,1000,-50,50);
     runNumber_muDisplacedStandAlonePt_hist = new TH2D("runNumber_muDisplacedStandAlonePt_hist","",10000,190000,210000,1000,0,1000);
+    runNumber_muDisplacedStandAlonePhi_hist = new TH2D("runNumber_muDisplacedStandAlonePhi_hist","",10000,190000,210000,64,-3.2,3.2);
+    runNumber_muDisplacedStandAloneN_hist = new TH2D("runNumber_muDisplacedStandAloneN_hist","",10000,190000,210000,10,0,10);
 
     Upper_muDisplacedStandAlonePt_hist = new TH1D("Upper_muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
     Upper_muDisplacedStandAloneEta_hist = new TH1D("Upper_muDisplacedStandAloneEta_hist","StandAlone Muon #eta",120,-6,6);
@@ -486,9 +488,11 @@ public:
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist = new TH2D("Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist","DT Time InOut vs Free Inverse Beta",400,-100,100,1000,-50,50);
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist = new TH2D("Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist","DT Time InOut vs Direction",400,-100,100,3,-1,2);
 
-    Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
     Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist","run number vs free #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-50,50);
+    Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
     Upper_runNumber_muDisplacedStandAlonePt_hist = new TH2D("Upper_runNumber_muDisplacedStandAlonePt_hist","run number vs p_T of StandAlone Muons",10000,190000,210000,1000,0,1000);
+    Upper_runNumber_muDisplacedStandAlonePhi_hist = new TH2D("Upper_runNumber_muDisplacedStandAlonePhi_hist","",10000,190000,210000,64,-3.2,3.2);
+    Upper_runNumber_muDisplacedStandAloneN_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneN_hist","",10000,190000,210000,10,0,10);
 
     Lower_muDisplacedStandAlonePt_hist = new TH1D("Lower_muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
     Lower_muDisplacedStandAloneEta_hist = new TH1D("Lower_muDisplacedStandAloneEta_hist","StandAlone Muon #eta",120,-6,6);
@@ -527,9 +531,11 @@ public:
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist = new TH2D("Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist","DT Time InOut vs Free Inverse Beta",400,-100,100,1000,-50,50);
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist = new TH2D("Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist","DT Time InOut vs Direction",400,-100,100,3,-1,2);
 
-    Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
     Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist","run number vs free #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-50,50);
+    Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
     Lower_runNumber_muDisplacedStandAlonePt_hist = new TH2D("Lower_runNumber_muDisplacedStandAlonePt_hist","run number vs p_T of StandAlone Muons",10000,190000,210000,1000,0,1000);
+    Lower_runNumber_muDisplacedStandAlonePhi_hist = new TH2D("Lower_runNumber_muDisplacedStandAlonePhi_hist","",10000,190000,210000,64,-3.2,3.2);
+    Lower_runNumber_muDisplacedStandAloneN_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneN_hist","",10000,190000,210000,10,0,10);
         
     Upper_Lower_muDisplacedStandAlone_deltaPhi_hist = new TH1D("Upper_Lower_muDisplacedStandAlone_deltaPhi_hist","Delta Phi",500,0,5);
     mudiff_muDisplacedStandAloneTofTimeAtIpInOut_hist = new TH1D("mudiff_muDisplacedStandAloneTofTimeAtIpInOut_hist","Time at IP InOut of First minus Second StandAlone Muon",400,-100,100);
@@ -940,6 +946,8 @@ private:
   TH2D* runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist;
   TH2D* runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
   TH2D* runNumber_muDisplacedStandAlonePt_hist;
+  TH2D* runNumber_muDisplacedStandAlonePhi_hist;
+  TH2D* runNumber_muDisplacedStandAloneN_hist;
   
   TH1D* Upper_muDisplacedStandAlonePt_hist;
   TH1D* Upper_muDisplacedStandAloneEta_hist;
@@ -978,9 +986,11 @@ private:
   TH2D* Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist;
   TH2D* Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist;
 
-  TH2D* Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
   TH2D* Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist;
+  TH2D* Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
   TH2D* Upper_runNumber_muDisplacedStandAlonePt_hist;
+  TH2D* Upper_runNumber_muDisplacedStandAlonePhi_hist;
+  TH2D* Upper_runNumber_muDisplacedStandAloneN_hist;
 
   TH1D* Lower_muDisplacedStandAlonePt_hist;
   TH1D* Lower_muDisplacedStandAloneEta_hist;
@@ -1019,9 +1029,11 @@ private:
   TH2D* Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist;
   TH2D* Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist;
 
-  TH2D* Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
   TH2D* Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist;
+  TH2D* Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
   TH2D* Lower_runNumber_muDisplacedStandAlonePt_hist;
+  TH2D* Lower_runNumber_muDisplacedStandAlonePhi_hist;
+  TH2D* Lower_runNumber_muDisplacedStandAloneN_hist;
 
   TH1D* Upper_Lower_muDisplacedStandAlone_deltaPhi_hist;
   TH1D* mudiff_muDisplacedStandAloneTofTimeAtIpInOut_hist;
@@ -3698,6 +3710,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    diMu_N_hist->Fill(events->diMuMass.size(),1.0);
 		    if(events->diMuMass.size()>0) diMuMass_hist->Fill(events->diMuMass[0],1.0);
 
+		    runNumber_muDisplacedStandAloneN_hist->Fill(events->run,n_passPreselection,1.0);
+
 		    if(!is_data){
 		      if(file_dataset_!="cosm"){
 			mcStoppedParticle_N_hist->Fill(events->mcStoppedParticle_N,eventweightTauPrime);
@@ -3910,6 +3924,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);
 			runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofInverseBeta[highestPt_index],1.0);
 			runNumber_muDisplacedStandAlonePt_hist->Fill(events->run,events->muDisplacedStandAlonePt[highestPt_index],1.0);		      
+			runNumber_muDisplacedStandAlonePhi_hist->Fill(events->run,events->muDisplacedStandAlonePhi[highestPt_index],1.0);
 			
 			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
 			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_) nDregion++;
@@ -4040,7 +4055,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
 		      Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofInverseBeta[upper_index],1.0);
 		      Upper_runNumber_muDisplacedStandAlonePt_hist->Fill(events->run,events->muDisplacedStandAlonePt[upper_index],1.0);		     
-		      
+		      Upper_runNumber_muDisplacedStandAlonePhi_hist->Fill(events->run,events->muDisplacedStandAlonePhi[upper_index],1.0);		     
+		      Upper_runNumber_muDisplacedStandAloneN_hist->Fill(events->run,n_Upper,1.0);
+
 		      //lower, 1D
 		      Lower_muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[lower_index],1.0);
 		      Lower_muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[lower_index],1.0);
@@ -4084,7 +4101,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_index],1.0);
 		      Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofInverseBeta[lower_index],1.0);
 		      Lower_runNumber_muDisplacedStandAlonePt_hist->Fill(events->run,events->muDisplacedStandAlonePt[lower_index],1.0);		     
-
+		      Lower_runNumber_muDisplacedStandAlonePhi_hist->Fill(events->run,events->muDisplacedStandAlonePhi[lower_index],1.0);		     
+		      Lower_runNumber_muDisplacedStandAloneN_hist->Fill(events->run,n_Lower,1.0);
 
 		      //upper and lower (diff, delta, multiply), 1D
 		      Upper_Lower_muDisplacedStandAlone_deltaPhi_hist->Fill(events->muDisplacedStandAlonePhi[upper_index] - events->muDisplacedStandAlonePhi[lower_index],1.0);
@@ -4562,6 +4580,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Write();
     runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Write();
     runNumber_muDisplacedStandAlonePt_hist->Write();
+    runNumber_muDisplacedStandAlonePhi_hist->Write();
+    runNumber_muDisplacedStandAloneN_hist->Write();
     Upper_muDisplacedStandAlonePt_hist->Write();
     Upper_muDisplacedStandAloneEta_hist->Write();
     Upper_muDisplacedStandAlonePhi_hist->Write();
@@ -4600,6 +4620,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Write();
     Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Write();
     Upper_runNumber_muDisplacedStandAlonePt_hist->Write();    
+    Upper_runNumber_muDisplacedStandAlonePhi_hist->Write();
+    Upper_runNumber_muDisplacedStandAloneN_hist->Write();
     Lower_muDisplacedStandAlonePt_hist->Write();
     Lower_muDisplacedStandAloneEta_hist->Write();
     Lower_muDisplacedStandAlonePhi_hist->Write();
@@ -4638,6 +4660,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Write();
     Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Write();
     Lower_runNumber_muDisplacedStandAlonePt_hist->Write();    
+    Lower_runNumber_muDisplacedStandAlonePhi_hist->Write();
+    Lower_runNumber_muDisplacedStandAloneN_hist->Write();
     Upper_Lower_muDisplacedStandAlone_deltaPhi_hist->Write();
     mudiff_muDisplacedStandAloneTofTimeAtIpInOut_hist->Write();
     mudiff_muDisplacedStandAloneTofTimeAtIpOutIn_hist->Write();
