@@ -42,7 +42,7 @@ namespace {
       "~T+","~T0","~T_s+","~T_c0","~T_b+",
       "~T_dd10","~T_ud0+","~T_ud1+","~T_uu1++","~T_sd00",
       "~T_sd10","~T_su0+","~T_su1+","~T_ss10",
-      "tau1",
+      "~tau1",
       "~HIP6"
   };
   const std::string specialAntiName [specialNumber] = {
@@ -53,8 +53,8 @@ namespace {
     "~Tbar-","~Tbar0","~Tbar_s-","~Tbar_c0","~Tbar_b-",
     "~Tbar_dd10","~Tbar_ud0-","~Tbar_ud1-","~Tbar_uu1--","~Tbar_sd00",
     "~Tbar_sd10","~Tbar_su0-","~Tbar_su1-","~Tbar_ss10",
-    "~tau1",
-    "~HIP6"
+    "anti_~tau1",
+    "anti_~HIP6"
   };
   int getSpecialId (const std::string& fName) {
     for (int i = 0; i < specialNumber; ++i) {
@@ -117,9 +117,9 @@ namespace {
     for (int id = 0; id < 17; ++id) {
       const char* name = specialName[id].c_str();
       int pid = specialPid[id];
-      //std::cout<<"writeRHadron pid is: "<<pid<<std::endl;
+      //LogDebug("GeneratorInterface")<<"writeRHadron pid is: "<<pid<<std::endl;
       if ((pid % 100000) > 90000) { // R-Baryon
-	//std::cout<<"writeRHadron R-baryon is: "<<pid<<std::endl;
+	//LogDebug("GeneratorInterface")<<"writeRHadron R-baryon is: "<<pid<<std::endl;
 	int quark [3];
 	int charge = 0;
 	int qid = (pid % 10000) / 10;
@@ -141,7 +141,7 @@ namespace {
 	sprintf (buffer, "         4 1 \n"); file << buffer;
       }
       else if ((pid % 10000) > 9000) { // R-Meson
-	//std::cout<<"writeRHadron R-meson is: "<<pid<<std::endl;
+	//LogDebug("GeneratorInterface")<<"writeRHadron R-meson is: "<<pid<<std::endl;
 	int quark [2];
 	int qid = (pid % 1000) / 10;
 	for (int i = 0; i < 2; ++i) {
@@ -166,7 +166,7 @@ namespace {
 	sprintf (buffer, "         4 1 \n"); file << buffer;
       }
       else { // glueball
-	//std::cout<<"writeRHadron glueball is: "<<pid<<std::endl;
+	//LogDebug("GeneratorInterface")<<"writeRHadron glueball is: "<<pid<<std::endl;
 	sprintf (buffer, "DECAY     %7d     1.00000000E-05\n", pid); file << buffer;
 	sprintf (buffer, "     1.00000000E+00   2   21   1000021\n");
 	file << buffer;
@@ -195,7 +195,7 @@ namespace {
 	  qid = qid / 10;
 	}
 	if (quark[2] != 6) {
-	  std::cout << "writeStopHadron-> STOP R-hadron is expected, " << pid << " is found" << std::endl;
+	  LogDebug("GeneratorInterface") << "writeStopHadron-> STOP R-hadron is expected, " << pid << " is found" << std::endl;
 	  return;
 	}
 	sprintf (buffer, "DECAY     %7d     1.00000000E-05\n", pid); file << buffer;
@@ -217,7 +217,7 @@ namespace {
 	  qid = qid / 10;
 	}
 	if (quark[1] != 6) {
-	  std::cout << "writeStopHadron-> STOP R-hadron is expected, " << pid << " is found" << std::endl;
+	  LogDebug("GeneratorInterface") << "writeStopHadron-> STOP R-hadron is expected, " << pid << " is found" << std::endl;
 	  return;
 	}
 	int charge = 0;
@@ -238,7 +238,7 @@ namespace {
 	sprintf (buffer, "         4 1 \n"); file << buffer;
       }
       else {
-	std::cout << "writeStopHadron-> Unknown STop R-hadron: " << pid << std::endl;
+	LogDebug("GeneratorInterface") << "writeStopHadron-> Unknown STop R-hadron: " << pid << std::endl;
       }
     }
   }
@@ -272,7 +272,7 @@ namespace {
     writeStau (file);
     setAllMasses (file, fSparticleMass, fNeutralinoMass, fGravitinoMass);
     //setAllMasses (file, fSparticleMass, fNeutralinoMass);
-    std::cout << "***** " << fName.c_str() << std::endl;
+    LogInfo("GeneratorInterface") << "***** " << fName.c_str() << std::endl;
   }
 
 }// unnamed namespace
@@ -282,6 +282,11 @@ Pythia6HSCPGun::Pythia6HSCPGun( const ParameterSet& pset ) :
   mReadFromFile(pset.getUntrackedParameter<bool>("readFromFile", true)),
   mStopPointProducer(pset.getUntrackedParameter<std::string>("stopPointInputTag", "g4SimHits")),
   mFileName(pset.getParameter<std::string>("stoppedData")),
+  nStoppedParticles(0),
+  //mPID_(0),
+  //mVx_(0.),
+  //mVy_(0.),
+  //mVz_(0.),
   mPID(0),
   mVx(0.),
   mVy(0.),
@@ -309,16 +314,22 @@ Pythia6HSCPGun::~Pythia6HSCPGun()
 
 // copied from Pythia6Gun::produce
 void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
-  std::cout<<"starting produce of Pythia6HSCPGun"<<std::endl;
+  LogDebug("GeneratorInterface")<<"starting produce of Pythia6HSCPGun"<<std::endl;
   RandomEngineSentry<Pythia6Service> sentry(fPy6Service, evt.streamID());
 
+  nStoppedParticles = 0;
   bool isStoppedEvent = false;
-  std::string name("none");
-  mPID=0;
-  mVx=0.;
-  mVy=0.;
-  mVz=0.;
+  const char *initilize[] = {"none","none","none","none","none"};
+  std::vector<std::string> name(initilize, std::end(initilize));
+  mPID={0,0,0,0,0};
+  mVx={0.,0.,0.,0.,0.};
+  mVy={0.,0.,0.,0.,0.};
+  mVz={0.,0.,0.,0.,0.};
 
+  //mPID=0;
+  //mVx=0.;
+  //mVy=0.;
+  //mVz=0.;
   // get stopping point info
   if (mReadFromFile) {   // read stopping info from file
     
@@ -333,10 +344,11 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
       }
     }
     char nn[32];
-    sscanf (buf, "%s %f %f %f", nn, &mVx, &mVy, &mVz);
-    name = std::string(nn);
-    mPID = getSpecialId(name);
+    sscanf (buf, "%s %f %f %f", nn, &mVx.at(0), &mVy.at(0), &mVz.at(0));
+    name.at(0) = std::string(nn);
+    mPID.at(0) = getSpecialId(name.at(0));
     isStoppedEvent = true;
+    nStoppedParticles = 1;
   }
   else {  // or from the event
 
@@ -355,20 +367,21 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
 				       << std::endl;
     }
      else {
-       std::cout<<"names->size is: "<<names->size()<<std::endl;
-       // TODO - what about when we have two stopped particles?!?
-       // currently take the first one, not sure there is anything we can do about this.
+       LogDebug("GeneratorInterface")<<"names->size is: "<<names->size()<<std::endl;
+       nStoppedParticles = names->size();
+       // get stopping info from any number of stopped particles (not just 0 or 1, as before)
        if (names->size() > 0) {
-	 name = names->at(0);
-	 mPID = getSpecialId(names->at(0));
-	 mVx  = xs->at(0);
-	 mVy  = ys->at(0);
-	 mVz  = zs->at(0);
 	 isStoppedEvent = true;
-	 std::cout<<"names->size is: "<<names->size()<<std::endl;
-	 std::cout<<"isStoppedEvent with name "<<name<<", mPID "<<mPID<<", mVx "<<mVx<<", mVy "<<mVy<<", mVz "<<mVz<<std::endl;
+	 //LogDebug("GeneratorInterface")<<"names->size is: "<<names->size()<<std::endl;
+	 for(int i=0; i<nStoppedParticles; i++){
+	   name.at(i) = names->at(i);
+	   mPID.at(i) = getSpecialId(names->at(i));
+	   mVx.at(i)  = xs->at(i);
+	   mVy.at(i)  = ys->at(i);
+	   mVz.at(i)  = zs->at(i);
+	   LogInfo("GeneratorInterface")<<"isStoppedEvent with name "<<name.at(i)<<", mPID "<<mPID.at(i)<<", mVx "<<mVx.at(i)<<", mVy "<<mVy.at(i)<<", mVz "<<mVz.at(i)<<std::endl;
+	 }
        }
-
      }
 
     //edm::LogInfo("Pythia6HSCPGun") << "Pythia6HSCPGun::generateEvent-> name/pid vertex: "
@@ -377,10 +390,10 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
     //				   << std::endl; 
 
   }
-  std::cout<<"got stopping point info"<<std::endl;
+  LogDebug("GeneratorInterface")<<"got stopping point info"<<std::endl;
   if (isStoppedEvent) {
     generateEvent(fPy6Service->randomEngine()) ;
-    
+
     fEvt->set_beam_particles(0,0);
     fEvt->set_event_number(evt.id().event()) ;
     fEvt->set_signal_process_id(pypars.msti[0]) ;  
@@ -397,67 +410,82 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
 	}
     }
     loadEvent( evt );
-    std::cout<<"loaded event"<<std::endl;
+    LogDebug("GeneratorInterface")<<"loaded event"<<std::endl;
   }
-  std::cout<<"end of produce method"<<std::endl;
+  LogDebug("GeneratorInterface")<<"end of produce method"<<std::endl;
 }
 
 void Pythia6HSCPGun::generateEvent(CLHEP::HepRandomEngine*)
 //void Pythia6HSCPGun::generateEvent()
 {
-  //std::cout<<"starting generateEvent of Pythia6HSCPGun"<<std::endl;
-  // check the case where no stopped particle found
-  // need to check this doesn't break stuff
-  if (mPID==0) {
-    std::cout<<"mPID is 0"<<std::endl;
-    return;
-  }
+  //LogDebug("GeneratorInterface")<<"starting generateEvent of Pythia6HSCPGun"<<std::endl;
+
+  // here re-create fEvt (memory)
+  fEvt = new HepMC::GenEvent() ;
 
   Pythia6Service::InstanceWrapper guard(fPy6Service);	// grab Py6 instance
-  //std::cout<<"grabbed Py6 instance"<<std::endl;
-  // 1st, primary vertex
-   //
-  HepMC::GenVertex* Vtx = new HepMC::GenVertex( HepMC::FourVector(mVx, mVy, mVz));
+  //LogDebug("GeneratorInterface")<<"grabbed Py6 instance"<<std::endl;
   
-  // here re-create fEvt (memory)
-  //
-  fEvt = new HepMC::GenEvent() ;
-  std::cout<<"made fEvt"<<std::endl;
-  int ip=1;
-  
-  int particleID = mPID;
-  int py6PID = HepPID::translatePDTtoPythia( particleID );
-  double mass = pymass_(particleID);
-  
-  // fill p(ip,5) (in PYJETS) with mass value right now,
-  // because the (hardcoded) mstu(10)=1 will make py1ent
-  // pick the mass from there
-  pyjets.p[4][ip-1]=mass; 	 
-  
-  double phi = 0.;
-  double ee   = mass;
-  double eta  = 0;
-  double the  = 2.*atan(exp(-eta));
-  
-  std::cout<<"just before py1ent_"<<std::endl;
-  py1ent_(ip, py6PID, ee, the, phi);
-  std::cout<<"did py1ent_"<<std::endl;
+  LogDebug("GeneratorInterface")<<"made fEvt"<<std::endl;
+  LogInfo("GeneratorInterface")<<"nStoppedParticles is: "<<nStoppedParticles<<std::endl;
 
-  double px     = pyjets.p[0][ip-1]; // pt*cos(phi) ;
-  double py     = pyjets.p[1][ip-1]; // pt*sin(phi) ;
-  double pz     = pyjets.p[2][ip-1]; // mom*cos(the) ;
+  for(int i=0; i<nStoppedParticles; i++){
+    // check the case where no stopped particle found
+    // need to check this doesn't break stuff
+    if (mPID.at(i)==0) {
+      LogInfo("GeneratorInterface")<<"mPID is 0"<<std::endl;
+      return;
+    }
+    
+    HepMC::GenVertex* Vtx = new HepMC::GenVertex( HepMC::FourVector(mVx.at(i), mVy.at(i), mVz.at(i)) );
+    
+    int ip=1+i;
+    
+    int particleID = mPID.at(i);
+    int py6PID = HepPID::translatePDTtoPythia( particleID );
+    double mass = pymass_(particleID);
+    
+    // fill p(ip,5) (in PYJETS) with mass value right now,
+    // because the (hardcoded) mstu(10)=1 will make py1ent
+    // pick the mass from there
+    pyjets.p[4][i]=mass; 	 
+    
+    double phi = 0.;
+    double ee   = mass;
+    double eta  = 0;
+    double the  = 2.*atan(exp(-eta));
+    
+    LogDebug("GeneratorInterface")<<"just before py1ent_"<<std::endl;
+    py1ent_(ip, py6PID, ee, the, phi);
+    LogDebug("GeneratorInterface")<<"did py1ent_"<<std::endl;
+    
+    double px     = pyjets.p[0][i]; // pt*cos(phi) ;
+    double py     = pyjets.p[1][i]; // pt*sin(phi) ;
+    double pz     = pyjets.p[2][i]; // mom*cos(the) ;
+    
+    HepMC::FourVector p(px,py,pz,ee) ;
+    HepMC::GenParticle* Part = new HepMC::GenParticle(p,particleID,1);    
+    //LogDebug("GeneratorInterface")<<"px="<<px<<", py="<<py<<", pz="<<pz<<", particleID="<<particleID<<std::endl;
+    
+    Part->suggest_barcode( ip ) ;
+    Vtx->add_particle_out(Part);
   
-  HepMC::FourVector p(px,py,pz,ee) ;
-  HepMC::GenParticle* Part = new HepMC::GenParticle(p,particleID,1);
-  //std::cout<<"made Part"<<std::endl;
-  Part->suggest_barcode( ip ) ;
-  Vtx->add_particle_out(Part);
-  
-  fEvt->add_vertex(Vtx);
-  std::cout<<"added event vertex"<<std::endl;
+    fEvt->add_vertex(Vtx);
+    LogDebug("GeneratorInterface")<<"added event vertex: "<<mVx.at(i)<<", "<<mVy.at(i)<<", "<<mVz.at(i)<<std::endl;
+
+  }//end of loop over stopped particles
+
+  for ( HepMC::GenEvent::vertex_iterator vt=fEvt->vertices_begin(); vt!=fEvt->vertices_end(); ++vt ) {
+    LogInfo("GeneratorInterface")<<"vertex is: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+    for ( HepMC::GenVertex::particle_iterator pt=(*vt)->particles_begin(HepMC::children); pt!=(*vt)->particles_end(HepMC::children); ++pt ) {
+      LogInfo("GeneratorInterface")<<"particle is: "<<(*pt)->pdg_id()<<std::endl;
+    }
+  }
+
   // run pythia
   pyexec_();
-  std::cout<<"ran pythia"<<std::endl;
+  LogDebug("GeneratorInterface")<<"ran pythia"<<std::endl;
+
   return;
 }
 

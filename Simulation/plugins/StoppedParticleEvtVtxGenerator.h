@@ -48,9 +48,16 @@ private:
   //CLHEP::RandFlat*  mRandom ;
 
   // stopped particle vertex
+  std::vector<float> mVx_;
+  std::vector<float> mVy_;
+  std::vector<float> mVz_;
+  std::vector<int> ids_;
+
   float mVx;
   float mVy;
   float mVz;
   float mVt;
+  int id;
   bool isStoppedEvent;
+  int nStoppedParticles;
 };

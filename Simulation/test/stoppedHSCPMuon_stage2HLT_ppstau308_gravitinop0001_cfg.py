@@ -61,7 +61,8 @@ process.options = cms.untracked.PSet(
 # Input source
 process.source = cms.Source ("PoolSource",
                              fileNames=cms.untracked.vstring(#'root://eoscms//eos/cms/store/user/jalimena/mchamp600_GEN-SIM/A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
-        'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
+        #'root://eoscms//eos/cms/store/user/jalimena/stop600_GEN-SIM/C8772570-CAFE-E111-B967-0022197A160A.root'
+        'file:../stage1/step1_ppstau100.root'
                                                              )
                              )
 
@@ -85,6 +86,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
 
 process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
@@ -183,7 +185,8 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
 
 process.genParticles = cms.EDProducer("GenParticleProducer",
                                       saveBarCodes = cms.untracked.bool(True),
-                                      src = cms.InputTag("generator"),
+                                      #src = cms.InputTag("generator"),
+                                      src = cms.InputTag("VtxSmeared"),
                                       abortOnUnknownPDGCode = cms.untracked.bool(False),
                                       )
 

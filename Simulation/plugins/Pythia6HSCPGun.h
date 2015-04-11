@@ -32,10 +32,17 @@ namespace gen {
 	std::string mFileName;
 	std::ifstream* mFile;
 
-	int mPID;
-	float mVx;
-	float mVy;
-	float mVz;
+	int nStoppedParticles;
+
+	std::vector<int> mPID;
+	std::vector<float> mVx;
+	std::vector<float> mVy;
+	std::vector<float> mVz;
+
+	//int mPID;
+	//float mVx;
+	//float mVy;
+	//float mVz;
 
    };
   

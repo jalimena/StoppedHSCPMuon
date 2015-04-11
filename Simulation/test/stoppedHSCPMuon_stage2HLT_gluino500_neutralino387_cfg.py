@@ -41,7 +41,8 @@ process.options = cms.untracked.PSet(
 # Input source
 process.source = cms.Source ("PoolSource",
                              fileNames=cms.untracked.vstring(
-    'root://eoscms//eos/cms/store/user/jalimena/gluino_GEN-SIM/C01AE68D-29FE-E111-802B-0030487F92B5.root'
+    #'root://eoscms//eos/cms/store/user/jalimena/gluino_GEN-SIM/C01AE68D-29FE-E111-802B-0030487F92B5.root'
+        'file:../stage1/step1_gluino500.root'
     )
                              )
 
@@ -67,6 +68,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
 
 process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
@@ -163,7 +165,8 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
 
 process.genParticles = cms.EDProducer("GenParticleProducer",
                                       saveBarCodes = cms.untracked.bool(True),
-                                      src = cms.InputTag("generator"),
+                                      #src = cms.InputTag("generator"),
+                                      src = cms.InputTag("VtxSmeared"),
                                       abortOnUnknownPDGCode = cms.untracked.bool(False),
                                       )
 

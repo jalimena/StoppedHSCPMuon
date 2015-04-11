@@ -60,7 +60,8 @@ process.options = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source ("PoolSource",
-                             fileNames=cms.untracked.vstring('file:A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+                             fileNames=cms.untracked.vstring(#'file:A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
+        'file:../stage1/step1_mchamp500.root'
                                                              )
                              )
 
@@ -84,6 +85,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
 
 process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
@@ -134,7 +136,8 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
 
 process.genParticles = cms.EDProducer("GenParticleProducer",
                                       saveBarCodes = cms.untracked.bool(True),
-                                      src = cms.InputTag("generator"),
+                                      #src = cms.InputTag("generator"),
+                                      src = cms.InputTag("VtxSmeared"),
                                       abortOnUnknownPDGCode = cms.untracked.bool(False),
                                       )
 
