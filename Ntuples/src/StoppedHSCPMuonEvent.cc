@@ -346,6 +346,8 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   mcStoppedParticle_N(0),
   mcStoppedParticleName(0),
   mcStoppedParticleId(0),
+  mcStoppedParticleMass(0),
+  mcStoppedParticleCharge(0),
   mcStoppedParticleX(0),
   mcStoppedParticleY(0),
   mcStoppedParticleZ(0),

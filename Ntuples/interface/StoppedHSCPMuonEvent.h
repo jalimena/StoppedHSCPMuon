@@ -783,7 +783,9 @@ class StoppedHSCPMuonEvent : public TObject {
   // MC stopped points
   unsigned mcStoppedParticle_N;
   std::vector<TString> mcStoppedParticleName;
-  std::vector<UInt_t> mcStoppedParticleId;    // Not currently filled
+  std::vector<Int_t> mcStoppedParticleId;
+  std::vector<Double_t> mcStoppedParticleMass;
+  std::vector<Double_t> mcStoppedParticleCharge;
   std::vector<Double_t> mcStoppedParticleX;
   std::vector<Double_t> mcStoppedParticleY;
   std::vector<Double_t> mcStoppedParticleZ;
@@ -1627,12 +1629,14 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,31); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,33); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
   //version 30: add displacedStandAloneMuons collection
   //version 31: add doubly charged higgs
+  //version 32: add StoppedParticle mass, charge, pdgid
+  //version 33: fix for StoppedParticles
 };
 
 #endif

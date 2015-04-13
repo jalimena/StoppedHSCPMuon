@@ -40,6 +40,6 @@ readFiles.extend( [
         #"file:/mnt/hadoop/store/user/jalimena/cosmicMC_PPreco_Anticipate25_RECO_723patch1/cosmicMC_PPreco_Anticipate25_RECO_723patch1/061e1a4501da3522bc9de20f92a23c87/CosmicMC_1_1_jkG.root"
         #"file:../cosmicMC/CosmicMC.root"
 
-        "file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        "file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_correctStage1.root"
 
         ] );

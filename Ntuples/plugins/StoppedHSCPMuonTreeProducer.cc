@@ -1381,13 +1381,20 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
   iEvent.getByLabel (mcProducerTag_, "StoppedParticlesZ", zs);
   edm::Handle<std::vector<float> > times;
   iEvent.getByLabel (mcProducerTag_, "StoppedParticlesTime", times);
-  if (!names.isValid() || !xs.isValid() || !ys.isValid() || !zs.isValid() || !times.isValid()){
+  edm::Handle<std::vector<int> > ids;
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesPdgId", ids);
+  edm::Handle<std::vector<float> > masses;
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesMass", masses);
+  edm::Handle<std::vector<float> > charges;
+  iEvent.getByLabel (mcProducerTag_, "StoppedParticlesCharge", charges);
+  if (!names.isValid() || !xs.isValid() || !ys.isValid() || !zs.isValid() || !times.isValid() 
+      || !ids.isValid() || !masses.isValid() || !charges.isValid() ){
     edm::LogError ("MissingProduct") << "StoppedParticles* vectors not available. Branch "
 				     << "will not be filled." << std::endl;
-  } else if (names->size() != xs->size() || xs->size() != ys->size() || ys->size() != zs->size()) {
+  } else if (names->size() != xs->size() || xs->size() != ys->size() || ys->size() != zs->size() || ids->size()!= names->size()) {
     edm::LogError ("StoppedHSCPMuonTreeProducer") << "mismatch array sizes name/x/y/z:"
 					      << names->size() << '/' << xs->size() << '/' 
-					      << ys->size() << '/' << zs->size() << std::endl;
+						  << ys->size() << '/' << zs->size() << '/' << ids->size() << std::endl;
   } else {
     if (names->size() > 0) {
       for (size_t i = 0; i < names->size(); ++i) {
@@ -1397,20 +1404,22 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	// (the name is not in the ParticleDataTable)
 	//Double_t mass = -1.0;
 	//Double_t charge = 99.0;
-	Int_t pdgid = 0;
-	const HepPDT::ParticleData* PData = fPDGTable->particle(names->at(i));
-	if (PData == 0) {
-	  LogDebug ("StoppedHSCPMuonTreeProducer") << "could not get particle data from the"
-					       << " table for " << names->at(i)
-					       << std::endl;
-	} else {
+	//Int_t pdgid = 0;
+	//const HepPDT::ParticleData* PData = fPDGTable->particle(names->at(i));
+	//if (PData == 0) {
+	//LogDebug ("StoppedHSCPMuonTreeProducer") << "could not get particle data from the"
+	//<< " table for " << names->at(i)
+	//				       << std::endl;
+	//} else {
 	  //mass = PData->mass();
 	  //charge = PData->charge();
-	  pdgid = PData->ID().pid();
-	}
+	  //pdgid = PData->ID().pid();
+	//}
 
 	event_->mcStoppedParticleName.push_back(names->at(i));
-	event_->mcStoppedParticleId.push_back(pdgid);
+	event_->mcStoppedParticleId.push_back(ids->at(i));
+	event_->mcStoppedParticleMass.push_back(masses->at(i));
+	event_->mcStoppedParticleCharge.push_back(charges->at(i));
 	event_->mcStoppedParticleX.push_back(xs->at(i));
 	event_->mcStoppedParticleY.push_back(ys->at(i));
 	event_->mcStoppedParticleZ.push_back(zs->at(i));

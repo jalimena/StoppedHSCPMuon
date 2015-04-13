@@ -58,6 +58,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
 process.RECOSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+process.RECOSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
 
 
 # Additional output definition

@@ -24,14 +24,12 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
-    #input = cms.untracked.int32(100)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
-                            #fileNames = cms.untracked.vstring('file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_mchamp500_710/8b87dfe2c686dbf29ba606a0c8789460/stage2_GEN-HLT_mchamp500_1_1_53s.root')
-                             fileNames = cms.untracked.vstring('file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500.root')
+                            fileNames = cms.untracked.vstring('file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_mchamp500_710/8b87dfe2c686dbf29ba606a0c8789460/stage2_GEN-HLT_mchamp500_1_1_53s.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -60,6 +58,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
 process.RECOSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+process.RECOSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
 
 
 # Additional output definition
