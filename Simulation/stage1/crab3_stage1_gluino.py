@@ -26,18 +26,6 @@ if __name__ == '__main__':
         except HTTPException, hte:
             print hte.headers
 
-    config.General.requestName = 'stage1_gluino100_710'
-    config.JobType.psetName = 'step1_gluino100_cfg.py'
-    config.Data.primaryDataset = 'HSCPgluino_M-100_Tune4C_8TeV-pythia8'
-    config.Data.publishDataName = 'stage1_gluino100_710'
-    submit(config)
-
-    config.General.requestName = 'stage1_gluino200_710'
-    config.JobType.psetName = 'step1_gluino200_cfg.py'
-    config.Data.primaryDataset = 'HSCPgluino_M-200_Tune4C_8TeV-pythia8'
-    config.Data.publishDataName = 'stage1_gluino200_710'
-    submit(config)
-
     config.General.requestName = 'stage1_gluino300_710'
     config.JobType.psetName = 'step1_gluino300_cfg.py'
     config.Data.primaryDataset = 'HSCPgluino_M-300_Tune4C_8TeV-pythia8'
