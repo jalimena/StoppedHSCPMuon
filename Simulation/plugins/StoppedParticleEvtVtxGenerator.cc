@@ -37,6 +37,7 @@ StoppedParticleEvtVtxGenerator::StoppedParticleEvtVtxGenerator(const edm::Parame
     mVx_(0.),
     mVy_(0.),
     mVz_(0.),
+    mVt_(0.),
     ids_(0.),
     mVx(0.),
     mVy(0.),
@@ -45,7 +46,7 @@ StoppedParticleEvtVtxGenerator::StoppedParticleEvtVtxGenerator(const edm::Parame
     id(0.),
     nStoppedParticles(0)
 {
-  // LogDebug("StoppedHSCPMuon")<<"starting StoppedParticleEvtVtxGenerator...."<<std::endl;
+  // std::cout<<"starting StoppedParticleEvtVtxGenerator...."<<std::endl;
   produces<edm::HepMCProduct>();
   if (mReadFromFile) {
     mFile = new std::ifstream (mFileName.c_str());
@@ -57,7 +58,7 @@ StoppedParticleEvtVtxGenerator::~StoppedParticleEvtVtxGenerator() {}
 
 void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSetup& ) {
 
-   LogDebug("StoppedHSCPMuon")<<"starting produce of StoppedParticleEvtVtxGenerator"<<std::endl;
+   std::cout<<"starting produce of StoppedParticleEvtVtxGenerator"<<std::endl;
   //gen::Pythia6Service::InstanceWrapper guard(fPy6Service);   // grab Py6 instance                                                                                                                 
   edm::Service<RandomNumberGenerator> rng;
   if (!rng.isAvailable()) {
@@ -67,7 +68,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
   }
   CLHEP::HepRandomEngine* engine = &rng->getEngine(evt.streamID());
   
-   LogDebug("StoppedHSCPMuon")<<"starting getStoppingPoint (StoppedParticleEvtVtxGenerator)"<<std::endl;
+   std::cout<<"starting getStoppingPoint (StoppedParticleEvtVtxGenerator)"<<std::endl;
   getStoppingPoint(evt);
 
   Handle<HepMCProduct> HepMCEvt ;
@@ -75,7 +76,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
   HepMC::GenEvent * myGenEvent = new  HepMC::GenEvent(*(HepMCEvt->GetEvent()));
   
   if (isStoppedEvent) {
-     LogDebug("StoppedHSCPMuon")<<"is StoppedEvent (StoppedParticleEvtVtxGenerator)"<<std::endl;
+     std::cout<<"is StoppedEvent (StoppedParticleEvtVtxGenerator)"<<std::endl;
 
     //could simply use applyVtxGen function if there was only 1 stopped particle. if we want to include the possibility of 
     //2 stopped particles, then need to apply separate vertex shifts, as below
@@ -92,18 +93,19 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     HepMCEvt->boostToLab( GetInvLorentzBoost(), "momentum" );
 
     for(int i=0; i<nStoppedParticles; i++){
-       LogDebug("StoppedHSCPMuon")<<"stopped particle #"<<i<<" (StoppedParticleEvtVtxGenerator)"<<std::endl;
+       std::cout<<"stopped particle #"<<i<<" (StoppedParticleEvtVtxGenerator)"<<std::endl;
       mVx = mVx_.at(i);
       mVy = mVy_.at(i);
       mVz = mVz_.at(i);
+      mVt = mVt_.at(i);
       id = ids_.at(i);
-       LogDebug("StoppedHSCPMuon") << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm" << std::endl; 
+      std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm" << '/' <<mVt<< " ns" << std::endl; 
       HepMC::FourVector* vtxShift = newVertex(engine);
             
       for ( HepMC::GenEvent::vertex_iterator vt=myGenEvent->vertices_begin(); vt!=myGenEvent->vertices_end(); ++vt ) {
-	 LogDebug("StoppedHSCPMuon")<<"loop over vertices initial: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+	 std::cout<<"loop over vertices initial: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
 	for ( HepMC::GenVertex::particle_iterator pt=(*vt)->particles_begin(HepMC::ancestors); pt!=(*vt)->particles_end(HepMC::ancestors); ++pt ) {
-	   LogDebug("StoppedHSCPMuon")<<"loop over particles (ancestors): "<<(*pt)->pdg_id()<<std::endl;
+	   std::cout<<"loop over particles (ancestors): "<<(*pt)->pdg_id()<<std::endl;
 	  //if ancestor of particles in vertex has the same pdg_id as the stopped particle (sign correct too),
 	  //and if ancestor and stopped particle has the same vertex position,
 	  //then shift the vertex
@@ -115,21 +117,21 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
 	      double z = (*vt)->position().z() + vtxShift->z();
 	      double t = (*vt)->position().t() + vtxShift->t();
 	      (*vt)->set_position(HepMC::FourVector(x,y,z,t));
-	       LogDebug("StoppedHSCPMuon")<<"appliedVtxGen for "<<id<<std::endl;
+	       std::cout<<"appliedVtxGen for "<<id<<std::endl;
 	    }//end of if ancestor and stopped particle vertices match
 	  }//end of if ancestor and stopped particle pdgid match
 	}//end of loop over ancestors
-	 LogDebug("StoppedHSCPMuon")<<"loop over vertices final: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+	 std::cout<<"loop over vertices final: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
       }//end of loop over vertices
     }//end of loop over stopped particles
 
-     LogDebug("StoppedHSCPMuon")<<"isVtxGenApplied is: "<<HepMCEvt->isVtxGenApplied()<<", isVtxBoostApplied is: "<<HepMCEvt->isVtxBoostApplied()<<",  isPBoostApplied is: "<<HepMCEvt->isPBoostApplied()<<std::endl;    
+     std::cout<<"isVtxGenApplied is: "<<HepMCEvt->isVtxGenApplied()<<", isVtxBoostApplied is: "<<HepMCEvt->isVtxBoostApplied()<<",  isPBoostApplied is: "<<HepMCEvt->isPBoostApplied()<<std::endl;    
       
     // OK, create a (pseudo)product and put in into edm::Event
     //no longer needed, since adding new HepMCProduct to the event
     //auto_ptr<bool> NewProduct(new bool(true)) ;      
     //evt.put( NewProduct ) ;      
-    // LogDebug("StoppedHSCPMuon")<<"put new product in event (StoppedParticleEvtVtxGenerator)"<<std::endl;
+    // std::cout<<"put new product in event (StoppedParticleEvtVtxGenerator)"<<std::endl;
     
     if(nStoppedParticles == 2){
       const HepMC::GenEvent* mc = HepMCEvt->GetEvent();    
@@ -143,7 +145,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
   HepProduct->addHepMCData(myGenEvent);
   evt.put(HepProduct);
 
-   LogDebug("StoppedHSCPMuon")<<"ending produce of StoppedParticleEvtVtxGenerator"<<std::endl;
+   std::cout<<"ending produce of StoppedParticleEvtVtxGenerator"<<std::endl;
   return ;
   
 }
@@ -157,6 +159,7 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
   mVx_={0.,0.,0.,0.,0.};
   mVy_={0.,0.,0.,0.,0.};
   mVz_={0.,0.,0.,0.,0.};
+  mVt_={0.,0.,0.,0.,0.};
   ids_={0,0,0,0,0};
 
   // get stopping point info
@@ -169,7 +172,7 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
       mFile = new std::ifstream (mFileName.c_str());
       mFile->getline (buf, 1023);
       if (!mFile->good() || buf[0]=='\n') { // something wrong
-	 LogDebug("StoppedHSCPMuon") << "Failed to open stopping points file" << std::endl;
+	 std::cout << "Failed to open stopping points file" << std::endl;
       }
     }
     char nn[32];
@@ -188,11 +191,13 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
     iEvent.getByLabel (mStopPointProducer, "StoppedParticlesY", ys);
     edm::Handle<std::vector<float> > zs;
     iEvent.getByLabel (mStopPointProducer, "StoppedParticlesZ", zs);
+    edm::Handle<std::vector<float> > ts;
+    iEvent.getByLabel (mStopPointProducer, "StoppedParticlesTime", ts);
     edm::Handle<std::vector<int> > ids;
     iEvent.getByLabel (mStopPointProducer, "StoppedParticlesPdgId", ids);
     
     if (names->size() != xs->size() || xs->size() != ys->size() || ys->size() != zs->size()) {
-       LogDebug("StoppedHSCPMuon") << "mismatch array sizes name/x/y/z:"
+       std::cout << "mismatch array sizes name/x/y/z:"
 				       << names->size() << '/' << xs->size() << '/' << ys->size() << '/' << zs->size()
 				       << std::endl;
     }
@@ -202,16 +207,29 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
        if (names->size() > 0) {
 	 isStoppedEvent = true;
 	 nStoppedParticles = names->size();
-	  LogDebug("StoppedHSCPMuon")<<"names->size() is: "<<nStoppedParticles<<" (getStoppingPoint, StoppedParticleEvtVtxGenerator)"<<std::endl;
+	 std::cout<<"names->size() is: "<<nStoppedParticles<<" (getStoppingPoint, StoppedParticleEvtVtxGenerator)"<<std::endl;
+         if(nStoppedParticles==1) mVt_.at(0) = 0.;
+         else if(nStoppedParticles==2) {
+           double deltaTime = TMath::Abs(ts->at(1)-ts->at(0));
+           if(ts->at(1) > ts->at(0)){
+             mVt_.at(0) = 0.;
+             mVt_.at(1) = deltaTime;
+           }
+           else{
+             mVt_.at(0) = deltaTime;
+             mVt_.at(1) = 0.;
+           }
+         }
+
 	 for(int i=0; i<nStoppedParticles; i++){
 	   name_.at(i) = names->at(i);
 	   mVx_.at(i)  = xs->at(i);
 	   mVy_.at(i)  = ys->at(i);
 	   mVz_.at(i)  = zs->at(i);
 	   ids_.at(i)  = ids->at(i);
-	    LogDebug("StoppedHSCPMuon") << "StoppedParticleEvtVtxGenerator::generateEvent-> name/pid vertex: "
+	    std::cout << "StoppedParticleEvtVtxGenerator::generateEvent-> name/pid vertex: "
 		     << name_.at(i) << '/' << ' '
-		     << mVx_.at(i) << '/' << mVy_.at(i) << '/' << mVz_.at(i) 
+		      << mVx_.at(i) << '/' << mVy_.at(i) << '/' << mVz_.at(i) <<mVt_.at(i)
 		     << std::endl; 	   
 	 }
        }
@@ -226,15 +244,16 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
 
 //HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex() {
 HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex(CLHEP::HepRandomEngine* engine) {
-
-   LogDebug("StoppedHSCPMuon")<<"starting newVertex"<<std::endl;
-
+  
+  std::cout<<"starting newVertex"<<std::endl;
+  
   //mVt = CLHEP::RandFlat::shoot (mTimeMin, mTimeMax);
-  mVt = CLHEP::RandFlat::shoot (engine,mTimeMin, mTimeMax);
+  //mVt = CLHEP::RandFlat::shoot (engine,mTimeMin, mTimeMax);
+  mVt =(mVt* ns * c_light) + CLHEP::RandFlat::shoot (engine,mTimeMin, mTimeMax);
   if (!fVertex) fVertex = new HepMC::FourVector(mVx, mVy, mVz, mVt);
   else fVertex->set (mVx, mVy, mVz, mVt);
   
-  LogDebug("StoppedHSCPMuon") << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm, " << mVt / (ns * c_light) << " ns" << std::endl; 
+  std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm, " << mVt / (ns * c_light) << " ns" << std::endl; 
 
   return fVertex;
 }

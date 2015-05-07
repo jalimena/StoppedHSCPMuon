@@ -19,8 +19,8 @@ process.MessageLogger = cms.Service("MessageLogger",
                                                                            'EventSetupDependency'
                                                                            ),
                                     Info          = cms.untracked.PSet( threshold = cms.untracked.string('INFO'),
-                                                                        Root_Information     = cms.untracked.PSet( limit = cms.untracked.int32(0) ),
-                                                                        EventSetupDependency = cms.untracked.PSet( limit = cms.untracked.int32(0) )
+                                                                        #Root_Information     = cms.untracked.PSet( limit = cms.untracked.int32(0) ),
+                                                                        #EventSetupDependency = cms.untracked.PSet( limit = cms.untracked.int32(0) )
                                                                         ),
                                     Errors        = cms.untracked.PSet( threshold = cms.untracked.string('ERROR') ),
                                     Warnings      = cms.untracked.PSet( threshold = cms.untracked.string('WARNING') ),
@@ -61,7 +61,8 @@ process.options = cms.untracked.PSet(
 # Input source
 process.source = cms.Source ("PoolSource",
                              fileNames=cms.untracked.vstring(#'file:A841BB4A-CEFE-E111-9F17-A4BADB3CF272.root'
-        'file:../stage1/step1_mchamp500.root'
+        #'file:../stage1/step1_mchamp500.root'
+        'file:/home/alimena/TestStage1Stage2/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/stage1/step1_mchamp500.root'
                                                              )
                              )
 

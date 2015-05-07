@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     config.Data.splitting = 'EventBased'
     config.Data.unitsPerJob = 100
-    NJOBS = 2000  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.                                                                                              
+    NJOBS = 1000  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.                                                                                              
     config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
     config.Data.outLFN = '/store/user/jalimena' 
     config.Data.publication = True
@@ -56,10 +56,10 @@ if __name__ == '__main__':
     config.Data.publishDataName = 'stage1_stop500_710'
     submit(config)
 
-    config.General.requestName = 'stage1_stop00_710'
-    config.JobType.psetName = 'step1_stop00_cfg.py'
+    config.General.requestName = 'stage1_stop600_710'
+    config.JobType.psetName = 'step1_stop600_cfg.py'
     config.Data.primaryDataset = 'HSCPstop_M-600_Tune4C_8TeV-pythia8'
-    config.Data.publishDataName = 'stage1_stop00_710'
+    config.Data.publishDataName = 'stage1_stop600_710'
     submit(config)
 
     config.General.requestName = 'stage1_stop700_710'

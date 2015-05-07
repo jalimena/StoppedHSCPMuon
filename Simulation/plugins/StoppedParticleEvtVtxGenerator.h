@@ -51,6 +51,7 @@ private:
   std::vector<float> mVx_;
   std::vector<float> mVy_;
   std::vector<float> mVz_;
+  std::vector<float> mVt_;
   std::vector<int> ids_;
 
   float mVx;

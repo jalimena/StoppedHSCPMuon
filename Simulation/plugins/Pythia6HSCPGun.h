@@ -38,6 +38,7 @@ namespace gen {
 	std::vector<float> mVx;
 	std::vector<float> mVy;
 	std::vector<float> mVz;
+	std::vector<float> mVt;
 
 	//int mPID;
 	//float mVx;
