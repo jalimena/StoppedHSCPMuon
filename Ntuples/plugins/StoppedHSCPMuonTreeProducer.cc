@@ -1230,91 +1230,72 @@ StoppedHSCPMuonTreeProducer::analyze(const edm::Event& iEvent, const edm::EventS
  
   // event & trigger info
   doEventInfo(iEvent);
-  doTrigger(iEvent, iSetup);
+  if (!makeReducedNtuples_) doTrigger(iEvent, iSetup);
   //std::cout<<"finished doTrigger"<<std::endl;
 
-  // general RECO info
-  //doVertices(iEvent,PV); //now gets done every time doStandAloneMuons is done
-  //doJets(iEvent, iSetup);
-  //std::cout<<"finished doJets"<<std::endl;
-  //commenting out doGlobalCalo because gives some errors
-  //doGlobalCalo(iEvent); // uses ntuple calotower info for leadingIphiFractionValue
-  //std::cout<<"finished doGlobalCalo"<<std::endl;
-  doMuons(iEvent, dimuons);
-  //std::cout<<"finished doMuons"<<std::endl;
-  doCosmicMuons(iEvent);
-  doCosmicMuonTracks(iEvent, iSetup);
-  doStandAloneMuons(iEvent, iSetup);
-  //std::cout<<"finished doStandAloneMuons"<<std::endl;
-  doRefittedStandAloneMuons(iEvent, iSetup);
-  doDisplacedStandAloneMuons(iEvent, iSetup);
+  if (!makeReducedNtuples_) {
+    // general RECO info
+    //doVertices(iEvent,PV); //now gets done every time doStandAloneMuons is done
+    //doJets(iEvent, iSetup);
+    //std::cout<<"finished doJets"<<std::endl;
+    //commenting out doGlobalCalo because gives some errors
+    //doGlobalCalo(iEvent); // uses ntuple calotower info for leadingIphiFractionValue
+    //std::cout<<"finished doGlobalCalo"<<std::endl;
+    doMuons(iEvent, dimuons);
+    //std::cout<<"finished doMuons"<<std::endl;
+    doCosmicMuons(iEvent);
+    doCosmicMuonTracks(iEvent, iSetup);
+    doStandAloneMuons(iEvent, iSetup);
+    //std::cout<<"finished doStandAloneMuons"<<std::endl;
+    doRefittedStandAloneMuons(iEvent, iSetup);
+    doDisplacedStandAloneMuons(iEvent, iSetup);
+    
+    
+    doBeamHalo(iEvent);
+    doTracks(iEvent, iSetup);
+    
+    // methods for time of flight variables
+    doTOF(iEvent);
+    doTOFDT(iEvent);
+    doTOFCSC(iEvent);
+    doREFITTOF(iEvent);
+    doREFITTOFDT(iEvent);
+    doREFITTOFCSC(iEvent);
+    
+    // HCAL noise summary info
+    //doHcalNoise(iEvent);
+    
+    // HCAL RecHits & flags
+    //doHcalRecHits(iEvent);
+    doHFRecHits(iEvent);
+    
+    // CSC segments
+    doCscSegments(iEvent, iSetup);
+    doCscHits(iEvent, iSetup); 
+    //doSlices(iEvent, iSetup);  // HE info
+    
+    //std::cout<<"starting doMuonDTs"<<std::endl;
+    // DT Segments
+    doMuonDTs(iEvent, iSetup, DTRecHits);
+    //std::cout<<"finished doMuonDTs"<<std::endl;
+    
+    // RPCs
+    doMuonRPCs(iEvent,iSetup);
+    
+    // digi based variables
+    //if (doDigis_) {
+    //doTimingFromDigis(iEvent, iSetup);
+    //}
+    
+    // if making reduced ntuples, return without writing event
+    // unless basic selection criteria met
+    
 
-
-  doBeamHalo(iEvent);
-  doTracks(iEvent, iSetup);
-
-  // methods for time of flight variables
-  doTOF(iEvent);
-  doTOFDT(iEvent);
-  doTOFCSC(iEvent);
-  doREFITTOF(iEvent);
-  doREFITTOFDT(iEvent);
-  doREFITTOFCSC(iEvent);
-
-  // HCAL noise summary info
-  //doHcalNoise(iEvent);
-
-  // HCAL RecHits & flags
-  //doHcalRecHits(iEvent);
-  doHFRecHits(iEvent);
-
-  // CSC segments
-  doCscSegments(iEvent, iSetup);
-  doCscHits(iEvent, iSetup); 
-  //doSlices(iEvent, iSetup);  // HE info
-
-  //std::cout<<"starting doMuonDTs"<<std::endl;
-  // DT Segments
-  doMuonDTs(iEvent, iSetup, DTRecHits);
-  //std::cout<<"finished doMuonDTs"<<std::endl;
-
-  // RPCs
-  doMuonRPCs(iEvent,iSetup);
-
-  // digi based variables
-  //if (doDigis_) {
-  //doTimingFromDigis(iEvent, iSetup);
-  //}
- 
-  // if making reduced ntuples, return without writing event
-  // unless basic selection criteria met
-
-  if (makeReducedNtuples_==true)
-    {
-      // reject cosmics
-      if (event_->mu_N>0)
-	return;
-
-      // loose jet cuts
-      if ( event_->jet_N==0) 
-	return;
-      bool passloosejetcut=false;
-      for (uint z=0;z<event_->jet_N;++z)
-	{
-	  if (event_->jetE[z]>=50 && fabs(event_->jetEta[z])<1.3)
-	    {
-	      passloosejetcut=true;
-	      break;
-	    }
-	}
-      if (passloosejetcut==false)
-	return;
-    } // if (makeReducedNtuples_==true)
-
-  // remove calotowers
-  if (!doCaloTowers_)
-  event_->removeTowers(); // caloTowers don't need to be saved, unless specified in cfg
-
+    
+    // remove calotowers
+    if (!doCaloTowers_)
+      event_->removeTowers(); // caloTowers don't need to be saved, unless specified in cfg
+  }
   // fill TTree
   tree_->Fill();
   

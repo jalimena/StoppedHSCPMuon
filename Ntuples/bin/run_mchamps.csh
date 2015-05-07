@@ -14,7 +14,8 @@ source cut_values.csh
     #rm tmp
     #rm tmp2
 
-foreach x (mchamp100_723patch1 mchamp200_723patch1 mchamp300_723patch1 mchamp400_723patch1 mchamp500_723patch1 mchamp600_723patch1 mchamp700_723patch1 mchamp800_723patch1 mchamp900_723patch1 mchamp1000_723patch1)
+foreach x (mchamp100_reducedNtuples_724 mchamp200_reducedNtuples_724 mchamp300_reducedNtuples_724 mchamp400_reducedNtuples_724 mchamp500_reducedNtuples_724 mchamp600_reducedNtuples_724 mchamp700_reducedNtuples_724 mchamp800_reducedNtuples_724 mchamp900_reducedNtuples_724 mchamp1000_reducedNtuples_724)
+#foreach x (mchamp500_test)
     findTreevalues $x $cuts $cut_values > & "out_"$x &
 end
    

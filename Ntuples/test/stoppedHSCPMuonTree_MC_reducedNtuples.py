@@ -25,6 +25,8 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 #process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 #process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
 
+process.stoppedHSCPMuonTree.makeReducedNtuples = cms.untracked.bool(True)
+
 # input files
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
@@ -41,6 +43,7 @@ readFiles.extend( [
         #"file:../cosmicMC/CosmicMC.root"
 
         #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_correctStage1.root"
-        "file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        "file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-100_TuneT2star_8TeV-pythia6/stage1_mchamp100_710/150325_211615/0000/step1_mchamp100_1.root"
 
         ] );
