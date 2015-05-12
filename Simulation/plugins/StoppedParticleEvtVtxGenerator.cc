@@ -34,6 +34,8 @@ StoppedParticleEvtVtxGenerator::StoppedParticleEvtVtxGenerator(const edm::Parame
     mTimeMin (pset.getParameter<double>( "timeOffsetMin") * ns * c_light),
     mTimeMax (pset.getParameter<double>( "timeOffsetMax") * ns * c_light),
     //mRandom (new CLHEP::RandFlat(getEngine())),
+    putTwoStoppedInSameEvent(pset.getUntrackedParameter<bool>("PutTwoStoppedInSameEvent", false)),
+    stoppedParticleNumber(pset.getUntrackedParameter<int>("StoppedParticleNumber", 0)),
     mVx_(0.),
     mVy_(0.),
     mVz_(0.),
@@ -58,7 +60,7 @@ StoppedParticleEvtVtxGenerator::~StoppedParticleEvtVtxGenerator() {}
 
 void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSetup& ) {
 
-   std::cout<<"starting produce of StoppedParticleEvtVtxGenerator"<<std::endl;
+  std::cout<<"starting produce of StoppedParticleEvtVtxGenerator"<<std::endl;
   //gen::Pythia6Service::InstanceWrapper guard(fPy6Service);   // grab Py6 instance                                                                                                                 
   edm::Service<RandomNumberGenerator> rng;
   if (!rng.isAvailable()) {
@@ -68,7 +70,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
   }
   CLHEP::HepRandomEngine* engine = &rng->getEngine(evt.streamID());
   
-   std::cout<<"starting getStoppingPoint (StoppedParticleEvtVtxGenerator)"<<std::endl;
+  std::cout<<"starting getStoppingPoint (StoppedParticleEvtVtxGenerator)"<<std::endl;
   getStoppingPoint(evt);
 
   Handle<HepMCProduct> HepMCEvt ;
@@ -93,39 +95,46 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     HepMCEvt->boostToLab( GetInvLorentzBoost(), "momentum" );
 
     for(int i=0; i<nStoppedParticles; i++){
-       std::cout<<"stopped particle #"<<i<<" (StoppedParticleEvtVtxGenerator)"<<std::endl;
-      mVx = mVx_.at(i);
-      mVy = mVy_.at(i);
-      mVz = mVz_.at(i);
-      mVt = mVt_.at(i);
-      id = ids_.at(i);
-      std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm" << '/' <<mVt<< " ns" << std::endl; 
-      HepMC::FourVector* vtxShift = newVertex(engine);
-            
-      for ( HepMC::GenEvent::vertex_iterator vt=myGenEvent->vertices_begin(); vt!=myGenEvent->vertices_end(); ++vt ) {
-	 std::cout<<"loop over vertices initial: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
-	for ( HepMC::GenVertex::particle_iterator pt=(*vt)->particles_begin(HepMC::ancestors); pt!=(*vt)->particles_end(HepMC::ancestors); ++pt ) {
-	   std::cout<<"loop over particles (ancestors): "<<(*pt)->pdg_id()<<std::endl;
-	  //if ancestor of particles in vertex has the same pdg_id as the stopped particle (sign correct too),
-	  //and if ancestor and stopped particle has the same vertex position,
-	  //then shift the vertex
-	  if( (*pt)->pdg_id()==id ){
-	    if( (*pt)->production_vertex()->position().x()==mVx && (*pt)->production_vertex()->position().y()==mVy && (*pt)->production_vertex()->position().z()==mVz ){
-	      //shift the vertex (see HepMCProduct::applyVtxGen())
-	      double x = (*vt)->position().x() + vtxShift->x();
-	      double y = (*vt)->position().y() + vtxShift->y();
-	      double z = (*vt)->position().z() + vtxShift->z();
-	      double t = (*vt)->position().t() + vtxShift->t();
-	      (*vt)->set_position(HepMC::FourVector(x,y,z,t));
-	       std::cout<<"appliedVtxGen for "<<id<<std::endl;
-	    }//end of if ancestor and stopped particle vertices match
-	  }//end of if ancestor and stopped particle pdgid match
-	}//end of loop over ancestors
-	 std::cout<<"loop over vertices final: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
-      }//end of loop over vertices
+      //EITHER:                                                                                                                                                                                    
+      //if there is more than 1 stopped particle, put them in the same event, and loop over all the particles                                                                                      
+      //OR                                                                                                                                                                                         
+      //if there is more than 1 stopped particle, look only at the one that matches stoppedParticleNumber                                                                                          
+      if(putTwoStoppedInSameEvent || (!putTwoStoppedInSameEvent && i==stoppedParticleNumber)) {	     
+	
+	std::cout<<"stopped particle #"<<i<<" (StoppedParticleEvtVtxGenerator)"<<std::endl;
+	mVx = mVx_.at(i);
+	mVy = mVy_.at(i);
+	mVz = mVz_.at(i);
+	mVt = mVt_.at(i);
+	id = ids_.at(i);
+	std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm" << '/' <<mVt<< " ns" << std::endl; 
+	HepMC::FourVector* vtxShift = newVertex(engine);
+	
+	for ( HepMC::GenEvent::vertex_iterator vt=myGenEvent->vertices_begin(); vt!=myGenEvent->vertices_end(); ++vt ) {
+	  std::cout<<"loop over vertices initial: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+	  for ( HepMC::GenVertex::particle_iterator pt=(*vt)->particles_begin(HepMC::ancestors); pt!=(*vt)->particles_end(HepMC::ancestors); ++pt ) {
+	    std::cout<<"loop over particles (ancestors): "<<(*pt)->pdg_id()<<std::endl;
+	    //if ancestor of particles in vertex has the same pdg_id as the stopped particle (sign correct too),
+	    //and if ancestor and stopped particle has the same vertex position,
+	    //then shift the vertex
+	    if( (*pt)->pdg_id()==id ){
+	      if( (*pt)->production_vertex()->position().x()==mVx && (*pt)->production_vertex()->position().y()==mVy && (*pt)->production_vertex()->position().z()==mVz ){
+		//shift the vertex (see HepMCProduct::applyVtxGen())
+		double x = (*vt)->position().x() + vtxShift->x();
+		double y = (*vt)->position().y() + vtxShift->y();
+		double z = (*vt)->position().z() + vtxShift->z();
+		double t = (*vt)->position().t() + vtxShift->t();
+		(*vt)->set_position(HepMC::FourVector(x,y,z,t));
+		std::cout<<"appliedVtxGen for "<<id<<std::endl;
+	      }//end of if ancestor and stopped particle vertices match
+	    }//end of if ancestor and stopped particle pdgid match
+	  }//end of loop over ancestors
+	  std::cout<<"loop over vertices final: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+	}//end of loop over vertices
+      }//end of if put 2 stopped in same event or if decay only 1
     }//end of loop over stopped particles
-
-     std::cout<<"isVtxGenApplied is: "<<HepMCEvt->isVtxGenApplied()<<", isVtxBoostApplied is: "<<HepMCEvt->isVtxBoostApplied()<<",  isPBoostApplied is: "<<HepMCEvt->isPBoostApplied()<<std::endl;    
+      
+    std::cout<<"isVtxGenApplied is: "<<HepMCEvt->isVtxGenApplied()<<", isVtxBoostApplied is: "<<HepMCEvt->isVtxBoostApplied()<<",  isPBoostApplied is: "<<HepMCEvt->isPBoostApplied()<<std::endl;    
       
     // OK, create a (pseudo)product and put in into edm::Event
     //no longer needed, since adding new HepMCProduct to the event
@@ -139,13 +148,13 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     }
     
   }//end of if stopped event
-
+  
   //add (modified) HepMCProduct into event (module label: VtxSmeared)
   std::auto_ptr<HepMCProduct> HepProduct(new HepMCProduct());
   HepProduct->addHepMCData(myGenEvent);
   evt.put(HepProduct);
-
-   std::cout<<"ending produce of StoppedParticleEvtVtxGenerator"<<std::endl;
+  
+  std::cout<<"ending produce of StoppedParticleEvtVtxGenerator"<<std::endl;
   return ;
   
 }
@@ -204,42 +213,59 @@ void StoppedParticleEvtVtxGenerator::getStoppingPoint(edm::Event& iEvent) {
      else {
 
        // get stopping info from any number of stopped particles (not just 0 or 1, as before)
-       if (names->size() > 0) {
-	 isStoppedEvent = true;
-	 nStoppedParticles = names->size();
+       nStoppedParticles = names->size();
+       if (nStoppedParticles > 0) {
 	 std::cout<<"names->size() is: "<<nStoppedParticles<<" (getStoppingPoint, StoppedParticleEvtVtxGenerator)"<<std::endl;
-         if(nStoppedParticles==1) mVt_.at(0) = 0.;
-         else if(nStoppedParticles==2) {
-           double deltaTime = TMath::Abs(ts->at(1)-ts->at(0));
-           if(ts->at(1) > ts->at(0)){
-             mVt_.at(0) = 0.;
-             mVt_.at(1) = deltaTime;
-           }
-           else{
+
+	 if(putTwoStoppedInSameEvent){ //if there is more than 1 stopped particle, put them in the same event    
+	   isStoppedEvent = true;
+	   if(nStoppedParticles==1) mVt_.at(0) = 0.;
+	   else if(nStoppedParticles==2) {
+	     double deltaTime = TMath::Abs(ts->at(1)-ts->at(0));
+	     if(ts->at(1) > ts->at(0)){
+	       mVt_.at(0) = 0.;
+	       mVt_.at(1) = deltaTime;
+	     }
+	     else{
              mVt_.at(0) = deltaTime;
              mVt_.at(1) = 0.;
-           }
-         }
-
-	 for(int i=0; i<nStoppedParticles; i++){
-	   name_.at(i) = names->at(i);
-	   mVx_.at(i)  = xs->at(i);
-	   mVy_.at(i)  = ys->at(i);
-	   mVz_.at(i)  = zs->at(i);
-	   ids_.at(i)  = ids->at(i);
-	    std::cout << "StoppedParticleEvtVtxGenerator::generateEvent-> name/pid vertex: "
-		     << name_.at(i) << '/' << ' '
-		      << mVx_.at(i) << '/' << mVy_.at(i) << '/' << mVz_.at(i) <<mVt_.at(i)
-		     << std::endl; 	   
+	     }
+	   }
+	   else std::cout<<"3 or more stopped particles!!!!!!!!!!!!!!!"<<std::endl;
+	 }//end of if put 2 stopped particles in same event
+	 else{ //if put 2 stopped particles in separate events
+	   for(int i=0; i<nStoppedParticles; i++){
+	     if( i==stoppedParticleNumber) {
+	       isStoppedEvent = true;
+	       break;
+	     }
+	   }
+	   mVt_.at(stoppedParticleNumber) = 0.;
 	 }
-       }
-
-     }
-
+	 
+	 for(int i=0; i<nStoppedParticles; i++){
+	   //EITHER:
+	   //if there is more than 1 stopped particle, put them in the same event, and loop over all the particles
+	   //OR
+	   //if there is more than 1 stopped particle, look only at the one that matches stoppedParticleNumber
+	   if(putTwoStoppedInSameEvent || (!putTwoStoppedInSameEvent && i==stoppedParticleNumber)) {	     
+	     name_.at(i) = names->at(i);
+	     mVx_.at(i)  = xs->at(i);
+	     mVy_.at(i)  = ys->at(i);
+	     mVz_.at(i)  = zs->at(i);
+	     ids_.at(i)  = ids->at(i);
+	     std::cout << "StoppedParticleEvtVtxGenerator::generateEvent-> name/pid vertex: "
+		     << name_.at(i) << '/' << ' '
+		       << mVx_.at(i) << '/' << mVy_.at(i) << '/' << mVz_.at(i) <<mVt_.at(i)
+		       << std::endl; 	   
+	   }//end of if put 2 stopped in same event or if decay only 1
+	 }//end of loop over stopped particles
+	 
+       }//end of if nStoppedParticles>0
+     }//end of if StoppedParticles arrays match
     
-  }
-
-}
+  }//end of get stopping info from event (and not file) 
+}//end of GetStoppingPoint()
 
 
 //HepMC::FourVector* StoppedParticleEvtVtxGenerator::newVertex() {

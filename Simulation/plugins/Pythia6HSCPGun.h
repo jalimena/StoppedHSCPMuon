@@ -31,7 +31,8 @@ namespace gen {
 	std::string mStopPointProducer;
 	std::string mFileName;
 	std::ifstream* mFile;
-
+	bool putTwoStoppedInSameEvent;
+	int stoppedParticleNumber;
 	int nStoppedParticles;
 
 	std::vector<int> mPID;

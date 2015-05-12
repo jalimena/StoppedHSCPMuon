@@ -47,6 +47,9 @@ private:
   double mTimeMax;
   //CLHEP::RandFlat*  mRandom ;
 
+  bool putTwoStoppedInSameEvent;
+  int stoppedParticleNumber;
+
   // stopped particle vertex
   std::vector<float> mVx_;
   std::vector<float> mVy_;

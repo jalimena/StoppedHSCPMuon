@@ -53,13 +53,19 @@ private:
   // ----------member data ---------------------------
   std::string mStopPointProducer_;
   //edm::InputTag stoppedParticlesXLabel_;
+  bool putTwoStoppedInSameEvent;
+  int stoppedParticleNumber;
+  int nStoppedParticles;
 };
 
 //
 // constructors and destructor
 //
 MCStoppedEventFilter::MCStoppedEventFilter(const edm::ParameterSet& iConfig) :
-  mStopPointProducer_(iConfig.getUntrackedParameter<std::string>("stopPointInputTag", "g4SimHits"))
+  mStopPointProducer_(iConfig.getUntrackedParameter<std::string>("stopPointInputTag", "g4SimHits")),
+  putTwoStoppedInSameEvent(iConfig.getUntrackedParameter<bool>("PutTwoStoppedInSameEvent", false)),
+  stoppedParticleNumber(iConfig.getUntrackedParameter<int>("StoppedParticleNumber", 0)),
+  nStoppedParticles(0)
 {
   //stoppedParticlesXLabel_ = iConfig.getParameter<edm::InputTag>("StoppedParticlesXLabel");
 }
@@ -78,12 +84,34 @@ MCStoppedEventFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   edm::Handle<std::vector<float> > xs;
   iEvent.getByLabel(mStopPointProducer_, "StoppedParticlesX", xs);
-  if (xs->size() > 0){
-    std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
-    return true;
+  nStoppedParticles = xs->size();
+
+  bool rightParticleNumber = false;
+  if(!putTwoStoppedInSameEvent){ //if put 2 stopped particles in separate events
+    for(int i=0; i<nStoppedParticles; i++){
+      if( i==stoppedParticleNumber) {
+	rightParticleNumber = true;
+	break;
+      }
+    }
   }
-  else
-    return false;
+
+  if (nStoppedParticles > 0){    
+    if(putTwoStoppedInSameEvent){ //if there is more than 1 stopped particle, put them in the same event                                                                                  
+      std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
+      return true;
+    }//end of if put 2 stopped particles in same event                                                                                                                                    
+    else{ //if put 2 stopped particles in separate events
+      if(rightParticleNumber){
+	std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
+	return true;
+      }
+      else return false;
+    }
+  }
+  else return false;
+  
+
 }
 
 // ------------ method called once each job just before starting event loop  ------------
