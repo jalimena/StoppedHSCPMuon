@@ -64,4 +64,8 @@
   <use   name="cppunit"/>
 </bin>
 
+<bin name="duplicateEvents" file="findTreevalues_findDuplicateEvents.cpp">
+  <use   name="cppunit"/>
+</bin>
+
 

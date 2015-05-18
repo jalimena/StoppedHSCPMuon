@@ -1812,7 +1812,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCP
     
     else {       //what about stops, with charge of 1 and 2?
       cout<<"charge of stopped particle 0 is: "<<events->mcStoppedParticleCharge[0]<<", charge of stopped particle 1 is: "<<events->mcStoppedParticleCharge[1]<<endl;
-    }
+    }    
   }//end of if 2 stopped particles
 
   for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
@@ -1821,7 +1821,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCP
     double z = events->mcStoppedParticleZ[j]/10.0;
     double particle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
 			      events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
-      
+    
     if (r < 131.0 && fabs(particle_eta) <= 2.5 && fabs(z) < 300.0) tracker_count_+=eventweightTauPrime;
     else if (r>=131.0 && r<184.0 && fabs(z)<376.0 && fabs(particle_eta)<1.479) eb_count_+=eventweightTauPrime;
     else if (fabs(z)<376.0 && fabs(z) >= 300.0 && fabs(particle_eta)>=1.479 && fabs(particle_eta)<3.0) ee_count_+=eventweightTauPrime;
@@ -1833,7 +1833,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCP
     else if (r<728.5 && fabs(z)<1080.0) { // other regions?                                                                                                                      
       other_detector_count_+=eventweightTauPrime;
       //dumpFile_ << r << "\t" << z << "\t" << particle_eta << std::endl;                                                                                                        
-    }
+      }
     
     if (r >= 728.5 || fabs(z) > 1080) cavern_count_+=eventweightTauPrime;
     else{
@@ -3661,6 +3661,39 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   }
 
 
+  ifstream inDuplicateEvents;
+  TString duplicateEventsFile = "/home/alimena/Analysis/CMSSW_7_2_5/src/StoppedHSCPMuon/Ntuples/txtfiles/StoppedParticleDuplicateEvents/duplicateEvents_"+file_dataset+".txt";
+  inDuplicateEvents.open(duplicateEventsFile, ios::in);
+  cout<<"opened duplicateEvents text file: "<<duplicateEventsFile<<endl;    
+  const int NumLines = count(istreambuf_iterator<char>(inDuplicateEvents), istreambuf_iterator<char>(), '\n');
+  inDuplicateEvents.close();
+  //const int NumLines = 50;
+  cout<<"there are "<<NumLines<<" lines in the file"<<endl;
+  int entryNumber[NumLines];
+  int eventNumber[NumLines];
+  const int NumGoodEntries = NumLines/2;
+  int goodEntryNumber[NumGoodEntries];
+
+  inDuplicateEvents.open(duplicateEventsFile, ios::in);
+  for(int i=0;i<NumLines; i++){
+    inDuplicateEvents >> entryNumber[i] >> eventNumber[i];
+    //cout<<"entryNumber["<<i<<"]"<<" is: "<<entryNumber[i]<<", eventNumber is: "<<eventNumber[i]<<endl;
+    if (!inDuplicateEvents.good()) break;
+  }
+  inDuplicateEvents.close();
+
+  for(int i=0;i<NumLines; i++){
+    for(int j=0;j<NumLines; j++){
+      if(i<j){
+	if(eventNumber[i]==eventNumber[j]){
+	  cout<<"eventNumber is: "<<eventNumber[i]<<", 1st entry is: "<<entryNumber[i]<<"(i=="<<i<<"), 2nd entry is: "<<entryNumber[j]<<"(j=="<<j<<")"<<endl;
+	  goodEntryNumber[i]=entryNumber[i];
+	  cout<<"goodEntryNumber is: "<<goodEntryNumber[i]<<endl;
+	}
+      }
+    }
+  }
+
   //get tree
   TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
   //tree->Print();
@@ -3833,8 +3866,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //bx cut
     if ( (doBxCut && file_dataset_ != "Zmum" && TMath::Abs(events->bxWrtCollision)>=BxCutValue_ && TMath::Abs(events->bxWrtBunch)>=BxCutValue_) || (!doBxCut) || (file_dataset_ == "Zmum") ){
       pass_bx_cut++;
+
+      bool doStoppedParticles = false;
+      if(events->mcStoppedParticle_N==2){
+	for(int j=0;j<NumGoodEntries; j++){
+	  if(goodEntryNumber[j]==i) doStoppedParticles = true;
+	}
+      }
+      if(events->mcStoppedParticle_N!=2) doStoppedParticles = true;
       
-      StoppedParticles(events, eventweightTauPrime, stoppedPos_index, stoppedNeg_index, n_stoppedInDetector, stoppedDetector0_index, stoppedDetector1_index);
+      if(doStoppedParticles) StoppedParticles(events, eventweightTauPrime, stoppedPos_index, stoppedNeg_index, n_stoppedInDetector, stoppedDetector0_index, stoppedDetector1_index);
 
       //long-lived particle stopping in cavern walls? mcStoppedParticle variables are in mm 
       if( (!is_data && (!is_otherMC ||file_dataset_!= "cosm") && doCavCut && events->mcStoppedParticle_N>0 && n_stoppedInDetector>0) || (!doCavCut) || (is_data) || (is_otherMC) || (file_dataset_=="cosm")){
