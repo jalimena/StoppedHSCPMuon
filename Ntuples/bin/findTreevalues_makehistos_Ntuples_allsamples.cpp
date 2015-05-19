@@ -4033,7 +4033,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    runNumber_muDisplacedStandAloneN_hist->Fill(events->run,n_passPreselection,1.0);
 
 		    if(!is_data){
-		      if(file_dataset_!="cosm"){
+		      if(file_dataset_!="cosm" && doStoppedParticles){
 			if(doCavCut){
 			  mcStoppedParticle_N_hist->Fill(n_stoppedInDetector,eventweightTauPrime);
 
