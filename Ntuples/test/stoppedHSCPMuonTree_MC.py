@@ -41,6 +41,8 @@ readFiles.extend( [
         #"file:../cosmicMC/CosmicMC.root"
 
         #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_correctStage1.root"
-        "file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root"
+        "file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim.root"
+        #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim_500events.root"
 
         ] );
