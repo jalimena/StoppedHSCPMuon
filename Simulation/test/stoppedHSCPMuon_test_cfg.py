@@ -4,7 +4,13 @@ NEUTRALINO_MASS=200
 GRAVITINO_MASS=0.00001
 SAME_EVENT=False
 PARTICLE_NUMBER=0
+<<<<<<< HEAD
 OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'_simUpdated.root'
+=======
+OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'_oldApplyVtx.root'
+#OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'_simUpdated.root'
+#OUTPUTFILE='stage2_GEN-HLT_mchamp' + str(SPARTICLE_MASS)+'_simUpdated_500events.root'
+>>>>>>> 70b84e1d236d63fb2e5037bd312bda7a07e20dc7
 
 import FWCore.ParameterSet.Config as cms
 
@@ -93,9 +99,17 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
                                         )
 
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
+<<<<<<< HEAD
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
+=======
+#process.RAWSIMoutput.outputCommands.append('drop *_generator_*_HLT')
+
+process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
+process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
+#process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
+>>>>>>> 70b84e1d236d63fb2e5037bd312bda7a07e20dc7
 
 process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
@@ -150,8 +164,13 @@ process.generator = cms.EDProducer("Pythia6HSCPGun",
 
 process.genParticles = cms.EDProducer("GenParticleProducer",
                                       saveBarCodes = cms.untracked.bool(True),
+<<<<<<< HEAD
                                       #src = cms.InputTag("generator"),
                                       src = cms.InputTag("VtxSmeared"),
+=======
+                                      src = cms.InputTag("generator"),
+                                      #src = cms.InputTag("VtxSmeared"),
+>>>>>>> 70b84e1d236d63fb2e5037bd312bda7a07e20dc7
                                       abortOnUnknownPDGCode = cms.untracked.bool(False),
                                       )
 
@@ -170,11 +189,22 @@ process.genParticles.abortOnUnknownPDGCode = False
 process.g4SimHits.HCalSD.UseShowerLibrary = False
 
 # FR END Extra stuff
+<<<<<<< HEAD
 process.g4SimHits.HepMCProductLabel = cms.InputTag("VtxSmeared")
 process.g4SimHits.Generator.HepMCProductLabel = cms.string("VtxSmeared")
 process.mix.mixObjects.mixHepMC.input = cms.VInputTag(cms.InputTag("VtxSmeared"))
 process.trackingParticles.HepMCProductLabel = cms.InputTag("VtxSmeared")
 process.VtxSmearedCommon.src = cms.InputTag("VtxSmeared")
+=======
+#process.genParticleCandidates.src = cms.InputTag("VtxSmeared")
+#process.hiGenParticles.srcVector = cms.vstring("VtxSmeared")
+#process.g4SimHits.HepMCProductLabel = cms.InputTag("VtxSmeared")
+#process.g4SimHits.Generator.HepMCProductLabel = cms.string("VtxSmeared") #this is the only one that matters!
+#process.mix.mixObjects.mixHepMC.input = cms.VInputTag(cms.InputTag("VtxSmeared"))
+#process.trackingParticles.HepMCProductLabel = cms.InputTag("VtxSmeared")
+#process.VtxSmearedCommon.src = cms.InputTag("VtxSmeared")
+#process.matchVtx.heavyIonLabel = cms.InputTag("VtxSmeared")
+>>>>>>> 70b84e1d236d63fb2e5037bd312bda7a07e20dc7
 
 # Path and EndPath definitions
 process.filter_step = cms.Path(process.eventFilter)

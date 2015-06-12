@@ -80,25 +80,11 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
   if (isStoppedEvent) {
      std::cout<<"is StoppedEvent (StoppedParticleEvtVtxGenerator)"<<std::endl;
 
-    //could simply use applyVtxGen function if there was only 1 stopped particle. if we want to include the possibility of 
-    //2 stopped particles, then need to apply separate vertex shifts, as below
-    //HepMCEvt->applyVtxGen( newVertex() ) ;
-    //HepMCEvt->applyVtxGen( newVertex(fPy6Service->randomEngine()) ) ;
-    //////HepMCEvt->applyVtxGen( newVertex(engine) ) ;
-
-    //since no longer using applyVtxGen, adding a null vertex shift so that HepMCEvt->isVtxGenApplied() returns true
-    HepMC::FourVector* nullVertex = new HepMC::FourVector(0,0,0,0);
-    HepMCEvt->applyVtxGen( nullVertex );
-
-    //HepMCEvt->LorentzBoost( 0., 142.e-6 );
-    HepMCEvt->boostToLab( GetInvLorentzBoost(), "vertex" );
-    HepMCEvt->boostToLab( GetInvLorentzBoost(), "momentum" );
-
     for(int i=0; i<nStoppedParticles; i++){
-      //EITHER:                                                                                                                                                                                    
-      //if there is more than 1 stopped particle, put them in the same event, and loop over all the particles                                                                                      
-      //OR                                                                                                                                                                                         
-      //if there is more than 1 stopped particle, look only at the one that matches stoppedParticleNumber                                                                                          
+      //EITHER: 
+      //if there is more than 1 stopped particle, put them in the same event, and loop over all the particles
+      //OR
+      //if there is more than 1 stopped particle, look only at the one that matches stoppedParticleNumber
       if(putTwoStoppedInSameEvent || (!putTwoStoppedInSameEvent && i==stoppedParticleNumber)) {	     
 	
 	std::cout<<"stopped particle #"<<i<<" (StoppedParticleEvtVtxGenerator)"<<std::endl;
@@ -108,6 +94,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
 	mVt = mVt_.at(i);
 	id = ids_.at(i);
 	std::cout << "Vertex : " << mVx << '/' << mVy << '/' << mVz << " cm" << '/' <<mVt<< " ns" << std::endl; 
+
 	HepMC::FourVector* vtxShift = newVertex(engine);
 	
 	for ( HepMC::GenEvent::vertex_iterator vt=myGenEvent->vertices_begin(); vt!=myGenEvent->vertices_end(); ++vt ) {
@@ -135,7 +122,21 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     }//end of loop over stopped particles
       
     std::cout<<"isVtxGenApplied is: "<<HepMCEvt->isVtxGenApplied()<<", isVtxBoostApplied is: "<<HepMCEvt->isVtxBoostApplied()<<",  isPBoostApplied is: "<<HepMCEvt->isPBoostApplied()<<std::endl;    
-      
+
+    //could simply use applyVtxGen function if there was only 1 stopped particle. if we want to include the possibility of 
+    //2 stopped particles, then need to apply separate vertex shifts, as below
+    //HepMCEvt->applyVtxGen( newVertex() ) ;
+    //HepMCEvt->applyVtxGen( newVertex(fPy6Service->randomEngine()) ) ;
+    //////HepMCEvt->applyVtxGen( newVertex(engine) ) ;
+
+    //since no longer using applyVtxGen, adding a null vertex shift so that HepMCEvt->isVtxGenApplied() returns true
+    HepMC::FourVector* nullVertex = new HepMC::FourVector(0,0,0,0);
+    HepMCEvt->applyVtxGen( nullVertex );
+
+    //HepMCEvt->LorentzBoost( 0., 142.e-6 );
+    HepMCEvt->boostToLab( GetInvLorentzBoost(), "vertex" );
+    HepMCEvt->boostToLab( GetInvLorentzBoost(), "momentum" );
+
     // OK, create a (pseudo)product and put in into edm::Event
     //no longer needed, since adding new HepMCProduct to the event
     //auto_ptr<bool> NewProduct(new bool(true)) ;      
