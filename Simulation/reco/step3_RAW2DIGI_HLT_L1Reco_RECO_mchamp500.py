@@ -29,16 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
-                            fileNames = cms.untracked.vstring(
-        #'file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_mchamp500_710/8b87dfe2c686dbf29ba606a0c8789460/stage2_GEN-HLT_mchamp500_1_1_53s.root'
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_1_1_BIG.root',
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_2_1_2sa.root',
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_3_1_bsz.root'
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simUpdated.root'
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simNOTUpdated.root'
-        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simUpdated_500events.root'
-        'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_oldApplyVtx.root'
-        )
+                            fileNames = cms.untracked.vstring('file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneZ2star_8TeV-pythia6/stage2_mchamp500_710/8b87dfe2c686dbf29ba606a0c8789460/stage2_GEN-HLT_mchamp500_1_1_53s.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -58,16 +49,12 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_NOTupdatedSim.root'),
-    #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim.root'),
-    #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim_500events.root'),
-                                         fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_oldApplyVtx.root'),
+    fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')
     )
 )
-
 process.RECOSIMoutput.outputCommands.append('drop *_*_*_SIM')
 process.RECOSIMoutput.outputCommands.append('drop *_generator_*_HLT')
 
@@ -104,5 +91,3 @@ process = customizeHLTforMC(process)
 
 # End of customisation functions
 
-
-#process.Tracer = cms.Service("Tracer")
