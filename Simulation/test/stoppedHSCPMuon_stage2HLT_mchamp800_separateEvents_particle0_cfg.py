@@ -87,9 +87,12 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
                                         )
 
 process.RAWSIMoutput.outputCommands.append('drop *_*_*_SIM')
+process.RAWSIMoutput.outputCommands.append('drop *_generator_*_HLT')
+
 process.RAWSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 process.RAWSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
+
 
 process.eventFilter = cms.EDFilter("MCStoppedEventFilter",
                                    #   StoppedParticlesXLabel = cms.InputTag("StoppedParticlesX")
@@ -162,7 +165,10 @@ process.genParticles.abortOnUnknownPDGCode = False
 
 #Don't use shower library
 process.g4SimHits.HCalSD.UseShowerLibrary = False
+
 # FR END Extra stuff
+#this is the only place in the GEN-SIM step, other than the input to genParticles above, where it matters to change the input collection to VtxSmeared
+process.g4SimHits.Generator.HepMCProductLabel = cms.string("VtxSmeared")
 
 # Path and EndPath definitions
 process.filter_step = cms.Path(process.eventFilter)
