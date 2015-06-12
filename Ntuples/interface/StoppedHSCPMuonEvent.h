@@ -793,6 +793,22 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> mcStoppedParticlePhi;
   std::vector<Double_t> mcStoppedParticleTime;
 
+  //sim vertices and tracks
+  unsigned simTrack_N;
+  std::vector<Double_t>simTrackPx;
+  std::vector<Double_t>simTrackPy;
+  std::vector<Double_t>simTrackPz;
+  std::vector<Double_t>simTrackPt;
+  std::vector<Double_t>simTrackP;
+  std::vector<Double_t>simTrackEta;
+  std::vector<Double_t>simTrackPhi;
+  std::vector<Double_t>simTrackCharge;
+  std::vector<Int_t>simTrackPdgId;
+  std::vector<Int_t>simTrackId;
+  std::vector<Double_t>simTrackVx;
+  std::vector<Double_t>simTrackVy;
+  std::vector<Double_t>simTrackVz;
+
   // event
   ULong_t id;
   ULong_t bx;
@@ -1629,7 +1645,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,33); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,35); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
@@ -1637,6 +1653,8 @@ class StoppedHSCPMuonEvent : public TObject {
   //version 31: add doubly charged higgs
   //version 32: add StoppedParticle mass, charge, pdgid
   //version 33: fix for StoppedParticles
+  //version 34: add sim tracks and vertices
+  //version 35: more sim tracks and vertices
 };
 
 #endif

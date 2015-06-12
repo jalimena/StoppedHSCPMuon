@@ -34,8 +34,10 @@ process.source = cms.Source("PoolSource",
         #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_1_1_BIG.root',
         #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_2_1_2sa.root',
         #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/mchamp500_test/res/stage2_GEN-HLT_mchamp500_3_1_bsz.root'
-        'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simUpdated.root'
+        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simUpdated.root'
+        #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simNOTUpdated.root'
         #'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_simUpdated_500events.root'
+        'file:/home/alimena/Analysis/CMSSW_7_1_0/src/StoppedHSCPMuon/Simulation/test/stage2_GEN-HLT_mchamp500_oldApplyVtx.root'
         )
 )
 
@@ -56,14 +58,19 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim.root'),
+    #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_NOTupdatedSim.root'),
+    #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim.root'),
     #fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim_500events.root'),
+                                         fileName = cms.untracked.string('step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_oldApplyVtx.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')
     )
 )
+
 process.RECOSIMoutput.outputCommands.append('drop *_*_*_SIM')
+process.RECOSIMoutput.outputCommands.append('drop *_generator_*_HLT')
+
 process.RECOSIMoutput.outputCommands.append('keep *_*_Stopped*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_generator_*_SIM')
 process.RECOSIMoutput.outputCommands.append('keep *_VtxSmeared_*_HLT')
@@ -98,4 +105,4 @@ process = customizeHLTforMC(process)
 # End of customisation functions
 
 
-process.Tracer = cms.Service("Tracer")
+#process.Tracer = cms.Service("Tracer")

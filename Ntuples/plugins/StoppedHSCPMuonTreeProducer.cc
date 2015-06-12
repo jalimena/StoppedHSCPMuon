@@ -177,6 +177,9 @@
 //#include "Analysis/SmartPropagatorWithIP/interface/SmartPropagatorWithIP.h"
 //#include "Analysis/Records/interface/SmartPropagatorWithIPComponentsRecord.h"
 
+//sim
+#include "SimDataFormats/Track/interface/SimTrackContainer.h"
+#include "SimDataFormats/Vertex/interface/SimVertexContainer.h"
 
 // ROOT output stuff
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -2376,7 +2379,54 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
     std::cout<<"end of loop over gen particles"<<std::endl;
   }
 
-}
+  edm::Handle<std::vector<SimTrack> > simTrack;
+  edm::Handle<std::vector<SimVertex> > simVertex;
+  iEvent.getByLabel(mcProducerTag_, simTrack);
+  iEvent.getByLabel(mcProducerTag_, simVertex);
+  if (!simTrack.isValid()) {
+    edm::LogError ("MissingProduct") << "simTrack not found. Branch "
+				     << "will not be filled." << std::endl;
+  }
+  if (!simVertex.isValid()) {
+    edm::LogError ("MissingProduct") << "simVertex not found. Branch "
+				     << "will not be filled." << std::endl;
+  }
+  if (simTrack.isValid() && simVertex.isValid()) {
+    for (std::vector<SimTrack>::const_iterator itrack=simTrack->begin(); itrack!=simTrack->end(); itrack++){
+      //if ( abs(itrack->type())==13){
+      math::XYZTLorentzVectorD momentum = itrack->momentum();
+      double pt  = momentum.Pt();
+      double eta = momentum.eta();
+      double phi = momentum.phi();
+      std::cout<<"Sim track pt is: "<<pt<<", eta is: "<<eta<<", phi is: "<<phi<<std::endl;
+      int vtxindex = itrack->vertIndex();
+      double vx=-9999,vy=-9999,vz=-9999;
+      if (vtxindex >-1){
+	vx=simVertex->at(vtxindex).position().x();
+	vy=simVertex->at(vtxindex).position().y();
+	vz=simVertex->at(vtxindex).position().z();
+	std::cout<<"sim vertex is: "<<vx<<", "<<vy<<", "<<vz<<std::endl;
+      }
+
+      event_->simTrackPx.push_back(itrack->momentum().Px());
+      event_->simTrackPy.push_back(itrack->momentum().Py());
+      event_->simTrackPz.push_back(itrack->momentum().Pz());
+      event_->simTrackPt.push_back(itrack->momentum().Pt());
+      event_->simTrackP.push_back(itrack->momentum().P());
+      event_->simTrackEta.push_back(itrack->momentum().eta());
+      event_->simTrackPhi.push_back(itrack->momentum().phi());
+      event_->simTrackCharge.push_back(itrack->charge());
+      event_->simTrackPdgId.push_back(itrack->type());
+      event_->simTrackId.push_back(itrack->trackId());
+      event_->simTrackVx.push_back(vx);
+      event_->simTrackVy.push_back(vy);
+      event_->simTrackVz.push_back(vz);
+      event_->simTrack_N++;
+      
+    }//end of loop over sim tracks
+  }//end of if simTrack and simVertex are valid
+
+}//end of doMC
 
 void StoppedHSCPMuonTreeProducer::doEventInfo(const edm::Event& iEvent) {
 

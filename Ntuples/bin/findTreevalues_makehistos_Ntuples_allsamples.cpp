@@ -357,6 +357,15 @@ public:
     mcMuonPt_muCosmicPt_hist = new TH2D("mcMuonPt_muCosmicPt_hist","Gen Muon p_{T} vs. Cosmic Muon p_{T}",100,0,1000,100,0,1000);
     mcMuonPt_muCosmicTrackPt_hist = new TH2D("mcMuonPt_muCosmicTrackPt_hist","Gen Muon p_{T} vs. Cosmic Track p_{T}",100,0,1000,100,0,1000);
 
+    simTrackN_hist = new TH1D("simTrack_N_hist","Number of Simulated Tracks",100,0,100);  
+    simTrackPt_hist = new TH1D("simTrackPt_hist","Muon Sim Track p_{T}",1000,0,1000);	    
+    simTrackEta_hist = new TH1D("simTrackEta_hist","Muon Sim Track #eta",120,-6,6);	    
+    simTrackPhi_hist = new TH1D("simTrackPhi_hist","Muon Sim Track #phi",64,-3.2,3.2);	    
+    simTrackCharge_hist = new TH1D("simTrackCharge_hist","Muon Sim Track Charge",6,-3,3);     
+    simTrackVx_hist = new TH1D("simTrackVx_hist","Muon Sim Track v_{x}",5000,-30000,30000);
+    simTrackVy_hist = new TH1D("simTrackVy_hist","Muon Sim Track v_{y}",5000,-30000,30000);
+    simTrackVz_hist = new TH1D("simTrackVz_hist","Muon Sim Track v_{z}",5000,-30000,30000);
+
     muDisplacedStandAlonePtResolution_hist = new TH1D("muDisplacedStandAlonePtResolution_hist","SA Muon p_{T} Resolution",2000,-10,10);
     muRefittedStandAlonePtResolution_hist = new TH1D("muRefittedStandAlonePtResolution_hist","RSA Muon p_{T} Resolution",2000,-10,10);
     muCosmicPtResolution_hist = new TH1D("muCosmicPtResolution_hist","Cosmic Muon p_{T} Resolution",2000,-10,10);
@@ -711,6 +720,7 @@ private:
 		Double_t& anglePos, Double_t& angleNeg );    
   void staus( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&, int&, UInt_t&, UInt_t&, UInt_t&);
   void cosmicMC( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&);
+  void simTracks( StoppedHSCPMuonEvent* events, UInt_t& simTrack0_index);
   void doublyChargedHiggs( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
   void tauPrime( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
 
@@ -940,6 +950,15 @@ private:
   TH2D* mcMuonPhi_l1MuonPhi_hist;
   TH2D* mcMuonEta_hlt20Cha2MuonEta_hist;
   TH2D* mcMuonPhi_hlt20Cha2MuonPhi_hist;
+
+  TH1D* simTrackN_hist;  
+  TH1D* simTrackPt_hist;
+  TH1D* simTrackEta_hist;
+  TH1D* simTrackPhi_hist;
+  TH1D* simTrackCharge_hist;
+  TH1D* simTrackVx_hist;
+  TH1D* simTrackVy_hist;
+  TH1D* simTrackVz_hist;
 
   TH1D* muDisplacedStandAlonePtResolution_hist;
   TH1D* muRefittedStandAlonePtResolution_hist;
@@ -1616,6 +1635,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC( StoppedHSCPMuonEven
 
   if(genMu0_index!=999) good_genMuons = 1;
 }//end of cosmicMC
+
+void findTreevalues_makehistos_Ntuples_allsamples::simTracks( StoppedHSCPMuonEvent* events, UInt_t& simTrack0_index){
+  for (UInt_t j=0; j<events->simTrack_N; j++) {
+    if(TMath::Abs(events->simTrackPdgId[j])==13){
+      simTrack0_index = j;
+      break;
+    }//end of if sim tracks correspond to gen muon
+  }//end of loop over sim tracks
+}//end of simTracks
 
 void findTreevalues_makehistos_Ntuples_allsamples::doublyChargedHiggs( StoppedHSCPMuonEvent* events,
 								       bool (&status2H_)[15], int& good_genH, 
@@ -3115,6 +3143,33 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       cout  << fixed << setw(7) << " " << endl;
       line++;
   }//end of loop over mc muons
+
+  for (UInt_t j=0; j<events->simTrack_N; j++) {
+    if(TMath::Abs(events->simTrackPdgId[j])==13){
+      //cout<<"For sim track number "<<j<<",  pt is: "<<events->simTrackPt[j]<<", eta is: "<<events->simTrackEta[j]<<", phi is: "<<events->simTrackPhi[j]<<", charge is: "<<events->simTrackCharge[j]<<", mass is: "<<events->simTrackMass[j]<<endl;                                                                                                                                                                  
+      cout  << setw(7) << events->run;
+      cout  << setw(9) << events->id;
+      cout  << setw(8) << "SimTrack"<<j;
+      cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->simTrackPt[j];
+      cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->simTrackEta[j];
+      cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->simTrackPhi[j];
+      cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->simTrackCharge[j];
+      cout  << fixed << setw(7) << " ";
+      cout  << fixed << setw(14) << " ";
+      cout  << fixed << setw(5) << events->simTrackPdgId[j];
+      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(5) << events->simTrackVx[j];
+      cout  << fixed << setw(5) << events->simTrackVy[j];
+      cout  << fixed << setw(5) << events->simTrackVz[j];
+      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(7) << " " << endl;
+      line++;
+    }//end of if sim tracks correspond to gen muon
+  }//end of loop over mc muons
+
 }//end of printout_gen()
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_SA( StoppedHSCPMuonEvent* events){
@@ -3827,6 +3882,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     Double_t anglePos=-999.;
     Double_t angleNeg=-999.;
 
+    UInt_t simTrack0_index = 999;
+
     int nRhadron = 0;
     int rhadronId1 = 0;
     int rhadronId2 = 0;
@@ -3933,6 +3990,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) staus(events, good_genMuons, genMu0_index, tauFromStau, status1muon, status1muonFromTau, status1muonFromMuon, status1muonFromNeutralino, good_genStau, genStau0_index, genStau1_index, genStau2_index);
     if(file_dataset_ == "cosm") cosmicMC(events, good_genMuons, genMu0_index, status1muon);
     if(file_dataset_ == "tauP" || file_dataset_ == "mcha"){
+      simTracks(events,simTrack0_index);
       tauPrime(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
       //eventweightTauPrime = 1.0*eventWeightTauPrime(events,genHpos_index,genHneg_index,eventweightPt);
       //cout<<"eventweightTauPrime is: "<<eventweightTauPrime<<endl;
@@ -4430,6 +4488,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			}			
 		      }
 		      //cout<<"finished genMu histos"<<endl;
+
+		      //sim histos
+		      simTrackN_hist->Fill(events->simTrack_N,1.0);
+		      simTrackPt_hist->Fill(events->simTrackPt[simTrack0_index],1.0);
+		      simTrackEta_hist->Fill(events->simTrackEta[simTrack0_index],1.0);
+		      simTrackPhi_hist->Fill(events->simTrackPhi[simTrack0_index],1.0);
+		      simTrackCharge_hist->Fill(events->simTrackCharge[simTrack0_index],1.0);
+		      simTrackVx_hist->Fill(events->simTrackVx[simTrack0_index],1.0);
+		      simTrackVy_hist->Fill(events->simTrackVy[simTrack0_index],1.0);
+		      simTrackVz_hist->Fill(events->simTrackVz[simTrack0_index],1.0);
 
 		      if(events->l1Muon_N>0){
 			mcMuonPt_l1MuonPt_hist->Fill(events->mcMuonPt[genMu0_index],events->l1MuonPt[0],1.0);		      
@@ -5117,6 +5185,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcMuonPt_muRefittedStandAlonePt_hist->Write();
     mcMuonPt_muCosmicPt_hist->Write();
     mcMuonPt_muCosmicTrackPt_hist->Write();
+    simTrackN_hist->Write();
+    simTrackPt_hist->Write();
+    simTrackEta_hist->Write();
+    simTrackPhi_hist->Write();
+    simTrackCharge_hist->Write();
+    simTrackVx_hist->Write();
+    simTrackVy_hist->Write();
+    simTrackVz_hist->Write();
     muDisplacedStandAlonePtResolution_hist->Write();
     muRefittedStandAlonePtResolution_hist->Write();
     muCosmicPtResolution_hist->Write();
