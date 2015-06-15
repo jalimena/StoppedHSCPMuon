@@ -3537,8 +3537,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     file = "/uscms_data/d3/alimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   }
   //if(host_=="brux") file = "/mnt/hadoop/users/alimena/CMS/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
-  //if(host_=="brux") file = "/mnt/hadoop/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
-  if(host_=="brux") file = "../test/stoppedHSCPMuonTree.root";
+  if(host_=="brux") file = "/mnt/hadoop/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
+  //if(host_=="brux") file = "../test/stoppedHSCPMuonTree.root";
   if(host_=="lxpl") file = "root://eoscms//eos/cms/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   //if(host_=="lxpl") file = "/afs/cern.ch/work/j/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
 
@@ -4155,7 +4155,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      hlt20Cha2MuonEta_hist->Fill(events->hlt20Cha2MuonEta[0],1.0);
 		      hlt20Cha2MuonPhi_hist->Fill(events->hlt20Cha2MuonPhi[0],1.0);
 		    }
-		    //cout<<"trigger hists done"<<endl;
+		    cout<<"trigger hists done"<<endl;
 		    
 		    if(events->mu_Cosmic_N>0){
 		      muCosmicPt_hist->Fill(events->muCosmicPt[0],1.0);
@@ -4328,7 +4328,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			//UInt_t stoppedNeg_index = 999;
 		      }//end of if not cosmics
 
-		      //cout<<"end of stopped particle histos"<<endl;
+		      cout<<"end of stopped particle histos"<<endl;
 
 		      if(file_dataset_ == "stop" || file_dataset_ == "glui"){
 			mcRhadron_N_hist->Fill(nRhadron,1.0);
@@ -4487,7 +4487,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  }
 			}			
 		      }
-		      //cout<<"finished genMu histos"<<endl;
+		      cout<<"finished genMu histos"<<endl;
 
 		      //sim histos
 		      simTrackN_hist->Fill(events->simTrack_N,1.0);
