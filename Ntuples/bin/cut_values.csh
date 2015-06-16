@@ -54,12 +54,12 @@ set OppPhiCutValue = 0.1
 #set OppPhiCutValue = 3.0
 
 set abcdInvBetaCutValue = 0.0;
-set abcdPtCutValue = 100.0;
+#set abcdPtCutValue = 100.0;
 #set abcdPtCutValue = 80.0;
 #set abcdPtCutValue = 120.0;
 
 #set abcdInvBetaCutValue = 0.5;
-#set abcdPtCutValue = 150.0;
+set abcdPtCutValue = 150.0;
 
 #set abcdInvBetaCutValue = -0.5;
 #set abcdPtCutValue = 50.0;
