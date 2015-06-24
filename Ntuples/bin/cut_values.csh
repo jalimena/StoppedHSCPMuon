@@ -44,7 +44,8 @@ set CscHitsCutValue = 0
 set DtInvBetaCutValue = 0.2
 #set DtInvBetaCutValue = 0.0
 #set TimeInOutCutValue = 0.
-set TimeInOutCutValue = -20.
+#set TimeInOutCutValue = -20.
+set TimeInOutCutValue = -10.
 set OppEtaCutValue = 0.1
 #set OppEtaCutValue = 0.6
 set OppPhiCutValue = 0.1
@@ -55,9 +56,9 @@ set OppPhiCutValue = 0.1
 
 #set abcdInvBetaCutValue = -0.5;
 #set abcdInvBetaCutValue = -0.2;
-set abcdInvBetaCutValue = 0.0;
+#set abcdInvBetaCutValue = 0.0;
 #set abcdInvBetaCutValue = 0.2;
-#set abcdInvBetaCutValue = 0.5;
+set abcdInvBetaCutValue = 0.5;
 
 set abcdPtCutValue = 35.0;
 #set abcdPtCutValue = 50.0;

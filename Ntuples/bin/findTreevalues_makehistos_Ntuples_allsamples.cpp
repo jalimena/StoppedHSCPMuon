@@ -561,6 +561,7 @@ public:
     Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist = new TH2D("Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist","Pt vs RPC BX Pattern",1000,0,1000,9,0,9);
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist = new TH2D("Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist","DT Time InOut vs Free Inverse Beta",400,-100,100,1000,-50,50);
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist = new TH2D("Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist","DT Time InOut vs Direction",400,-100,100,3,-1,2);
+    Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist = new TH2D("Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist","DT Free Inverse Beta vs Free Inverse Beta Error",1000,-50,50,10000,0,1000);
 
     Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist","run number vs free #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-50,50);
     Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
@@ -605,6 +606,7 @@ public:
     Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist = new TH2D("Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist","Pt vs RPC BX Pattern",1000,0,1000,9,0,9);
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist = new TH2D("Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist","DT Time InOut vs Free Inverse Beta",400,-100,100,1000,-50,50);
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist = new TH2D("Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist","DT Time InOut vs Direction",400,-100,100,3,-1,2);
+    Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist = new TH2D("Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist","DT Free Inverse Beta vs Free Inverse Beta Error",1000,-50,50,10000,0,1000);
 
     Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist","run number vs free #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-50,50);
     Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist = new TH2D("Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist","run number vs #beta^{-1} of StandAlone Muons",10000,190000,210000,1000,-5,5);
@@ -1139,6 +1141,7 @@ private:
   TH2D* Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist;
   TH2D* Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist;
   TH2D* Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist;
+  TH2D* Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist;
 
   TH2D* Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist;
   TH2D* Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
@@ -1183,6 +1186,7 @@ private:
   TH2D* Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist;
   TH2D* Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist;
   TH2D* Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist;
+  TH2D* Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist;
 
   TH2D* Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist;
   TH2D* Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist;
@@ -2347,23 +2351,23 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA( StoppedHSCPMuonE
 				(!doTimeInOutCut)){
 			      pass_TimeInOut = true;
 			      
-			      //DT inverse beta cut
-			      if( (doDtInvBetaCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[presel_index[i]]>DtInvBetaCutValue_) || 
-				  (doDtInvBetaCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[presel_index[i]]<DtInvBetaCutValue_) || 
-				  (!doDtInvBetaCut)){
-				pass_DtInvBeta = true;
+			      //TOF dir cut
+			      if( (doTofDirCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[presel_index[i]]==1) ||
+				  (doTofDirCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[presel_index[i]]==1) ||
+				  (!doTofDirCut)){
+				pass_TofDir = true;
 				
-				//TOF dir cut
-				if( (doTofDirCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[presel_index[i]]==1) ||
-				    (doTofDirCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[presel_index[i]]==1) ||
-				    (!doTofDirCut)){
-				  pass_TofDir = true;
+				//DT inverse beta cut
+				if( (doDtInvBetaCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[presel_index[i]]>DtInvBetaCutValue_) || 
+				    (doDtInvBetaCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[presel_index[i]]<DtInvBetaCutValue_) || 
+				    (!doDtInvBetaCut)){
+				  pass_DtInvBeta = true;
 				  
 				  n_passHighestPt++;
 				  if (n_passHighestPt==1) highestPt_index = presel_index[i];
 				  
-				}//end of tof dir cut of leading SA
-			      }//end of dt inverse beta for leading SA
+				}//end of dt inverse beta for leading SA
+			      }//end of tof dir cut of leading SA
 			    }//end of timeInOut for leading SA
 			  }//end of rpc bx pattern is 0 or 1 for leading SA
 			}//end of OppPhi cut for leading SA
@@ -2439,16 +2443,16 @@ void findTreevalues_makehistos_Ntuples_allsamples::HighestPtSA_counts( bool& pas
 			if(pass_TimeInOut){
 			  pass_TimeInOut_cut++;
 			  
-			  //DT inverse beta cut
-			  if(pass_DtInvBeta){
-			    pass_DtInvBeta_cut++;
+			  //tof dir cut
+			  if(pass_TofDir){
+			    pass_TofDir_cut++;
 			    
-			    //tof dir cut
-			    if(pass_TofDir){
-			      pass_TofDir_cut++;
+			    //DT inverse beta cut
+			    if(pass_DtInvBeta){
+			      pass_DtInvBeta_cut++;
 			      
-			    } //end of tof dir cut for leading SA
-			  }//end of dt inverse beta for leading SA
+			    }//end of dt inverse beta for leading SA
+			  } //end of tof dir cut for leading SA
 			}//end of timeInOut for leading SA
 		      }//end of rpc bx pattern is 0 or 1 for leading SA
 		    }//end of OppPhi cut for leading SA
@@ -2603,24 +2607,24 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA( StoppedHSCPM
 				(doTimeInOutCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_Index[i]]<TimeInOutCutValue_ && events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_Index[j]]<TimeInOutCutValue_) || 
 				(!doTimeInOutCut)){
 			      pass_TimeInOut_2 = true;
-
-			      //DT inverse beta cut
-			      if( (doDtInvBetaCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_Index[i]]>DtInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_Index[j]]>DtInvBetaCutValue_) || 
-				  (doDtInvBetaCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_Index[i]]<DtInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_Index[j]]<DtInvBetaCutValue_) || 
-				  (!doDtInvBetaCut)){
-				pass_DtInvBeta_2 = true;
 								
-				//tof dir cut
-				if( (doTofDirCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[upper_Index[i]]==1 && events->muDisplacedStandAloneTrackDtTofDirection[lower_Index[j]]==1) || 
-				    (doTofDirCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[upper_Index[i]]==1 && events->muDisplacedStandAloneTrackDtTofDirection[lower_Index[j]]==1) || 
-				    (!doTofDirCut)){
-				  pass_TofDir_2 = true;
-
-				  //charge cut
-				  if( (doChargeCut && !doCosEnrich && events->muDisplacedStandAloneCharge[upper_Index[i]] == events->muDisplacedStandAloneCharge[lower_Index[j]]) || 
-				      (doChargeCut && doCosEnrich && events->muDisplacedStandAloneCharge[upper_Index[i]] == events->muDisplacedStandAloneCharge[lower_Index[j]]) || 
-				      (!doChargeCut)){
-				    pass_charge_2 = true;
+			      //tof dir cut
+			      if( (doTofDirCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[upper_Index[i]]==1 && events->muDisplacedStandAloneTrackDtTofDirection[lower_Index[j]]==1) || 
+				  (doTofDirCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofDirection[upper_Index[i]]==1 && events->muDisplacedStandAloneTrackDtTofDirection[lower_Index[j]]==1) || 
+				  (!doTofDirCut)){
+				pass_TofDir_2 = true;
+				
+				//charge cut
+				if( (doChargeCut && !doCosEnrich && events->muDisplacedStandAloneCharge[upper_Index[i]] == events->muDisplacedStandAloneCharge[lower_Index[j]]) || 
+				    (doChargeCut && doCosEnrich && events->muDisplacedStandAloneCharge[upper_Index[i]] == events->muDisplacedStandAloneCharge[lower_Index[j]]) || 
+				    (!doChargeCut)){
+				  pass_charge_2 = true;
+				  
+				  //DT inverse beta cut
+				  if( (doDtInvBetaCut && !doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_Index[i]]>DtInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_Index[j]]>DtInvBetaCutValue_) || 
+				      (doDtInvBetaCut && doCosEnrich && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_Index[i]]<DtInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_Index[j]]<DtInvBetaCutValue_) || 
+				      (!doDtInvBetaCut)){
+				    pass_DtInvBeta_2 = true;
 				    
 				    //if(doPrintout) printout_SA(events);
 				    n_passUpperAndLower++;
@@ -2629,9 +2633,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA( StoppedHSCPM
 				      lower_index = lower_Index[j];
 				    }
 				  
-				  }//end of charge cut for 2 muons
-				}//end of tof dir cut for 2 muons
-			      }//end of dt inv beta cut for 2 muons
+				  }//end of dt inv beta cut for 2 muons
+				}//end of charge cut for 2 muons
+			      }//end of tof dir cut for 2 muons
 			    }//end of timeInOut cut for 2 muons
 			  }//end of rpc bx pattern cut for 2 muons
 			}//end of opp phi cut for cosmic enriched 2 muons
@@ -2693,22 +2697,22 @@ void findTreevalues_makehistos_Ntuples_allsamples::UpperAndLowerSA_counts(bool& 
 		      if(pass_TimeInOut_2){
 			pass_TimeInOut_2_cut++;
 
-			//DT inverse beta cut
-			if(pass_DtInvBeta_2){
-			  pass_DtInvBeta_2_cut++;
-
-			  //tof dir cut
-			  if(pass_TofDir_2){
-			    pass_TofDir_2_cut++;
-
-			    //charge cut
-			    if(pass_charge_2){
-			      pass_charge_2_cut++;
-
-			    }//end of pass charge cut for 2 muons			  
-			  }//end of timeInOut cut for 2 muons
-			}//end of pass tof dir cut for 2 muons
-		      }//end of dt inv beta cut for 2 muons
+			//tof dir cut
+			if(pass_TofDir_2){
+			  pass_TofDir_2_cut++;
+			  
+			  //charge cut
+			  if(pass_charge_2){
+			    pass_charge_2_cut++;
+			    
+			    //DT inverse beta cut
+			    if(pass_DtInvBeta_2){
+			      pass_DtInvBeta_2_cut++;
+			      
+			    }//end of dt inv beta cut for 2 muons
+			  }//end of pass charge cut for 2 muons			  
+			}//end of timeInOut cut for 2 muons
+		      }//end of pass tof dir cut for 2 muons
 		    }//end of rpc bx pattern cut for 2 muons
 		  }//end of opp phi cut for cosmic enriched 2 muons
 		}//end of opp eta cut for cosmic enriched 2 muons
@@ -3338,19 +3342,26 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L2( StoppedHSCPMuonE
   //cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
   //line++;
 
-  //for (UInt_t j=0; j<events->hlt20Muon_N; j++) {
   for (UInt_t j=0; j<events->hlt20Cha2Muon_N; j++) {
     cout  << setw(7) << events->run;
     cout  << setw(9) << events->id;
     cout  << setw(8) << "L2 "<<j;
-    //cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20MuonPt[j];
-    //cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20MuonEta[j];
-    //cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20MuonPhi[j]<<endl;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20Cha2MuonPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20Cha2MuonEta[j];
     cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20Cha2MuonPhi[j]<<endl;
     line++;
   }//end of loop over L2 muons
+
+  for (UInt_t j=0; j<events->hlt20Muon_N; j++) {
+    cout  << setw(7) << events->run;
+    cout  << setw(9) << events->id;
+    cout  << setw(8) << "L2 "<<j;
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20MuonPt[j];
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20MuonEta[j];
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->hlt20MuonPhi[j]<<endl;
+    line++;
+  }//end of loop over L2 muons
+
 }//end of printout_L2()
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_L1( StoppedHSCPMuonEvent* events){
@@ -4121,15 +4132,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				//if(!is_data) printout_gen(events);
 				//cout<<"event number is: "<<events->id<<endl;
 
-				printout_setup(events);
-				printout_gen(events);
-				printout_SA(events);
-				printout_RSA(events);
-				printout_cosmic(events);
-				printout_L2(events);
-				printout_L1(events);
+				//printout_setup(events);
+				//printout_gen(events);
+				//printout_SA(events);
+				//printout_RSA(events);
+				//printout_cosmic(events);
+				//printout_L2(events);
+				//printout_L1(events);
 
-				nPrintedOutEvents++;
+				//nPrintedOutEvents++;
 				//}
 				//}
 				//}
@@ -4614,7 +4625,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			cout<<"finished DSA histos"<<endl;
 
 			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
-			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_) nDregion++;
+			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_){
+			    nDregion++;
+			    if(doPrintout){
+			      printout_setup(events);
+			      printout_gen(events);
+			      printout_SA(events);
+			      printout_RSA(events);
+			      printout_cosmic(events);
+			      printout_L2(events);
+			      printout_L1(events);			      
+			      nPrintedOutEvents++;
+			    }
+			  }
 			  else nBregion++;
 			}
 			else{
@@ -4743,6 +4766,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist->Fill(events->muDisplacedStandAlonePt[upper_index],Rpc_Bx_Pattern(events,upper_index),1.0);
 		      Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
 		      Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index],events->muDisplacedStandAloneTrackDtTofDirection[upper_index],1.0);
+		      Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[upper_index],1.0);
 
 		      //upper vs run number, 2D
 		      Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
@@ -4790,6 +4814,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist->Fill(events->muDisplacedStandAlonePt[lower_index],Rpc_Bx_Pattern(events,lower_index),1.0);
 		      Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_index],1.0);
 		      Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index],events->muDisplacedStandAloneTrackDtTofDirection[lower_index],1.0);
+		      Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[lower_index],1.0);
 
 		      //lower vs run number, 2D
 		      Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Fill(events->run,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_index],1.0);
@@ -5029,10 +5054,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if(doRpcBxCut)                                  cout<<"number of events passing at RPC bx pattern cut is: "<<pass_Rpc_Bx_cut<<endl;
   if(!doCosEnrich && doTimeInOutCut)         cout<<"number of events passing TimeInOut >"<<TimeInOutCutValue_<<" cut is: "<<pass_TimeInOut_cut<<endl;
   if(doCosEnrich && doTimeInOutCut)          cout<<"number of events passing TimeInOut <"<<TimeInOutCutValue_<<" cut is: "<<pass_TimeInOut_cut<<endl;
-  if(!doCosEnrich && doDtInvBetaCut)         cout<<"number of events passing Dt inverse beta >"<<DtInvBetaCutValue_<<" cut is: "<<pass_DtInvBeta_cut<<endl;
-  if(doCosEnrich && doDtInvBetaCut)          cout<<"number of events passing Dt inverse beta <"<<DtInvBetaCutValue_<<" cut is: "<<pass_DtInvBeta_cut<<endl;
   if(!doCosEnrich && doTofDirCut)         cout<<"number of events passing TofDir cut is: "<<pass_TofDir_cut<<endl;
   if(doCosEnrich && doTofDirCut)          cout<<"number of events passing TofDir cut is: "<<pass_TimeInOut_cut<<endl;
+  if(!doCosEnrich && doDtInvBetaCut)         cout<<"number of events passing Dt inverse beta >"<<DtInvBetaCutValue_<<" cut is: "<<pass_DtInvBeta_cut<<endl;
+  if(doCosEnrich && doDtInvBetaCut)          cout<<"number of events passing Dt inverse beta <"<<DtInvBetaCutValue_<<" cut is: "<<pass_DtInvBeta_cut<<endl;
 
   cout<<endl;
   if(doSACut)                                     cout<<"number of events passing at least two SA muons cut is: "<<pass_SA_2_cut<<endl;
@@ -5050,12 +5075,13 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if(doRpcBxCut)                                  cout<<"number of events passing at RPC bx pattern cut for 2 muons cut is: "<<pass_Rpc_Bx_2_cut<<endl;
   if(!doCosEnrich && doTimeInOutCut)         cout<<"number of events passing TimeInOut >"<<TimeInOutCutValue_<<" cut for 2 muons is: "<<pass_TimeInOut_2_cut<<endl;
   if(doCosEnrich && doTimeInOutCut)          cout<<"number of events passing TimeInOut <"<<TimeInOutCutValue_<<" cut for 2 muons is: "<<pass_TimeInOut_2_cut<<endl;
-  if(!doCosEnrich && doDtInvBetaCut)         cout<<"number of events passing Dt inverse beta >"<<DtInvBetaCutValue_<<" cut for 2 muons is: "<<pass_DtInvBeta_2_cut<<endl;
-  if(doCosEnrich && doDtInvBetaCut)          cout<<"number of events passing Dt inverse beta <"<<DtInvBetaCutValue_<<" cut for 2 muons is: "<<pass_DtInvBeta_2_cut<<endl;
   if(!doCosEnrich && doTofDirCut)         cout<<"number of events passing TofDir cut for 2 muons is: "<<pass_TofDir_2_cut<<endl;
   if(doCosEnrich && doTofDirCut)          cout<<"number of events passing TofDir cut for 2 muons is: "<<pass_TofDir_2_cut<<endl;
   if(!doCosEnrich && doChargeCut)         cout<<"number of events passing Charge cut for 2 muons is: "<<pass_charge_2_cut<<endl;
   if(doCosEnrich && doChargeCut)          cout<<"number of events passing Charge cut for 2 muons is: "<<pass_charge_2_cut<<endl;
+  if(!doCosEnrich && doDtInvBetaCut)         cout<<"number of events passing Dt inverse beta >"<<DtInvBetaCutValue_<<" cut for 2 muons is: "<<pass_DtInvBeta_2_cut<<endl;
+  if(doCosEnrich && doDtInvBetaCut)          cout<<"number of events passing Dt inverse beta <"<<DtInvBetaCutValue_<<" cut for 2 muons is: "<<pass_DtInvBeta_2_cut<<endl;
+
 
   cout<<endl;
   cout<<"abcd regions defined by inverse beta cut of "<<abcdInvBetaCutValue_<<" and pt cut of "<<abcdPtCutValue_<<endl;
@@ -5381,6 +5407,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist->Write();
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist->Write();
     Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist->Write();
+    Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist->Write();
     Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Write();
     Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Write();
     Upper_runNumber_muDisplacedStandAlonePt_hist->Write();    
@@ -5422,6 +5449,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist->Write();
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist->Write();
     Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist->Write();
+    Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist->Write();
     Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->Write();
     Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->Write();
     Lower_runNumber_muDisplacedStandAlonePt_hist->Write();    
