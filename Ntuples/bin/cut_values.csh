@@ -18,21 +18,21 @@ set PreDtHitsCutValue = 7
 set PreInvBetaErrCutValue = 10.
 set PreCscHitsCutValue = 0
 
-set PtCutValue = 10.
-set ChaCutValue = 1
-set EtaCutValue = 1.0
-set RpcCutValue = 1
+#set PtCutValue = 10.
+#set ChaCutValue = 1
+#set EtaCutValue = 1.0
+#set RpcCutValue = 1
 
 
 
 #set PtCutValue = 20.
-#set PtCutValue = 30.
-#set ChaCutValue = 2
+set PtCutValue = 30.
+set ChaCutValue = 2
 #set ChaCutValue = 3
-#set EtaCutValue = 1.0
+set EtaCutValue = 1.0
 #set RpcCutValue = 0
 #set RpcCutValue = 1
-#set RpcCutValue = 2
+set RpcCutValue = 2
 #set RpcCutValue = 3
 #set RpcCutValue = 4
 #set RpcCutValue = 5
@@ -60,10 +60,10 @@ set OppPhiCutValue = 0.1
 #set abcdInvBetaCutValue = 0.2;
 set abcdInvBetaCutValue = 0.5;
 
-set abcdPtCutValue = 35.0;
+#set abcdPtCutValue = 35.0;
 #set abcdPtCutValue = 50.0;
 #set abcdPtCutValue = 80.0;
-#set abcdPtCutValue = 100.0;
+set abcdPtCutValue = 100.0;
 #set abcdPtCutValue = 120.0;
 #set abcdPtCutValue = 150.0;
 

@@ -681,7 +681,7 @@ public:
     muStandAloneTofFreeInverseBeta_hist = new TH1D("muStandAloneTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
     muStandAloneTofFreeInverseBetaErr_hist = new TH1D("muStandAloneTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     muStandAloneTofTimeAtIpInOut_hist = new TH1D("muStandAloneTofTimeAtIpInOut_hist","Time at IP InOut of StandAlone Muons",400,-100,100);
-    muStandAloneTofTimeAtIpInOutErr_hist = new TH1D("muStandAloneTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",100,0,20);
+    muStandAloneTofTimeAtIpInOutErr_hist = new TH1D("muStandAloneTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",1000,-50,50);
     muStandAloneTofTimeAtIpOutIn_hist = new TH1D("muStandAloneTofTimeAtIpOutIn_hist","Time at IP OutIn of StandAlone Muons",300,0,150);
     muStandAloneTofTimeAtIpOutInErr_hist = new TH1D("muStandAloneTofTimeAtIpOutInErr_hist","Error of Time at IP OutIn of StandAlone Muons",100,0,20);
     
@@ -693,7 +693,7 @@ public:
     muDisplacedStandAloneDTTofFreeInverseBeta_hist = new TH1D("muDisplacedStandAloneDTTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
     muDisplacedStandAloneDTTofFreeInverseBetaErr_hist = new TH1D("muDisplacedStandAloneDTTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     muDisplacedStandAloneDTTofTimeAtIpInOut_hist = new TH1D("muDisplacedStandAloneDTTofTimeAtIpInOut_hist","Time at IP InOut of StandAlone Muons",400,-100,100);
-    muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist = new TH1D("muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",100,0,20);
+    muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist = new TH1D("muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",1000,-50,50);
     muDisplacedStandAloneDTTofTimeAtIpOutIn_hist = new TH1D("muDisplacedStandAloneDTTofTimeAtIpOutIn_hist","Time at IP OutIn of StandAlone Muons",300,0,150);
     muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist = new TH1D("muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist","Error of Time at IP OutIn of StandAlone Muons",100,0,20);
     
@@ -705,9 +705,34 @@ public:
     muDisplacedStandAloneCSCTofFreeInverseBeta_hist = new TH1D("muDisplacedStandAloneCSCTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
     muDisplacedStandAloneCSCTofFreeInverseBetaErr_hist = new TH1D("muDisplacedStandAloneCSCTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
     muDisplacedStandAloneCSCTofTimeAtIpInOut_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpInOut_hist","Time at IP InOut of StandAlone Muons",400,-100,100);
-    muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",100,0,20);
+    muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",1000,-50,50);
     muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist","Time at IP OutIn of StandAlone Muons",300,0,150);
     muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist","Error of Time at IP OutIn of StandAlone Muons",100,0,20);    
+
+    regionD_muDisplacedStandAlone_N_hist = new TH1D("regionD_muDisplacedStandAlone_N_hist","Number of StandAlone Muons",100,0,100);
+    regionD_muDisplacedStandAlonePt_hist = new TH1D("regionD_muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
+    regionD_muDisplacedStandAloneEta_hist = new TH1D("regionD_muDisplacedStandAloneEta_hist","StandAlone Muon #eta",120,-6,6);
+    regionD_muDisplacedStandAlonePhi_hist = new TH1D("regionD_muDisplacedStandAlonePhi_hist","StandAlone Muon #phi",64,-3.2,3.2);
+    regionD_muDisplacedStandAloneCharge_hist = new TH1D("regionD_muDisplacedStandAloneCharge_hist","StandAlone Muon Track Charge",10,-5,5);
+    regionD_muDisplacedStandAloneTrackNormalizedChi2_hist = new TH1D("regionD_muDisplacedStandAloneTrackNormalizedChi2_hist","StandAlone Muon Track #chi^{2}/dof",1000,0,100);
+    regionD_muDisplacedStandAloneTrackDxy_hist = new TH1D("regionD_muDisplacedStandAloneTrackDxy_hist","StandAlone Muon Dxy",2000,-1000,1000);
+    regionD_muDisplacedStandAloneTrackDz_hist = new TH1D("regionD_muDisplacedStandAloneTrackDz_hist","StandAlone Muon Dz",2000,-1000,1000);
+    regionD_muDisplacedStandAloneTrackNHitsMuon_hist = new TH1D("regionD_muDisplacedStandAloneTrackNHitsMuon_hist","Hits in StandAlone Muon Track",100,0,100);
+    regionD_muDisplacedStandAloneTrackNHitsCsc_hist = new TH1D("regionD_muDisplacedStandAloneTrackNHitsCsc_hist","CSC Hits in StandAlone Muon Track",100,0,100);
+    regionD_muDisplacedStandAloneTrackNHitsDt_hist = new TH1D("regionD_muDisplacedStandAloneTrackNHitsDt_hist","DT Hits in StandAlone Muon Track",100,0,100);
+    regionD_muDisplacedStandAloneTrackNHitsRpc_hist = new TH1D("regionD_muDisplacedStandAloneTrackNHitsRpc_hist","RPC Hits in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackNRpcDof_hist = new TH1D("regionD_muDisplacedStandAloneTrackNRpcDof_hist","RPC BX Measurements in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackNStations_hist = new TH1D("regionD_muDisplacedStandAloneTrackNStations_hist","Muon Stations in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackNChambersCsc_hist = new TH1D("regionD_muDisplacedStandAloneTrackNChambersCsc_hist","CSC Chambers in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackNChambersDt_hist = new TH1D("regionD_muDisplacedStandAloneTrackNChambersDt_hist","DT Chambers in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackNChambersRpc_hist = new TH1D("regionD_muDisplacedStandAloneTrackNChambersRpc_hist","RPC Chambers in StandAlone Muon Track",10,0,10);
+    regionD_muDisplacedStandAloneTrackDtTofNDof_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofNDof_hist","StandAlone Muons TOF Number of Degrees of Freedom",40,0,40);
+    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
+    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist","Error of Free #beta^{-1} of StandAlone Muons",10000,0,1000);
+    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist","Time at IP InOut of StandAlone Muons",400,-100,100);
+    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist","Error of Time at IP InOut of StandAlone Muons",1000,-50,50);
+    regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist = new TH1D("regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist","chi2/dof of StandAlone Muons",500,0,500);
+    regionD_muDisplacedStandAloneBxPattern_hist = new TH1D("regionD_muDisplacedStandAloneBxPattern_hist","StandAlone Muon RPC BX Pattern",9,0,9);
     
     DTSegment_N_hist = new TH1D("DTSegment_N_hist","Number of DT Segments",100,0,100);
     CSCSegment_N_hist = new TH1D("CSCSegment_N_hist","Number of CSC Segments",100,0,100);
@@ -1290,6 +1315,31 @@ private:
   TH1D* muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist;
   TH1D* muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist;
   TH1D* muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist;
+
+  TH1D* regionD_muDisplacedStandAlone_N_hist;
+  TH1D* regionD_muDisplacedStandAlonePt_hist;
+  TH1D* regionD_muDisplacedStandAloneEta_hist;
+  TH1D* regionD_muDisplacedStandAlonePhi_hist;
+  TH1D* regionD_muDisplacedStandAloneCharge_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNormalizedChi2_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDxy_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDz_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNHitsMuon_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNHitsCsc_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNHitsDt_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNHitsRpc_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNRpcDof_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNStations_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNChambersCsc_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNChambersDt_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackNChambersRpc_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofNDof_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist;
+  TH1D* regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist;
+  TH1D* regionD_muDisplacedStandAloneBxPattern_hist;
 
   TH1D* DTSegment_N_hist;
   TH1D* CSCSegment_N_hist;
@@ -2789,11 +2839,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "RPC ";
     cout  << setw(5) << "Dir ";
     cout  << setw(7) << "tInOut ";
+    cout  << setw(7) << "tInOut err ";
     cout  << setw(7) << "1/beta ";
     cout  << setw(11) << "1/beta err  ";
-    cout  << setw(5) << "chi2 ";
-    cout  << setw(5) << "dEta " << endl;
-    cout  << setw(5) << "dPhi " << endl;
+    cout  << setw(5) << "nDOF "<<endl;
     line = line + 2;
   }
 }//end of printout_setup()
@@ -2811,9 +2860,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(7) << events->mcStoppedParticleMass[j];
     //cout  << fixed << setw(7) << " ";
     //cout  << fixed << setw(7) << " ";
-    //cout  << fixed << setw(7) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
@@ -2852,8 +2899,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
     }//end of loop over tops
@@ -2885,8 +2931,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over staus
@@ -2918,8 +2963,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over gluinos
@@ -2951,8 +2995,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over gluinos
@@ -2984,8 +3027,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over neutralinos
@@ -3017,8 +3059,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over gravitinos
@@ -3050,8 +3091,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over Ws
@@ -3083,8 +3123,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over CMshowers
@@ -3116,8 +3155,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
     cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
-    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }//end of loop over taus
@@ -3152,8 +3190,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       cout  << fixed << setw(5) << events->mcMuonVz[j];
       cout  << fixed << setw(5) << " ";
       cout  << fixed << setw(5) << " ";
-      cout  << fixed << setw(5) << " ";
-      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(7) << " ";
       cout  << fixed << setw(7) << " " << endl;
       line++;
   }//end of loop over mc muons
@@ -3177,8 +3214,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       cout  << fixed << setw(5) << events->simTrackVz[j];
       cout  << fixed << setw(5) << " ";
       cout  << fixed << setw(5) << " ";
-      cout  << fixed << setw(5) << " ";
-      cout  << fixed << setw(5) << " ";
+      cout  << fixed << setw(7) << " ";
       cout  << fixed << setw(7) << " " << endl;
       line++;
     }//end of if sim tracks correspond to gen muon
@@ -3203,7 +3239,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_SA( StoppedHSCPMuonE
     }
     //cout<<"BXs is: "<<BXs<<endl;                                                                                                                                                           
 
-    double segment_dPhi, segment_dEta;
+    //double segment_dPhi, segment_dEta;
     //double segment_dR = dR_OppositeSeg(events, j, segment_dPhi, segment_dEta);
 
     cout  << setw(7) << events->run;
@@ -3225,11 +3261,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_SA( StoppedHSCPMuonE
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[j];
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofDirection[j];
     cout  << fixed << setprecision(TimeAtIpInOutPrecision) << setw(7) << events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[j];
+    cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[j];
     cout  << fixed << setw(7) << events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[j];
     cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[j];
-    cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofChi2Dof[j];
-    cout  << fixed << setw(5) << segment_dEta;
-    cout  << fixed << setw(5) << segment_dPhi << endl;
+    cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofNDof[j]<<endl;
     line++;
   }//end of loop over SA muons
 }//end of printout_SA()
@@ -3279,12 +3314,11 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_RSA( StoppedHSCPMuon
     cout  << fixed << setprecision(TimeAtIpInOutPrecision) << setw(7) << " ";
     //cout  << fixed << setw(7) << events->muRefittedStandAloneTrackDtTofInverseBetaLS[j];
     cout  << fixed << setw(7) << " ";
+    cout  << fixed << setw(7) << " ";
     //cout  << fixed << setw(11) << events->muRefittedStandAloneTrackDtTofInverseBetaLSErr[j];
     cout  << fixed << setw(11) << " ";
     //cout  << fixed << setw(5) << events->muRefittedStandAloneTrackDtTofChi2Dof[j];
-    cout  << fixed << setw(5) << " ";
     //cout  << fixed << setw(5) << segment_dEta << endl;
-    cout  << fixed << setw(5) << " ";
     //cout  << fixed << setw(5) << segment_dPhi << endl;
     cout  << fixed << setw(5) << " " << endl;
     line++;
@@ -3336,12 +3370,11 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_cosmic( StoppedHSCPM
     cout  << fixed << setw(7) << " ";
     //cout  << fixed << setw(7) << events->muCosmicTrackDtTofInverseBetaLS[j];
     cout  << fixed << setw(7) << " ";
+    cout  << fixed << setw(7) << " ";
     //cout  << fixed << setw(11) << events->muCosmicTrackDtTofInverseBetaLSErr[j];
     cout  << fixed << setw(11) << " ";
     //cout  << fixed << setw(5) << events->muCosmicTrackDtTofChi2Dof[j];
-    cout  << fixed << setw(5) << " ";
     //cout  << fixed << setw(5) << segment_dEta << endl;
-    cout  << fixed << setw(5) << " ";
     //cout  << fixed << setw(5) << segment_dPhi << endl;
     cout  << fixed << setw(5) << " " << endl;
     line++;
@@ -4142,13 +4175,13 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				//if(!is_data) printout_gen(events);
 				//cout<<"event number is: "<<events->id<<endl;
 
-				printout_setup(events);
-				printout_gen(events);
-				printout_SA(events);
-				printout_RSA(events);
-				printout_cosmic(events);
-				printout_L2(events);
-				printout_L1(events);
+				//printout_setup(events);
+				//printout_gen(events);
+				//printout_SA(events);
+				//printout_RSA(events);
+				//printout_cosmic(events);
+				//printout_L2(events);
+				//printout_L1(events);
 
 				//nPrintedOutEvents++;
 				//}
@@ -4556,21 +4589,21 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			CSCSegment_N_hist->Fill(events->cscSeg_N,1.0);
 			
 			//1D displaced SA highest pt histos
-			muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[highestPt_index],1.0);
-			muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],1.0);
-			muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[highestPt_index],1.0);
-			muDisplacedStandAloneCharge_hist->Fill(events->muDisplacedStandAloneCharge[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNormalizedChi2_hist->Fill(events->muDisplacedStandAloneTrackNormalizedChi2[highestPt_index],1.0);
-			muDisplacedStandAloneTrackDxy_hist->Fill(events->muDisplacedStandAloneTrackDxy[highestPt_index],1.0);
-			muDisplacedStandAloneTrackDz_hist->Fill(events->muDisplacedStandAloneTrackDz[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNHitsMuon_hist->Fill(events->muDisplacedStandAloneTrackNValidMuonHits[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNHitsCsc_hist->Fill(events->muDisplacedStandAloneTrackNValidCscHits[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNHitsDt_hist->Fill(events->muDisplacedStandAloneTrackNValidDtHits[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNHitsRpc_hist->Fill(events->muDisplacedStandAloneTrackNValidRpcHits[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNRpcDof_hist->Fill(events->muDisplacedStandAloneTrackRpcHitZ.at(highestPt_index).size(),1.0);
-			muDisplacedStandAloneTrackNStations_hist->Fill(events->muDisplacedStandAloneTrackNStationsWithValidHits[highestPt_index],1.0);
+			muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[highestPt_index],1.0);					    
+			muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],1.0);					    
+			muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[highestPt_index],1.0);					    
+			muDisplacedStandAloneCharge_hist->Fill(events->muDisplacedStandAloneCharge[highestPt_index],1.0);				    
+			muDisplacedStandAloneTrackNormalizedChi2_hist->Fill(events->muDisplacedStandAloneTrackNormalizedChi2[highestPt_index],1.0);	    
+			muDisplacedStandAloneTrackDxy_hist->Fill(events->muDisplacedStandAloneTrackDxy[highestPt_index],1.0);				    
+			muDisplacedStandAloneTrackDz_hist->Fill(events->muDisplacedStandAloneTrackDz[highestPt_index],1.0);				    
+			muDisplacedStandAloneTrackNHitsMuon_hist->Fill(events->muDisplacedStandAloneTrackNValidMuonHits[highestPt_index],1.0);		    
+			muDisplacedStandAloneTrackNHitsCsc_hist->Fill(events->muDisplacedStandAloneTrackNValidCscHits[highestPt_index],1.0);		    
+			muDisplacedStandAloneTrackNHitsDt_hist->Fill(events->muDisplacedStandAloneTrackNValidDtHits[highestPt_index],1.0);		    
+			muDisplacedStandAloneTrackNHitsRpc_hist->Fill(events->muDisplacedStandAloneTrackNValidRpcHits[highestPt_index],1.0);		    
+			muDisplacedStandAloneTrackNRpcDof_hist->Fill(events->muDisplacedStandAloneTrackRpcHitZ.at(highestPt_index).size(),1.0);		    
+			muDisplacedStandAloneTrackNStations_hist->Fill(events->muDisplacedStandAloneTrackNStationsWithValidHits[highestPt_index],1.0);	    
 			muDisplacedStandAloneTrackNChambersCsc_hist->Fill(events->muDisplacedStandAloneTrackNCscChambersWithValidHits[highestPt_index],1.0);
-			muDisplacedStandAloneTrackNChambersDt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[highestPt_index],1.0);
+			muDisplacedStandAloneTrackNChambersDt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[highestPt_index],1.0);  
 			muDisplacedStandAloneTrackNChambersRpc_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[highestPt_index],1.0);
 			muDisplacedStandAloneTrackInnerPt_hist->Fill(TMath::Sqrt((events->muDisplacedStandAloneTrackInnerPx[highestPt_index])*(events->muDisplacedStandAloneTrackInnerPx[highestPt_index])+(events->muDisplacedStandAloneTrackInnerPy[highestPt_index])*(events->muDisplacedStandAloneTrackInnerPy[highestPt_index])),1.0);
 			muDisplacedStandAloneTrackDtTofNDof_hist->Fill(events->muDisplacedStandAloneTrackDtTofNDof[highestPt_index],1.0);
@@ -4592,9 +4625,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			muDisplacedStandAloneDTTofNDof_hist->Fill(events->muDisplacedStandAloneTrackDtTofNDof[highestPt_index],1.0);
 			muDisplacedStandAloneDTTofInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofInverseBeta[highestPt_index],1.0);
 			muDisplacedStandAloneDTTofInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofInverseBetaErr[highestPt_index],1.0);
-			muDisplacedStandAloneDTTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);
+			muDisplacedStandAloneDTTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);  
 			muDisplacedStandAloneDTTofFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[highestPt_index],1.0);
-			muDisplacedStandAloneDTTofTimeAtIpInOut_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[highestPt_index],1.0);
+			muDisplacedStandAloneDTTofTimeAtIpInOut_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[highestPt_index],1.0);	    
 			muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[highestPt_index],1.0);
 			muDisplacedStandAloneDTTofTimeAtIpOutIn_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpOutIn[highestPt_index],1.0);
 			muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr[highestPt_index],1.0);
@@ -4639,7 +4672,44 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 			//abcd with free inverse beta and pt
 			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
-			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_) nDregion++;			  
+			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_){
+			    nDregion++;
+
+			    regionD_muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
+			    regionD_muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[highestPt_index],1.0);					    
+			    regionD_muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],1.0);					   
+			    regionD_muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[highestPt_index],1.0);					   
+			    regionD_muDisplacedStandAloneCharge_hist->Fill(events->muDisplacedStandAloneCharge[highestPt_index],1.0);				    
+			    regionD_muDisplacedStandAloneTrackNormalizedChi2_hist->Fill(events->muDisplacedStandAloneTrackNormalizedChi2[highestPt_index],1.0);	
+			    regionD_muDisplacedStandAloneTrackDxy_hist->Fill(events->muDisplacedStandAloneTrackDxy[highestPt_index],1.0);			
+			    regionD_muDisplacedStandAloneTrackDz_hist->Fill(events->muDisplacedStandAloneTrackDz[highestPt_index],1.0);				   
+			    regionD_muDisplacedStandAloneTrackNHitsMuon_hist->Fill(events->muDisplacedStandAloneTrackNValidMuonHits[highestPt_index],1.0);	
+			    regionD_muDisplacedStandAloneTrackNHitsCsc_hist->Fill(events->muDisplacedStandAloneTrackNValidCscHits[highestPt_index],1.0);	
+			    regionD_muDisplacedStandAloneTrackNHitsDt_hist->Fill(events->muDisplacedStandAloneTrackNValidDtHits[highestPt_index],1.0);		
+			    regionD_muDisplacedStandAloneTrackNHitsRpc_hist->Fill(events->muDisplacedStandAloneTrackNValidRpcHits[highestPt_index],1.0);	
+			    regionD_muDisplacedStandAloneTrackNRpcDof_hist->Fill(events->muDisplacedStandAloneTrackRpcHitZ.at(highestPt_index).size(),1.0);	
+			    regionD_muDisplacedStandAloneTrackNStations_hist->Fill(events->muDisplacedStandAloneTrackNStationsWithValidHits[highestPt_index],1.0);	
+			    regionD_muDisplacedStandAloneTrackNChambersCsc_hist->Fill(events->muDisplacedStandAloneTrackNCscChambersWithValidHits[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneTrackNChambersDt_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[highestPt_index],1.0);  
+			    regionD_muDisplacedStandAloneTrackNChambersRpc_hist->Fill(events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneTrackDtTofNDof_hist->Fill(events->muDisplacedStandAloneTrackDtTofNDof[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);  
+			    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[highestPt_index],1.0);	    
+			    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist->Fill(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist->Fill(events->muDisplacedStandAloneTrackDtTofChi2Dof[highestPt_index],1.0);
+			    regionD_muDisplacedStandAloneBxPattern_hist->Fill(Rpc_Bx_Pattern(events,highestPt_index)); //for highest pt muon
+
+			    if(doPrintout){
+			      printout_setup(events);
+			      printout_gen(events);
+			      printout_SA(events);
+			      printout_RSA(events);
+			      printout_cosmic(events);
+			      printout_L2(events);
+			      printout_L1(events);
+			    }
+			  }
 			  else nBregion++;
 			}
 			else{
@@ -5555,6 +5625,30 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist->Write();
     muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist->Write();
     muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist->Write();    
+    regionD_muDisplacedStandAlone_N_hist->Write();
+    regionD_muDisplacedStandAlonePt_hist->Write();
+    regionD_muDisplacedStandAloneEta_hist->Write();
+    regionD_muDisplacedStandAlonePhi_hist->Write();
+    regionD_muDisplacedStandAloneCharge_hist->Write();
+    regionD_muDisplacedStandAloneTrackNormalizedChi2_hist->Write();
+    regionD_muDisplacedStandAloneTrackDxy_hist->Write();
+    regionD_muDisplacedStandAloneTrackDz_hist->Write();
+    regionD_muDisplacedStandAloneTrackNHitsMuon_hist->Write();
+    regionD_muDisplacedStandAloneTrackNHitsCsc_hist->Write();
+    regionD_muDisplacedStandAloneTrackNHitsDt_hist->Write();
+    regionD_muDisplacedStandAloneTrackNHitsRpc_hist->Write();
+    regionD_muDisplacedStandAloneTrackNRpcDof_hist->Write();
+    regionD_muDisplacedStandAloneTrackNStations_hist->Write();
+    regionD_muDisplacedStandAloneTrackNChambersCsc_hist->Write();
+    regionD_muDisplacedStandAloneTrackNChambersDt_hist->Write();
+    regionD_muDisplacedStandAloneTrackNChambersRpc_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofNDof_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist->Write();
+    regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist->Write();
+    regionD_muDisplacedStandAloneBxPattern_hist->Write();    
     DTSegment_N_hist->Write();
     CSCSegment_N_hist->Write();
 
