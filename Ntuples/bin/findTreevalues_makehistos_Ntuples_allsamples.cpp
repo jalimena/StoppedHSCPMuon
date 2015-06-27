@@ -793,7 +793,7 @@ private:
   void UpperAndLowerSA_counts(bool& pass_UpperAndLower, bool& pass_pt_2, bool& pass_cha_2, bool& pass_eta_2, bool& pass_RPC_2,  bool& pass_DisSt_2, bool& pass_DtHits_2, bool& pass_OppEta_2, bool& pass_OppPhi_2, bool& pass_Rpc_Bx_2, bool& pass_DtInvBeta_2, bool& pass_TimeInOut_2, bool& pass_TimeInOutErr_2, bool& pass_TofDir_2, bool& pass_charge_2);
   void TriggerTurnOn( StoppedHSCPMuonEvent*, string&, UInt_t&);
 
-  void printout_setup(StoppedHSCPMuonEvent*);
+  void printout_setup(StoppedHSCPMuonEvent*, bool& is_data);
   void printout_gen(StoppedHSCPMuonEvent*);
   void printout_SA(StoppedHSCPMuonEvent*);
   void printout_RSA(StoppedHSCPMuonEvent*);
@@ -2836,7 +2836,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
   
 }//end of TriggerTurnOn
 
-void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events){
+void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
   
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
@@ -2848,37 +2848,55 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     //cout  << "                                                      M_ID       M_W_ID          Hits             Chambers" << endl;
     cout  << "                                                      Status   Daughters  Moth  Moth_of_W  v_{x} v_{y} y_{z}" << endl;
     cout  << "                                                                             Hits                Chambers                           DT time" << endl;
-    cout  << setw(7) << "Run Num ";
-    cout  << setw(9) << "Event Num ";
-    cout  << setw(8) << "SA/Gen ";
-    cout  << setw(8) << "pT ";
-    cout  << setw(7) << "eta ";
-    cout  << setw(7) << "phi ";
-    cout  << setw(7) << "charge ";
-    cout  << setw(10) << "chi2 ";
-    cout  << setw(14) << "RPC BXs ";
-    cout  << setw(5) << "All ";
-    cout  << setw(5) << "CSC ";
-    cout  << setw(5) << "DT ";
-    cout  << setw(5) << "RPC ";
-    cout  << setw(5) << "Sts ";
-    cout  << setw(5) << "CSC ";
-    cout  << setw(5) << "DT ";
-    cout  << setw(5) << "RPC ";
-    cout  << setw(5) << "Dir ";
-    cout  << setw(7) << "tInOut ";
-    cout  << setw(7) << "tInOut err ";
-    cout  << setw(7) << "1/beta ";
-    cout  << setw(11) << "1/beta err  ";
-    cout  << setw(5) << "nDOF "<<endl;
+    cout  << setw(6) << "Run";
+    cout  << setw(6) << "Lumi";
+    cout  << setw(10) << "Event";
+    cout  << setw(8) << "SA/Gen";
+    cout  << setw(8) << "pT";
+    cout  << setw(7) << "eta";
+    cout  << setw(7) << "phi";
+    cout  << setw(7) << "charge";
+    cout  << setw(7) << "chi2";
+    cout  << setw(14) << "RPC BXs";
+    cout  << setw(5) << "All";
+    cout  << setw(5) << "CSC";
+    cout  << setw(5) << "DT";
+    cout  << setw(5) << "RPC";
+    cout  << setw(5) << "Sts";
+    cout  << setw(5) << "CSC";
+    cout  << setw(5) << "DT";
+    cout  << setw(5) << "RPC";
+    cout  << setw(5) << "Dir";
+    cout  << setw(7) << "tInOut";
+    cout  << setw(7) << "tInOut err";
+    cout  << setw(7) << "1/beta";
+    cout  << setw(11) << "1/beta err";
+    cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
+  }
+
+  if(is_data){
+    cout  << setw(6) << "Run";
+    cout  << setw(6) << "Lumi";
+    cout  << setw(10) << "Orbit";
+    cout  << setw(8) << "Bx";
+    cout  << setw(8) << "";
+    cout  << setw(7) << "Event"<<endl;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->orbit;
+    cout  << setw(8) << events->bx;
+    cout  << setw(8) << " ";
+    cout  << setw(7) << events->id<<endl;
+    line=line+2;
   }
 }//end of printout_setup()
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuonEvent* events){
   for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "SPart"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStoppedParticleX[j]/10.;
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStoppedParticleY[j]/10.;
@@ -2911,8 +2929,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenTop"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcTopPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcTopEta[j];
@@ -2943,8 +2962,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenStau"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStauPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStauEta[j];
@@ -2975,8 +2995,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenGluino"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcGluinoPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcGluinoEta[j];
@@ -3007,8 +3028,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenMcha"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcTauPrimePt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcTauPrimeEta[j];
@@ -3039,8 +3061,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenNeu"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcNeutralinoPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcNeutralinoEta[j];
@@ -3071,8 +3094,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenGrav"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcGravitinoPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcGravitinoEta[j];
@@ -3103,8 +3127,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenW"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcWPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcWEta[j];
@@ -3135,8 +3160,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenCMsh"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcCMshowerPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcCMshowerEta[j];
@@ -3167,8 +3193,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
       Daughters = Daughters + each_daughter + " ";
     }
     
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "GenTau"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcTauPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcTauEta[j];
@@ -3201,8 +3228,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     //if(events->mcMuonStatus[j]==1){                                                                                                                                                            
     //cout<<"For generated mu number "<<j<<",  pt is: "<<events->mcMuonPt[j]<<", eta is: "<<events->mcMuonEta[j]<<", phi is: "<<events->mcMuonPhi[j]<<", charge is: "<<events->mcMuonCharge[j]<<", mass is: "<<events->mcMuonMass[j]<<endl;                                                                                                                                                            
       
-      cout  << setw(7) << events->run;
-      cout  << setw(9) << events->id;
+      cout  << setw(6) << events->run;
+      cout  << setw(6) << events->lb;
+      cout  << setw(10) << events->id;
       cout  << setw(8) << "GenMu"<<j;
       cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcMuonPt[j];
       cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcMuonEta[j];
@@ -3226,8 +3254,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
   for (UInt_t j=0; j<events->simTrack_N; j++) {
     if(TMath::Abs(events->simTrackPdgId[j])==13){
       //cout<<"For sim track number "<<j<<",  pt is: "<<events->simTrackPt[j]<<", eta is: "<<events->simTrackEta[j]<<", phi is: "<<events->simTrackPhi[j]<<", charge is: "<<events->simTrackCharge[j]<<", mass is: "<<events->simTrackMass[j]<<endl;                                                                                                                                                                  
-      cout  << setw(7) << events->run;
-      cout  << setw(9) << events->id;
+      cout  << setw(6) << events->run;
+      cout  << setw(6) << events->lb;
+      cout  << setw(10) << events->id;
       cout  << setw(8) << "SimTrack"<<j;
       cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->simTrackPt[j];
       cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->simTrackEta[j];
@@ -3270,14 +3299,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_SA( StoppedHSCPMuonE
     //double segment_dPhi, segment_dEta;
     //double segment_dR = dR_OppositeSeg(events, j, segment_dPhi, segment_dEta);
 
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "SA"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->muDisplacedStandAlonePt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->muDisplacedStandAloneEta[j];
     cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->muDisplacedStandAlonePhi[j];
     cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->muDisplacedStandAloneCharge[j];
-    cout  << fixed << setprecision(X2DOFPrecision) << setw(10) << events->muDisplacedStandAloneTrackNormalizedChi2[j];
+    cout  << fixed << setprecision(X2DOFPrecision) << setw(7) << events->muDisplacedStandAloneTrackNormalizedChi2[j];
     cout  << fixed << setw(14) << BXs;
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackNValidMuonHits[j];
     cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackNValidCscHits[j];
@@ -3317,14 +3347,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_RSA( StoppedHSCPMuon
     //double segment_dPhi, segment_dEta;
     //double segment_dR = dR_OppositeSeg(events, j, segment_dPhi, segment_dEta); 
 
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "RSA"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->muRefittedStandAlonePt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->muRefittedStandAloneEta[j];
     cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->muRefittedStandAlonePhi[j];
     cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->muRefittedStandAloneCharge[j];
-    cout  << fixed << setprecision(X2DOFPrecision) << setw(10) << events->muRefittedStandAloneTrackNormalizedChi2[j];
+    cout  << fixed << setprecision(X2DOFPrecision) << setw(7) << events->muRefittedStandAloneTrackNormalizedChi2[j];
     //cout  << fixed << setw(14) << BX;
     cout  << fixed << setw(14) << " ";
     cout  << fixed << setw(5) << events->muRefittedStandAloneTrackNValidMuonHits[j];
@@ -3373,14 +3404,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_cosmic( StoppedHSCPM
     //double segment_dPhi, segment_dEta;
     //double segment_dR = dR_OppositeSeg(events, j, segment_dPhi, segment_dEta); 
 
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "Cos"<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->muCosmicTrackPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->muCosmicTrackEta[j];
     cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->muCosmicTrackPhi[j];
     cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->muCosmicTrackCharge[j];
-    cout  << fixed << setprecision(X2DOFPrecision) << setw(10) << events->muCosmicTrackNormalizedChi2[j];
+    cout  << fixed << setprecision(X2DOFPrecision) << setw(7) << events->muCosmicTrackNormalizedChi2[j];
     //cout  << fixed << setw(14) << BXs;
     cout  << fixed << setw(14) << " ";
     cout  << fixed << setw(5) << events->muCosmicTrackNValidMuonHits[j];
@@ -3414,8 +3446,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L2( StoppedHSCPMuonE
   //line++;
 
   for (UInt_t j=0; j<events->hlt20Cha2Muon_N; j++) {
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "L2 "<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20Cha2MuonPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->hlt20Cha2MuonEta[j];
@@ -3425,6 +3458,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L2( StoppedHSCPMuonE
 
   for (UInt_t j=0; j<events->hlt20Muon_N; j++) {
     cout  << setw(7) << events->run;
+    cout  << setw(6) << events->lb;
     cout  << setw(9) << events->id;
     cout  << setw(8) << "L2 "<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->hlt20MuonPt[j];
@@ -3440,8 +3474,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_L1( StoppedHSCPMuonE
   //line++;
 
   for (UInt_t j=0; j<events->l1Muon_N; j++) {
-    cout  << setw(7) << events->run;
-    cout  << setw(9) << events->id;
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
     cout  << setw(8) << "L1 "<<j;
     cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->l1MuonPt[j];
     cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->l1MuonEta[j];
@@ -4741,11 +4776,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    regionD_muDisplacedStandAloneBxPattern_hist->Fill(Rpc_Bx_Pattern(events,highestPt_index)); //for highest pt muon
 
 			    if(doPrintout){
-			      printout_setup(events);
+			      printout_setup(events,is_data);
 			      printout_gen(events);
 			      printout_SA(events);
-			      printout_RSA(events);
-			      printout_cosmic(events);
 			      printout_L2(events);
 			      printout_L1(events);
 			    }
