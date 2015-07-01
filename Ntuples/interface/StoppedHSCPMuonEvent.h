@@ -368,6 +368,7 @@ class StoppedHSCPMuonEvent : public TObject {
   void addCosmicMuon(shscp::Muon m);
   void addCosmicMuonTrack(shscp::Track track);
   void addStandAloneMuon(shscp::Track track);
+  void addStandAloneMuonUpdatedAtVtx(shscp::Track track);
   void addRefittedStandAloneMuon(shscp::Track track);
   void addDisplacedStandAloneMuon(shscp::Track track);
   void addHPD(shscp::HPD h);
@@ -1181,6 +1182,108 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector< std::vector<Int_t> > muStandAloneTrackRpcHitRegion;
   std::vector< std::vector<Int_t> > muStandAloneTrackRpcHitBx;
 
+  // reco standalone muon tracks updated at vtx
+  unsigned mu_StandAloneUpdatedAtVtx_N;
+  std::vector<Int_t> muStandAloneUpdatedAtVtxCharge;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxPx;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxPy;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxPz;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxPt;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxP;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxEta;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxPhi;
+  std::vector<Double_t> muStandAloneUpdatedAtVtxHcalEta;     // track intersection with HCAL front-face (?)
+  std::vector<Double_t> muStandAloneUpdatedAtVtxHcalPhi;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxChi2;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxNdof;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxNormalizedChi2;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxVx;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxVy;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxVz;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDxy;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDz;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNLost;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNStationsWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNCscChambersWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNDtChambersWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNRpcChambersWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxInnermostStationWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxOutermostStationWithAnyHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNValidMuonHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNValidCscHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNValidDtHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNValidRpcHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNStationsWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNCscChambersWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNDtChambersWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxNRpcChambersWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxInnermostStationWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxOutermostStationWithValidHits;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxQuality;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerPx;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerPy;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerPz;
+  std::vector<Bool_t> muStandAloneTrackUpdatedAtVtxInnerOk;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerX; 
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerY; 
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxInnerZ; 
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxGenParticleIndex;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxTriggerParticle20Index;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxTriggerParticle20Cha2Index;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxDtTofDirection;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxDtTofNDof; 
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBeta;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBetaErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofFreeInverseBeta;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofFreeInverseBetaErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpInOut;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpInOutErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutIn;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutInErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLS;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLSErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofYIntercept; 
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofYInterceptErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofChi2Dof;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofAveHitTimeErr;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station0;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station1;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station2;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station3;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerDeltaR_station0;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerDeltaR_station1;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerDeltaR_station2;
+  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerDeltaR_station3;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNHits_station0;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNHits_station1;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNHits_station2;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNHits_station3;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNCorrelatedHits_station0;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNCorrelatedHits_station1;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNCorrelatedHits_station2;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNCorrelatedHits_station3;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNUncorrelatedHits_station0;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNUncorrelatedHits_station1;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNUncorrelatedHits_station2;
+  std::vector<Int_t> muStandAloneTrackUpdatedAtVtxShowerNUncorrelatedHits_station3;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxCscSegEndcap;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxCscSegRing;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxCscSegStation;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxCscSegChamber;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxCscSegNHits;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegPhi;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegZ;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegR;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegDirPhi;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegDirTheta;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxCscSegTime;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxRpcHitZ;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxRpcHitRho;
+  std::vector< std::vector<Double_t> > muStandAloneTrackUpdatedAtVtxRpcHitPhi;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxRpcHitRegion;
+  std::vector< std::vector<Int_t> > muStandAloneTrackUpdatedAtVtxRpcHitBx;
+
   // reco refitted standalone muon tracks
   unsigned mu_RefittedStandAlone_N;
   std::vector<Int_t> muRefittedStandAloneCharge;
@@ -1645,7 +1748,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,35); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,36); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
@@ -1655,6 +1758,7 @@ class StoppedHSCPMuonEvent : public TObject {
   //version 33: fix for StoppedParticles
   //version 34: add sim tracks and vertices
   //version 35: more sim tracks and vertices
+  //version 36: add standalone muons updated at vtx
 };
 
 #endif

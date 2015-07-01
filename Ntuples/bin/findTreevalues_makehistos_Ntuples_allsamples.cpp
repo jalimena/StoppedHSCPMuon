@@ -2837,7 +2837,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
 }//end of TriggerTurnOn
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
-  
+  /*
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
     line++;
@@ -2874,8 +2874,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
   }
-
+  */
   if(is_data){
+    /*
     cout  << setw(6) << "Run";
     cout  << setw(6) << "Lumi";
     cout  << setw(10) << "Orbit";
@@ -2888,6 +2889,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(8) << events->bx;
     cout  << setw(8) << " ";
     cout  << setw(7) << events->id<<endl;
+    */
+    cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
     line=line+2;
   }
 }//end of printout_setup()
@@ -3963,8 +3966,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //for (Int_t i=0; i<2000; i++) {    
   //for (Int_t i=0; i<100; i++) {
     tree->GetEntry(i);
-    if(is_data && i%50000==0) cout<<"i is: "<<i<<endl;
-    if(!is_data && i%5000==0) cout<<"i is: "<<i<<endl;
+    //if(is_data && i%50000==0) cout<<"i is: "<<i<<endl;
+    //if(!is_data && i%5000==0) cout<<"i is: "<<i<<endl;
 
     bool WFromTop = false;
     bool status1muon = false;
@@ -4101,7 +4104,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     for(int j=0;j<NumLinesPre; j++){
       if(events->id==eventNumberPre[j]){
 	doHplusHistos = true;
-	cout<<"doPlusHistos, event number "<<events->id<<endl;
+	//cout<<"doPlusHistos, event number "<<events->id<<endl;
 	break;
       }
     }
@@ -4126,7 +4129,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       total_count_+=eventweightTauPrime;
     }
     if(file_dataset_ == "doub") doublyChargedHiggs(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
-    cout<<"finished intro MC stuff"<<endl;
+    //cout<<"finished intro MC stuff"<<endl;
 
     //bx cut
     if ( (doBxCut && file_dataset_ != "Zmum" && TMath::Abs(events->bxWrtCollision)>=BxCutValue_ && TMath::Abs(events->bxWrtBunch)>=BxCutValue_) || (!doBxCut) || (file_dataset_ == "Zmum") ){
@@ -4152,7 +4155,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       //if(doStoppedParticles) StoppedParticles(events, eventweightTauPrime, stoppedPos_index, stoppedNeg_index, n_stoppedInDetector, stoppedDetector0_index, stoppedDetector1_index);
       pickStoppedParticle(events, stopped_index);
       StoppedParticles(events, eventweightTauPrime, stoppedPos_index, stoppedNeg_index, stopped_index, n_stoppedInDetector);
-      cout<<"just after stopped particles"<<endl;
+      //cout<<"just after stopped particles"<<endl;
 
       //long-lived particle stopping in cavern walls? mcStoppedParticle variables are in mm 
       if( (!is_data && is_otherMC && doCavCut && events->mcStoppedParticle_N>0 && n_stoppedInDetector>0) || (!doCavCut) || (is_data) || (file_dataset_=="cosm")){
@@ -4171,7 +4174,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	if(file_dataset_ == "mcha") mchamp_counts(events, good_genPosMuons, good_genNegMuons, genPosMu0_index, genPosMu1_index, genNegMu0_index, genNegMu1_index );
 	if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) stau_counts(events, tauFromStau, status1muon, status1muonFromTau );
 	if(file_dataset_ == "cosm") cosmicMC_counts(events, status1muon);
-	cout<<"finished cosmicMC_counts"<<endl;
+	//cout<<"finished cosmicMC_counts"<<endl;
 
 	if(doPrintout){
 	  //printout_setup(events);
@@ -4179,7 +4182,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	}
 	
 	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" && (events->mcMuonCharge[genPosMu0_index]==events->mcMuonCharge[genPosMu1_index] || events->mcMuonCharge[genNegMu0_index]==events->mcMuonCharge[genNegMu1_index])))) || (!doGenMuCut) || (is_data) || (is_otherMC)){
-	  cout<<"finished status1muon"<<endl;
+	  //cout<<"finished status1muon"<<endl;
 
 	  //SA muon cut
 	  if ((doSACut && events->mu_DisplacedStandAlone_N>0 ) || (!doSACut)){
@@ -4189,7 +4192,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	  //if ((doSACut && events->mu_DisplacedStandAlone_N==0) || (!doSACut)){
 	  //if ((doSACut && events->mu_DisplacedStandAlone_N==0 && events->DTSegment_N>2) || (!doSACut)){
 	    pass_standaloneMuon_cut++;
-	    cout<<"finished standalonemuon"<<endl;
+	    //cout<<"finished standalonemuon"<<endl;
 
 	    //SA matched to gen muon?
 	    if ((!is_data && doGenMuMatchedCut && genMuonMatched(events) && doSACut) || (!doGenMuMatchedCut) || (is_data) || (!doSACut)){
@@ -4217,7 +4220,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PreNdsaCutValue_, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreInvBetaErrCutValue_, PreCscHitsCutValue_, pass_PreNdsa, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
 		    PreselectionSA_counts(pass_PreNdsa, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
 		    if(n_passPreselection>0){
-		      cout<<"preselection: "<<events->id<<endl;
+		      //cout<<"preselection: "<<events->id<<endl;
 		      StoppingRegionAcceptance(events,eventweightTauPrime, stopped_index);
 		      HighestPtSA(events, file_dataset_, presel0_index, presel1_index, presel2_index, presel3_index, highestPt_index, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, TimeInOutErrCutValue_, OppEtaCutValue_, OppPhiCutValue_, pass_Upper,pass_pt,pass_cha,pass_eta,pass_RPC,pass_DisSt,pass_DtHits,pass_CscHits,pass_DtInvBeta,pass_TimeInOut,pass_TimeInOutErr,pass_TofDir,pass_Rpc_Bx,pass_OppEta,pass_OppPhi);
 		      HighestPtSA_counts(pass_Upper,pass_pt,pass_cha,pass_eta,pass_RPC,pass_DisSt,pass_DtHits,pass_CscHits,pass_DtInvBeta,pass_TimeInOut,pass_TimeInOutErr,pass_TofDir,pass_Rpc_Bx,pass_OppEta,pass_OppPhi);
@@ -4230,7 +4233,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			UpperAndLowerSA_counts(pass_UpperAndLower, pass_pt_2, pass_cha_2, pass_eta_2, pass_RPC_2,  pass_DisSt_2, pass_DtHits_2, pass_OppEta_2, pass_OppPhi_2, pass_Rpc_Bx_2, pass_DtInvBeta_2, pass_TimeInOut_2, pass_TimeInOutErr_2, pass_TofDir_2, pass_charge_2);
 		      }
 		    }
-		    cout<<"finished UpperAndLowerSA_counts"<<endl;
+		    //cout<<"finished UpperAndLowerSA_counts"<<endl;
 		  
 		    
 		    if(doPrintout){
@@ -4284,7 +4287,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      hlt20Cha2MuonEta_hist->Fill(events->hlt20Cha2MuonEta[0],1.0);
 		      hlt20Cha2MuonPhi_hist->Fill(events->hlt20Cha2MuonPhi[0],1.0);
 		    }
-		    cout<<"trigger hists done"<<endl;
+		    //cout<<"trigger hists done"<<endl;
 		    
 		    if(events->mu_Cosmic_N>0){
 		      muCosmicPt_hist->Fill(events->muCosmicPt[0],1.0);
@@ -4457,7 +4460,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			//UInt_t stoppedNeg_index = 999;
 		      }//end of if not cosmics
 
-		      cout<<"end of stopped particle histos"<<endl;
+		      //cout<<"end of stopped particle histos"<<endl;
 
 		      if(file_dataset_ == "stop" || file_dataset_ == "glui"){
 			mcRhadron_N_hist->Fill(nRhadron,1.0);
@@ -4616,7 +4619,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  }
 			}			
 		      }
-		      cout<<"finished genMu histos"<<endl;
+		      //cout<<"finished genMu histos"<<endl;
 
 		      //sim histos
 		      simTrackN_hist->Fill(events->simTrack_N,1.0);
@@ -4629,7 +4632,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			simTrackVy_hist->Fill(events->simTrackVy[simTrack0_index],1.0);
 			simTrackVz_hist->Fill(events->simTrackVz[simTrack0_index],1.0);
 		      }
-		      cout<<"finished sim histos"<<endl;
+		      //cout<<"finished sim histos"<<endl;
 
 		      if(events->l1Muon_N>0){
 			mcMuonPt_l1MuonPt_hist->Fill(events->mcMuonPt[genMu0_index],events->l1MuonPt[0],1.0);		      
@@ -4650,7 +4653,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    if(n_passPreselection>0){
 		      if(highestPt_index!=999){
 			//StoppingRegionAcceptance(events);
-			cout<<"starting highestPt plots"<<endl;		      		      
+			//cout<<"starting highestPt plots"<<endl;		      		      
 			
 			//1D n tracks and total n segments histos
 			muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
@@ -4743,7 +4746,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			runNumber_muDisplacedStandAlonePhi_hist->Fill(events->run,events->muDisplacedStandAlonePhi[highestPt_index],1.0);
 			muDisplacedStandAloneEta_Phi_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],events->muDisplacedStandAlonePhi[highestPt_index],1.0);
 
-			cout<<"finished DSA histos"<<endl;
+			//cout<<"finished DSA histos"<<endl;
 
 			//abcd with free inverse beta and pt
 			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
@@ -4777,10 +4780,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 			    if(doPrintout){
 			      printout_setup(events,is_data);
-			      printout_gen(events);
-			      printout_SA(events);
-			      printout_L2(events);
-			      printout_L1(events);
+			      //printout_gen(events);
+			      //printout_SA(events);
+			      //printout_L2(events);
+			      //printout_L1(events);
 			    }
 			  }
 			  else nBregion++;
@@ -4800,7 +4803,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  else if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] <= abcdInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofDirection[highestPt_index]==-1) nAregionDir++;
 			}
 			
-			cout<<"finished A and B region calculation"<<endl;
+			//cout<<"finished A and B region calculation"<<endl;
 
 			//2D genMu0 vs displaced SA histos, 1D MC resolution histos
 			if(!is_data){
@@ -4817,9 +4820,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    if(events->mu_CosmicTrack_N>0) muCosmic_pt_resolution = 1.0*(events->muCosmicTrackPt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
 			  }
 			  
-			  cout<<"standalone pt resolution is: "<<muDisplacedStandAlone_pt_resolution<<endl;
-			  cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
-			  cout<<"cosmic pt resolution is: "<<muCosmic_pt_resolution<<endl;
+			  //cout<<"standalone pt resolution is: "<<muDisplacedStandAlone_pt_resolution<<endl;
+			  //cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
+			  //cout<<"cosmic pt resolution is: "<<muCosmic_pt_resolution<<endl;
 			  
 			  muDisplacedStandAlonePtResolution_hist->Fill(muDisplacedStandAlone_pt_resolution,1.0);
 			  muRefittedStandAlonePtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,1.0);
@@ -4858,7 +4861,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  }
 			  mcMuonInverseBeta_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(invBeta,events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);
 
-			  cout<<"finished 2D genMu0 vs displaced SA histos, 1D MC resolution histos"<<endl;
+			  //cout<<"finished 2D genMu0 vs displaced SA histos, 1D MC resolution histos"<<endl;
 			  
 			  //if(events->muDisplacedStandAloneTrackGenParticleIndex[presel_index[i]] >= 0) {
 			  //mcMuonPt_muDisplacedStandAlonePt_hist->Fill(events->mcMuonPt[events->muDisplacedStandAloneTrackGenParticleIndex[presel_index[i]]],events->muDisplacedStandAlonePt[presel_index[i]],1.0);
@@ -5065,7 +5068,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			}
 		      }
 
-		      cout<<"finished upper and lower DSA histos"<<endl;
+		      //cout<<"finished upper and lower DSA histos"<<endl;
 
 		      //}//end of select few cosmics with weird times
 		    }//end of plot upper and lower
