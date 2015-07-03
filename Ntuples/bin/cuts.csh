@@ -54,8 +54,8 @@ set TightPhi = woTightPhi
 set CosEnrich = woCosEnrich
 #set resT3 = res
 set resT3 = T3
-set Printout = woPrintout
-#set Printout = wPrintout
+#set Printout = woPrintout
+set Printout = wPrintout
 
 if ($Printout == "woPrintout") then
     set cuts_ = $BxCut"_"$CavCut"_"$GenMuCut"_"$SACut"_"$GenMuMatchedCut"_"$TriggerCut"_"$NdsaCut"_"$PtCut"_"$ChaCut"_"$EtaCut"_"$UpperCut"_"$RpcCut"_"$DisStCut"_"$RpcBxCut"_"$DtHitsCut"_"$InvBetaErrCut"_"$CscHitsCut"_"$DtInvBetaCut"_"$TimeInOutCut"_"$TimeInOutErrCut"_"$TofDirCut"_"$OppEtaCut"_"$OppPhiCut"_"$ChargeCut"_"$TightPhi"_"$CosEnrich

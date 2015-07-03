@@ -76,7 +76,8 @@ stoppedHSCPMuonTree = cms.EDAnalyzer(
     rechitMinEnergy = cms.untracked.double(0.2),
 
     #reco-gen matching for muons
-    recoGenDeltaR = cms.untracked.double(0.1),
+    #recoGenDeltaR = cms.untracked.double(0.1),
+    recoGenDeltaR = cms.untracked.double(10),
 
     #reco-HLT matching for muons
     recoTriggerDeltaR = cms.untracked.double(0.5),

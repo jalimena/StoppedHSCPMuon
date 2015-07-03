@@ -569,6 +569,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muSAnValidRpcHits(0), 
   muSAinnermostStationWithValidHits(0), 
   muSAoutermostStationWithValidHits(0), 
+  muSAgenParticleIndex(0),
   muTunePcharge(0), 
   muTunePpx(0), 
   muTunePpy(0), 
@@ -1499,6 +1500,7 @@ void StoppedHSCPMuonEvent::addMuon(Muon m) {
   muSAnValidRpcHits.push_back(m.SAnValidRpcHits); 
   muSAinnermostStationWithValidHits.push_back(m.SAinnermostStationWithValidHits); 
   muSAoutermostStationWithValidHits.push_back(m.SAoutermostStationWithValidHits); 
+  muSAgenParticleIndex.push_back(m.SAgenParticleIndex);
   muTunePcharge.push_back(m.tunePcharge); 
   muTunePpx.push_back(m.tunePpx); 
   muTunePpy.push_back(m.tunePpy); 

@@ -2240,7 +2240,7 @@ void StoppedHSCPMuonTreeProducer::doMC(const edm::Event& iEvent) {
 	//ip = smartPropIP_->computeGenImpactParametersOutsideTkVol( p, p.vertex(), p.charge(), GlobalPoint(0,0,0) );
         //}
 
-	std::cout<<std::setprecision(precision)<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<std::endl;
+	std::cout<<std::setprecision(precision)<<"muon status is: "<<p.status()<<", pt is: "<<p.pt()<<", eta is: "<<p.eta()<<", phi is: "<<p.phi()<<", gen particle index is: "<<i<<std::endl;
 	if(p.status()==1){
 	  std::cout<<"vx is: "<<p.vx()<<", vy is: "<<p.vy()<<", vz is: "<<p.vz()<<std::endl;
 	  std::cout<<"px is: "<<p.px()<<", py is: "<<p.py()<<", pz is: "<<p.pz()<<", p is: "<<p.p()<<std::endl;
@@ -2631,9 +2631,13 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, r
   edm::Handle<reco::GenParticleCollection> genParticles;
   iEvent.getByLabel(genParticlesTag_, genParticles);
 
+  std::vector<GenParticle> genParticles_;
+  genParticles_.insert(genParticles_.end(), genParticles->begin(), genParticles->end());
+  std::sort(genParticles_.begin(), genParticles_.end(), genParticle_pt());
+
   if (genParticles.isValid()) {
-    for(size_t i=0; i<genParticles->size(); i++){
-      const reco::GenParticle & p = (*genParticles)[i];
+    for(size_t i=0; i<genParticles_.size(); i++){
+      const reco::GenParticle & p = genParticles_.at(i);
 
       //look at muons
       if (TMath::Abs(p.pdgId()) == 13) {
@@ -2641,9 +2645,13 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, r
 	  
 	  // Calculate deltaR between this genParticle and the standalone or refitted standalone muon track
 	  double dR=deltaR(Track->eta(),Track->phi(),p.eta(),p.phi());
+	  std::cout<<"track eta is: "<<Track->eta()<<", track phi is: "<<Track->phi()<<std::endl;
+	  std::cout<<"gen eta is: "<<p.eta()<<", gen phi is: "<<p.phi()<<", gen particle index is: "<<i<<std::endl;
+	  std::cout<<"dR is: "<<dR<<std::endl;
 	  if (dR<minDeltaR) {
 	    minDeltaR = dR;
 	    genIndex = i;
+	    std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
 	  }
 	}//end of status==1
       }// end of muons
@@ -2663,9 +2671,13 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, s
   edm::Handle<reco::GenParticleCollection> genParticles;
   iEvent.getByLabel(genParticlesTag_, genParticles);
 
+  std::vector<GenParticle> genParticles_;
+  genParticles_.insert(genParticles_.end(), genParticles->begin(), genParticles->end());
+  std::sort(genParticles_.begin(), genParticles_.end(), genParticle_pt());
+
   if (genParticles.isValid()) {
-    for(size_t i=0; i<genParticles->size(); i++){
-      const reco::GenParticle & p = (*genParticles)[i];
+    for(size_t i=0; i<genParticles_.size(); i++){
+      const reco::GenParticle & p = genParticles_.at(i);
 
       //look at muons
       if (TMath::Abs(p.pdgId()) == 13) {
@@ -2673,9 +2685,13 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, s
 	  
 	  // Calculate deltaR between this genParticle and the standalone or refitted standalone muon track
 	  double dR=deltaR(it->eta(),it->phi(),p.eta(),p.phi());
+	  std::cout<<"track eta is: "<<it->eta()<<", track phi is: "<<it->phi()<<std::endl;
+	  std::cout<<"gen eta is: "<<p.eta()<<", gen phi is: "<<p.phi()<<", gen particle index is: "<<i<<std::endl;
+	  std::cout<<"dR is: "<<dR<<std::endl;
 	  if (dR<minDeltaR) {
 	    minDeltaR = dR;
 	    genIndex = i;
+	    std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
 	  }
 	} //end of status==1
       }//end of partID==13
@@ -3392,6 +3408,13 @@ void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::Compos
 	mu.SAnValidRpcHits = standAloneTrack->hitPattern().numberOfValidMuonRPCHits(); //RPC hits anywhere near track
 	mu.SAinnermostStationWithValidHits = standAloneTrack->hitPattern().innermostMuonStationWithValidHits();
 	mu.SAoutermostStationWithValidHits = standAloneTrack->hitPattern().outermostMuonStationWithValidHits();	
+
+	//matching gen particle index
+	//if data, gen particle index will be -1; if no matched gen particle, index will be -999
+	int GenParticleIndex = -1;
+	if(isMC_) GenParticleIndex = getGenParticleMatch(iEvent, standAloneTrack);
+	mu.SAgenParticleIndex = GenParticleIndex;
+
       }
       else{
 	mu.SAcharge = -99;
@@ -3432,6 +3455,8 @@ void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::Compos
 	mu.SAnValidRpcHits = -999;
 	mu.SAinnermostStationWithValidHits = -999;
 	mu.SAoutermostStationWithValidHits = -999;
+
+	mu.SAgenParticleIndex = -999;
       }
 
       //tuneP
@@ -3925,8 +3950,11 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuons(const edm::Event& iEvent, co
 	//matching gen particle index
 	//if data, gen particle index will be -1; if no matched gen particle, index will be -999
 	int GenParticleIndex = -1;
+	std::cout<<"SA track pt is: "<<standAloneTrack->pt()<<", eta is: "<<standAloneTrack->eta()<<", phi is: "<<standAloneTrack->phi()<<std::endl;
+	std::cout<<"getting gen particle match for SA muons"<<std::endl;
 	if(isMC_) GenParticleIndex = getGenParticleMatch(iEvent, standAloneTrack);
 	track.genParticleIndex = GenParticleIndex;
+	std::cout<<"getting gen particle match index for SA is: "<<GenParticleIndex<<std::endl;
 
 	//matching trigger particle index
 	//if MC, trigger particle index will be -1; if no matched trigger particle, index will be -999
@@ -5124,7 +5152,10 @@ void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons(const edm::Event& i
       //matching gen particle index
       //if data, gen particle index will be -1; if no matched gen particle, index will be -999
       int GenParticleIndex = -1;
+      std::cout<<"DSA track pt is: "<<it->pt()<<", eta is: "<<it->eta()<<", phi is: "<<it->phi()<<std::endl;
+      std::cout<<"getting gen particle match for displaced SA muons"<<std::endl;
       if(isMC_) GenParticleIndex = getGenParticleMatch(iEvent, it);
+      std::cout<<"getting gen particle match index for DSA is: "<<GenParticleIndex<<std::endl;
       track.genParticleIndex = GenParticleIndex;
 
       //matching Trigger particle index
