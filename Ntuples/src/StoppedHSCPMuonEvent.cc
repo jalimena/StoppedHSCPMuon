@@ -510,6 +510,12 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   studyJetAK5N90Hits(0),
   mu_N(0),
   muType(0),
+  muIsGlobalMuon(0),
+  muIsTrackerMuon(0),
+  muIsStandAloneMuon(0),
+  muIsCaloMuon(0),
+  muIsPFMuon(0),
+  muIsRPCMuon(0),
   muPx(0),
   muPy(0),
   muPz(0),
@@ -527,6 +533,58 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muSumPhotonEtHighThreshold(0),
   muSumPUPt(0),
   muIso(0),
+  muSAcharge(0),
+  muSApx(0),
+  muSApy(0),
+  muSApz(0),
+  muSApt(0),
+  muSAp(0),
+  muSAeta(0),
+  muSAphi(0),
+  muSAhcalEta(0),
+  muSAhcalPhi(0),
+  muSAchi2(0),
+  muSAndof(0),
+  muSAnormalizedChi2(0),
+  muSAvx(0),
+  muSAvy(0),
+  muSAvz(0),
+  muSAdxy(0),
+  muSAdz(0),
+  muSAnHits(0),
+  muSAnLost(0),
+  muSAnStationsWithAnyHits(0), 
+  muSAnCscChambersWithAnyHits(0), 
+  muSAnDtChambersWithAnyHits(0), 
+  muSAnRpcChambersWithAnyHits(0), 
+  muSAinnermostStationWithAnyHits(0), 
+  muSAoutermostStationWithAnyHits(0), 
+  muSAnStationsWithValidHits(0), 
+  muSAnCscChambersWithValidHits(0), 
+  muSAnDtChambersWithValidHits(0), 
+  muSAnRpcChambersWithValidHits(0), 
+  muSAnValidMuonHits(0), 
+  muSAnValidCscHits(0), 
+  muSAnValidDtHits(0), 
+  muSAnValidRpcHits(0), 
+  muSAinnermostStationWithValidHits(0), 
+  muSAoutermostStationWithValidHits(0), 
+  muTunePcharge(0), 
+  muTunePpx(0), 
+  muTunePpy(0), 
+  muTunePpz(0), 
+  muTunePpt(0), 
+  muTunePp(0), 
+  muTunePeta(0), 
+  muTunePphi(0), 
+  muTunePchi2(0), 
+  muTunePndof(0), 
+  muTunePnormalizedChi2(0), 
+  muTunePvx(0), 
+  muTunePvy(0), 
+  muTunePvz(0), 
+  muTunePdxy(0), 
+  muTunePdz(0),   
   diMu_N(0),
   diMuMass(0.),
   mu_Cosmic_N(0),
@@ -1382,6 +1440,12 @@ void StoppedHSCPMuonEvent::addAK5StudyJet(Jet j) {
 
 void StoppedHSCPMuonEvent::addMuon(Muon m) { 
   muType.push_back(m.type);
+  muIsGlobalMuon.push_back(m.isGlobalMuon);
+  muIsTrackerMuon.push_back(m.isTrackerMuon);
+  muIsStandAloneMuon.push_back(m.isStandAloneMuon);
+  muIsCaloMuon.push_back(m.isCaloMuon);
+  muIsPFMuon.push_back(m.isPFMuon);
+  muIsRPCMuon.push_back(m.isRPCMuon);
   muPx.push_back(m.px);
   muPy.push_back(m.py);
   muPz.push_back(m.pz);
@@ -1399,6 +1463,58 @@ void StoppedHSCPMuonEvent::addMuon(Muon m) {
   muSumPhotonEtHighThreshold.push_back(m.sumPhotonEtHighThreshold);
   muSumPUPt.push_back(m.sumPUPt);
   muIso.push_back(m.iso);
+  muSAcharge.push_back(m.SAcharge);
+  muSApx.push_back(m.SApx);
+  muSApy.push_back(m.SApy);
+  muSApz.push_back(m.SApz);
+  muSApt.push_back(m.SApt);
+  muSAp.push_back(m.SAp);
+  muSAeta.push_back(m.SAeta);
+  muSAphi.push_back(m.SAphi);
+  muSAhcalEta.push_back(m.SAhcalEta);
+  muSAhcalPhi.push_back(m.SAhcalPhi);
+  muSAchi2.push_back(m.SAchi2);
+  muSAndof.push_back(m.SAndof);
+  muSAnormalizedChi2.push_back(m.SAnormalizedChi2);
+  muSAvx.push_back(m.SAvx);
+  muSAvy.push_back(m.SAvy);
+  muSAvz.push_back(m.SAvz);
+  muSAdxy.push_back(m.SAdxy);
+  muSAdz.push_back(m.SAdz);
+  muSAnHits.push_back(m.SAnHits);
+  muSAnLost.push_back(m.SAnLost);
+  muSAnStationsWithAnyHits.push_back(m.SAnStationsWithAnyHits); 
+  muSAnCscChambersWithAnyHits.push_back(m.SAnCscChambersWithAnyHits); 
+  muSAnDtChambersWithAnyHits.push_back(m.SAnDtChambersWithAnyHits); 
+  muSAnRpcChambersWithAnyHits.push_back(m.SAnRpcChambersWithAnyHits); 
+  muSAinnermostStationWithAnyHits.push_back(m.SAinnermostStationWithAnyHits); 
+  muSAoutermostStationWithAnyHits.push_back(m.SAoutermostStationWithAnyHits); 
+  muSAnStationsWithValidHits.push_back(m.SAnStationsWithValidHits); 
+  muSAnCscChambersWithValidHits.push_back(m.SAnCscChambersWithValidHits); 
+  muSAnDtChambersWithValidHits.push_back(m.SAnDtChambersWithValidHits); 
+  muSAnRpcChambersWithValidHits.push_back(m.SAnRpcChambersWithValidHits); 
+  muSAnValidMuonHits.push_back(m.SAnValidMuonHits); 
+  muSAnValidCscHits.push_back(m.SAnValidCscHits); 
+  muSAnValidDtHits.push_back(m.SAnValidDtHits); 
+  muSAnValidRpcHits.push_back(m.SAnValidRpcHits); 
+  muSAinnermostStationWithValidHits.push_back(m.SAinnermostStationWithValidHits); 
+  muSAoutermostStationWithValidHits.push_back(m.SAoutermostStationWithValidHits); 
+  muTunePcharge.push_back(m.tunePcharge); 
+  muTunePpx.push_back(m.tunePpx); 
+  muTunePpy.push_back(m.tunePpy); 
+  muTunePpz.push_back(m.tunePpz); 
+  muTunePpt.push_back(m.tunePpt); 
+  muTunePp.push_back(m.tunePp); 
+  muTunePeta.push_back(m.tunePeta); 
+  muTunePphi.push_back(m.tunePphi); 
+  muTunePchi2.push_back(m.tunePchi2); 
+  muTunePndof.push_back(m.tunePndof); 
+  muTunePnormalizedChi2.push_back(m.tunePnormalizedChi2); 
+  muTunePvx.push_back(m.tunePvx); 
+  muTunePvy.push_back(m.tunePvy); 
+  muTunePvz.push_back(m.tunePvz); 
+  muTunePdxy.push_back(m.tunePdxy); 
+  muTunePdz.push_back(m.tunePdz);   
 
   ++mu_N;
 }

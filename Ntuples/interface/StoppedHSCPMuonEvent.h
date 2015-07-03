@@ -89,8 +89,14 @@ namespace shscp {
   };
   
   struct Muon {
-  Muon() : px(0.),py(0.),pz(0.),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.),sumChargedHadronPt(0.),sumChargedParticlePt(0.),sumNeutralHadronEt(0.),sumPhotonEt(0.),sumNeutralHadronEtHighThreshold(0.),sumPhotonEtHighThreshold(0.),sumPUPt(0.),iso(0.) { }
+  Muon() : type(0.), isGlobalMuon(0.),isTrackerMuon(0.),isStandAloneMuon(0.),isCaloMuon(0.),isPFMuon(0.),isRPCMuon(0.),px(0.),py(0.),pz(0.),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.),sumChargedHadronPt(0.),sumChargedParticlePt(0.),sumNeutralHadronEt(0.),sumPhotonEt(0.),sumNeutralHadronEtHighThreshold(0.),sumPhotonEtHighThreshold(0.),sumPUPt(0.),iso(0.), SAcharge(0.),SApx(0.),SApy(0.),SApz(0.),SApt(0.),SAp(0.),SAeta(0.),SAphi(0.),SAhcalEta(0.),SAhcalPhi(0.),SAchi2(0.),SAndof(0.),SAnormalizedChi2(0.),SAvx(0.),SAvy(0.),SAvz(0.),SAdxy(0.),SAdz(0.),SAnHits(0.),SAnLost(0.),SAnStationsWithAnyHits(0.),SAnCscChambersWithAnyHits(0.),SAnDtChambersWithAnyHits(0.),SAnRpcChambersWithAnyHits(0.),SAinnermostStationWithAnyHits(0.),SAoutermostStationWithAnyHits(0.),SAnValidMuonHits(0.),SAnValidCscHits(0.),SAnValidDtHits(0.),SAnValidRpcHits(0.),SAnStationsWithValidHits(0.),SAnCscChambersWithValidHits(0.),SAnDtChambersWithValidHits(0.),SAnRpcChambersWithValidHits(0.),SAinnermostStationWithValidHits(0.),SAoutermostStationWithValidHits(0.),tunePcharge(0.),tunePpx(0.),tunePpy(0.),tunePpz(0.),tunePpt(0.),tunePp(0.),tunePeta(0.),tunePphi(0.),tunePchi2(0.),tunePndof(0.),tunePnormalizedChi2(0.),tunePvx(0.),tunePvy(0.),tunePvz(0.),tunePdxy(0.),tunePdz(0.) { }
     unsigned type;        // type of muon (standalone/global/cosmic/regular)
+    bool isGlobalMuon;
+    bool isTrackerMuon;
+    bool isStandAloneMuon;
+    bool isCaloMuon;
+    bool isPFMuon;
+    bool isRPCMuon;
     double px;
     double py;
     double pz;
@@ -108,6 +114,58 @@ namespace shscp {
     double sumPhotonEtHighThreshold;
     double sumPUPt;
     double iso;
+    int SAcharge;
+    double SApx;
+    double SApy;
+    double SApz;
+    double SApt;
+    double SAp;
+    double SAeta;
+    double SAphi;
+    double SAhcalEta;     // track intersection with HCAL front-face (?)
+    double SAhcalPhi;
+    double SAchi2;
+    double SAndof;
+    double SAnormalizedChi2;
+    double SAvx;
+    double SAvy;
+    double SAvz;
+    double SAdxy;
+    double SAdz;
+    int SAnHits;
+    int SAnLost;
+    int SAnStationsWithAnyHits;
+    int SAnCscChambersWithAnyHits;
+    int SAnDtChambersWithAnyHits;
+    int SAnRpcChambersWithAnyHits;
+    int SAinnermostStationWithAnyHits;
+    int SAoutermostStationWithAnyHits;
+    int SAnValidMuonHits;
+    int SAnValidCscHits;
+    int SAnValidDtHits;
+    int SAnValidRpcHits;
+    int SAnStationsWithValidHits;
+    int SAnCscChambersWithValidHits;
+    int SAnDtChambersWithValidHits;
+    int SAnRpcChambersWithValidHits;
+    int SAinnermostStationWithValidHits;
+    int SAoutermostStationWithValidHits;
+    int tunePcharge;
+    double tunePpx;
+    double tunePpy;
+    double tunePpz;
+    double tunePpt;
+    double tunePp;
+    double tunePeta;
+    double tunePphi;
+    double tunePchi2;
+    double tunePndof;
+    double tunePnormalizedChi2;
+    double tunePvx;
+    double tunePvy;
+    double tunePvz;
+    double tunePdxy;
+    double tunePdz;
   };
 
   struct DiMuon {
@@ -982,6 +1040,12 @@ class StoppedHSCPMuonEvent : public TObject {
   // reco muons
   unsigned mu_N;
   std::vector<UInt_t> muType;        // type of muon (standalone/global/cosmic/regular)
+  std::vector<Bool_t> muIsGlobalMuon;
+  std::vector<Bool_t> muIsTrackerMuon;
+  std::vector<Bool_t> muIsStandAloneMuon;
+  std::vector<Bool_t> muIsCaloMuon;
+  std::vector<Bool_t> muIsPFMuon;
+  std::vector<Bool_t> muIsRPCMuon;
   std::vector<Double_t> muPx;
   std::vector<Double_t> muPy;
   std::vector<Double_t> muPz;
@@ -999,6 +1063,59 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muSumPhotonEtHighThreshold;
   std::vector<Double_t> muSumPUPt;
   std::vector<Double_t> muIso;
+  std::vector<Int_t> muSAcharge;
+  std::vector<Double_t> muSApx;
+  std::vector<Double_t> muSApy;
+  std::vector<Double_t> muSApz;
+  std::vector<Double_t> muSApt;
+  std::vector<Double_t> muSAp;
+  std::vector<Double_t> muSAeta;
+  std::vector<Double_t> muSAphi;
+  std::vector<Double_t> muSAhcalEta;
+  std::vector<Double_t> muSAhcalPhi;
+  std::vector<Double_t> muSAchi2;
+  std::vector<Double_t> muSAndof;
+  std::vector<Double_t> muSAnormalizedChi2;
+  std::vector<Double_t> muSAvx;
+  std::vector<Double_t> muSAvy;
+  std::vector<Double_t> muSAvz;
+  std::vector<Double_t> muSAdxy;
+  std::vector<Double_t> muSAdz;
+  std::vector<Int_t> muSAnHits;
+  std::vector<Int_t> muSAnLost;
+  std::vector<Int_t> muSAnStationsWithAnyHits;
+  std::vector<Int_t> muSAnCscChambersWithAnyHits;
+  std::vector<Int_t> muSAnDtChambersWithAnyHits;
+  std::vector<Int_t> muSAnRpcChambersWithAnyHits;
+  std::vector<Int_t> muSAinnermostStationWithAnyHits;
+  std::vector<Int_t> muSAoutermostStationWithAnyHits;
+  std::vector<Int_t> muSAnStationsWithValidHits;
+  std::vector<Int_t> muSAnCscChambersWithValidHits;
+  std::vector<Int_t> muSAnDtChambersWithValidHits;
+  std::vector<Int_t> muSAnRpcChambersWithValidHits;
+  std::vector<Int_t> muSAnValidMuonHits;
+  std::vector<Int_t> muSAnValidCscHits;
+  std::vector<Int_t> muSAnValidDtHits;
+  std::vector<Int_t> muSAnValidRpcHits;
+  std::vector<Int_t> muSAinnermostStationWithValidHits;
+  std::vector<Int_t> muSAoutermostStationWithValidHits;
+  std::vector<Int_t> muTunePcharge;
+  std::vector<Double_t> muTunePpx;
+  std::vector<Double_t> muTunePpy;
+  std::vector<Double_t> muTunePpz;
+  std::vector<Double_t> muTunePpt;
+  std::vector<Double_t> muTunePp;
+  std::vector<Double_t> muTunePeta;
+  std::vector<Double_t> muTunePphi;
+  std::vector<Double_t> muTunePchi2;
+  std::vector<Double_t> muTunePndof;
+  std::vector<Double_t> muTunePnormalizedChi2;
+  std::vector<Double_t> muTunePvx;
+  std::vector<Double_t> muTunePvy;
+  std::vector<Double_t> muTunePvz;
+  std::vector<Double_t> muTunePdxy;
+  std::vector<Double_t> muTunePdz;
+
 
   //dimuons
   unsigned diMu_N;
@@ -1748,7 +1865,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,36); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,37); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
@@ -1759,6 +1876,7 @@ class StoppedHSCPMuonEvent : public TObject {
   //version 34: add sim tracks and vertices
   //version 35: more sim tracks and vertices
   //version 36: add standalone muons updated at vtx
+  //version 37: add reco::Muon variables
 };
 
 #endif

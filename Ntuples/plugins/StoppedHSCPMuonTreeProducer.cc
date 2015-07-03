@@ -3303,6 +3303,10 @@ void StoppedHSCPMuonTreeProducer::doJets(const edm::Event& iEvent, const edm::Ev
 
 void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::CompositeCandidateCollection& dimuons) {
   //std::cout<<"started muons"<<std::endl;
+
+  const reco::Vertex::Point PV;
+  doVertices(iEvent, PV);
+
   // loop over reco muons
   edm::Handle<reco::MuonCollection> muons;
   iEvent.getByLabel(muonTag_,muons);
@@ -3322,6 +3326,12 @@ void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::Compos
       const reco::Muon& mu1 = muons_.at(i);
 
       shscp::Muon mu;
+      mu.isGlobalMuon = mu1.isGlobalMuon();
+      mu.isTrackerMuon = mu1.isTrackerMuon();
+      mu.isStandAloneMuon = mu1.isStandAloneMuon();
+      mu.isCaloMuon = mu1.isCaloMuon();
+      mu.isPFMuon = mu1.isPFMuon();
+      mu.isRPCMuon = mu1.isRPCMuon();
       mu.px = mu1.px();
       mu.py = mu1.py();
       mu.pz = mu1.pz();
@@ -3329,7 +3339,7 @@ void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::Compos
       mu.p = mu1.p();
       mu.eta = mu1.eta();
       mu.phi = mu1.phi();
-      mu.hcalEta = 0.;  // TODO extrapolate GlobalMuon track to HCAL surface and store position!
+      mu.hcalEta = 0.;
       mu.hcalPhi = 0.;
       mu.type = (0xf & mu1.type());
       mu.sumChargedHadronPt = mu1.pfIsolationR04().sumChargedHadronPt; //Sum Pt of the charged Hadrons
@@ -3340,6 +3350,108 @@ void StoppedHSCPMuonTreeProducer::doMuons(const edm::Event& iEvent, reco::Compos
       mu.sumPhotonEtHighThreshold = mu1.pfIsolationR04().sumPhotonEtHighThreshold; //Sum of the PF photons Et with higher threshold (1 GeV instead of 0.5)
       mu.sumPUPt = mu1.pfIsolationR04().sumPUPt; //Sum Pt of the charged particles in the cone of interest but with particles not originating from the primary vertex(for PU corrections)       
       mu.iso = 1.0*(mu1.pfIsolationR04().sumChargedHadronPt + mu1.pfIsolationR04().sumNeutralHadronEt + mu1.pfIsolationR04().sumPhotonEt)/mu1.pt(); //recommended this be < 0.20 (loose) or < 0.12 (tight)
+
+      // is current muon standalone
+      if (mu1.isStandAloneMuon()) { 
+	reco::TrackRef standAloneTrack = mu1.standAloneMuon();	
+	mu.SAcharge = standAloneTrack->charge();
+	mu.SApx = standAloneTrack->px();
+	mu.SApy = standAloneTrack->py();
+	mu.SApz = standAloneTrack->pz();
+	mu.SApt = standAloneTrack->pt();
+	mu.SAp = standAloneTrack->p();
+	mu.SAeta = standAloneTrack->eta();
+	mu.SAphi = standAloneTrack->phi();
+	mu.SAhcalEta = 0.; 
+	mu.SAhcalPhi = 0.;
+	mu.SAchi2  = standAloneTrack->chi2();
+	mu.SAndof  = standAloneTrack->ndof();
+	mu.SAnormalizedChi2  = standAloneTrack->normalizedChi2();
+	mu.SAvx = standAloneTrack->vx();
+	mu.SAvy = standAloneTrack->vy();
+	mu.SAvz = standAloneTrack->vz();
+	mu.SAdxy = standAloneTrack->dxy(PV);
+	mu.SAdz = standAloneTrack->dz(PV);
+	mu.SAnHits = standAloneTrack->numberOfValidHits();
+	mu.SAnLost = standAloneTrack->numberOfLostHits();
+
+	mu.SAnStationsWithAnyHits = standAloneTrack->hitPattern().muonStationsWithAnyHits(); //muon stations in track fit; same varaible as hitPattern().muonStations(0,0)
+	mu.SAnCscChambersWithAnyHits = standAloneTrack->hitPattern().cscStationsWithAnyHits(); //csc chambers in track fit
+	mu.SAnDtChambersWithAnyHits = standAloneTrack->hitPattern().dtStationsWithAnyHits(); //dt chambers in track fit
+	mu.SAnRpcChambersWithAnyHits = standAloneTrack->hitPattern().rpcStationsWithAnyHits(); //rpc chambers in track fit
+	mu.SAinnermostStationWithAnyHits = standAloneTrack->hitPattern().innermostMuonStationWithAnyHits();
+	mu.SAoutermostStationWithAnyHits = standAloneTrack->hitPattern().outermostMuonStationWithAnyHits();
+	
+	mu.SAnStationsWithValidHits = standAloneTrack->hitPattern().muonStationsWithValidHits(); //muon stations anywhere near track; same varaible as hitPattern().muonStations(0,0)
+	mu.SAnCscChambersWithValidHits = standAloneTrack->hitPattern().cscStationsWithValidHits(); //csc chambers anywhere near track
+	mu.SAnDtChambersWithValidHits = standAloneTrack->hitPattern().dtStationsWithValidHits(); //dt chambers anywhere near track
+	mu.SAnRpcChambersWithValidHits = standAloneTrack->hitPattern().rpcStationsWithValidHits(); //rpc chambers anywhere near track
+	mu.SAnValidMuonHits = standAloneTrack->hitPattern().numberOfValidMuonHits(); //muon hits anywhere near track
+	mu.SAnValidCscHits = standAloneTrack->hitPattern().numberOfValidMuonCSCHits(); //CSC hits anywhere near track
+	mu.SAnValidDtHits = standAloneTrack->hitPattern().numberOfValidMuonDTHits(); //DT hits anywhere near track
+	mu.SAnValidRpcHits = standAloneTrack->hitPattern().numberOfValidMuonRPCHits(); //RPC hits anywhere near track
+	mu.SAinnermostStationWithValidHits = standAloneTrack->hitPattern().innermostMuonStationWithValidHits();
+	mu.SAoutermostStationWithValidHits = standAloneTrack->hitPattern().outermostMuonStationWithValidHits();	
+      }
+      else{
+	mu.SAcharge = -99;
+	mu.SApx = -999;
+	mu.SApy = -999;
+	mu.SApz = -999;
+	mu.SApt = -999;
+	mu.SAp = -999;
+	mu.SAeta = -999;
+	mu.SAphi = -999;
+	mu.SAhcalEta = 0.; 
+	mu.SAhcalPhi = 0.;
+	mu.SAchi2  = -999;
+	mu.SAndof  = -999;
+	mu.SAnormalizedChi2  = -999;
+	mu.SAvx = -999;
+	mu.SAvy = -999;
+	mu.SAvz = -999;
+	mu.SAdxy = -999;
+	mu.SAdz = -999;
+	mu.SAnHits = -999;
+	mu.SAnLost = -999;
+
+	mu.SAnStationsWithAnyHits = -999;
+	mu.SAnCscChambersWithAnyHits = -999;
+	mu.SAnDtChambersWithAnyHits = -999;
+	mu.SAnRpcChambersWithAnyHits = -999;
+	mu.SAinnermostStationWithAnyHits = -999;
+	mu.SAoutermostStationWithAnyHits = -999;
+	
+	mu.SAnStationsWithValidHits = -999;
+	mu.SAnCscChambersWithValidHits = -999;
+	mu.SAnDtChambersWithValidHits = -999;
+	mu.SAnRpcChambersWithValidHits = -999;
+	mu.SAnValidMuonHits = -999;
+	mu.SAnValidCscHits = -999;
+	mu.SAnValidDtHits = -999;
+	mu.SAnValidRpcHits = -999;
+	mu.SAinnermostStationWithValidHits = -999;
+	mu.SAoutermostStationWithValidHits = -999;
+      }
+
+      //tuneP
+      reco::TrackRef tunePTrack = mu1.tunePMuonBestTrack();	
+      mu.tunePcharge = tunePTrack->charge();
+      mu.tunePpx = tunePTrack->px();
+      mu.tunePpy = tunePTrack->py();
+      mu.tunePpz = tunePTrack->pz();
+      mu.tunePpt = tunePTrack->pt();
+      mu.tunePp = tunePTrack->p();
+      mu.tunePeta = tunePTrack->eta();
+      mu.tunePphi = tunePTrack->phi();
+      mu.tunePchi2  = tunePTrack->chi2();
+      mu.tunePndof  = tunePTrack->ndof();
+      mu.tunePnormalizedChi2  = tunePTrack->normalizedChi2();
+      mu.tunePvx = tunePTrack->vx();
+      mu.tunePvy = tunePTrack->vy();
+      mu.tunePvz = tunePTrack->vz();
+      mu.tunePdxy = tunePTrack->dxy(PV);
+      mu.tunePdz = tunePTrack->dz(PV);
 
       event_->addMuon(mu);
 

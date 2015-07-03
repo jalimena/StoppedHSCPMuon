@@ -24,6 +24,7 @@
 #include "Riostream.h"
 #include "Cintex/Cintex.h"
 #include "StoppedHSCPMuon/Ntuples/interface/StoppedHSCPMuonEvent.h"
+#include "DataFormats/Math/interface/deltaR.h"
 
 using namespace std;
 
@@ -374,8 +375,8 @@ public:
     simTrackVy_hist = new TH1D("simTrackVy_hist","Muon Sim Track v_{y}",5000,-30000,30000);
     simTrackVz_hist = new TH1D("simTrackVz_hist","Muon Sim Track v_{z}",5000,-30000,30000);
 
-    muStandAlonePt_hist = new TH1D("muStandAlonePt_hist","SA Muon p_{T} ",100,0,1000);
-    muStandAloneUpdatedAtVtxPt_hist = new TH1D("muStandAloneUpdatedAtVtxPt_hist","SA Muon Updated At Vtx p_{T} ",100,0,1000);
+    muStandAlonePt_hist = new TH1D("muStandAlonePt_hist","SA Muon p_{T} ",1000,0,1000);
+    muStandAloneUpdatedAtVtxPt_hist = new TH1D("muStandAloneUpdatedAtVtxPt_hist","SA Muon Updated At Vtx p_{T} ",1000,0,1000);
 
     muDisplacedStandAlonePtResolution_hist = new TH1D("muDisplacedStandAlonePtResolution_hist","DSA Muon p_{T} Resolution",2000,-10,10);
     muPtResolution_hist = new TH1D("muPtResolution_hist","Reco Muon p_{T} Resolution",2000,-10,10);
@@ -433,7 +434,7 @@ public:
     hlt20Cha2MuonPhi_hist = new TH1D("hlt20Cha2MuonPhi_hist","L2 Muon #phi",64,-3.2,3.2);
     
     mu_N_hist = new TH1D("mu_N_hist","Number of Muons",100,0,100);
-    muPt_hist = new TH1D("muPt_hist","Reco Muon p_{T}",100,0,1000);
+    muPt_hist = new TH1D("muPt_hist","Reco Muon p_{T}",1000,0,1000);
     muEta_hist = new TH1D("muEta_hist","Reco Muon #eta",120,-6,6);
     muPhi_hist = new TH1D("muPhi_hist","Reco Muon #phi",64,-3.2,3.2);
     muType_hist = new TH1D("muType_hist","Reco Muon Type",4000,0,4000);
@@ -3771,7 +3772,6 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //else cout<<"problem with resT3!!!!!!"<<endl;
     file = "/uscms_data/d3/alimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   }
-  //if(host_=="brux") file = "/mnt/hadoop/users/alimena/CMS/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   if(host_=="brux") file = "/mnt/hadoop/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   //if(host_=="brux") file = "../test/stoppedHSCPMuonTree.root";
   if(host_=="lxpl") file = "root://eoscms//eos/cms/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
@@ -4956,22 +4956,22 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  */
 
 			  //no csc hits
-			  
+			  /*
 			  if(events->mu_DisplacedStandAlone_N>0 && events->muDisplacedStandAloneTrackNValidCscHits[0]==0) pass_DSA = true;
 			  if(events->mu_StandAlone_N>0 && events->muStandAloneTrackNValidCscHits[0]==0) pass_SA = true;
 			  if(events->mu_StandAloneUpdatedAtVtx_N>0 && events->muStandAloneTrackUpdatedAtVtxNValidCscHits[0]==0) pass_SAUpdatedAtVtx = true;
 			  if(events->mu_RefittedStandAlone_N>0 && events->muRefittedStandAloneTrackNValidCscHits[0]==0) pass_RSA = true;
 			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNValidCscHits[0]==0) pass_cosmic = true;
-			  
+			  */
 
 			  //at least 2 DT chambers
-			  /*
+			  
 			  if(events->mu_DisplacedStandAlone_N>0 && events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_DSA = true;
 			  if(events->mu_StandAlone_N>0 && events->muStandAloneTrackNDtChambersWithValidHits[0]>1) pass_SA = true;
 			  if(events->mu_StandAloneUpdatedAtVtx_N>0 && events->muStandAloneTrackUpdatedAtVtxNDtChambersWithValidHits[0]>1) pass_SAUpdatedAtVtx = true;
 			  if(events->mu_RefittedStandAlone_N>0 && events->muRefittedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_RSA = true;
 			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNDtChambersWithValidHits[0]>1) pass_cosmic = true;
-			  */
+			  
 
 			  //no csc hits and at least 2 DT chambers
 			  /*
@@ -4982,12 +4982,25 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNValidCscHits[0]==0 && events->muCosmicTrackNDtChambersWithValidHits[0]>1) pass_cosmic = true;
 			  */
 
-			  if(pass_DSA) muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
-			  if(pass_mu) muPt_hist->Fill(events->muPt[0],1.0);
-			  if(pass_SA) muStandAlonePt_hist->Fill(events->muStandAlonePt[0],1.0);
-			  if(pass_SAUpdatedAtVtx) muStandAloneUpdatedAtVtxPt_hist->Fill(events->muStandAloneUpdatedAtVtxPt[0],1.0);
-			  if(pass_RSA) muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[0],1.0);
-			  if(pass_cosmic) muCosmicPt_hist->Fill(events->muCosmicTrackPt[0],1.0);
+			  if(pass_DSA){
+			    muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
+			    
+			  }
+			  if(pass_mu){
+			    muPt_hist->Fill(events->muPt[0],1.0);
+			  }
+			  if(pass_SA){
+			    muStandAlonePt_hist->Fill(events->muStandAlonePt[0],1.0);
+			  }
+			  if(pass_SAUpdatedAtVtx){
+			    muStandAloneUpdatedAtVtxPt_hist->Fill(events->muStandAloneUpdatedAtVtxPt[0],1.0);
+			  }
+			  if(pass_RSA){
+			    muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[0],1.0);
+			  }
+			  if(pass_cosmic){
+			    muCosmicPt_hist->Fill(events->muCosmicTrackPt[0],1.0);
+			  }
 
 
 			  double muDisplacedStandAlone_pt_resolution = -99.;
