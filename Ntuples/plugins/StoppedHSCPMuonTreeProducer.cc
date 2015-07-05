@@ -2648,10 +2648,12 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, r
 	  std::cout<<"track eta is: "<<Track->eta()<<", track phi is: "<<Track->phi()<<std::endl;
 	  std::cout<<"gen eta is: "<<p.eta()<<", gen phi is: "<<p.phi()<<", gen particle index is: "<<i<<std::endl;
 	  std::cout<<"dR is: "<<dR<<std::endl;
-	  if (dR<minDeltaR) {
-	    minDeltaR = dR;
-	    genIndex = i;
-	    std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	  if(Track->charge()==p.charge()){
+	    if (dR<minDeltaR) {
+	      minDeltaR = dR;
+	      genIndex = i;
+	      std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	    }
 	  }
 	}//end of status==1
       }// end of muons
@@ -2688,10 +2690,12 @@ int StoppedHSCPMuonTreeProducer::getGenParticleMatch(const edm::Event& iEvent, s
 	  std::cout<<"track eta is: "<<it->eta()<<", track phi is: "<<it->phi()<<std::endl;
 	  std::cout<<"gen eta is: "<<p.eta()<<", gen phi is: "<<p.phi()<<", gen particle index is: "<<i<<std::endl;
 	  std::cout<<"dR is: "<<dR<<std::endl;
-	  if (dR<minDeltaR) {
-	    minDeltaR = dR;
-	    genIndex = i;
-	    std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	  if(it->charge()==p.charge()){
+	    if (dR<minDeltaR) {
+	      minDeltaR = dR;
+	      genIndex = i;
+	      std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	    }
 	  }
 	} //end of status==1
       }//end of partID==13

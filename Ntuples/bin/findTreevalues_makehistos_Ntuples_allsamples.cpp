@@ -385,12 +385,21 @@ public:
     muRefittedStandAloneTrackGenDR_hist = new TH1D("muRefittedStandAloneTrackGenDR_hist","dR to matched gen particle",500,0,5);
     muCosmicTrackGenDR_hist = new TH1D("muCosmicTrackGenDR_hist","dR to matched gen particle",500,0,5);
 
+    mcStoppedParticleR_muDisplacedStandAloneGenDR_hist = new TH2D("mcStoppedParticleR_muDisplacedStandAloneGenDR_hist","",80,0,800,500,0,5);
+
     muDisplacedStandAlonePtResolution_hist = new TH1D("muDisplacedStandAlonePtResolution_hist","DSA Muon p_{T} Resolution",2000,-10,10);
     muPtResolution_hist = new TH1D("muPtResolution_hist","Reco Muon p_{T} Resolution",2000,-10,10);
     muStandAlonePtResolution_hist = new TH1D("muStandAlonePtResolution_hist","SA Muon p_{T} Resolution",2000,-10,10);
     muStandAloneUpdatedAtVtxPtResolution_hist = new TH1D("muStandAloneUpdatedAtVtxPtResolution_hist","SA Muon Updated At Vtx p_{T} Resolution",2000,-10,10);
     muRefittedStandAlonePtResolution_hist = new TH1D("muRefittedStandAlonePtResolution_hist","RSA Muon p_{T} Resolution",2000,-10,10);
     muCosmicPtResolution_hist = new TH1D("muCosmicPtResolution_hist","Cosmic Muon p_{T} Resolution",2000,-10,10);
+
+    muDisplacedStandAloneQoverPtResolution_hist = new TH1D("muDisplacedStandAloneQoverPtResolution_hist","DSA Muon q/p_{T} Resolution",2000,-10,10);
+    muQoverPtResolution_hist = new TH1D("muQoverPtResolution_hist","Reco Muon q/p_{T} Resolution",2000,-10,10);
+    muStandAloneQoverPtResolution_hist = new TH1D("muStandAloneQoverPtResolution_hist","SA Muon q/p_{T} Resolution",2000,-10,10);
+    muStandAloneUpdatedAtVtxQoverPtResolution_hist = new TH1D("muStandAloneUpdatedAtVtxQoverPtResolution_hist","SA Muon Updated At Vtx q/p_{T} Resolution",2000,-10,10);
+    muRefittedStandAloneQoverPtResolution_hist = new TH1D("muRefittedStandAloneQoverPtResolution_hist","RSA Muon q/p_{T} Resolution",2000,-10,10);
+    muCosmicQoverPtResolution_hist = new TH1D("muCosmicQoverPtResolution_hist","Cosmic Muon q/p_{T} Resolution",2000,-10,10);
 
     muRefittedStandAlonePtResolution_muCosmicPtResolution_hist = new TH2D("muRefittedStandAlonePtResolution_muCosmicPtResolution_hist","RSA p_{T} Resolution vs Cosmic Muon p_{T} Resolution",110,-10,1,110,-10,1);
 
@@ -467,6 +476,9 @@ public:
     muDisplacedStandAlone_N_hist = new TH1D("muDisplacedStandAlone_N_hist","Number of StandAlone Muons",100,0,100);
     //muDisplacedStandAlonePt_hist = new TH1D("muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",200,0,200);
     muDisplacedStandAlonePt_hist = new TH1D("muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
+    muDisplacedStandAlonePt0_hist = new TH1D("muDisplacedStandAlonePt0_hist","1st StandAlone Muon p_{T}",1000,0,1000);
+    muDisplacedStandAlonePt1_hist = new TH1D("muDisplacedStandAlonePt1_hist","2nd StandAlone Muon p_{T}",1000,0,1000);
+    muDisplacedStandAlonePt2_hist = new TH1D("muDisplacedStandAlonePt2_hist","3rd StandAlone Muon p_{T}",1000,0,1000);
     muDisplacedStandAloneEta_hist = new TH1D("muDisplacedStandAloneEta_hist","StandAlone Muon #eta",120,-6,6);
     muDisplacedStandAlonePhi_hist = new TH1D("muDisplacedStandAlonePhi_hist","StandAlone Muon #phi",64,-3.2,3.2);
     muDisplacedStandAloneCharge_hist = new TH1D("muDisplacedStandAloneCharge_hist","StandAlone Muon Track Charge",10,-5,5);
@@ -772,7 +784,7 @@ private:
 		Double_t& anglePos, Double_t& angleNeg );    
   void staus( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&, int&, UInt_t&, UInt_t&, UInt_t&);
   void cosmicMC( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&);
-  void genMuMatch( StoppedHSCPMuonEvent* events, UInt_t& genMuMatched_DSA_index);
+  void genMuMatch( StoppedHSCPMuonEvent* events, UInt_t (&genMuMatched_DSA_index)[15], UInt_t (&genMuMatched_mu_index)[15], UInt_t (&genMuMatched_SA_index)[15], UInt_t (&genMuMatched_SAUpdatedAtVtx_index)[15], UInt_t (&genMuMatched_RSA_index)[15], UInt_t (&genMuMatched_cosmic_index)[15]);
   void simTracks( StoppedHSCPMuonEvent* events, UInt_t& simTrack0_index);
   void doublyChargedHiggs( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
   void tauPrime( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
@@ -1025,12 +1037,21 @@ private:
   TH1D* muRefittedStandAloneTrackGenDR_hist;
   TH1D* muCosmicTrackGenDR_hist;
 
+  TH2D* mcStoppedParticleR_muDisplacedStandAloneGenDR_hist;
+
   TH1D* muDisplacedStandAlonePtResolution_hist;
   TH1D* muPtResolution_hist;
   TH1D* muStandAlonePtResolution_hist;
   TH1D* muStandAloneUpdatedAtVtxPtResolution_hist;
   TH1D* muRefittedStandAlonePtResolution_hist;
   TH1D* muCosmicPtResolution_hist;
+
+  TH1D* muDisplacedStandAloneQoverPtResolution_hist;
+  TH1D* muQoverPtResolution_hist;
+  TH1D* muStandAloneQoverPtResolution_hist;
+  TH1D* muStandAloneUpdatedAtVtxQoverPtResolution_hist;
+  TH1D* muRefittedStandAloneQoverPtResolution_hist;
+  TH1D* muCosmicQoverPtResolution_hist;
 
   TH2D* muRefittedStandAlonePtResolution_muCosmicPtResolution_hist;
 
@@ -1091,6 +1112,9 @@ private:
 
   TH1D* muDisplacedStandAlone_N_hist;
   TH1D* muDisplacedStandAlonePt_hist;
+  TH1D* muDisplacedStandAlonePt0_hist;
+  TH1D* muDisplacedStandAlonePt1_hist;
+  TH1D* muDisplacedStandAlonePt2_hist;
   TH1D* muDisplacedStandAloneEta_hist;
   TH1D* muDisplacedStandAlonePhi_hist;
   TH1D* muDisplacedStandAloneCharge_hist;
@@ -1734,10 +1758,27 @@ void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC( StoppedHSCPMuonEven
   if(genMu0_index!=999) good_genMuons = 1;
 }//end of cosmicMC
 
-void findTreevalues_makehistos_Ntuples_allsamples::genMuMatch( StoppedHSCPMuonEvent* events, UInt_t& genMuMatched_DSA_index){
+void findTreevalues_makehistos_Ntuples_allsamples::genMuMatch(StoppedHSCPMuonEvent* events, UInt_t (&genMuMatched_DSA_index)[15], UInt_t (&genMuMatched_mu_index)[15], UInt_t (&genMuMatched_SA_index)[15], UInt_t (&genMuMatched_SAUpdatedAtVtx_index)[15], UInt_t (&genMuMatched_RSA_index)[15], UInt_t (&genMuMatched_cosmic_index)[15]){
 
   for (UInt_t j=0; j<events->mcMuon_N; j++) {
-    if(events->mcMuonGenIndex[j] == events->muDisplacedStandAloneTrackGenParticleIndex[0]) genMuMatched_DSA_index = j;
+    for (UInt_t k=0; k<events->mu_DisplacedStandAlone_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muDisplacedStandAloneTrackGenParticleIndex[k]) genMuMatched_DSA_index[k] = j;
+    }
+    for (UInt_t k=0; k<events->mu_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muSAgenParticleIndex[k]) genMuMatched_mu_index[k] = j;
+    }
+    for (UInt_t k=0; k<events->mu_StandAlone_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muStandAloneTrackGenParticleIndex[k]) genMuMatched_SA_index[k] = j;
+    }
+    for (UInt_t k=0; k<events->mu_StandAloneUpdatedAtVtx_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muStandAloneTrackUpdatedAtVtxGenParticleIndex[k]) genMuMatched_SAUpdatedAtVtx_index[k] = j;
+    }
+    for (UInt_t k=0; k<events->mu_RefittedStandAlone_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muRefittedStandAloneTrackGenParticleIndex[k]) genMuMatched_RSA_index[k] = j;
+    }
+    for (UInt_t k=0; k<events->mu_StandAlone_N; k++) {
+      if(events->mcMuonGenIndex[j] == events->muCosmicTrackGenParticleIndex[k]) genMuMatched_cosmic_index[k] = j;
+    }
   }
 
 }
@@ -4232,7 +4273,21 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     UInt_t upper2_index = 999;
     UInt_t lower2_index = 999;
 
-    UInt_t genMuMatched_DSA_index = 999;
+    UInt_t genMuMatched_DSA_index[15];
+    UInt_t genMuMatched_mu_index[15];
+    UInt_t genMuMatched_SA_index[15];
+    UInt_t genMuMatched_SAUpdatedAtVtx_index[15];
+    UInt_t genMuMatched_RSA_index[15];
+    UInt_t genMuMatched_cosmic_index[15];
+
+    for (UInt_t j=0; j<15; j++) {
+      genMuMatched_DSA_index[j] = 999;
+      genMuMatched_mu_index[j] = 999;
+      genMuMatched_SA_index[j] = 999;
+      genMuMatched_SAUpdatedAtVtx_index[j] = 999;
+      genMuMatched_RSA_index[j] = 999;
+      genMuMatched_cosmic_index[j] = 999;
+    }
 
     double eventweightTauPrime = 1.0;
 
@@ -4264,7 +4319,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
       //cout<<"eventweightTauPrime is: "<<eventweightTauPrime<<endl;
       total_count_+=eventweightTauPrime;
     }
-    if(file_dataset_ == "PGun" || file_dataset_ == "mcha") genMuMatch(events,genMuMatched_DSA_index);
+    if(file_dataset_ == "PGun" || file_dataset_ == "mcha") genMuMatch(events, genMuMatched_DSA_index,  genMuMatched_mu_index,  genMuMatched_SA_index,  genMuMatched_SAUpdatedAtVtx_index,  genMuMatched_RSA_index,  genMuMatched_cosmic_index);
     if(file_dataset_ == "doub") doublyChargedHiggs(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
     cout<<"finished intro MC stuff"<<endl;
 
@@ -4947,7 +5002,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			if(!is_data){
 			  cout<<"not data"<<endl;
 
-			  if(file_dataset_!="cosm" && file_dataset_!="PGun") mcStoppedParticleR_mcMuonPt_hist->Fill(events->mcStoppedParticleR[0]/10.,events->mcMuonPt[highestPt_index],1.0);
+			  if(file_dataset_!="cosm" && file_dataset_!="PGun") mcStoppedParticleR_mcMuonPt_hist->Fill(events->mcStoppedParticleR[stopped_index]/10.,events->mcMuonPt[highestPt_index],1.0);
 
 			  cout<<"starting pt hists"<<endl;
 			 
@@ -4963,134 +5018,123 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    printout_L1(events);
 			  }
 			  
-			  bool pass_DSA = false;
-			  bool pass_mu = false;
-			  bool pass_SA = false;
-			  bool pass_SAUpdatedAtVtx = false;
-			  bool pass_RSA = false;
-			  bool pass_cosmic = false;			 
-
-			  //no cuts
-			  /*
-			  if(events->mu_DisplacedStandAlone_N>0) pass_DSA = true;
-			  if(events->mu_N>0) pass_mu = true;
-			  if(events->mu_StandAlone_N>0) pass_SA = true;
-			  if(events->mu_StandAloneUpdatedAtVtx_N>0) pass_SAUpdatedAtVtx = true;
-			  if(events->mu_RefittedStandAlone_N>0) pass_RSA = true;
-			  if(events->mu_CosmicTrack_N>0) pass_cosmic = true;
-			  */
-
-			  //no csc hits
-			  /*
-			  if(events->mu_DisplacedStandAlone_N>0 && events->muDisplacedStandAloneTrackNValidCscHits[0]==0) pass_DSA = true;
-			  if(events->mu_N>0 && events->muSAnValidCscHits[0]==0) pass_mu = true;
-			  if(events->mu_StandAlone_N>0 && events->muStandAloneTrackNValidCscHits[0]==0) pass_SA = true;
-			  if(events->mu_StandAloneUpdatedAtVtx_N>0 && events->muStandAloneTrackUpdatedAtVtxNValidCscHits[0]==0) pass_SAUpdatedAtVtx = true;
-			  if(events->mu_RefittedStandAlone_N>0 && events->muRefittedStandAloneTrackNValidCscHits[0]==0) pass_RSA = true;
-			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNValidCscHits[0]==0) pass_cosmic = true;
-			  */
-
-			  //at least 2 DT chambers
+			  for (UInt_t j=0; j<events->mu_DisplacedStandAlone_N; j++) {
+			    if(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[j]>1){
+			      if(events->muDisplacedStandAloneTrackGenParticleIndex[j] >= 0){// matched_DSA
+				double dR = deltaR(events->muDisplacedStandAloneEta[j],events->muDisplacedStandAlonePhi[j],events->mcMuonEta[genMuMatched_DSA_index[j]],events->mcMuonPhi[genMuMatched_DSA_index[j]]);
+				muDisplacedStandAloneGenDR_hist->Fill(dR);
+				if(file_dataset_!="cosm" && file_dataset_!="PGun") mcStoppedParticleR_muDisplacedStandAloneGenDR_hist->Fill(events->mcStoppedParticleR[stopped_index]/10.,dR,1.0);
+				if(dR<0.5){
+				  if(events->mcMuonPt[genMuMatched_DSA_index[j]]>0. && events->muDisplacedStandAlonePt[j]>0.){			  
+				    double pt_resolution = 1.0*(events->muDisplacedStandAlonePt[j] - events->mcMuonPt[genMuMatched_DSA_index[j]])/(events->mcMuonPt[genMuMatched_DSA_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muDisplacedStandAloneCharge[j]/events->muDisplacedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]]); 
+				    muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[j],1.0);
+				    if(j==0) muDisplacedStandAlonePt0_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
+				    if(j==1) muDisplacedStandAlonePt1_hist->Fill(events->muDisplacedStandAlonePt[1],1.0);
+				    if(j==2) muDisplacedStandAlonePt2_hist->Fill(events->muDisplacedStandAlonePt[2],1.0);
+				    muDisplacedStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
+				    muDisplacedStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				    cout<<"muDisplacedPt is: "<<events->muDisplacedStandAlonePt[j]<<", genMuMatched_DSA_index is: "<<genMuMatched_DSA_index[j]<<", dR is: "<<dR<<endl;
+				  }
+				}
+			      }
+			    }
+			  }
 			  
-			  if(events->mu_DisplacedStandAlone_N>0 && events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_DSA = true;
-			  //if(events->mu_N>0 && events->muIsStandAloneMuon[0] && events->muIsGlobalMuon[0] && events->muSAnDtChambersWithValidHits[0]>1) pass_mu = true;
-			  if(events->mu_StandAlone_N>0 && events->muStandAloneTrackNDtChambersWithValidHits[0]>1) pass_SA = true;
-			  if(events->mu_StandAloneUpdatedAtVtx_N>0 && events->muStandAloneTrackUpdatedAtVtxNDtChambersWithValidHits[0]>1) pass_SAUpdatedAtVtx = true;
-			  if(events->mu_RefittedStandAlone_N>0 && events->muRefittedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_RSA = true;
-			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNDtChambersWithValidHits[0]>1) pass_cosmic = true;
+			  for (UInt_t j=0; j<events->mu_N; j++) {	    
+			    if(events->muIsStandAloneMuon[j] && events->muIsGlobalMuon[j] && events->muSAnDtChambersWithValidHits[j]>1){
+			      if(events->muSAgenParticleIndex[j] >= 0){// matched_mu
+				double dR = deltaR(events->muEta[j],events->muPhi[j],events->mcMuonEta[genMuMatched_mu_index[j]],events->mcMuonPhi[genMuMatched_mu_index[j]]);
+				muGenDR_hist->Fill(dR);
+				if(dR<0.5){
+				  if(events->mcMuonPt[genMuMatched_mu_index[j]]>0. && events->muTunePpt[j]>0.){
+				    double pt_resolution = 1.0*(events->muTunePpt[j] - events->mcMuonPt[genMuMatched_mu_index[j]])/(events->mcMuonPt[genMuMatched_mu_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muTunePcharge[j]/events->muTunePpt[j] - 1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]]); 
+				    muPt_hist->Fill(events->muTunePpt[j],1.0);
+				    muPtResolution_hist->Fill(pt_resolution,1.0);
+				    muQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				    cout<<"muTunePpt is: "<<events->muTunePpt[j]<<", muTunePcharge is: "<<events->muTunePcharge[j]<<", genMuMatched_mu_index is: "<<genMuMatched_mu_index[j]<<", dR is: "<<dR<<", genMuCharge is: "<<events->mcMuonCharge[genMuMatched_mu_index[j]]<<", genMuPt is: "<<events->mcMuonPt[genMuMatched_mu_index[j]]<<endl;
+				  }
+				}
+			      }
+			    }
+			  }
+			  
+			  for (UInt_t j=0; j<events->mu_StandAlone_N; j++) {
+			    if(events->muStandAloneTrackNDtChambersWithValidHits[j]>1){
+			      if(events->muStandAloneTrackGenParticleIndex[j] >= 0){// matched_SA
+				double dR = deltaR(events->muStandAloneEta[j],events->muStandAlonePhi[j],events->mcMuonEta[genMuMatched_SA_index[j]],events->mcMuonPhi[genMuMatched_SA_index[j]]);
+				if(dR<0.5){
+				  muStandAlonePt_hist->Fill(events->muStandAlonePt[j],1.0);
+				  if(events->mcMuonPt[genMuMatched_SA_index[j]]>0. && events->muStandAlonePt[j]>0.){			  
+				    double pt_resolution = 1.0*(events->muStandAlonePt[j] - events->mcMuonPt[genMuMatched_SA_index[j]])/(events->mcMuonPt[genMuMatched_SA_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muStandAloneCharge[j]/events->muStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]]); 
+				    muStandAloneTrackGenDR_hist->Fill(dR);
+				    muStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
+				    muStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				  }
+				}
+			      }
+			    }
+			  }
+
+			  for (UInt_t j=0; j<events->mu_StandAloneUpdatedAtVtx_N; j++) {
+			    if(events->muStandAloneTrackUpdatedAtVtxNDtChambersWithValidHits[j]>1){
+			      if(events->muStandAloneTrackUpdatedAtVtxGenParticleIndex[j] >= 0){// matched_SAUpdatedAtVtx
+				double dR = deltaR(events->muStandAloneUpdatedAtVtxEta[j],events->muStandAloneUpdatedAtVtxPhi[j],events->mcMuonEta[genMuMatched_SAUpdatedAtVtx_index[j]],events->mcMuonPhi[genMuMatched_SAUpdatedAtVtx_index[j]]);
+				muStandAloneTrackUpdatedAtVtxGenDR_hist->Fill(dR);
+				if(dR<0.5){
+				  if(events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]>0. && events->muStandAloneUpdatedAtVtxPt[j]>0.){			  
+				    double pt_resolution = 1.0*(events->muStandAloneUpdatedAtVtxPt[j] - events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]])/(events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muStandAloneUpdatedAtVtxCharge[j]/events->muStandAloneUpdatedAtVtxPt[j] - 1.0*events->mcMuonCharge[genMuMatched_SAUpdatedAtVtx_index[j]]/events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SAUpdatedAtVtx_index[j]]/events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]); 
+				    muStandAloneUpdatedAtVtxPt_hist->Fill(events->muStandAloneUpdatedAtVtxPt[j],1.0);
+				    muStandAloneUpdatedAtVtxPtResolution_hist->Fill(pt_resolution,1.0);
+				    muStandAloneUpdatedAtVtxQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				  }
+				}
+			      }
+			    }
+			  }
+
+			  for (UInt_t j=0; j<events->mu_RefittedStandAlone_N; j++) {
+			    if(events->muRefittedStandAloneTrackNDtChambersWithValidHits[j]>1){
+			      if(events->muRefittedStandAloneTrackGenParticleIndex[j] >= 0){// matched_RSA
+				double dR = deltaR(events->muRefittedStandAloneEta[j],events->muRefittedStandAlonePhi[j],events->mcMuonEta[genMuMatched_RSA_index[j]],events->mcMuonPhi[genMuMatched_RSA_index[j]]);
+				muRefittedStandAloneTrackGenDR_hist->Fill(dR);
+				if(dR<0.5){
+				  if(events->mcMuonPt[genMuMatched_RSA_index[j]]>0. && events->muRefittedStandAlonePt[j]>0.){			  
+				    double pt_resolution = 1.0*(events->muRefittedStandAlonePt[j] - events->mcMuonPt[genMuMatched_RSA_index[j]])/(events->mcMuonPt[genMuMatched_RSA_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muRefittedStandAloneCharge[j]/events->muRefittedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_RSA_index[j]]/events->mcMuonPt[genMuMatched_RSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_RSA_index[j]]/events->mcMuonPt[genMuMatched_RSA_index[j]]); 
+				    muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[j],1.0);
+				    muRefittedStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
+				    muRefittedStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				  }
+				}
+			      }
+			    }
+			  }
+
+			  for (UInt_t j=0; j<events->mu_CosmicTrack_N; j++) {	    
+			    if(events->muCosmicTrackNDtChambersWithValidHits[j]>1){
+			      if(events->muCosmicTrackGenParticleIndex[j] >= 0){// matched_cosmic
+				double dR = deltaR(events->muCosmicTrackEta[j],events->muCosmicTrackPhi[j],events->mcMuonEta[genMuMatched_cosmic_index[j]],events->mcMuonPhi[genMuMatched_cosmic_index[j]]);
+				muCosmicTrackGenDR_hist->Fill(dR);
+				if(dR<0.5){
+				  if(events->mcMuonPt[genMuMatched_cosmic_index[j]]>0. && events->muCosmicTrackPt[j]>0.){			  
+				    double pt_resolution = 1.0*(events->muCosmicTrackPt[j] - events->mcMuonPt[genMuMatched_cosmic_index[j]])/(events->mcMuonPt[genMuMatched_cosmic_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muCosmicTrackCharge[j]/events->muCosmicTrackPt[j] - 1.0*events->mcMuonCharge[genMuMatched_cosmic_index[j]]/events->mcMuonPt[genMuMatched_cosmic_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_cosmic_index[j]]/events->mcMuonPt[genMuMatched_cosmic_index[j]]); 
+				    muCosmicPt_hist->Fill(events->muCosmicTrackPt[j],1.0);
+				    muCosmicPtResolution_hist->Fill(pt_resolution,1.0);
+				    muCosmicQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				  }
+				}
+			      }
+			    }
+			  }
+
 			  cout<<"pass event selection"<<endl;
 
-			  //no csc hits and at least 2 DT chambers
 			  /*
-			  if(events->mu_DisplacedStandAlone_N>0 && events->muDisplacedStandAloneTrackNValidCscHits[0]==0 && events->muDisplacedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_DSA = true;
-			  if(events->mu_N>0 && events->muSAnValidCscHits[0]==0 && events->muSAnDtChambersWithValidHits[0]>1) pass_mu = true;
-			  if(events->mu_StandAlone_N>0 && events->muStandAloneTrackNValidCscHits[0]==0 && events->muStandAloneTrackNDtChambersWithValidHits[0]>1) pass_SA = true;
-			  if(events->mu_StandAloneUpdatedAtVtx_N>0 && events->muStandAloneTrackUpdatedAtVtxNValidCscHits[0]==0 && events->muStandAloneTrackUpdatedAtVtxNDtChambersWithValidHits[0]>1) pass_SAUpdatedAtVtx = true;
-			  if(events->mu_RefittedStandAlone_N>0 && events->muRefittedStandAloneTrackNValidCscHits[0]==0 && events->muRefittedStandAloneTrackNDtChambersWithValidHits[0]>1) pass_RSA = true;
-			  if(events->mu_CosmicTrack_N>0 && events->muCosmicTrackNValidCscHits[0]==0 && events->muCosmicTrackNDtChambersWithValidHits[0]>1) pass_cosmic = true;
-			  */
-
-			  double dR_DSA= -999;
-			  //double dR_mu= -999;
-			  double dR_SA= -999;
-			  double dR_SAUpdatedAtVtx= -999;
-			  double dR_RSA= -999;
-			  double dR_cosmic= -999;
-
-			  if(pass_DSA){
-			    muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
-			    if(events->muDisplacedStandAloneTrackGenParticleIndex[0] >= 0){// matched_DSA
-			      cout<<"genMuMatched_DSA_index is: "<<genMuMatched_DSA_index<<endl;
-			      dR_DSA=deltaR(events->muDisplacedStandAloneEta[0],events->muDisplacedStandAlonePhi[0],events->mcMuonEta[genMuMatched_DSA_index],events->mcMuonPhi[genMuMatched_DSA_index]);
-			      cout<<"dR_DSA is: "<<dR_DSA<<endl;
-			      muDisplacedStandAloneGenDR_hist->Fill(dR_DSA);
-			    }
-			  }
-			  //if(pass_mu){
-			  //muPt_hist->Fill(events->muTunePpt[0],1.0);
-			  //if(events->muSAgenParticleIndex[0] >= 0){ //matched_mu
-			  //dR_mu=deltaR(events->muEta[0],events->muPhi[0],events->mcMuonEta[events->muSAgenParticleIndex[0]],events->mcMuonPhi[events->muSAgenParticleIndex[0]]);
-			  //muGenDR_hist->Fill(dR_mu);
-			  //}
-			  //}
-			  if(pass_SA){
-			    muStandAlonePt_hist->Fill(events->muStandAlonePt[0],1.0);
-			    if(events->muStandAloneTrackGenParticleIndex[0] >= 0){// matched_SA
-			      dR_SA=deltaR(events->muStandAloneEta[0],events->muStandAlonePhi[0],events->mcMuonEta[events->muStandAloneTrackGenParticleIndex[0]],events->mcMuonPhi[events->muStandAloneTrackGenParticleIndex[0]]);
-			      muStandAloneTrackGenDR_hist->Fill(dR_SA);
-			    }
-			  }
-			  if(pass_SAUpdatedAtVtx){
-			    muStandAloneUpdatedAtVtxPt_hist->Fill(events->muStandAloneUpdatedAtVtxPt[0],1.0);
-			    if(events->muStandAloneTrackUpdatedAtVtxGenParticleIndex[0] >= 0){ //matched_SAUpdatedAtVtx
-			      dR_SAUpdatedAtVtx=deltaR(events->muStandAloneUpdatedAtVtxEta[0],events->muStandAloneUpdatedAtVtxPhi[0],events->mcMuonEta[events->muStandAloneTrackUpdatedAtVtxGenParticleIndex[0]],events->mcMuonPhi[events->muStandAloneTrackUpdatedAtVtxGenParticleIndex[0]]);
-			      muStandAloneTrackUpdatedAtVtxGenDR_hist->Fill(dR_SAUpdatedAtVtx);
-			    }
-			  }
-			  if(pass_RSA){
-			    muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[0],1.0);
-			    if(events->muRefittedStandAloneTrackGenParticleIndex[0] >= 0){ //matched_RSA
-			      dR_RSA=deltaR(events->muRefittedStandAloneEta[0],events->muRefittedStandAlonePhi[0],events->mcMuonEta[events->muRefittedStandAloneTrackGenParticleIndex[0]],events->mcMuonPhi[events->muRefittedStandAloneTrackGenParticleIndex[0]]);
-			      muRefittedStandAloneTrackGenDR_hist->Fill(dR_RSA);
-			    }
-			  }
-			  if(pass_cosmic){
-			    muCosmicPt_hist->Fill(events->muCosmicTrackPt[0],1.0);
-			    if(events->muCosmicTrackGenParticleIndex[0] >= 0){ //matched_cosmic
-			      dR_cosmic=deltaR(events->muCosmicEta[0],events->muCosmicPhi[0],events->mcMuonEta[events->muCosmicTrackGenParticleIndex[0]],events->mcMuonPhi[events->muCosmicTrackGenParticleIndex[0]]);
-			      muCosmicTrackGenDR_hist->Fill(dR_cosmic);
-			    }
-			  }
-			  cout<<"pass fill histos"<<endl;
-
-			  double muDisplacedStandAlone_pt_resolution = -99.;
-			  double mu_pt_resolution = -99.;
-			  double muStandAlone_pt_resolution = -99.;
-			  double muStandAloneUpdatedAtVtx_pt_resolution = -99.;
-			  double muRefittedStandAlone_pt_resolution = -99.;
-			  double muCosmic_pt_resolution = -99.;
-			  
-			  if(events->mcMuonPt[genMu0_index]>0.){			  
-			    //muDisplacedStandAlone_pt_resolution = 1.0*(events->muDisplacedStandAlonePt[highestPt_index] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]); 
-			    if(pass_DSA) muDisplacedStandAlone_pt_resolution = 1.0*(events->muDisplacedStandAlonePt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]); 
-			    if(pass_mu) mu_pt_resolution = 1.0*(events->muPt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
-			    if(pass_SA) muStandAlone_pt_resolution = 1.0*(events->muStandAlonePt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
-			    if(pass_SAUpdatedAtVtx) muStandAloneUpdatedAtVtx_pt_resolution = 1.0*(events->muStandAloneUpdatedAtVtxPt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
-			    if(pass_RSA) muRefittedStandAlone_pt_resolution = 1.0*(events->muRefittedStandAlonePt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
-			    if(pass_cosmic) muCosmic_pt_resolution = 1.0*(events->muCosmicTrackPt[0] - events->mcMuonPt[genMu0_index])/(events->mcMuonPt[genMu0_index]);
-			  }
-			  
-			  cout<<"standalone pt resolution is: "<<muDisplacedStandAlone_pt_resolution<<endl;
-			  cout<<"refitted standalone pt resolution is: "<<muRefittedStandAlone_pt_resolution<<endl;
-			  cout<<"cosmic pt resolution is: "<<muCosmic_pt_resolution<<endl;
-			  
-			  if(muDisplacedStandAlone_pt_resolution!=-99.) muDisplacedStandAlonePtResolution_hist->Fill(muDisplacedStandAlone_pt_resolution,1.0);
-			  if(mu_pt_resolution!=-99.) muPtResolution_hist->Fill(mu_pt_resolution,1.0);
-			  if(muStandAlone_pt_resolution!=-99.) muStandAlonePtResolution_hist->Fill(muStandAlone_pt_resolution,1.0);
-			  if(muStandAloneUpdatedAtVtx_pt_resolution!=-99.) muStandAloneUpdatedAtVtxPtResolution_hist->Fill(muStandAloneUpdatedAtVtx_pt_resolution,1.0);
-			  if(muRefittedStandAlone_pt_resolution!=-99.) muRefittedStandAlonePtResolution_hist->Fill(muRefittedStandAlone_pt_resolution,1.0);
-			  if(muCosmic_pt_resolution!=-99.) muCosmicPtResolution_hist->Fill(muCosmic_pt_resolution,1.0);
-
 			  if(events->mu_RefittedStandAlone_N>0 && events->mu_CosmicTrack_N>0){
 			    muDisplacedStandAloneNChambersDt_PtResolution_hist->Fill(events->muDisplacedStandAloneTrackNDtChambersWithValidHits[highestPt_index], muDisplacedStandAlone_pt_resolution,1.0);
 			    muRefittedStandAloneNChambersDt_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNDtChambersWithValidHits[highestPt_index], muRefittedStandAlone_pt_resolution,1.0);
@@ -5099,7 +5143,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    muRefittedStandAloneNChambersRpc_PtResolution_hist->Fill(events->muRefittedStandAloneTrackNRpcChambersWithValidHits[highestPt_index], muRefittedStandAlone_pt_resolution,1.0);
 			    muCosmicNChambersRpc_PtResolution_hist->Fill(events->muCosmicTrackNRpcChambersWithValidHits[highestPt_index], muCosmic_pt_resolution,1.0);
 			  }
-			  
+			  */
+
 			  mcMuonN_muDisplacedStandAloneN_hist->Fill(good_genMuons,n_passPreselection,1.0);
 			  mcMuonPt_muDisplacedStandAlonePt_hist->Fill(events->mcMuonPt[genMu0_index],events->muDisplacedStandAlonePt[highestPt_index],1.0);
 			  mcMuonEta_muDisplacedStandAloneEta_hist->Fill(events->mcMuonEta[genMu0_index],events->muDisplacedStandAloneEta[highestPt_index],1.0);
@@ -5675,12 +5720,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muStandAloneTrackUpdatedAtVtxGenDR_hist->Write();
     muRefittedStandAloneTrackGenDR_hist->Write();
     muCosmicTrackGenDR_hist->Write();    
+    mcStoppedParticleR_muDisplacedStandAloneGenDR_hist->Write();
     muDisplacedStandAlonePtResolution_hist->Write();
     muPtResolution_hist->Write();
     muStandAlonePtResolution_hist->Write();
     muStandAloneUpdatedAtVtxPtResolution_hist->Write();
     muRefittedStandAlonePtResolution_hist->Write();
     muCosmicPtResolution_hist->Write();
+    muDisplacedStandAloneQoverPtResolution_hist->Write();
+    muQoverPtResolution_hist->Write();
+    muStandAloneQoverPtResolution_hist->Write();
+    muStandAloneUpdatedAtVtxQoverPtResolution_hist->Write();
+    muRefittedStandAloneQoverPtResolution_hist->Write();
+    muCosmicQoverPtResolution_hist->Write();
     muRefittedStandAlonePtResolution_muCosmicPtResolution_hist->Write();
     muDisplacedStandAloneNChambersDt_PtResolution_hist->Write();
     muRefittedStandAloneNChambersDt_PtResolution_hist->Write();
@@ -5743,6 +5795,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muDisplacedStandAlone_N_other_cut_hist->Write();    
     muDisplacedStandAlone_N_hist->Write();
     muDisplacedStandAlonePt_hist->Write();
+    muDisplacedStandAlonePt0_hist->Write();
+    muDisplacedStandAlonePt1_hist->Write();
+    muDisplacedStandAlonePt2_hist->Write();
     muDisplacedStandAloneEta_hist->Write();
     muDisplacedStandAlonePhi_hist->Write();
     muDisplacedStandAloneCharge_hist->Write();
