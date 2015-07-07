@@ -5025,16 +5025,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				muDisplacedStandAloneGenDR_hist->Fill(dR);
 				if(file_dataset_!="cosm" && file_dataset_!="PGun") mcStoppedParticleR_muDisplacedStandAloneGenDR_hist->Fill(events->mcStoppedParticleR[stopped_index]/10.,dR,1.0);
 				if(dR<0.5){
-				  if(events->mcMuonPt[genMuMatched_DSA_index[j]]>0. && events->muDisplacedStandAlonePt[j]>0.){			  
-				    double pt_resolution = 1.0*(events->muDisplacedStandAlonePt[j] - events->mcMuonPt[genMuMatched_DSA_index[j]])/(events->mcMuonPt[genMuMatched_DSA_index[j]]); 
-				    double qOverPt_resolution = 1.0*(1.0*events->muDisplacedStandAloneCharge[j]/events->muDisplacedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]]); 
-				    muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[j],1.0);
-				    if(j==0) muDisplacedStandAlonePt0_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
-				    if(j==1) muDisplacedStandAlonePt1_hist->Fill(events->muDisplacedStandAlonePt[1],1.0);
-				    if(j==2) muDisplacedStandAlonePt2_hist->Fill(events->muDisplacedStandAlonePt[2],1.0);
-				    muDisplacedStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
-				    muDisplacedStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
-				    cout<<"muDisplacedPt is: "<<events->muDisplacedStandAlonePt[j]<<", genMuMatched_DSA_index is: "<<genMuMatched_DSA_index[j]<<", dR is: "<<dR<<endl;
+				  if(events->mcMuonPt[genMuMatched_DSA_index[j]]>0. && events->muDisplacedStandAlonePt[j]>0.){
+				    //if(file_dataset_!="cosm" && file_dataset_!="PGun" && events->mcStoppedParticleR[stopped_index]/10.<400){
+				    //if(events->muDisplacedStandAloneCharge[j]!=events->mcMuonCharge[genMuMatched_DSA_index[j]]){
+				      double pt_resolution = 1.0*(events->muDisplacedStandAlonePt[j] - events->mcMuonPt[genMuMatched_DSA_index[j]])/(events->mcMuonPt[genMuMatched_DSA_index[j]]); 
+				      double qOverPt_resolution = 1.0*(1.0*events->muDisplacedStandAloneCharge[j]/events->muDisplacedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]]); 
+				      muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[j],1.0);
+				      if(j==0) muDisplacedStandAlonePt0_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
+				      if(j==1) muDisplacedStandAlonePt1_hist->Fill(events->muDisplacedStandAlonePt[1],1.0);
+				      if(j==2) muDisplacedStandAlonePt2_hist->Fill(events->muDisplacedStandAlonePt[2],1.0);
+				      muDisplacedStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
+				      muDisplacedStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				      cout<<"muDisplacedPt is: "<<events->muDisplacedStandAlonePt[j]<<", genMuMatched_DSA_index is: "<<genMuMatched_DSA_index[j]<<", dR is: "<<dR<<endl;
+				      //}
 				  }
 				}
 			      }
@@ -5049,11 +5052,11 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				if(dR<0.5){
 				  if(events->mcMuonPt[genMuMatched_mu_index[j]]>0. && events->muTunePpt[j]>0.){
 				    double pt_resolution = 1.0*(events->muTunePpt[j] - events->mcMuonPt[genMuMatched_mu_index[j]])/(events->mcMuonPt[genMuMatched_mu_index[j]]); 
-				    double qOverPt_resolution = 1.0*(1.0*events->muTunePcharge[j]/events->muTunePpt[j] - 1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muSAcharge[j]/events->muTunePpt[j] - 1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]]); 
 				    muPt_hist->Fill(events->muTunePpt[j],1.0);
 				    muPtResolution_hist->Fill(pt_resolution,1.0);
 				    muQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
-				    cout<<"muTunePpt is: "<<events->muTunePpt[j]<<", muTunePcharge is: "<<events->muTunePcharge[j]<<", genMuMatched_mu_index is: "<<genMuMatched_mu_index[j]<<", dR is: "<<dR<<", genMuCharge is: "<<events->mcMuonCharge[genMuMatched_mu_index[j]]<<", genMuPt is: "<<events->mcMuonPt[genMuMatched_mu_index[j]]<<endl;
+				    cout<<"muTunePpt is: "<<events->muTunePpt[j]<<", muSAcharge is: "<<events->muSAcharge[j]<<", genMuMatched_mu_index is: "<<genMuMatched_mu_index[j]<<", dR is: "<<dR<<", genMuCharge is: "<<events->mcMuonCharge[genMuMatched_mu_index[j]]<<", genMuPt is: "<<events->mcMuonPt[genMuMatched_mu_index[j]]<<endl;
 				  }
 				}
 			      }
@@ -5064,14 +5067,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    if(events->muStandAloneTrackNDtChambersWithValidHits[j]>1){
 			      if(events->muStandAloneTrackGenParticleIndex[j] >= 0){// matched_SA
 				double dR = deltaR(events->muStandAloneEta[j],events->muStandAlonePhi[j],events->mcMuonEta[genMuMatched_SA_index[j]],events->mcMuonPhi[genMuMatched_SA_index[j]]);
+				muStandAloneTrackGenDR_hist->Fill(dR);
 				if(dR<0.5){
 				  muStandAlonePt_hist->Fill(events->muStandAlonePt[j],1.0);
 				  if(events->mcMuonPt[genMuMatched_SA_index[j]]>0. && events->muStandAlonePt[j]>0.){			  
-				    double pt_resolution = 1.0*(events->muStandAlonePt[j] - events->mcMuonPt[genMuMatched_SA_index[j]])/(events->mcMuonPt[genMuMatched_SA_index[j]]); 
-				    double qOverPt_resolution = 1.0*(1.0*events->muStandAloneCharge[j]/events->muStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]]); 
-				    muStandAloneTrackGenDR_hist->Fill(dR);
-				    muStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
-				    muStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				    //if(file_dataset_!="cosm" && file_dataset_!="PGun" && events->mcStoppedParticleR[stopped_index]/10.<400){
+				    //if(events->muStandAloneCharge[j]!=events->mcMuonCharge[genMuMatched_SA_index[j]]){
+				      double pt_resolution = 1.0*(events->muStandAlonePt[j] - events->mcMuonPt[genMuMatched_SA_index[j]])/(events->mcMuonPt[genMuMatched_SA_index[j]]); 
+				      double qOverPt_resolution = 1.0*(1.0*events->muStandAloneCharge[j]/events->muStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]]); 
+				      muStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
+				      muStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
+				      //}
 				  }
 				}
 			      }
