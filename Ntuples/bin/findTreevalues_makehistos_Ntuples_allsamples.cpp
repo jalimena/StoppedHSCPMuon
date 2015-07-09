@@ -335,6 +335,7 @@ public:
     mcWDaughterId_hist = new TH1D("mcWDaughterId_hist","Daughter Id of Gen Tops",200,-100,100);
     
     mcMuon_N_hist = new TH1D("mcMuon_N_hist","Number of Generated Muons",10,0,10);
+    mcMuonP_hist = new TH1D("mcMuonP_hist","Gen Muon p",1000,0,1000);
     mcMuonPt_hist = new TH1D("mcMuonPt_hist","Gen Muon p_{T}",1000,0,1000);
     mcMuonEta_hist = new TH1D("mcMuonEta_hist","Gen Muon #eta",120,-6,6);
     mcMuonPhi_hist = new TH1D("mcMuonPhi_hist","Gen Muon #phi",64,-3.2,3.2);
@@ -374,6 +375,9 @@ public:
     simTrackVx_hist = new TH1D("simTrackVx_hist","Muon Sim Track v_{x}",5000,-30000,30000);
     simTrackVy_hist = new TH1D("simTrackVy_hist","Muon Sim Track v_{y}",5000,-30000,30000);
     simTrackVz_hist = new TH1D("simTrackVz_hist","Muon Sim Track v_{z}",5000,-30000,30000);
+
+    muStandAloneP_hist = new TH1D("muStandAloneP_hist","SA Muon p",1000,0,1000);
+    muStandAloneUpdatedAtVtxP_hist = new TH1D("muStandAloneUpdatedAtVtxP_hist","SA Muon Updated At Vtx p",1000,0,1000);
 
     muStandAlonePt_hist = new TH1D("muStandAlonePt_hist","SA Muon p_{T} ",1000,0,1000);
     muStandAloneUpdatedAtVtxPt_hist = new TH1D("muStandAloneUpdatedAtVtxPt_hist","SA Muon Updated At Vtx p_{T} ",1000,0,1000);
@@ -450,6 +454,7 @@ public:
     hlt20Cha2MuonPhi_hist = new TH1D("hlt20Cha2MuonPhi_hist","L2 Muon #phi",64,-3.2,3.2);
     
     mu_N_hist = new TH1D("mu_N_hist","Number of Muons",100,0,100);
+    muP_hist = new TH1D("muP_hist","Reco Muon p",1000,0,1000);
     muPt_hist = new TH1D("muPt_hist","Reco Muon p_{T}",1000,0,1000);
     muEta_hist = new TH1D("muEta_hist","Reco Muon #eta",120,-6,6);
     muPhi_hist = new TH1D("muPhi_hist","Reco Muon #phi",64,-3.2,3.2);
@@ -461,6 +466,7 @@ public:
     diMuMass_hist = new TH1D("diMuMass_hist","Reco Muon Invaraint Mass",1000,0,1000);
     
     muCosmic_N_hist = new TH1D("muCosmic_N_hist","Number of Cosmic Muons",100,0,100);
+    muCosmicP_hist = new TH1D("muCosmicP_hist","Cosmic Muon p",1000,0,1000);
     muCosmicPt_hist = new TH1D("muCosmicPt_hist","Cosmic Muon p_{T}",1000,0,1000);
     muCosmicEta_hist = new TH1D("muCosmicEta_hist","Cosmic Muon #eta",120,-6,6);
     muCosmicPhi_hist = new TH1D("muCosmicPhi_hist","Cosmic Muon #phi",64,-3.2,3.2);
@@ -474,7 +480,7 @@ public:
     muDisplacedStandAlone_N_other_cut_hist = new TH1D("muDisplacedStandAlone_N_other_cut_hist","Number of StandAlone Muons with #phi>0 and >1 stations",100,0,100);
     
     muDisplacedStandAlone_N_hist = new TH1D("muDisplacedStandAlone_N_hist","Number of StandAlone Muons",100,0,100);
-    //muDisplacedStandAlonePt_hist = new TH1D("muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",200,0,200);
+    muDisplacedStandAloneP_hist = new TH1D("muDisplacedStandAloneP_hist","StandAlone Muon p",1000,0,1000);
     muDisplacedStandAlonePt_hist = new TH1D("muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
     muDisplacedStandAlonePt0_hist = new TH1D("muDisplacedStandAlonePt0_hist","1st StandAlone Muon p_{T}",1000,0,1000);
     muDisplacedStandAlonePt1_hist = new TH1D("muDisplacedStandAlonePt1_hist","2nd StandAlone Muon p_{T}",1000,0,1000);
@@ -696,7 +702,7 @@ public:
     mcMuon_muDisplacedStandAlone_deltaPhi_hist = new TH2D("mcMuon_muDisplacedStandAlone_deltaPhi_hist","Delta Phi between 2 Gen Muons vs between 2 reco muons",500,0,5,500,0,5);
     
     muRefittedStandAlone_N_hist = new TH1D("muRefittedStandAlone_N_hist","Number of Refitted StandAlone Muons",100,0,100);
-    //muRefittedStandAlonePt_hist = new TH1D("muRefittedStandAlonePt_hist","Refitted StandAlone Muon p_{T}",200,0,200);
+    muRefittedStandAloneP_hist = new TH1D("muRefittedStandAloneP_hist","Refitted StandAlone Muon p",1000,0,1000);
     muRefittedStandAlonePt_hist = new TH1D("muRefittedStandAlonePt_hist","Refitted StandAlone Muon p_{T}",1000,0,1000);
     muRefittedStandAloneEta_hist = new TH1D("muRefittedStandAloneEta_hist","Refitted StandAlone Muon #eta",120,-6,6);
     muRefittedStandAlonePhi_hist = new TH1D("muRefittedStandAlonePhi_hist","Refitted StandAlone Muon #phi",64,-3.2,3.2);
@@ -981,6 +987,7 @@ private:
   TH1D* mcWDaughterId_hist;
 
   TH1D* mcMuon_N_hist;
+  TH1D* mcMuonP_hist;
   TH1D* mcMuonPt_hist;
   TH1D* mcMuonEta_hist;
   TH1D* mcMuonPhi_hist;
@@ -1026,6 +1033,9 @@ private:
   TH1D* simTrackVx_hist;
   TH1D* simTrackVy_hist;
   TH1D* simTrackVz_hist;
+
+  TH1D* muStandAloneP_hist;
+  TH1D* muStandAloneUpdatedAtVtxP_hist;
 
   TH1D* muStandAlonePt_hist;
   TH1D* muStandAloneUpdatedAtVtxPt_hist;
@@ -1087,6 +1097,7 @@ private:
   TH1D* hlt20Cha2MuonPhi_hist;
 
   TH1D* mu_N_hist ;
+  TH1D* muP_hist ;
   TH1D* muPt_hist ;
   TH1D* muEta_hist;
   TH1D* muPhi_hist;
@@ -1098,6 +1109,7 @@ private:
   TH1D* diMuMass_hist;
 
   TH1D* muCosmic_N_hist;
+  TH1D* muCosmicP_hist;
   TH1D* muCosmicPt_hist;
   TH1D* muCosmicEta_hist;
   TH1D* muCosmicPhi_hist;
@@ -1111,6 +1123,7 @@ private:
   TH1D* muDisplacedStandAlone_N_other_cut_hist;
 
   TH1D* muDisplacedStandAlone_N_hist;
+  TH1D* muDisplacedStandAloneP_hist;
   TH1D* muDisplacedStandAlonePt_hist;
   TH1D* muDisplacedStandAlonePt0_hist;
   TH1D* muDisplacedStandAlonePt1_hist;
@@ -1332,6 +1345,7 @@ private:
   TH2D* mcMuon_muDisplacedStandAlone_deltaPhi_hist;
   
   TH1D* muRefittedStandAlone_N_hist;
+  TH1D* muRefittedStandAloneP_hist;
   TH1D* muRefittedStandAlonePt_hist;
   TH1D* muRefittedStandAloneEta_hist;
   TH1D* muRefittedStandAlonePhi_hist;
@@ -4774,6 +4788,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      cout<<"about to plot mcMuon histos"<<endl;
 		      mcMuon_N_hist->Fill(good_genMuons,1.0); //only status 1 good muons
 		      if(genMu0_index!= 999){
+			mcMuonP_hist->Fill(events->mcMuonP[genMu0_index],1.0);
 			mcMuonPt_hist->Fill(events->mcMuonPt[genMu0_index],1.0);
 			mcMuonEta_hist->Fill(events->mcMuonEta[genMu0_index],1.0);
 			mcMuonPhi_hist->Fill(events->mcMuonPhi[genMu0_index],1.0);
@@ -5030,6 +5045,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				    //if(events->muDisplacedStandAloneCharge[j]!=events->mcMuonCharge[genMuMatched_DSA_index[j]]){
 				      double pt_resolution = 1.0*(events->muDisplacedStandAlonePt[j] - events->mcMuonPt[genMuMatched_DSA_index[j]])/(events->mcMuonPt[genMuMatched_DSA_index[j]]); 
 				      double qOverPt_resolution = 1.0*(1.0*events->muDisplacedStandAloneCharge[j]/events->muDisplacedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_DSA_index[j]]/events->mcMuonPt[genMuMatched_DSA_index[j]]); 
+				      muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[j],1.0);
 				      muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[j],1.0);
 				      if(j==0) muDisplacedStandAlonePt0_hist->Fill(events->muDisplacedStandAlonePt[0],1.0);
 				      if(j==1) muDisplacedStandAlonePt1_hist->Fill(events->muDisplacedStandAlonePt[1],1.0);
@@ -5052,7 +5068,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				if(dR<0.5){
 				  if(events->mcMuonPt[genMuMatched_mu_index[j]]>0. && events->muTunePpt[j]>0.){
 				    double pt_resolution = 1.0*(events->muTunePpt[j] - events->mcMuonPt[genMuMatched_mu_index[j]])/(events->mcMuonPt[genMuMatched_mu_index[j]]); 
-				    double qOverPt_resolution = 1.0*(1.0*events->muSAcharge[j]/events->muTunePpt[j] - 1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]]); 
+				    double qOverPt_resolution = 1.0*(1.0*events->muTunePcharge[j]/events->muTunePpt[j] - 1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_mu_index[j]]/events->mcMuonPt[genMuMatched_mu_index[j]]); 
+				    muP_hist->Fill(events->muTunePp[j],1.0);
 				    muPt_hist->Fill(events->muTunePpt[j],1.0);
 				    muPtResolution_hist->Fill(pt_resolution,1.0);
 				    muQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
@@ -5069,12 +5086,13 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				double dR = deltaR(events->muStandAloneEta[j],events->muStandAlonePhi[j],events->mcMuonEta[genMuMatched_SA_index[j]],events->mcMuonPhi[genMuMatched_SA_index[j]]);
 				muStandAloneTrackGenDR_hist->Fill(dR);
 				if(dR<0.5){
-				  muStandAlonePt_hist->Fill(events->muStandAlonePt[j],1.0);
 				  if(events->mcMuonPt[genMuMatched_SA_index[j]]>0. && events->muStandAlonePt[j]>0.){			  
 				    //if(file_dataset_!="cosm" && file_dataset_!="PGun" && events->mcStoppedParticleR[stopped_index]/10.<400){
 				    //if(events->muStandAloneCharge[j]!=events->mcMuonCharge[genMuMatched_SA_index[j]]){
 				      double pt_resolution = 1.0*(events->muStandAlonePt[j] - events->mcMuonPt[genMuMatched_SA_index[j]])/(events->mcMuonPt[genMuMatched_SA_index[j]]); 
 				      double qOverPt_resolution = 1.0*(1.0*events->muStandAloneCharge[j]/events->muStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SA_index[j]]/events->mcMuonPt[genMuMatched_SA_index[j]]); 
+				      muStandAloneP_hist->Fill(events->muStandAloneP[j],1.0);
+				      muStandAlonePt_hist->Fill(events->muStandAlonePt[j],1.0);
 				      muStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
 				      muStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
 				      //}
@@ -5093,6 +5111,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				  if(events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]>0. && events->muStandAloneUpdatedAtVtxPt[j]>0.){			  
 				    double pt_resolution = 1.0*(events->muStandAloneUpdatedAtVtxPt[j] - events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]])/(events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]); 
 				    double qOverPt_resolution = 1.0*(1.0*events->muStandAloneUpdatedAtVtxCharge[j]/events->muStandAloneUpdatedAtVtxPt[j] - 1.0*events->mcMuonCharge[genMuMatched_SAUpdatedAtVtx_index[j]]/events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_SAUpdatedAtVtx_index[j]]/events->mcMuonPt[genMuMatched_SAUpdatedAtVtx_index[j]]); 
+				    muStandAloneUpdatedAtVtxP_hist->Fill(events->muStandAloneUpdatedAtVtxP[j],1.0);
 				    muStandAloneUpdatedAtVtxPt_hist->Fill(events->muStandAloneUpdatedAtVtxPt[j],1.0);
 				    muStandAloneUpdatedAtVtxPtResolution_hist->Fill(pt_resolution,1.0);
 				    muStandAloneUpdatedAtVtxQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
@@ -5111,6 +5130,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				  if(events->mcMuonPt[genMuMatched_RSA_index[j]]>0. && events->muRefittedStandAlonePt[j]>0.){			  
 				    double pt_resolution = 1.0*(events->muRefittedStandAlonePt[j] - events->mcMuonPt[genMuMatched_RSA_index[j]])/(events->mcMuonPt[genMuMatched_RSA_index[j]]); 
 				    double qOverPt_resolution = 1.0*(1.0*events->muRefittedStandAloneCharge[j]/events->muRefittedStandAlonePt[j] - 1.0*events->mcMuonCharge[genMuMatched_RSA_index[j]]/events->mcMuonPt[genMuMatched_RSA_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_RSA_index[j]]/events->mcMuonPt[genMuMatched_RSA_index[j]]); 
+				    muRefittedStandAloneP_hist->Fill(events->muRefittedStandAloneP[j],1.0);
 				    muRefittedStandAlonePt_hist->Fill(events->muRefittedStandAlonePt[j],1.0);
 				    muRefittedStandAlonePtResolution_hist->Fill(pt_resolution,1.0);
 				    muRefittedStandAloneQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
@@ -5129,6 +5149,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 				  if(events->mcMuonPt[genMuMatched_cosmic_index[j]]>0. && events->muCosmicTrackPt[j]>0.){			  
 				    double pt_resolution = 1.0*(events->muCosmicTrackPt[j] - events->mcMuonPt[genMuMatched_cosmic_index[j]])/(events->mcMuonPt[genMuMatched_cosmic_index[j]]); 
 				    double qOverPt_resolution = 1.0*(1.0*events->muCosmicTrackCharge[j]/events->muCosmicTrackPt[j] - 1.0*events->mcMuonCharge[genMuMatched_cosmic_index[j]]/events->mcMuonPt[genMuMatched_cosmic_index[j]])/(1.0*events->mcMuonCharge[genMuMatched_cosmic_index[j]]/events->mcMuonPt[genMuMatched_cosmic_index[j]]); 
+				    muCosmicP_hist->Fill(events->muCosmicTrackP[j],1.0);
 				    muCosmicPt_hist->Fill(events->muCosmicTrackPt[j],1.0);
 				    muCosmicPtResolution_hist->Fill(pt_resolution,1.0);
 				    muCosmicQoverPtResolution_hist->Fill(qOverPt_resolution,1.0);
@@ -5692,6 +5713,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcWNDaughters_hist->Write();
     mcWDaughterId_hist->Write();
     mcMuon_N_hist->Write();
+    mcMuonP_hist->Write();
     mcMuonPt_hist->Write();
     mcMuonEta_hist->Write();
     mcMuonPhi_hist->Write();
@@ -5718,6 +5740,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     simTrackVx_hist->Write();
     simTrackVy_hist->Write();
     simTrackVz_hist->Write();
+    muStandAloneP_hist->Write();
+    muStandAloneUpdatedAtVtxP_hist->Write();
     muStandAlonePt_hist->Write();
     muStandAloneUpdatedAtVtxPt_hist->Write();
     muDisplacedStandAloneGenDR_hist->Write();
@@ -5782,6 +5806,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     hlt20Cha2MuonEta_hist->Write();
     hlt20Cha2MuonPhi_hist->Write();
     mu_N_hist ->Write();
+    muP_hist ->Write();
     muPt_hist ->Write();
     muEta_hist->Write();
     muPhi_hist->Write();
@@ -5791,6 +5816,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     diMu_N_hist->Write();
     diMuMass_hist->Write();    
     muCosmic_N_hist->Write();
+    muCosmicP_hist->Write();
     muCosmicPt_hist->Write();
     muCosmicEta_hist->Write();
     muCosmicPhi_hist->Write();
@@ -5800,6 +5826,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muCosmicTrackNChambersDt_hist->Write();
     muDisplacedStandAlone_N_other_cut_hist->Write();    
     muDisplacedStandAlone_N_hist->Write();
+    muDisplacedStandAloneP_hist->Write();
     muDisplacedStandAlonePt_hist->Write();
     muDisplacedStandAlonePt0_hist->Write();
     muDisplacedStandAlonePt1_hist->Write();
@@ -6002,6 +6029,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcMuon_muDisplacedStandAlone_3Dangle_hist->Write();
     mcMuon_muDisplacedStandAlone_deltaPhi_hist->Write();
     muRefittedStandAlone_N_hist->Write();
+    muRefittedStandAloneP_hist->Write();
     muRefittedStandAlonePt_hist->Write();
     muRefittedStandAloneEta_hist->Write();
     muRefittedStandAlonePhi_hist->Write();
