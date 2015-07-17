@@ -94,7 +94,7 @@ void allInOneLifetime(double lumi=4560.) {
        << '/' <<g_obs_mchamp->GetY()[0]
        <<endl;
   cout<<"mchamp2ref is: "<<mchamp2ref<<endl;
-
+  cout<<"expected limit at 1 s is: "<<g_exp->GetY()[30]<<endl;
   
   TCanvas *canvas = new TCanvas("allLifetime", "allLifetime", 1000, 600);
   
@@ -121,7 +121,7 @@ void allInOneLifetime(double lumi=4560.) {
   ExtraAxis aGluino = anotherScale (h, gluino2ref, kRed+2, "#sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BF(#tilde{g} #rightarrow g#tilde{#chi}^{0})   [pb]  ", 0.0);
   ExtraAxis aStop = anotherScale (h, stop2ref, kBlue+2, "#sigma(pp #rightarrow #tilde{t}#tilde{t}) #times BF(#tilde{t} #rightarrow t#tilde{#chi}^{0})   [pb]  ", 0.2);
   ExtraAxis aStau = anotherScale (h, stau2ref, kGreen+2, "#sigma(pp #rightarrow #tilde{#tau}#tilde{#tau}) #times BF(#tilde{#tau} #rightarrow #tau#tilde{#chi}^{0})   [pb]  ", 0.4);
-  ExtraAxis aMchamp = anotherScale (h, mchamp2ref, kBlack, "#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]  ", 0.0);
+  ExtraAxis aMchamp = anotherScale (h, mchamp2ref, kBlack, "#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]", 0.0);
 
   
   

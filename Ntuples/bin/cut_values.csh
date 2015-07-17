@@ -60,11 +60,19 @@ set OppPhiCutValue = 0.1
 #set abcdInvBetaCutValue = 0.0;
 #set abcdInvBetaCutValue = 0.2;
 set abcdInvBetaCutValue = 0.5;
+#set abcdInvBetaCutValue = 0.6;
+#set abcdInvBetaCutValue = 0.7;
 
 #set abcdPtCutValue = 35.0;
-#set abcdPtCutValue = 50.0;
+#set abcdPtCutValue = 40.0;
+#set abcdPtCutValue = 41.0;
+#set abcdPtCutValue = 42.0;
+#set abcdPtCutValue = 43.0;
+#set abcdPtCutValue = 44.0;
+#set abcdPtCutValue = 45.0;
+set abcdPtCutValue = 50.0;
 #set abcdPtCutValue = 80.0;
-set abcdPtCutValue = 100.0;
+#set abcdPtCutValue = 100.0;
 #set abcdPtCutValue = 120.0;
 #set abcdPtCutValue = 150.0;
 
