@@ -32,7 +32,7 @@
 #include "TBox.h"
 #include "TLatex.h"
 
-#include "LimitPlots.h"
+#include "DifferentXSLimitPlots.h"
 
 // .L massPlot.C+
 // massPlot("limit_summary.txt", "time_profile_summary.txt");
@@ -43,7 +43,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
     lumi=LUMI;
   if (maxInstLumi<0)
     maxInstLumi=MAXINSTLUMI;
-  LimitPlots plots(lumi);
+  DifferentXSLimitPlots plots(lumi);
 
   //mchamp index 0 is used, corresponds to 0th mass point = 100 GeV
   plots.calculateCrossSections(7,4,0,39,9);
@@ -70,7 +70,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   canvas->SetLogy();
   
   TH1 * h;
-  h = canvas->DrawFrame(100., 1e-5, 1000., 1e3);
+  h = canvas->DrawFrame(100., 1e-5, 1000., 1e4);
   h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
   //h->SetTitle("Beamgap Expt;m_{#tilde{g}} [GeV/c^{2}]; #sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BR(#tilde{g} #rightarrow g#tilde{#chi}^{0}) [pb]");
   
@@ -82,7 +82,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   
   // details
   //TPaveText* blurb = new TPaveText(305., 1.e1, 550., 4.5e2);
-  TPaveText* blurb = new TPaveText(0.25, 0.67, 0.50, 0.92, "NDC");
+  TPaveText* blurb = new TPaveText(0.25, 0.70, 0.50, 0.92, "NDC");
   blurb->AddText("CMS Preliminary 2012");
   
   std::stringstream label;
