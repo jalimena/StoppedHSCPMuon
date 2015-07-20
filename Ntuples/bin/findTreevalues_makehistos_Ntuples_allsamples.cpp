@@ -4148,11 +4148,18 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   Int_t nentries = tree->GetEntriesFast();
   //Int_t nentries = tree->GetEntries();
   cout<<"number of entries is: "<<nentries<<endl;
-  
+
+
+  //make new tree (write to same file as histograms)
+  TTree* ABCDtree = new TTree("ABCDStoppedHSCPMuonTree","");
+  StoppedHSCPMuonEvent* ABCDevent = new StoppedHSCPMuonEvent();
+  ABCDtree->Branch("events", "StoppedHSCPMuonEvent", &ABCDevent, 64000, 1);
+  cout<<"made new events branch"<<endl;
+
   //for (Int_t i=0; i<100000; i++) {
     //for (Int_t i=0; i<500000; i++) {
   for (Int_t i=0; i<nentries; i++) {
-    //for (Int_t i=0; i<2000; i++) {    
+  //for (Int_t i=0; i<2000; i++) {    
   //for (Int_t i=0; i<100; i++) {
     tree->GetEntry(i);
     //if(is_data && i%50000==0) cout<<"i is: "<<i<<endl;
@@ -4860,6 +4867,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 		    if(n_passPreselection>0){
 		      if(highestPt_index!=999){
+			ABCDevent = events;
+			ABCDtree->Fill();
 			//StoppingRegionAcceptance(events);
 			//cout<<"starting highestPt plots"<<endl;		      		      
 			
@@ -5602,6 +5611,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
   if(!doPrintout) {
     fnew->cd();
+    ABCDtree->Write();
     id_hist->Write();
     run_hist->Write();
     bx_hist->Write(); 
