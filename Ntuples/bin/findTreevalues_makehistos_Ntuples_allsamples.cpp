@@ -3840,7 +3840,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   string file_dataset_=file_dataset.substr(0,4);
   bool is_data=false;
   bool is_otherMC=false;
-  if(file_dataset_ == "NoBP" || file_dataset_ == "Sing" || file_dataset_ == "Zmum") is_data=true;
+  if(file_dataset_ == "NoBP" || file_dataset_ == "Sing" || file_dataset_ == "Zmum" || file_dataset_ == "ABCD") is_data=true;
   if(file_dataset_ == "tauP" || file_dataset_ == "doub" || file_dataset_=="mcha") is_otherMC=true;
 
   TString file = "blah";
@@ -4134,7 +4134,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -4151,7 +4152,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 
   //make new tree (write to same file as histograms)
-  TTree* ABCDtree = new TTree("ABCDStoppedHSCPMuonTree","");
+  TTree* ABCDtree = new TTree("StoppedHSCPMuonTree","");
   StoppedHSCPMuonEvent* ABCDevent = new StoppedHSCPMuonEvent();
   ABCDtree->Branch("events", "StoppedHSCPMuonEvent", &ABCDevent, 64000, 1);
   cout<<"made new events branch"<<endl;
