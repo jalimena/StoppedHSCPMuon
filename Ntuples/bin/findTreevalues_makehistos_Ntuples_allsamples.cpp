@@ -4152,7 +4152,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 
   //make new tree (write to same file as histograms)
-  TTree* ABCDtree = new TTree("StoppedHSCPMuonTree","");
+  TTree* ABCDtree = new TTree("ABCDStoppedHSCPMuonTree","");
   StoppedHSCPMuonEvent* ABCDevent = new StoppedHSCPMuonEvent();
   ABCDtree->Branch("events", "StoppedHSCPMuonEvent", &ABCDevent, 64000, 1);
   cout<<"made new events branch"<<endl;

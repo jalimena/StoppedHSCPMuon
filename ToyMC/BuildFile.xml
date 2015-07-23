@@ -1,14 +1,15 @@
-
 <use name="root"/>
+<use name="roofit"/>
+<use name="roostats"/>
 <use name="rootgraphics"/>
 <use name="boost"/>
-<use name="boost_program_options"/>
-<use name="CalibFormats/HcalObjects"/>
-<use name="CalibCalorimetry/HcalAlgos"/>
+<use name="StoppedHSCP/Analysis"/>
+<use name="StoppedHSCP/Statistics"/>
+<use name="OnlineDB/Oracle"/>
 <use name="StoppedHSCPMuon/Ntuples"/>
+<use name="StoppedHSCP/Ntuples"/>
 
 <export>
-  <use name="root"/>
-  <use name="boost"/>
-  <lib name="StoppedHSCPMuonToyMC"/>
+  <lib name="StoppedHSCPMuon/ToyMC"/>
 </export>
+

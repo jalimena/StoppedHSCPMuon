@@ -1,7 +1,7 @@
 mass		900
 crossSection	5.764E-05
 lifetime	1
-signalEff	0.011
+signalEff	0.015
 signalEff_e	0.0
 bgRate		4.476821E-3
 bgRate_e	4.130004E-4

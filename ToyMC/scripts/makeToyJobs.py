@@ -104,9 +104,15 @@ for lifetime in lifetimes:
 
     # write job script
     script = open(jobdir+'/job'+str(count)+'.sh', 'w')
+    script.write('#!/bin/sh\n')
+    script.write('export SCRAM_ARCH=slc6_amd64_gcc481\n')
+    script.write('source /cvmfs/cms.cern.ch/cmsset_default.sh\n')
+    #script.write('cd $CMSSW_BASE/src/\n')
+    script.write('cd '+os.environ['PWD']+'/../../..\n')
+    script.write('cmsenv\n')
     script.write('cd '+jobdir+'\n')
     # Use simulateMulti by default; simulate if old style specified
-    basecommand="simulateMulti"
+    basecommand="simulateMultiDelayedMuons"
     if useOld==True:
         basecommand="simulate"
     script.write('%s params'%basecommand+str(count)+'.txt >& job.log\n')
