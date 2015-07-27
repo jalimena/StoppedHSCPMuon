@@ -59,9 +59,15 @@ set OppPhiCutValue = 0.1
 #set abcdInvBetaCutValue = -0.2;
 #set abcdInvBetaCutValue = 0.0;
 #set abcdInvBetaCutValue = 0.2;
-set abcdInvBetaCutValue = 0.5;
+#set abcdInvBetaCutValue = 0.3;
+#set abcdInvBetaCutValue = 0.5;
 #set abcdInvBetaCutValue = 0.6;
-#set abcdInvBetaCutValue = 0.7;
+set abcdInvBetaCutValue = 0.7;
+#set abcdInvBetaCutValue = 0.8;
+#set abcdInvBetaCutValue = 0.9;
+#set abcdInvBetaCutValue = 1.0;
+#set abcdInvBetaCutValue = 1.3;
+#set abcdInvBetaCutValue = 1.6;
 
 #set abcdPtCutValue = 35.0;
 #set abcdPtCutValue = 40.0;
@@ -71,7 +77,7 @@ set abcdInvBetaCutValue = 0.5;
 #set abcdPtCutValue = 44.0;
 #set abcdPtCutValue = 45.0;
 #set abcdPtCutValue = 50.0;
-set abcdPtCutValue = 60.0;
+#set abcdPtCutValue = 60.0;
 #set abcdPtCutValue = 70.0;
 #set abcdPtCutValue = 80.0;
 #set abcdPtCutValue = 90.0;
@@ -79,6 +85,9 @@ set abcdPtCutValue = 60.0;
 #set abcdPtCutValue = 120.0;
 #set abcdPtCutValue = 150.0;
 #set abcdPtCutValue = 200.0;
+set abcdPtCutValue = 250.0;
+#set abcdPtCutValue = 300.0;
+#set abcdPtCutValue = 350.0;
 
 
 set cut_values = "$BxCutValue $PreNdsaCutValue $PrePtCutValue $PreChaCutValue $PreEtaCutValue $PreRpcCutValue $PreDtHitsCutValue $PreInvBetaErrCutValue $PreCscHitsCutValue $PtCutValue $ChaCutValue $EtaCutValue $RpcCutValue $DisStCutValue $DtHitsCutValue $CscHitsCutValue $DtInvBetaCutValue $TimeInOutCutValue $TimeInOutErrCutValue $OppEtaCutValue $OppPhiCutValue $abcdInvBetaCutValue $abcdPtCutValue"

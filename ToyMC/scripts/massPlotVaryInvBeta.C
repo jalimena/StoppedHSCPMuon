@@ -37,7 +37,7 @@
 // .L massPlot.C+
 // massPlot("limit_summary.txt", "time_profile_summary.txt");
 
-void massPlotVaryPt(double lumi=-1., double maxInstLumi=-1.) {
+void massPlotVaryInvBeta(double lumi=-1., double maxInstLumi=-1.) {
 	
   if (lumi<0)
     lumi=LUMI;
@@ -48,37 +48,29 @@ void massPlotVaryPt(double lumi=-1., double maxInstLumi=-1.) {
   //plots.calculateCrossSections(7,4,0,39,9);
     
 
-  const int NumFiles = 12;
-  TFile f_pt35("mchampAllMass_pt35/histos.root");
-  TFile f_pt40("mchampAllMass_pt40/histos.root");
-  TFile f_pt45("mchampAllMass_pt45/histos.root");
-  TFile f_pt50("mchampAllMass_pt50/histos.root");
-  TFile f_pt60("mchampAllMass_pt60/histos.root");
-  TFile f_pt80("mchampAllMass_pt80/histos.root");
-  TFile f_pt100("mchampAllMass_pt100/histos.root");
-  TFile f_pt150("mchampAllMass_pt150/histos.root");
-  TFile f_pt200("mchampAllMass_pt200/histos.root");
-  TFile f_pt250("mchampAllMass_pt250/histos.root");
-  TFile f_pt300("mchampAllMass_pt300/histos.root");
-  TFile f_pt350("mchampAllMass_pt350/histos.root");
+  const int NumFiles = 4;
+  //pt=35
+  TFile f_invbetaP3("mchampAllMass_invbetaP3/histos.root");
+  TFile f_invbetaP5("mchampAllMass_pt35/histos.root");
+  TFile f_invbetaP7("mchampAllMass_invbetaP7/histos.root");
+  //TFile f_invbetaP8("mchampAllMass_invbetaP8/histos.root");
+  //TFile f_invbetaP9("mchampAllMass_invbetaP9/histos.root");
+  TFile f_invbeta1("mchampAllMass_invbeta1/histos.root");
+  //TFile f_invbeta1P3("mchampAllMass_invbeta1P3/histos.root");
+  //TFile f_invbeta1P6("mchampAllMass_invbeta1P6/histos.root");
+
   
   //Graph0 is expected limit
   TGraph* m_exp_graph[NumFiles];
-  m_exp_graph[0] = (TGraph*) f_pt35.Get("Graph0");
-  m_exp_graph[1] = (TGraph*) f_pt40.Get("Graph0");
-  m_exp_graph[2] = (TGraph*) f_pt45.Get("Graph0");
-  m_exp_graph[3] = (TGraph*) f_pt50.Get("Graph0");
-  m_exp_graph[4] = (TGraph*) f_pt60.Get("Graph0");
-  m_exp_graph[5] = (TGraph*) f_pt80.Get("Graph0");
-  m_exp_graph[6] = (TGraph*) f_pt100.Get("Graph0");
-  m_exp_graph[7] = (TGraph*) f_pt150.Get("Graph0");
-  m_exp_graph[8] = (TGraph*) f_pt200.Get("Graph0");
-  m_exp_graph[9] = (TGraph*) f_pt250.Get("Graph0");
-  m_exp_graph[10] = (TGraph*) f_pt300.Get("Graph0");
-  m_exp_graph[11] = (TGraph*) f_pt350.Get("Graph0");
+  m_exp_graph[0] = (TGraph*) f_invbetaP3.Get("Graph0");
+  m_exp_graph[1] = (TGraph*) f_invbetaP5.Get("Graph0");
+  m_exp_graph[2] = (TGraph*) f_invbetaP7.Get("Graph0");
+  m_exp_graph[3] = (TGraph*) f_invbeta1.Get("Graph0");
+  //m_exp_graph[4] = (TGraph*) f_invbetaP9.Get("Graph0");
+  //m_exp_graph[5] = (TGraph*) f_invbeta1.Get("Graph0");
 
   //Graph1 is theory curve
-  TGraph* m_theory_graph = f_pt35.Get("Graph1");
+  TGraph* m_theory_graph = f_invbetaP5.Get("Graph1");
 
   TCanvas* canvas = new TCanvas("canvas");
   //canvas->SetGrid();
@@ -130,15 +122,16 @@ void massPlotVaryPt(double lumi=-1., double maxInstLumi=-1.) {
   //legbg->Draw();
   
    
-  int color[NumFiles] = {12,13,14,1,2,4,11,6,8,15,16,17}; 
-  int marker[NumFiles] = {20,21,22,23,24,25,26,27,28,29,30,31};
+  //int color[NumFiles] = {12,13,14,1,2,4,11,6,8,15,16,17}; 
+  int color[NumFiles] = {1,2,4,11};//,6,8};//,15,16,17}; 
+  int marker[NumFiles] = {20,21,22,23};//,24,25};//,26,27,28,29,30,31};
   for(int a=0; a<NumFiles; a++){
     m_exp_graph[a]->SetLineColor(color[a]);
     m_exp_graph[a]->SetMarkerStyle(marker[a]);
   }
 
 
-  char* LegFile[NumFiles] = {"Pt35","Pt40","Pt45","Pt50","Pt60","Pt80","Pt100","Pt150","Pt200","Pt250","Pt300","Pt350"};
+  char* LegFile[NumFiles] = {"InvBeta=0.3","InvBeta=0.5","InvBeta=0.7","InvBeta=1.0"};
   char LegEntry[100];
 
   //TLegend *leg = new TLegend(600., 1.e1, 900., 4e2,"95% C.L. Limits","");
@@ -202,8 +195,8 @@ void massPlotVaryPt(double lumi=-1., double maxInstLumi=-1.) {
 
   canvas->RedrawAxis();
 
-  canvas->Print("massLimit_VaryPt.pdf");
-  canvas->Print("massLimit_VaryPt.png");
+  canvas->Print("massLimit_VaryInvBeta.pdf");
+  canvas->Print("massLimit_VaryInvBeta.png");
   //canvas->Print("massLimit.C");
 
   //plots.calculateIntercepts();
