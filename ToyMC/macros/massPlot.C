@@ -119,8 +119,8 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   leg->SetBorderSize(0);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
-  leg->AddEntry(g_obs_mchamp, "Obs.: 10 #mus - 1000 s", "p");
-  leg->AddEntry(g_mchamp, "Exp.: 10 #mus - 1000 s", "l");
+  //leg->AddEntry(g_obs_mchamp, "Obs.: 10 #mus - 1000 s", "p");
+  leg->AddEntry(g_mchamp, "Exp.: 10 #mus - 1000 s", "lp");
   leg->AddEntry(g_thMchamp, "NLO+NLL Prediction", "l");
 
   //leg->AddEntry(g_thGluino, "NLO+NLL #tilde{g}", "l");
@@ -182,9 +182,10 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //g_obs_mchamp->Draw("p");
 
   //g_mchamp->SetLineColor(kBlue);
-  g_mchamp->SetLineStyle(2);
+  //g_mchamp->SetLineStyle(2);
+  g_mchamp->SetLineStyle(1);
   g_mchamp->SetLineWidth(3);
-  g_mchamp->Draw("l");
+  g_mchamp->Draw("lp");
 
   // theory line
   g_thMchamp->SetLineColor(kRed);
