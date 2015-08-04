@@ -655,6 +655,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muCosmicTrackGenParticleIndex(0),
   muCosmicTrackTriggerParticle20Index(0),
   muCosmicTrackTriggerParticle20Cha2Index(0),
+  muCosmicTrackGlobalMuonIndex(0),
   muCosmicTrackRpcHitZ(0),
   muCosmicTrackRpcHitRho(0),
   muCosmicTrackRpcHitPhi(0),
@@ -708,6 +709,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackGenParticleIndex(0),
   muStandAloneTrackTriggerParticle20Index(0),
   muStandAloneTrackTriggerParticle20Cha2Index(0),
+  muStandAloneTrackGlobalMuonIndex(0),
   muStandAloneTrackDtTofDirection(0),
   muStandAloneTrackDtTofNDof(0),
   muStandAloneTrackDtTofInverseBeta(0),
@@ -808,6 +810,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackUpdatedAtVtxGenParticleIndex(0),
   muStandAloneTrackUpdatedAtVtxTriggerParticle20Index(0),
   muStandAloneTrackUpdatedAtVtxTriggerParticle20Cha2Index(0),
+  muStandAloneTrackUpdatedAtVtxGlobalMuonIndex(0),
   muStandAloneTrackUpdatedAtVtxDtTofDirection(0),
   muStandAloneTrackUpdatedAtVtxDtTofNDof(0),
   muStandAloneTrackUpdatedAtVtxDtTofInverseBeta(0),
@@ -908,6 +911,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackGenParticleIndex(0),
   muRefittedStandAloneTrackTriggerParticle20Index(0),
   muRefittedStandAloneTrackTriggerParticle20Cha2Index(0),
+  muRefittedStandAloneTrackGlobalMuonIndex(0),
   muRefittedStandAloneTrackDtTofDirection(0),
   muRefittedStandAloneTrackDtTofNDof(0),
   muRefittedStandAloneTrackDtTofInverseBeta(0),
@@ -997,6 +1001,7 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muDisplacedStandAloneTrackGenParticleIndex(0),
   muDisplacedStandAloneTrackTriggerParticle20Index(0),
   muDisplacedStandAloneTrackTriggerParticle20Cha2Index(0),
+  muDisplacedStandAloneTrackGlobalMuonIndex(0),
   muDisplacedStandAloneTrackDtTofDirection(0),
   muDisplacedStandAloneTrackDtTofNDof(0),
   muDisplacedStandAloneTrackDtTofInverseBeta(0),
@@ -1598,6 +1603,7 @@ void StoppedHSCPMuonEvent::addCosmicMuonTrack(Track track) {
   muCosmicTrackGenParticleIndex.push_back(track.genParticleIndex);
   muCosmicTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muCosmicTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muCosmicTrackGlobalMuonIndex.push_back(track.globalMuonIndex);
   muCosmicTrackRpcHitZ.push_back(track.rpcHitZ);
   muCosmicTrackRpcHitRho.push_back(track.rpcHitRho);
   muCosmicTrackRpcHitPhi.push_back(track.rpcHitPhi);
@@ -1654,6 +1660,7 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muStandAloneTrackGlobalMuonIndex.push_back(track.globalMuonIndex);
   muStandAloneTrackCscSegEndcap.push_back(track.cscSegEndcap);
   muStandAloneTrackCscSegRing.push_back(track.cscSegRing);
   muStandAloneTrackCscSegStation.push_back(track.cscSegStation);
@@ -1757,6 +1764,7 @@ void StoppedHSCPMuonEvent::addStandAloneMuonUpdatedAtVtx(Track track) {
   muStandAloneTrackUpdatedAtVtxGenParticleIndex.push_back(track.genParticleIndex);
   muStandAloneTrackUpdatedAtVtxTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muStandAloneTrackUpdatedAtVtxTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muStandAloneTrackUpdatedAtVtxGlobalMuonIndex.push_back(track.globalMuonIndex);
   muStandAloneTrackUpdatedAtVtxCscSegEndcap.push_back(track.cscSegEndcap);
   muStandAloneTrackUpdatedAtVtxCscSegRing.push_back(track.cscSegRing);
   muStandAloneTrackUpdatedAtVtxCscSegStation.push_back(track.cscSegStation);
@@ -1860,6 +1868,7 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muRefittedStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muRefittedStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muRefittedStandAloneTrackGlobalMuonIndex.push_back(track.globalMuonIndex);
   muRefittedStandAloneTrackRpcHitZ.push_back(track.rpcHitZ);
   muRefittedStandAloneTrackRpcHitRho.push_back(track.rpcHitRho);
   muRefittedStandAloneTrackRpcHitPhi.push_back(track.rpcHitPhi);
@@ -1952,6 +1961,7 @@ void StoppedHSCPMuonEvent::addDisplacedStandAloneMuon(Track track) {
   muDisplacedStandAloneTrackGenParticleIndex.push_back(track.genParticleIndex);
   muDisplacedStandAloneTrackTriggerParticle20Index.push_back(track.triggerParticle20Index);
   muDisplacedStandAloneTrackTriggerParticle20Cha2Index.push_back(track.triggerParticle20Cha2Index);
+  muDisplacedStandAloneTrackGlobalMuonIndex.push_back(track.globalMuonIndex);
   muDisplacedStandAloneTrackRpcHitZ.push_back(track.rpcHitZ);
   muDisplacedStandAloneTrackRpcHitRho.push_back(track.rpcHitRho);
   muDisplacedStandAloneTrackRpcHitPhi.push_back(track.rpcHitPhi);

@@ -21,9 +21,9 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1)
 process.GlobalTag.globaltag = 'PRE_STA72_V6::All' #for 72X reco signal MC of 2012 MC
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 #process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
-#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
 
 # input files
 readFiles = cms.untracked.vstring()
@@ -45,7 +45,7 @@ readFiles.extend( [
         #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_oldApplyVtx.root"
         #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim.root"
         #"file:../../Simulation/reco/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_updatedSim_500events.root"
-        "file:../../../MuonParticleGunReco/step3_RAW2DIGI_HLT_L1Reco_RECO_SingleMuPt250.root"
-        #"file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneT2star_8TeV-pythia6/reco_mchamp500_separateEvents_particle0_725_updatedSim/655df90bb572050a07f3ffb747967383/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_1_1_0Cs.root"
+        #"file:../../../MuonParticleGunReco/step3_RAW2DIGI_HLT_L1Reco_RECO_SingleMuPt250.root"
+        "file:/mnt/hadoop/store/user/jalimena/HSCPmchamp6_M-500_TuneT2star_8TeV-pythia6/reco_mchamp500_separateEvents_particle0_725_updatedSim/655df90bb572050a07f3ffb747967383/step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp500_1_1_0Cs.root"
 
         ] );

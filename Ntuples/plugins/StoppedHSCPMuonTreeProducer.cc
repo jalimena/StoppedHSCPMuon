@@ -238,6 +238,8 @@ private:
   int getTriggerObjectMatch20(const edm::Event&, std::vector<reco::Track>::const_iterator);
   int getTriggerObjectMatch20Cha2(const edm::Event&, reco::TrackRef);
   int getTriggerObjectMatch20Cha2(const edm::Event&, std::vector<reco::Track>::const_iterator);
+  int getGlobalMuonMatch(const edm::Event&, reco::TrackRef);
+  int getGlobalMuonMatch(const edm::Event&, std::vector<reco::Track>::const_iterator);
 
   /// write trigger info
   void doTrigger(const edm::Event&, const edm::EventSetup&);
@@ -2846,6 +2848,90 @@ int StoppedHSCPMuonTreeProducer::getTriggerObjectMatch20Cha2(const edm::Event& i
 
 }
 
+//simple matching between standalone muon and global muon
+int StoppedHSCPMuonTreeProducer::getGlobalMuonMatch(const edm::Event& iEvent, reco::TrackRef Track) {
+  double minDeltaR=999;
+  int globalMuIndex=-999;
+
+  // loop over reco muons
+  edm::Handle<reco::MuonCollection> muons;
+  iEvent.getByLabel(muonTag_,muons);
+
+  if (muons.isValid()) {
+    // sort muons by pt
+    std::vector<Muon> muons_;
+    muons_.insert(muons_.end(), muons->begin(), muons->end());
+    std::sort(muons_.begin(), muons_.end(), muon_pt() );
+     
+    for(size_t i=0; i<muons_.size(); i++){
+      //std::cout<<"i is: "<<i<<std::endl;
+      const reco::Muon& mu1 = muons_.at(i);
+      reco::TrackRef tunePTrack = mu1.tunePMuonBestTrack();	
+      
+      //if(mu1.isGlobalMuon() && mu1.isTrackerMuon() && mu1.isStandAloneMuon()){
+	
+	// Calculate deltaR between this global muon and the standalone or refitted standalone muon track
+	//use tuneP info
+	double dR=deltaR(Track->eta(),Track->phi(),tunePTrack->eta(),tunePTrack->phi());
+	std::cout<<"track eta is: "<<Track->eta()<<", track phi is: "<<Track->phi()<<std::endl;
+	std::cout<<"global muon eta is: "<<tunePTrack->eta()<<", global muon phi is: "<<tunePTrack->phi()<<", global muon index is: "<<i<<std::endl;
+	std::cout<<"dR is: "<<dR<<std::endl;
+	if (dR<minDeltaR) {
+	  minDeltaR = dR;
+	  globalMuIndex = i;
+	  std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	}
+	//}//end of if global and standalone and tracker muon
+    }// end of muons
+  }//end of if global muons collection is valid
+
+  if (minDeltaR<recoGenDeltaR_) return globalMuIndex;
+  else return -999;
+
+}//end of getGlobalMuonMatch
+
+
+//simple matching between standalone muon and global muon
+int StoppedHSCPMuonTreeProducer::getGlobalMuonMatch(const edm::Event& iEvent, std::vector<reco::Track>::const_iterator it) {
+  double minDeltaR=999;
+  int globalMuIndex=-999;
+
+  // loop over reco muons
+  edm::Handle<reco::MuonCollection> muons;
+  iEvent.getByLabel(muonTag_,muons);
+
+  if (muons.isValid()) {
+    // sort muons by pt
+    std::vector<Muon> muons_;
+    muons_.insert(muons_.end(), muons->begin(), muons->end());
+    std::sort(muons_.begin(), muons_.end(), muon_pt() );
+     
+    for(size_t i=0; i<muons_.size(); i++){
+      //std::cout<<"i is: "<<i<<std::endl;
+      const reco::Muon& mu1 = muons_.at(i);
+      reco::TrackRef tunePTrack = mu1.tunePMuonBestTrack();	
+      
+      //if(mu1.isGlobalMuon() && mu1.isTrackerMuon() && mu1.isStandAloneMuon()){
+	
+	// Calculate deltaR between this global muon and the standalone or refitted standalone muon track
+	//use tuneP info
+	double dR=deltaR(it->eta(),it->phi(),tunePTrack->eta(),tunePTrack->phi());
+	std::cout<<"track eta is: "<<it->eta()<<", track phi is: "<<it->phi()<<std::endl;
+	std::cout<<"global muon eta is: "<<tunePTrack->eta()<<", global muon phi is: "<<tunePTrack->phi()<<", global muon index is: "<<i<<std::endl;
+	std::cout<<"dR is: "<<dR<<std::endl;
+	if (dR<minDeltaR) {
+	  minDeltaR = dR;
+	  globalMuIndex = i;
+	  std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+	}
+	//}//end of if global and standalone and tracker muon
+    }// end of muons
+  }//end of if global muons collection is valid
+
+  if (minDeltaR<recoGenDeltaR_) return globalMuIndex;
+  else return -999;
+
+}//end of getGlobalMuonMatch
 
 
 void StoppedHSCPMuonTreeProducer::doTrigger(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
@@ -3971,6 +4057,12 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuons(const edm::Event& iEvent, co
 	int TriggerParticle20Cha2Index = -1;
 	TriggerParticle20Cha2Index = getTriggerObjectMatch20Cha2(iEvent, standAloneTrack);
 	track.triggerParticle20Cha2Index = TriggerParticle20Cha2Index;
+
+	//matching global muon index
+	//if no matched global muon, index will be -999
+	int GlobalMuonIndex = -1;
+	GlobalMuonIndex = getGlobalMuonMatch(iEvent, standAloneTrack);
+	track.globalMuonIndex = GlobalMuonIndex;
 	
 	//Loop over the DT hits in the track
 	//for( int counter = 0; counter<standAloneTrack->hitPattern().numberOfValidMuonDTHits(); counter++) {
@@ -4403,6 +4495,12 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuonsUpdatedAtVtx(const edm::Event
 	int TriggerParticle20Cha2Index = -1;
 	TriggerParticle20Cha2Index = getTriggerObjectMatch20Cha2(iEvent, standAloneTrack);
 	track.triggerParticle20Cha2Index = TriggerParticle20Cha2Index;
+
+	//matching global muon index
+	//if no matched global muon, index will be -999
+	int GlobalMuonIndex = -1;
+	GlobalMuonIndex = getGlobalMuonMatch(iEvent, standAloneTrack);
+	track.globalMuonIndex = GlobalMuonIndex;
 	
 	//Loop over the DT hits in the track
 	//for( int counter = 0; counter<standAloneTrack->hitPattern().numberOfValidMuonDTHits(); counter++) {
@@ -4765,6 +4863,12 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
       if(!isMC_) TriggerParticle20Cha2Index = getTriggerObjectMatch20Cha2(iEvent, it);
       track.triggerParticle20Cha2Index = TriggerParticle20Cha2Index;
 
+      //matching global muon index
+      //if no matched global muon, index will be -999
+      int GlobalMuonIndex = -1;
+      GlobalMuonIndex = getGlobalMuonMatch(iEvent, it);
+      track.globalMuonIndex = GlobalMuonIndex;
+      
       std::vector<int> cscSegEndcap_;
       std::vector<int> cscSegRing_;
       std::vector<int> cscSegStation_;
@@ -5173,6 +5277,13 @@ void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons(const edm::Event& i
       int TriggerParticle20Cha2Index = -1;
       if(!isMC_) TriggerParticle20Cha2Index = getTriggerObjectMatch20Cha2(iEvent, it);
       track.triggerParticle20Cha2Index = TriggerParticle20Cha2Index;
+
+      //matching global muon index
+      //if no matched global muon, index will be -999
+      int GlobalMuonIndex = -1;
+      GlobalMuonIndex = getGlobalMuonMatch(iEvent, it);
+      track.globalMuonIndex = GlobalMuonIndex;
+      std::cout<<"getting global muon match index for DSA is: "<<GlobalMuonIndex<<std::endl;
 
       std::vector<int> cscSegEndcap_;
       std::vector<int> cscSegRing_;

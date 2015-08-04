@@ -877,6 +877,7 @@ private:
   void printout_SA_UpdatedAtVtx(StoppedHSCPMuonEvent*);
   void printout_RSA(StoppedHSCPMuonEvent*);
   void printout_cosmic(StoppedHSCPMuonEvent*);
+  void printout_tuneP_global(StoppedHSCPMuonEvent*);
   void printout_L2(StoppedHSCPMuonEvent*);
   void printout_L1(StoppedHSCPMuonEvent*);
 
@@ -1846,7 +1847,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::genMuMatch(StoppedHSCPMuonEve
     for (UInt_t k=0; k<events->mu_RefittedStandAlone_N; k++) {
       if(events->mcMuonGenIndex[j] == events->muRefittedStandAloneTrackGenParticleIndex[k]) genMuMatched_RSA_index[k] = j;
     }
-    for (UInt_t k=0; k<events->mu_StandAlone_N; k++) {
+    for (UInt_t k=0; k<events->mu_CosmicTrack_N; k++) {
       if(events->mcMuonGenIndex[j] == events->muCosmicTrackGenParticleIndex[k]) genMuMatched_cosmic_index[k] = j;
     }
   }
@@ -3481,7 +3482,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_DSA( StoppedHSCPMuon
     cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[j];
     cout  << fixed << setw(7) << events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[j];
     cout  << fixed << setw(11) << events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[j];
-    cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofNDof[j]<<endl;
+    cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackDtTofNDof[j];
+    cout  << fixed << setw(5) << events->muDisplacedStandAloneTrackGlobalMuonIndex[j]<<endl;   
     line++;
   }//end of loop over DSA muons
 }//end of printout_DSA()
@@ -3696,6 +3698,65 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_cosmic( StoppedHSCPM
     line++;
   }//end of loop over cosmic muons
 }//end of printout_cosmic()
+
+void findTreevalues_makehistos_Ntuples_allsamples::printout_tuneP_global( StoppedHSCPMuonEvent* events){
+  //cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl; 
+  //line++;
+
+  for (UInt_t j=0; j<events->mu_N; j++) {	    
+    //TString BXs = " ";
+    //for (UInt_t k=0; k<events->muTunePglobalTrackRpcHitZ.at(j).size(); k++) {
+      //cout<<"bx for hit "<<k<<" is: "<<events->muTunePglobalTrackRpcHitBx.at(j).at(k)<<endl; 
+      //string each_bx;
+      //ostringstream convert;
+      //convert<<events->muTunePglobalTrackRpcHitBx.at(j).at(k);
+      //each_bx = convert.str();
+      //cout<<"each_bx for hit "<<k<<" is: "<<each_bx<<endl; 
+      //BXs = BXs + each_bx + " ";
+    //}
+    //cout<<"BXs is: "<<BXs<<endl;
+
+    //double segment_dPhi, segment_dEta;
+    //double segment_dR = dR_OppositeSeg(events, j, segment_dPhi, segment_dEta); 
+
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
+    cout  << setw(8) << "Glo"<<j;
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->muTunePpt[j];
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->muTunePeta[j];
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->muTunePphi[j];
+    cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->muTunePcharge[j];
+    cout  << fixed << setprecision(X2DOFPrecision) << setw(7) << events->muTunePnormalizedChi2[j];
+    //cout  << fixed << setw(14) << BXs;
+    cout  << fixed << setw(14) << " ";
+    cout  << fixed << setw(5) << events->muIsStandAloneMuon[j]; 
+    cout  << fixed << setw(5) << events->muIsGlobalMuon[j];  
+    //cout  << fixed << setw(5) << events->muTunePNValidMuonHits[j]; 
+    //cout  << fixed << setw(5) << events->muTunePNValidCscHits[j];  
+    //cout  << fixed << setw(5) << events->muTunePNValidDtHits[j];
+    //cout  << fixed << setw(5) << events->muTunePRpcHitZ.at(j).size();
+    //cout  << fixed << setw(5) << events->muTunePNValidRpcHits[j];
+    //cout  << fixed << setw(5) << events->muTunePNStationsWithValidHits[j];
+    //cout  << fixed << setw(5) << events->muTunePNCscChambersWithValidHits[j];
+    if(events->muIsStandAloneMuon[j]) cout  << fixed << setw(5) << events->muSAnDtChambersWithValidHits[j];
+    //cout  << fixed << setw(5) << events->muTunePNRpcChambersWithValidHits[j];
+    //cout  << fixed << setw(5) << events->muTunePglobalTofDirection[j];
+    cout  << fixed << setw(5) << " ";
+    //cout  << fixed << setprecision(TimeAtIpInOutPrecision) << setw(7) << events->muTunePglobalTofTimeAtIpInOut[j];
+    cout  << fixed << setw(7) << " ";
+    //cout  << fixed << setw(7) << events->muTunePDtTofInverseBetaLS[j];
+    cout  << fixed << setw(7) << " ";
+    cout  << fixed << setw(7) << " ";
+    //cout  << fixed << setw(11) << events->muTunePDtTofInverseBetaLSErr[j];
+    cout  << fixed << setw(11) << " ";
+    //cout  << fixed << setw(5) << events->muTunePDtTofChi2Dof[j];
+    //cout  << fixed << setw(5) << segment_dEta << endl;
+    //cout  << fixed << setw(5) << segment_dPhi << endl;
+    cout  << fixed << setw(5) << " " << endl;
+    line++;
+  }//end of loop over tunePglobal muons
+}//end of printout_tunePglobal()
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_L2( StoppedHSCPMuonEvent* events){
   //cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
@@ -4197,8 +4258,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
-  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -4515,34 +4576,36 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    
 		    if(doPrintout){
 		      //if(doDuplicatePrintout){
-			//if(n_passPreselection>0){
-			  //if(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[presel0_index]>20){
-			  //if(events->DTSegment_N>20){
-			  //if(events->cscSeg_N>0){
-			  //if(highestPt_index!=999 || (n_Upper>0 && n_Lower>0)){
-			  //if(highestPt_index!=999){
-			  //if((n_Upper>0 && n_Lower>0)){
-			//if(upper_index!=999 && lower_index!=999){
-			//if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index]!=-999. && events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index]!=-999.){
-				//if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index]<20.){
-				//if(pass_TofDir_2){
-				//if(pass_charge_2){
-				//if(!is_data) printout_gen(events);
-				//cout<<"event number is: "<<events->id<<endl;
-
-				//printout_setup(events);
-				//printout_gen(events);
-				//printout_SA(events);
-				//printout_RSA(events);
-				//printout_cosmic(events);
-				//printout_L2(events);
-				//printout_L1(events);
-
-				//nPrintedOutEvents++;
-				//}
-				//}
-				//}
-				//}
+		      //if(n_passPreselection>0){
+		      //if(events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[presel0_index]>20){
+		      //if(events->DTSegment_N>20){
+		      //if(events->cscSeg_N>0){
+		      //if(highestPt_index!=999 || (n_Upper>0 && n_Lower>0)){
+		      //if(highestPt_index!=999){
+		      //if((n_Upper>0 && n_Lower>0)){
+		      //if(upper_index!=999 && lower_index!=999){
+		      //if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index]!=-999. && events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index]!=-999.){
+		      //if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index]<20.){
+		      //if(pass_TofDir_2){
+		      //if(pass_charge_2){
+		      //if(!is_data) printout_gen(events);
+		      //cout<<"event number is: "<<events->id<<endl;
+		      
+		      printout_setup(events,is_data);
+		      printout_gen(events);
+		      printout_DSA(events);
+		      printout_SA(events);
+		      printout_RSA(events);
+		      printout_cosmic(events);
+		      printout_tuneP_global(events);
+		      printout_L2(events);
+		      printout_L1(events);
+		      
+		      nPrintedOutEvents++;
+		      //}
+		      //}
+		      //}
+		      //}
 		    }
 
 		    //cout<<"finished printouts"<<endl;
