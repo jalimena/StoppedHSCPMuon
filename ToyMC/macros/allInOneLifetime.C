@@ -14,6 +14,9 @@
 
 #include "ExtraLimitPlots.h"
 
+#include "tdrstyle.C"
+#include "CMS_lumi.C"
+
 struct ExtraAxis {
   vector<TObject*> objects;
   void Add (TObject* object) {objects.push_back(object);}
@@ -66,6 +69,17 @@ ExtraAxis anotherScale (const TH1* refHist, double scale, int color, const char*
 //void allInOneLifetime(double lumi=4560., double maxInstLumi=5000.) {
 void allInOneLifetime(double lumi=4560.) {
 
+  setTDRStyle();
+  //tdrGrid(false, tdrStyle);
+  
+  writeExtraText = true;
+  //extraText  = "Preliminary Simulation"; 
+  //lumi_8TeV = "";
+  int iPeriod = 2; // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
+  int iPos=0;
+  //int iPos=11;
+  //int iPos=22;
+
   ExtraLimitPlots plots(lumi);
 
   //mchamp index 0 is used, corresponds to 0th mass point = 100 GeV
@@ -96,7 +110,7 @@ void allInOneLifetime(double lumi=4560.) {
   cout<<"mchamp2ref is: "<<mchamp2ref<<endl;
   cout<<"expected limit at 1 s is: "<<g_exp->GetY()[30]<<endl;
   
-  TCanvas *canvas = new TCanvas("allLifetime", "allLifetime", 1000, 600);
+  TCanvas *canvas = new TCanvas("allLifetime", "allLifetime",10,10,700,500);
   
   canvas->SetLogx();
   canvas->SetLogy();
@@ -121,10 +135,11 @@ void allInOneLifetime(double lumi=4560.) {
   ExtraAxis aGluino = anotherScale (h, gluino2ref, kRed+2, "#sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BF(#tilde{g} #rightarrow g#tilde{#chi}^{0})   [pb]  ", 0.0);
   ExtraAxis aStop = anotherScale (h, stop2ref, kBlue+2, "#sigma(pp #rightarrow #tilde{t}#tilde{t}) #times BF(#tilde{t} #rightarrow t#tilde{#chi}^{0})   [pb]  ", 0.2);
   ExtraAxis aStau = anotherScale (h, stau2ref, kGreen+2, "#sigma(pp #rightarrow #tilde{#tau}#tilde{#tau}) #times BF(#tilde{#tau} #rightarrow #tau#tilde{#chi}^{0})   [pb]  ", 0.4);
-  ExtraAxis aMchamp = anotherScale (h, mchamp2ref, kBlack, "#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]", 0.0);
+  //ExtraAxis aMchamp = anotherScale (h, mchamp2ref, kBlack, "#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]", 0.0);
+  ExtraAxis aMchamp = anotherScale (h, mchamp2ref, kBlack, "#sigma(pp #rightarrow mchamp mchamp) [pb]", 0.0);
 
   
-  
+  /*
   //TPaveText* blurb = new TPaveText(0.25, 0.57, 0.50, 0.87, "NDC");
   TPaveText* blurb = new TPaveText(0.25, 0.67, 0.50, 0.92, "NDC");
 
@@ -145,7 +160,7 @@ void allInOneLifetime(double lumi=4560.) {
   //blurb->AddText("CMS 2011");
   blurb->AddText("#int L dt = 19.7 fb^{-1}");//,  #int L_{eff} dt = 935 pb^{-1}");
   //blurb->AddText("L^{max}_{inst} = 3.5 #times 10^{33} cm^{-2}s^{-1}");
-  blurb->AddText("#sqrt{s} = 8 TeV");
+  //blurb->AddText("#sqrt{s} = 8 TeV");
   //blurb->AddText("E_{gluon} > 120 GeV, E_{top} > 150 GeV");
   //blurb->AddText("m_{#tilde{g}} = 300 GeV/c^{2}");
   //blurb->AddText("m_{#tilde{#chi}^{0}} = 200 GeV/c^{2}");
@@ -156,7 +171,7 @@ void allInOneLifetime(double lumi=4560.) {
   blurb->SetTextAlign(12);
   blurb->SetTextSize(0.033);
   blurb->Draw();
-  
+  */
   
   // 2 sigma band
   if (g_exp_2sig) {
@@ -268,6 +283,8 @@ void allInOneLifetime(double lumi=4560.) {
   //aStop.Draw();
   //aStau.Draw();
   aMchamp.Draw();
+
+  CMS_lumi(canvas, iPeriod, iPos);
 
   canvas->Print("allInOneLifetime.png");
   canvas->Print("allInOneLifetime.pdf");

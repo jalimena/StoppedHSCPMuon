@@ -34,10 +34,24 @@
 
 #include "DifferentXSLimitPlots.h"
 
+#include "tdrstyle.C"
+#include "CMS_lumi.C"
+
 // .L massPlot.C+
 // massPlot("limit_summary.txt", "time_profile_summary.txt");
 
 void massPlot(double lumi=-1., double maxInstLumi=-1.) {
+
+  setTDRStyle();
+  //tdrGrid(false, tdrStyle);
+
+  writeExtraText = true;
+  //extraText  = "Preliminary Simulation"; 
+  //lumi_8TeV = ""; 
+  int iPeriod = 2; // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
+  int iPos=0;
+  //int iPos=11;
+  //int iPos=22;
 	
   if (lumi<0)
     lumi=LUMI;
@@ -64,14 +78,15 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   TGraph* g_thStop = plots.getStopTheory();
   TGraph* g_thMchamp = plots.getMchampTheory();
   
-  TCanvas* canvas = new TCanvas("canvas");
+  TCanvas* canvas = new TCanvas("canvas","",10,10,700,500);
   
   //canvas->SetGrid();
   canvas->SetLogy();
   
   TH1 * h;
   h = canvas->DrawFrame(100., 1e-5, 1000., 1e4);
-  h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
+  h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mchamp mchamp) [pb]");
+  //h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
   //h->SetTitle("Beamgap Expt;m_{#tilde{g}} [GeV/c^{2}]; #sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BR(#tilde{g} #rightarrow g#tilde{#chi}^{0}) [pb]");
   
   // not covered region
@@ -80,6 +95,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   nc->SetFillColor(kRed-4);
   //nc->Draw();
   
+  /*
   // details
   //TPaveText* blurb = new TPaveText(305., 1.e1, 550., 4.5e2);
   TPaveText* blurb = new TPaveText(0.25, 0.70, 0.50, 0.92, "NDC");
@@ -108,7 +124,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   blurb->SetShadowColor(0);
   blurb->SetTextAlign(12);
   blurb->SetTextSize(0.033);
-  
+  */
   
   // legend
   TBox *legbg = new TBox(600., 1.e1, 900., 4e2);
@@ -222,9 +238,11 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   ne->SetTextSize(0.035);
   //ne->Draw();
 
-  blurb->Draw();
+  //blurb->Draw();
 
   canvas->RedrawAxis();
+
+  CMS_lumi(canvas, iPeriod, iPos);
 
   canvas->Print("massLimit.pdf");
   canvas->Print("massLimit.png");

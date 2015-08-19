@@ -30,6 +30,10 @@ cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/ExtraLimitPlots.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/DifferentXSLimitPlots.h $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/DifferentXSLimitPlots.C $dataset/.
 
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/tdrstyle.C $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/CMS_lumi.C $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/CMS_lumi.h $dataset/.
+
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/modelIndLimit.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/gluinoLimit.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/stopLimit.C $dataset/.
