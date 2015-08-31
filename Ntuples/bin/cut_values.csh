@@ -85,15 +85,19 @@ set abcdInvBetaCutValue = 0.5;
 #set abcdPtCutValue = 80.0;
 #set abcdPtCutValue = 90.0;
 #set abcdPtCutValue = 100.0;
-#set abcdPtCutValue = 110.0;
+set abcdPtCutValue = 110.0;
 #set abcdPtCutValue = 120.0;
 #set abcdPtCutValue = 140.0;
 #set abcdPtCutValue = 150.0;
 #set abcdPtCutValue = 170.0;
-set abcdPtCutValue = 200.0;
+#set abcdPtCutValue = 200.0;
 #set abcdPtCutValue = 250.0;
 #set abcdPtCutValue = 300.0;
 #set abcdPtCutValue = 350.0;
 
+set abInvBetaCutValue = -0.7;
+set cInvBetaCutValue = 0.7;
+set acPtCutValue = 60.0;
+set bPtCutValue = 200.0;
 
-set cut_values = "$BxCutValue $PreNdsaCutValue $PrePtCutValue $PreChaCutValue $PreEtaCutValue $PreRpcCutValue $PreDtHitsCutValue $PreInvBetaErrCutValue $PreCscHitsCutValue $PtCutValue $ChaCutValue $EtaCutValue $RpcCutValue $DisStCutValue $DtHitsCutValue $CscHitsCutValue $DtInvBetaCutValue $TimeInOutCutValue $TimeInOutErrCutValue $OppEtaCutValue $OppPhiCutValue $DxyCutValue $abcdInvBetaCutValue $abcdPtCutValue"
+set cut_values = "$BxCutValue $PreNdsaCutValue $PrePtCutValue $PreChaCutValue $PreEtaCutValue $PreRpcCutValue $PreDtHitsCutValue $PreInvBetaErrCutValue $PreCscHitsCutValue $PtCutValue $ChaCutValue $EtaCutValue $RpcCutValue $DisStCutValue $DtHitsCutValue $CscHitsCutValue $DtInvBetaCutValue $TimeInOutCutValue $TimeInOutErrCutValue $OppEtaCutValue $OppPhiCutValue $DxyCutValue $abcdInvBetaCutValue $abcdPtCutValue $abInvBetaCutValue $cInvBetaCutValue $acPtCutValue $bPtCutValue"

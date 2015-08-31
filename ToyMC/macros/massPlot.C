@@ -68,7 +68,10 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
 
   TGraph* g_obs_mchamp = plots.getMassLimitMchamp();
   TGraph* g_mchamp = plots.getExpMassLimitMchamp();
-  
+
+  TGraphAsymmErrors* g_exp_1sig = plots.getExpMassLimitMchamp1Sig();  
+  TGraphAsymmErrors* g_exp_2sig = plots.getExpMassLimitMchamp2Sig();  
+
   // one point from lifetime fit
   TGraph* g_tpg = plots.getMassLimitGluinoTP();
   TGraph* g_tps = plots.getMassLimitStopTP();
@@ -193,6 +196,26 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
 
 
   // mchamp curves
+  // 2 sigma band
+  g_exp_2sig->SetLineColor(0);
+  g_exp_2sig->SetLineStyle(0);
+  g_exp_2sig->SetLineWidth(0);
+  g_exp_2sig->SetFillColor(kYellow);
+  g_exp_2sig->SetFillStyle(1001);
+  g_exp_2sig->Draw("3");
+
+  // 1 sigma band 
+  // g_exp_1sig->SetLineColor(8);                                                                                                                                                           
+  g_exp_1sig->SetLineColor(0);
+  g_exp_1sig->SetLineStyle(0);
+  g_exp_1sig->SetLineWidth(0);
+  // g_exp_1sig->SetFillColor(8);                                                                                                                                                           
+  g_exp_1sig->SetFillColor(kGreen);
+  g_exp_1sig->SetFillStyle(1001);
+  // g_exp_1sig->SetFillStyle(3005);                                                                                                                                                        
+  g_exp_1sig->Draw("3");
+  // g_exp_1sig->Draw("lX");                                                                                                                                                                
+
   g_obs_mchamp->SetLineStyle(1);
   g_obs_mchamp->SetLineWidth(3);
   //g_obs_mchamp->Draw("p");
@@ -201,6 +224,8 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //g_mchamp->SetLineStyle(2);
   g_mchamp->SetLineStyle(1);
   g_mchamp->SetLineWidth(3);
+  g_mchamp->SetMarkerStyle(20);
+  g_mchamp->SetMarkerSize(1.3);
   g_mchamp->Draw("lp");
 
   // theory line
