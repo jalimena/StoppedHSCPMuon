@@ -4404,8 +4404,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
-  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -4697,9 +4697,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		//don't do trigger turn on
 		else {	     
 		  //pass trigger
-		  if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu10NoVertexNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum") || (file_dataset_ == "ABCD")){
+		  //if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu10NoVertexNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum") || (file_dataset_ == "ABCD")){
 		  //if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->l1SingleMu6NoBptx[2] ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum")){
-		    pass_10trigger_cut++;
+		  //pass_10trigger_cut++;
 		  if ( (doTriggerCut && file_dataset_ != "Zmum" && (events->hltL2Mu20NoVertexNoBptx3BX || events->hltL2Mu30NoVertexNoBptx3BX || events->hltL2Mu20NoVertexNoBptx3BXNoHalo || events->hltL2Mu30NoVertexNoBptx3BXNoHalo || events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo || events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo ) ) || (!doTriggerCut) || (file_dataset_ == "Zmum")){
 		    pass_trigger_cut++;
 		    //cout<<"finished trigger cut"<<endl;
@@ -5970,7 +5970,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      //}//end of select few cosmics with weird times
 		    }//end of plot upper and lower
 		    
-		  }
+		    //}
 		  }//end of pass trigger
 		}//end of if not doTriggerTurnOn
 		//} //end doSACut
