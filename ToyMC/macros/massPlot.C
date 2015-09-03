@@ -82,7 +82,14 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   TGraph* g_thMchamp = plots.getMchampTheory();
   
   TCanvas* canvas = new TCanvas("canvas","",10,10,700,500);
-  
+
+  Double_t x[10], y[10];
+  cout<<"MCHAMP EXPECTED LIMITS ARE: "<<endl;
+  for(Int_t i=0; i<g_mchamp->GetN(); i++){
+    g_mchamp->GetPoint(i, x[i], y[i]);
+    cout<<" mass is: "<<x[i]<<", limit is: "<<y[i]<<endl;
+  }
+
   //canvas->SetGrid();
   canvas->SetLogy();
   
