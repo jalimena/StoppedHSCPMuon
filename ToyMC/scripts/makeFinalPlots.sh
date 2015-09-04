@@ -45,14 +45,14 @@ cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/mchampMass.C   $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcGluino.txt $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcStop.txt $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcStau.txt $dataset/.
-#cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcMchamp.txt $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcMchamp.txt $dataset/.
 
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/allInOneLifetime.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/gluinostopMassLifetime.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/excludedRegion.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/excludedRegionStop.C $dataset/.
 
-cp $dataset/toymc/summary.txt $dataset/toymc.txt
+#cp $dataset/toymc/summary.txt $dataset/toymc.txt
 
 cd $dataset
 

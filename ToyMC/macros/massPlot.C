@@ -142,13 +142,16 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   TBox *legbg = new TBox(600., 1.e1, 900., 4e2);
   //legbg->Draw();
   //TLegend *leg = new TLegend(600., 1.e1, 900., 4e2,"95% C.L. Limits","");
-  TLegend* leg = new TLegend(0.67, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
+  //TLegend* leg = new TLegend(0.67, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
+  TLegend* leg = new TLegend(0.57, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
   leg->SetTextSize(0.033);
   leg->SetBorderSize(0);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
-  leg->AddEntry(g_obs_mchamp, "Obs.: 10 #mus - 1000 s", "lp");
-  leg->AddEntry(g_mchamp, "Exp.: 10 #mus - 1000 s", "l");
+  leg->AddEntry(g_obs_mchamp, "Observed, 10 #mus - 1000 s", "lp");
+  leg->AddEntry(g_mchamp, "Expected, 10 #mus - 1000 s", "l");
+  leg->AddEntry(g_exp_1sig, "Expected #pm1#sigma, 10 #mus - 1000 s", "lf");
+  leg->AddEntry(g_exp_2sig, "Expected #pm2#sigma, 10 #mus - 1000 s", "lf");
   leg->AddEntry(g_thMchamp, "LO Prediction", "l");
 
   //leg->AddEntry(g_thGluino, "NLO+NLL #tilde{g}", "l");

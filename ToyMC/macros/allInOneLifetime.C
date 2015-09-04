@@ -44,7 +44,7 @@ ExtraAxis anotherScale (const TH1* refHist, double scale, int color, const char*
   axis->SetTextColor (color);
   axis->SetLabelColor (color);
   axis->SetLabelOffset (0.);
-  axis->SetTitleOffset (0.65);
+  axis->SetTitleOffset (0.75);
   axis->SetTickSize(0.015);	
   result.Add (axis);
 
@@ -110,7 +110,8 @@ void allInOneLifetime(double lumi=4560.) {
   cout<<"mchamp2ref is: "<<mchamp2ref<<endl;
   cout<<"expected limit at 1 s is: "<<g_exp->GetY()[30]<<endl;
   
-  TCanvas *canvas = new TCanvas("allLifetime", "allLifetime",10,10,700,500);
+  //TCanvas *canvas = new TCanvas("allLifetime", "allLifetime",10,10,700,500);
+  TCanvas *canvas = new TCanvas("allLifetime", "allLifetime",10,10,800,500);
   
   canvas->SetLogx();
   canvas->SetLogy();
@@ -122,14 +123,15 @@ void allInOneLifetime(double lumi=4560.) {
   TH1F* h = new TH1F ("h", "", 1, 7.5e-8, 1e6);
   h->SetStats (0);
   //h->SetMinimum (.0001);
-  h->SetMinimum (.000008);
+  h->SetMinimum (7e-7);
   //h->SetMaximum (0.99e1);
-  h->SetMaximum (100);
+  h->SetMaximum (12);
   // TH1* h = canvas->DrawFrame(7.5e-8, .001, 1e6, 1e2, "Y+");
   h->SetTitle("Beamgap Expt");
   //  h->GetXaxis()->SetTitle("#tau_{#tilde{g},#tilde{t},#tilde{#tau}} [s]");
   h->GetXaxis()->SetTitle("#tau [s]");
-  h->GetYaxis()->SetTitle("#sigma #times BF #times #varepsilon_{stop} #times #varepsilon_{det}   [pb]  ");
+  h->GetYaxis()->SetTitle("#sigma #times BF #times #varepsilon_{stop} #times #varepsilon_{det} [pb]  ");
+  h->GetYaxis()->SetTitleOffset(1);
   h->Draw ("Y+");
 
   ExtraAxis aGluino = anotherScale (h, gluino2ref, kRed+2, "#sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BF(#tilde{g} #rightarrow g#tilde{#chi}^{0})   [pb]  ", 0.0);
@@ -200,7 +202,7 @@ void allInOneLifetime(double lumi=4560.) {
  
   if (g_exp) {
     g_exp->SetLineColor(1);
-    g_exp->SetLineStyle(4);
+    g_exp->SetLineStyle(2);
     g_exp->SetLineWidth(2);
     g_exp->Draw("l3");
   }
@@ -253,7 +255,9 @@ void allInOneLifetime(double lumi=4560.) {
     g_obs->SetLineColor(1);
     g_obs->SetLineStyle(1);
     g_obs->SetLineWidth(2);
-    //g_obs->Draw("l");
+    g_obs->SetMarkerStyle(20);
+    g_obs->SetMarkerSize(1);
+    g_obs->Draw("l");
   }
   
   
