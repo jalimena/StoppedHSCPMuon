@@ -239,7 +239,7 @@ void allInOneLifetime(double lumi=4560.) {
   //TLine *lmchamp = new TLine(7.5e-8, 0.002257/mchamp2ref, 1e6, 0.002257/mchamp2ref); //500 GeV
   lmchamp->SetLineColor(kRed);
   lmchamp->SetLineWidth(2);
-  lmchamp->Draw();
+  //lmchamp->Draw();
   
   TLatex *t1mchamp;
   t1mchamp = new TLatex(0.001, 1/mchamp2ref, "#sigma_{theory} (m_{mchamp} = 100 GeV)");
@@ -247,7 +247,7 @@ void allInOneLifetime(double lumi=4560.) {
   t1mchamp->SetTextColor(kRed);
   t1mchamp->SetTextFont(42);
   t1mchamp->SetTextSize(0.035);
-  t1mchamp->Draw();
+  //t1mchamp->Draw();
   
 
   // observed limit

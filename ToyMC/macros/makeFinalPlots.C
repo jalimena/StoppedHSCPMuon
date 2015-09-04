@@ -4,7 +4,7 @@ void makeFinalPlots(double lumi=4560., double maxInstLumi=5000.)
   std::cout <<" Integrated lumi = "<<lumi<<"  max Inst. Lumi = "<<maxInstLumi<<std::endl;
   gROOT->ProcessLine(".X finalPlotStyle.C+");
   gROOT->ProcessLine(".L LimitPlots.C+");
-  gROOT->ProcessLine(".L DifferentXSLimitPlots.C+");
+  //gROOT->ProcessLine(".L DifferentXSLimitPlots.C+");
   
   gROOT->ProcessLine(".L modelIndLimit.C+");
   modelIndLimit(lumi,maxInstLumi);
@@ -24,7 +24,7 @@ void makeFinalPlots(double lumi=4560., double maxInstLumi=5000.)
   gROOT->ProcessLine(".L stopMass.C+");
   stopMass(lumi,maxInstLumi);
 
-  gROOT->ProcessLine(".L massPlot.C+");
+  //gROOT->ProcessLine(".L massPlot.C+");
   massPlot(lumi,maxInstLumi);
 
 }

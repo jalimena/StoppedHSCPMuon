@@ -3,7 +3,7 @@ crossSection	2.540E-05
 lifetime	1
 signalEff	0.0061
 signalEff_e	0.0
-bgRate          3.781206E-5
+bgRate          3.076973E-5
 bgRate_e        6.153947E-6
 scaleUncert	0.053
 optimizeTimeCut	1

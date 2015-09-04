@@ -52,7 +52,7 @@ cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/gluinostopMassLifetime.C $datase
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/excludedRegion.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/excludedRegionStop.C $dataset/.
 
-#cp $dataset/toymc/summary.txt $dataset/toymc.txt
+cp $dataset/toymc/summary.txt $dataset/toymc.txt
 
 cd $dataset
 
