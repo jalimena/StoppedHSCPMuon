@@ -83,18 +83,20 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   
   TCanvas* canvas = new TCanvas("canvas","",10,10,700,500);
 
-  Double_t x[10], y[10];
-  cout<<"MCHAMP EXPECTED LIMITS ARE: "<<endl;
+  Double_t x[10], x2[10], y[10], z[10];
+  cout<<"MCHAMP LIMITS ARE: "<<endl;
   for(Int_t i=0; i<g_mchamp->GetN(); i++){
     g_mchamp->GetPoint(i, x[i], y[i]);
-    cout<<" mass is: "<<x[i]<<", limit is: "<<y[i]<<endl;
+    g_obs_mchamp->GetPoint(i, x2[i], z[i]);
+    cout<<" mass is: "<<x[i]<<", expected limit is: "<<y[i]<<", observed limit is: "<<z[i]<<endl;
   }
 
   //canvas->SetGrid();
   canvas->SetLogy();
   
   TH1 * h;
-  h = canvas->DrawFrame(100., 1e-5, 1000., 1e4);
+  //h = canvas->DrawFrame(100., 1e-5, 1000., 1e4);
+  h = canvas->DrawFrame(100., 1e-5, 1000., 1e3);
   h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mchamp mchamp) [pb]");
   //h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
   //h->SetTitle("Beamgap Expt;m_{#tilde{g}} [GeV/c^{2}]; #sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BR(#tilde{g} #rightarrow g#tilde{#chi}^{0}) [pb]");
@@ -145,9 +147,9 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   leg->SetBorderSize(0);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
-  //leg->AddEntry(g_obs_mchamp, "Obs.: 10 #mus - 1000 s", "p");
-  leg->AddEntry(g_mchamp, "Exp.: 10 #mus - 1000 s", "lp");
-  leg->AddEntry(g_thMchamp, "NLO+NLL Prediction", "l");
+  leg->AddEntry(g_obs_mchamp, "Obs.: 10 #mus - 1000 s", "lp");
+  leg->AddEntry(g_mchamp, "Exp.: 10 #mus - 1000 s", "l");
+  leg->AddEntry(g_thMchamp, "LO Prediction", "l");
 
   //leg->AddEntry(g_thGluino, "NLO+NLL #tilde{g}", "l");
   //leg->AddEntry(g_gluino, "Obs.: 10 #mus - 1000 s Counting Exp. (#tilde{g})", "l");
@@ -224,16 +226,18 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   // g_exp_1sig->Draw("lX");                                                                                                                                                                
 
   g_obs_mchamp->SetLineStyle(1);
-  g_obs_mchamp->SetLineWidth(3);
-  //g_obs_mchamp->Draw("p");
+  g_obs_mchamp->SetLineWidth(2);
+  g_obs_mchamp->SetMarkerStyle(20);
+  g_obs_mchamp->SetMarkerSize(1);
+  g_obs_mchamp->Draw("pl");
 
   //g_mchamp->SetLineColor(kBlue);
-  //g_mchamp->SetLineStyle(2);
-  g_mchamp->SetLineStyle(1);
+  g_mchamp->SetLineStyle(2);
+  //g_mchamp->SetLineStyle(1);
   g_mchamp->SetLineWidth(3);
   g_mchamp->SetMarkerStyle(20);
-  g_mchamp->SetMarkerSize(1.3);
-  g_mchamp->Draw("lp");
+  g_mchamp->SetMarkerSize(1);
+  g_mchamp->Draw("l");
 
   // theory line
   g_thMchamp->SetLineColor(kRed);

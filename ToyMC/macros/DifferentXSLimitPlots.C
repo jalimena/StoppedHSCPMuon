@@ -179,12 +179,12 @@ void DifferentXSLimitPlots::readLimitMchampData(std::string filename) {
   
   double m(0.),  er(0.), xst(0.);
   //toy MC results for lifetime of 1 s
-  double el(0.), es(0.), b(0.), eb(0.), cl(0.);
+  double el(0.), b(0.), eb(0.), cl(0.);
   double exmean(0.), lo1sig(0.), hi1sig(0.), lo2sig(0.), hi2sig(0.);
   unsigned n(0);
   std::string z;
   
-  while (file >> m >> er >> xst >> el >> es >> b >> eb >> n >> cl >> exmean >> lo1sig >> hi1sig >> lo2sig >> hi2sig) {
+  while (file >> m >> er >> xst >> el >> b >> eb >> n >> cl >> exmean >> lo1sig >> hi1sig >> lo2sig >> hi2sig) {
     
     mchampMass.push_back(m);
     mchampEffReco.push_back(er);

@@ -120,6 +120,7 @@ for lifetime in lifetimes:
     script.close()
 
     # write master script
+    master.write('chmod +x '+jobdir+'/job'+str(count)+'.sh\n')
     master.write('source '+jobdir+'/job'+str(count)+'.sh\n')
 
     outfiles+=' '+jobdir+'/outfile.root'

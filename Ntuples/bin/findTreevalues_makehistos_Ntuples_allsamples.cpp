@@ -3089,11 +3089,11 @@ void findTreevalues_makehistos_Ntuples_allsamples::TriggerTurnOn( StoppedHSCPMuo
 
 void findTreevalues_makehistos_Ntuples_allsamples::GlobalSATagAndProbe( StoppedHSCPMuonEvent* events, UInt_t& highestPt_index){
   //plots probe info
-  cout<<"starting GlobalSATagAndProbe"<<endl;
+  //cout<<"starting GlobalSATagAndProbe"<<endl;
   
   //probe denominator
   muDisplacedStandAlonePt_GlSAdenominator_hist->Fill(events->muDisplacedStandAlonePt[highestPt_index],1.0);
-  cout<<"filled probe denominator hist"<<endl;
+  //cout<<"filled probe denominator hist"<<endl;
   /*
   //probe matched to good tag?
   if(events->muDisplacedStandAloneTrackGlobalMuonIndex[highestPt_index]>=0){
@@ -3116,7 +3116,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::GlobalSATagAndProbe( StoppedH
 }//end of globalSAtagandprobe
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
-  
+  /*  
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
     line++;
@@ -3153,7 +3153,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
   }
-  
+  */
   if(is_data){
     /*
     cout  << setw(6) << "Run";
@@ -4708,7 +4708,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    PreselectionSA(events, n_passPreselection, presel0_index, presel1_index, presel2_index, presel3_index, PreNdsaCutValue_, PrePtCutValue_, PreChaCutValue_, PreEtaCutValue_, PreRpcCutValue_, PreDtHitsCutValue_, PreInvBetaErrCutValue_, PreCscHitsCutValue_, pass_PreNdsa, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
 		    PreselectionSA_counts(pass_PreNdsa, pass_Prept, pass_Precha, pass_Preeta, pass_PreRPC, pass_PreDtHits, pass_PreInvBetaErr, pass_PreCscHits);
 		    if(n_passPreselection>0){
-		      cout<<"preselection: "<<events->id<<endl;
+		      //cout<<"preselection: "<<events->id<<endl;
 		      StoppingRegionAcceptance(events,eventweightTauPrime, stopped_index);
 		      HighestPtSA(events, file_dataset_, presel0_index, presel1_index, presel2_index, presel3_index, highestPt_index, PtCutValue_, ChaCutValue_, EtaCutValue_, RpcCutValue_, DisStCutValue_, DtHitsCutValue_, CscHitsCutValue_, DtInvBetaCutValue_, TimeInOutCutValue_, TimeInOutErrCutValue_, OppEtaCutValue_, OppPhiCutValue_, DxyCutValue_, pass_Upper,pass_pt,pass_cha,pass_eta,pass_RPC,pass_DisSt,pass_DtHits,pass_CscHits,pass_DtInvBeta,pass_TimeInOut,pass_TimeInOutErr,pass_TofDir,pass_Rpc_Bx,pass_OppEta,pass_OppPhi,pass_Dxy);
 		      HighestPtSA_counts(pass_Upper,pass_pt,pass_cha,pass_eta,pass_RPC,pass_DisSt,pass_DtHits,pass_CscHits,pass_DtInvBeta,pass_TimeInOut,pass_TimeInOutErr,pass_TofDir,pass_Rpc_Bx,pass_OppEta,pass_OppPhi,pass_Dxy);
@@ -4750,7 +4750,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			}
 		      }
 		      */
-
+		      /*
 		      if(n_passPreselection>0){
 			if(highestPt_index!=999){
 			  //if(highestPt_index!=999 || (n_Upper>0 && n_Lower>0)){
@@ -4774,6 +4774,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			}
 		      }
 		      //}
+		      */
 		    }
 
 		    //cout<<"finished printouts"<<endl;
@@ -5548,7 +5549,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      double differencePt = TMath::Abs(events->muDisplacedStandAlonePt[upper_index]-events->muDisplacedStandAlonePt[lower_index]);
 		      double avePt = 1.0*(events->muDisplacedStandAlonePt[upper_index] + events->muDisplacedStandAlonePt[lower_index])/2;
 		      double productPt = 1.0*(events->muDisplacedStandAlonePt[upper_index]*events->muDisplacedStandAlonePt[lower_index]);
-		      cout<<"upper pt is: "<<events->muDisplacedStandAlonePt[upper_index]<<", lower pt is: "<<events->muDisplacedStandAlonePt[lower_index]<<", ave pt is: "<<avePt<<endl;
+		      //cout<<"upper pt is: "<<events->muDisplacedStandAlonePt[upper_index]<<", lower pt is: "<<events->muDisplacedStandAlonePt[lower_index]<<", ave pt is: "<<avePt<<endl;
 		      Ave_muDisplacedStandAlonePt_hist->Fill(avePt,1.0);
 		      Diff_muDisplacedStandAlonePt_hist->Fill(differencePt,1.0);
 
