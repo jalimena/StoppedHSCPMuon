@@ -843,6 +843,7 @@ public:
     muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist = new TH1D("muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist","Error of Time at IP OutIn of StandAlone Muons",100,0,20);    
 
     regionD_muDisplacedStandAlone_N_hist = new TH1D("regionD_muDisplacedStandAlone_N_hist","Number of StandAlone Muons",100,0,100);
+    regionD_muDisplacedStandAloneP_hist = new TH1D("regionD_muDisplacedStandAloneP_hist","StandAlone Muon p",1000,0,1000);
     regionD_muDisplacedStandAlonePt_hist = new TH1D("regionD_muDisplacedStandAlonePt_hist","StandAlone Muon p_{T}",1000,0,1000);
     regionD_muDisplacedStandAloneEta_hist = new TH1D("regionD_muDisplacedStandAloneEta_hist","StandAlone Muon #eta",120,-6,6);
     regionD_muDisplacedStandAlonePhi_hist = new TH1D("regionD_muDisplacedStandAlonePhi_hist","StandAlone Muon #phi",64,-3.2,3.2);
@@ -870,6 +871,9 @@ public:
 
     regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH2D("regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","P vs DT Free Inverse Beta",1000,0,1000,1000,-50,50);
     regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH2D("regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","P vs DT Free Inverse Beta",1000,0,1000,1000,-50,50);
+
+    regionB_muDisplacedStandAloneP_hist = new TH1D("regionB_muDisplacedStandAloneP_hist","StandAlone Muon p",1000,0,1000);
+    regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist = new TH1D("regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist","Free #beta^{-1} of StandAlone Muons",1000,-50,50);
 
     DTSegment_N_hist = new TH1D("DTSegment_N_hist","Number of DT Segments",100,0,100);
     CSCSegment_N_hist = new TH1D("CSCSegment_N_hist","Number of CSC Segments",100,0,100);
@@ -1519,6 +1523,7 @@ private:
   TH1D* muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist;
 
   TH1D* regionD_muDisplacedStandAlone_N_hist;
+  TH1D* regionD_muDisplacedStandAloneP_hist;
   TH1D* regionD_muDisplacedStandAlonePt_hist;
   TH1D* regionD_muDisplacedStandAloneEta_hist;
   TH1D* regionD_muDisplacedStandAlonePhi_hist;
@@ -1546,6 +1551,9 @@ private:
 
   TH2D* regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist;
   TH2D* regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist;
+
+  TH1D* regionB_muDisplacedStandAloneP_hist;
+  TH1D* regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist;
 
   TH1D* DTSegment_N_hist;
   TH1D* CSCSegment_N_hist;
@@ -3116,7 +3124,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::GlobalSATagAndProbe( StoppedH
 }//end of globalSAtagandprobe
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
-  /*  
+
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
     line++;
@@ -3153,9 +3161,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
   }
-  */
+  
   if(is_data){
-    /*
+    
     cout  << setw(6) << "Run";
     cout  << setw(6) << "Lumi";
     cout  << setw(10) << "Orbit";
@@ -3168,8 +3176,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(8) << events->bx;
     cout  << setw(8) << " ";
     cout  << setw(7) << events->id<<endl;
-    */
-    cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
+    
+    //cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
     line=line+2;
   }
 }//end of printout_setup()
@@ -4404,8 +4412,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
-  //TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -5855,6 +5863,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  nDregion++;
 			  
 			  regionD_muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
+			  regionD_muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[upper_index],1.0);					    
 			  regionD_muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[upper_index],1.0);					    
 			  regionD_muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[upper_index],1.0);					   
 			  regionD_muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[upper_index],1.0);					   
@@ -5881,16 +5890,22 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  regionD_CSCSegment_N_hist->Fill(events->cscSeg_N,1.0);
 		  
 			  if(doPrintout){
+			    //if(events->mu_DisplacedStandAlone_N>2){
 			    printout_setup(events,is_data);
-			    //printout_gen(events);
-			    //printout_SA(events);
-			    //printout_L2(events);
-			    //printout_L1(events);
+			    printout_gen(events);
+			    printout_DSA(events);
+			    printout_SA(events);
+			    printout_RSA(events);
+			    printout_cosmic(events);
+			    printout_L2(events);
+			    printout_L1(events);
+			    //}
 			  }
 			}//end of D region
 			else{
 			  nBregion++;
 			  regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneP[upper_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
+			  regionB_muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[upper_index],1.0);
 
 			  if(events->muDisplacedStandAloneP[upper_index] > bPtCutValue_){
 			    if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index] > abInvBetaCutValue_) nB2region++;
@@ -5907,6 +5922,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index] > abcdInvBetaCutValue_){
 			  nCregion++;
 			  regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneP[upper_index],events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
+			  regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index],1.0);
 
 			  if(events->muDisplacedStandAloneP[upper_index] > acPtCutValue_){
 			    if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index] > cInvBetaCutValue_) nC2region++;
@@ -6147,14 +6163,6 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 
   cout<<endl;
-  /*  
-  cout<<"abcd regions defined by inverse beta cut of "<<abcdInvBetaCutValue_<<" and upper p cut of "<<abcdPtCutValue_<<endl;
-  cout<<"number of events in upper P A region is: "<<nAregionUpperP_<<" +/- "<<TMath::Sqrt(nAregionUpperP_)<<endl;
-  cout<<"number of events in upper P B region is: "<<nBregionUpperP_<<" +/- "<<TMath::Sqrt(nBregionUpperP_)<<endl;
-  cout<<"number of events in upper P C region is: "<<nCregionUpperP_<<" +/- "<<TMath::Sqrt(nCregionUpperP_)<<endl;
-  cout<<"number of events in upper P D region is: "<<nDregionUpperP_<<" +/- "<<TMath::Sqrt(nDregionUpperP_)<<endl;
-  cout<<"B*C/A is: "<<1.0*nBregionUpperP_*nCregionUpperP_/nAregionUpperP_<<" +/- "<<endl<<endl;
-  */
 
   cout<<"abcd regions defined by inverse beta cut of "<<abcdInvBetaCutValue_<<" and upper P cut of "<<abcdPtCutValue_<<endl;
   cout<<"number of events in A region is: "<<nAregion<<" +/- "<<TMath::Sqrt(nAregion)<<endl;
@@ -6178,23 +6186,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   */
 
   cout<<"1,2,3,4 regions defined by inverse beta cut of "<<abInvBetaCutValue_<<", "<<cInvBetaCutValue_<<", and upper P cut of "<<acPtCutValue_<<", "<<bPtCutValue_<<endl;
-  cout<<"number of events in A1+A2 region is: "<<nA1region+nA2region<<" +/- "<<TMath::Sqrt(nA1region+nA2region)<<endl;
-  cout<<"number of events in B1+B2 region is: "<<nB1region+nB2region<<" +/- "<<TMath::Sqrt(nB1region+nB2region)<<endl;
-  cout<<"number of events in C region is: "<<nCregion<<" +/- "<<TMath::Sqrt(nCregion)<<endl;
-  cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
-  cout<<"(B1+B2)*C/(A1+A2) is: "<<1.0*(nB1region+nB2region)*nCregion/(nA1region+nA2region)<<" +/- "<<endl<<endl;
 
   cout<<"number of events in A1+A2 region is: "<<nA1region+nA2region<<" +/- "<<TMath::Sqrt(nA1region+nA2region)<<endl;
   cout<<"number of events in B region is: "<<nBregion<<" +/- "<<TMath::Sqrt(nBregion)<<endl;
   cout<<"number of events in C1+C2 region is: "<<nC1region+nC2region<<" +/- "<<TMath::Sqrt(nC1region+nC2region)<<endl;
   cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
   cout<<"B*(C1+C2)/(A1+A2) is: "<<1.0*nBregion*(nC1region+nC2region)/(nA1region+nA2region)<<" +/- "<<endl<<endl;
-
-  cout<<"number of events in A3+A4 region is: "<<nA3region+nA4region<<" +/- "<<TMath::Sqrt(nA3region+nA4region)<<endl;
-  cout<<"number of events in B3+B4 region is: "<<nB3region+nB4region<<" +/- "<<TMath::Sqrt(nB3region+nB4region)<<endl;
-  cout<<"number of events in C region is: "<<nCregion<<" +/- "<<TMath::Sqrt(nCregion)<<endl;
-  cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
-  cout<<"(B3+B4)*C/(A3+A4) is: "<<1.0*(nB3region+nB4region)*nCregion/(nA3region+nA4region)<<" +/- "<<endl<<endl;
 
   cout<<"number of events in A3+A4 region is: "<<nA3region+nA4region<<" +/- "<<TMath::Sqrt(nA3region+nA4region)<<endl;
   cout<<"number of events in B region is: "<<nBregion<<" +/- "<<TMath::Sqrt(nBregion)<<endl;
@@ -6208,24 +6205,11 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
   cout<<"(B1+B3)*C/(A1+A3) is: "<<1.0*(nB1region+nB3region)*nCregion/(nA1region+nA3region)<<" +/- "<<endl<<endl;
 
-  cout<<"number of events in A1+A3 region is: "<<nA1region+nA3region<<" +/- "<<TMath::Sqrt(nA1region+nA3region)<<endl;
-  cout<<"number of events in B region is: "<<nBregion<<" +/- "<<TMath::Sqrt(nBregion)<<endl;
-  cout<<"number of events in C1+C3 region is: "<<nC1region+nC3region<<" +/- "<<TMath::Sqrt(nC1region+nC3region)<<endl;
-  cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
-  cout<<"B*(C1+C3)/(A1+A3) is: "<<1.0*nBregion*(nC1region+nC3region)/(nA1region+nA3region)<<" +/- "<<endl<<endl;
-
   cout<<"number of events in A2+A4 region is: "<<nA2region+nA4region<<" +/- "<<TMath::Sqrt(nA2region+nA4region)<<endl;
   cout<<"number of events in B2+B4 region is: "<<nB2region+nB4region<<" +/- "<<TMath::Sqrt(nB2region+nB4region)<<endl;
   cout<<"number of events in C region is: "<<nCregion<<" +/- "<<TMath::Sqrt(nCregion)<<endl;
   cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
   cout<<"(B2+B4)*C/(A2+A4) is: "<<1.0*(nB2region+nB4region)*nCregion/(nA2region+nA4region)<<" +/- "<<endl<<endl;
-
-  cout<<"number of events in A2+A4 region is: "<<nA2region+nA4region<<" +/- "<<TMath::Sqrt(nA2region+nA4region)<<endl;
-  cout<<"number of events in B region is: "<<nBregion<<" +/- "<<TMath::Sqrt(nBregion)<<endl;
-  cout<<"number of events in C2+C4 region is: "<<nC2region+nC4region<<" +/- "<<TMath::Sqrt(nC2region+nC4region)<<endl;
-  cout<<"number of events in D region is: "<<nDregion<<" +/- "<<TMath::Sqrt(nDregion)<<endl;
-  cout<<"B*(C2+C4)/(A2+A4) is: "<<1.0*nBregion*(nC2region+nC4region)/(nA2region+nA4region)<<" +/- "<<endl<<endl;
-
 
   cout<<endl;
   if(doPrintout) cout<<"number of printed out events is: "<<nPrintedOutEvents<<endl;
@@ -6826,6 +6810,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist->Write();
     muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist->Write();    
     regionD_muDisplacedStandAlone_N_hist->Write();
+    regionD_muDisplacedStandAloneP_hist->Write();
     regionD_muDisplacedStandAlonePt_hist->Write();
     regionD_muDisplacedStandAloneEta_hist->Write();
     regionD_muDisplacedStandAlonePhi_hist->Write();
@@ -6852,7 +6837,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     regionD_CSCSegment_N_hist->Write();
     regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Write();
     regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Write();
-
+    regionB_muDisplacedStandAloneP_hist->Write();
+    regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Write();
     DTSegment_N_hist->Write();
     CSCSegment_N_hist->Write();
 
