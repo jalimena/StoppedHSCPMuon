@@ -49,8 +49,8 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //extraText  = "Preliminary Simulation"; 
   //lumi_8TeV = ""; 
   int iPeriod = 2; // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
-  int iPos=0;
-  //int iPos=11;
+  //int iPos=0;
+  int iPos=11;
   //int iPos=22;
 	
   if (lumi<0)
@@ -81,22 +81,24 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   TGraph* g_thStop = plots.getStopTheory();
   TGraph* g_thMchamp = plots.getMchampTheory();
   
-  TCanvas* canvas = new TCanvas("canvas","",10,10,700,500);
+  TCanvas* canvas = new TCanvas("canvas","",10,10,575,500);
 
-  Double_t x[10], x2[10], y[10], z[10];
+  Double_t x[10], yMinus[10], x2[10], y[10], yPlus[10], z[10];
   cout<<"MCHAMP LIMITS ARE: "<<endl;
   for(Int_t i=0; i<g_mchamp->GetN(); i++){
     g_mchamp->GetPoint(i, x[i], y[i]);
+    yPlus[i] = g_exp_1sig->GetErrorYhigh(i);
+    yMinus[i] = g_exp_1sig->GetErrorYlow(i);
     g_obs_mchamp->GetPoint(i, x2[i], z[i]);
-    cout<<" mass is: "<<x[i]<<", expected limit is: "<<y[i]<<", observed limit is: "<<z[i]<<endl;
+    cout<<" mass is: "<<x[i]<<", expected limit is: "<<y[i]<<", expected +1 sigma is: "<<yPlus[i]<<", expected -1 sigma is: "<<yMinus[i]<<", observed limit is: "<<z[i]<<endl;
   }
 
   //canvas->SetGrid();
   canvas->SetLogy();
   
   TH1 * h;
-  //h = canvas->DrawFrame(100., 1e-5, 1000., 1e4);
-  h = canvas->DrawFrame(100., 1e-5, 1000., 1e3);
+  h = canvas->DrawFrame(100., 1e-5, 1000., 1e3); //2DSA
+  //h = canvas->DrawFrame(100., 1e-5, 1000., 1e4); //1DSA
   h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mchamp mchamp) [pb]");
   //h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
   //h->SetTitle("Beamgap Expt;m_{#tilde{g}} [GeV/c^{2}]; #sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BR(#tilde{g} #rightarrow g#tilde{#chi}^{0}) [pb]");
@@ -143,7 +145,7 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //legbg->Draw();
   //TLegend *leg = new TLegend(600., 1.e1, 900., 4e2,"95% C.L. Limits","");
   //TLegend* leg = new TLegend(0.67, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
-  TLegend* leg = new TLegend(0.57, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
+  TLegend* leg = new TLegend(0.52, 0.70, 0.77, 0.92,"95% CL Limits:","NDC");
   leg->SetTextSize(0.033);
   leg->SetBorderSize(0);
   leg->SetTextFont(42);

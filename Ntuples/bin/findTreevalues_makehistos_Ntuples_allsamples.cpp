@@ -900,8 +900,8 @@ private:
   void doublyChargedHiggs( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
   void tauPrime( StoppedHSCPMuonEvent* events, bool (&status2H_)[15], int& good_genH, UInt_t& genH0_index, UInt_t& genH1_index, UInt_t& genHpos_index, UInt_t& genHneg_index, Double_t& angle );
 
-  //double eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, UInt_t& genHneg_index, double (&eventweightPt)[500][500]);
-  double eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, UInt_t& genHneg_index, double (&eventweightPt)[160][160]);
+  double eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, UInt_t& genHneg_index, double (&eventweightPt)[500][500]);
+  //double eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index, UInt_t& genHneg_index, double (&eventweightPt)[160][160]);
 
   void stop_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&);
   void gluino_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
@@ -2019,20 +2019,20 @@ void findTreevalues_makehistos_Ntuples_allsamples::tauPrime( StoppedHSCPMuonEven
 
 }//end of tauPrime()
 
-//double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index,  UInt_t& genHneg_index, double(&eventweightPt)[500][500]){
-double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index,  UInt_t& genHneg_index, double(&eventweightPt)[160][160]){
+double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index,  UInt_t& genHneg_index, double(&eventweightPt)[500][500]){
+//double findTreevalues_makehistos_Ntuples_allsamples::eventWeightTauPrime( StoppedHSCPMuonEvent* events, UInt_t& genHpos_index,  UInt_t& genHneg_index, double(&eventweightPt)[160][160]){
   double eventWeight = 1.0;
-  //const int NumBins = 500;
-  const int NumBins = 160;
-  //double binWidth = 10;
-  double binWidth = 0.1;
+  const int NumBins = 500;
+  //const int NumBins = 160;
+  double binWidth = 10;
+  //double binWidth = 0.1;
 
   for(int i=0;i<NumBins; i++){
     for(int j=0;j<NumBins; j++){
-      //if(events->mcTauPrimePt[genHpos_index] > (binWidth*i) && events->mcTauPrimePt[genHpos_index] < (binWidth*(i+1)) ){
-      //if(events->mcTauPrimePt[genHneg_index] > (binWidth*j) && events->mcTauPrimePt[genHneg_index] < (binWidth*(j+1)) ){
-      if(events->mcTauPrimeEta[genHpos_index] > (-8+binWidth*i) && events->mcTauPrimeEta[genHpos_index] < (-8+binWidth*(i+1)) ){
-	if(events->mcTauPrimeEta[genHneg_index] > (-8+binWidth*j) && events->mcTauPrimeEta[genHneg_index] < (-8+binWidth*(j+1)) ){
+      if(events->mcTauPrimePt[genHpos_index] > (binWidth*i) && events->mcTauPrimePt[genHpos_index] < (binWidth*(i+1)) ){
+	if(events->mcTauPrimePt[genHneg_index] > (binWidth*j) && events->mcTauPrimePt[genHneg_index] < (binWidth*(j+1)) ){
+	  //if(events->mcTauPrimeEta[genHpos_index] > (-8+binWidth*i) && events->mcTauPrimeEta[genHpos_index] < (-8+binWidth*(i+1)) ){
+	  //if(events->mcTauPrimeEta[genHneg_index] > (-8+binWidth*j) && events->mcTauPrimeEta[genHneg_index] < (-8+binWidth*(j+1)) ){
 	  eventWeight = eventweightPt[i][j];
 	  //cout<<"event weight of "<<eventWeight<<" is being set"<<endl;
 	}
@@ -2183,11 +2183,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCP
   }//end of if 2 stopped particles
 
   if(stopped_index!=999){
+  //for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
     //cout<<"stopped particle is: "<<events->mcStoppedParticleId[stopped_index]<<endl;
     double r = events->mcStoppedParticleR[stopped_index]/10.0;
     double z = events->mcStoppedParticleZ[stopped_index]/10.0;
     double particle_eta = eta(events->mcStoppedParticleX[stopped_index],events->mcStoppedParticleY[stopped_index],
 			      events->mcStoppedParticleZ[stopped_index],events->mcStoppedParticleTime[stopped_index]);
+
+    //double r = events->mcStoppedParticleR[j]/10.0;
+    //double z = events->mcStoppedParticleZ[j]/10.0;
+    //double particle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+    //			      events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
     
     if (r < 131.0 && fabs(particle_eta) <= 2.5 && fabs(z) < 300.0) tracker_count_+=eventweightTauPrime;
     else if (r>=131.0 && r<184.0 && fabs(z)<376.0 && fabs(particle_eta)<1.479) eb_count_+=eventweightTauPrime;
@@ -3124,7 +3130,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::GlobalSATagAndProbe( StoppedH
 }//end of globalSAtagandprobe
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
-
+  /*
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
     line++;
@@ -3161,9 +3167,9 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
   }
-  
+  */
   if(is_data){
-    
+    /*
     cout  << setw(6) << "Run";
     cout  << setw(6) << "Lumi";
     cout  << setw(10) << "Orbit";
@@ -3176,8 +3182,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(8) << events->bx;
     cout  << setw(8) << " ";
     cout  << setw(7) << events->id<<endl;
-    
-    //cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
+    */
+    cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
     line=line+2;
   }
 }//end of printout_setup()
@@ -4090,6 +4096,516 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
   cout<<"just started loop"<<endl;
 
+  id_hist->SetBinErrorOption(TH1::kPoisson);
+  run_hist->SetBinErrorOption(TH1::kPoisson);
+  bx_hist->SetBinErrorOption(TH1::kPoisson); 
+  bxWrtCollision_hist->SetBinErrorOption(TH1::kPoisson);
+  bxWrtBunch_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticle_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleX_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcStoppedParticleY_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcStoppedParticleZ_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcStoppedParticleR_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcStoppedParticleEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticlePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleTime_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleXY_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcStoppedParticleR_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleMass_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleId_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleCharge_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleX_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleY_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleZ_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleId_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleCharge_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleTime_mcStoppedParticleCharge_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleXPos2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleYPos2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleZPos2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleRPos2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleXNeg2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleYNeg2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleZNeg2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleRNeg2Stopped_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleDeltaTime_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleXPos_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleYPos_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleZPos_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleRPos_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleXNeg_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleYNeg_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleZNeg_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleRNeg_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticle0Charge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticle1Charge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticle0Time_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticle1Time_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLL_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLStatus_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLPt_hist->SetBinErrorOption(TH1::kPoisson); 
+  mcLLEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLMass_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLNDaughters_hist->SetBinErrorOption(TH1::kPoisson);
+  mcLLDaughterId_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcRhadron_N_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcRhadronPt_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcRhadronEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcRhadronPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcRhadronCharge_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStau_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStau0Charge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStau1Charge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauP_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPx_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPz_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStauBeta_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
+  mcH0Charge_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcH1Charge_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusP_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusPx_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusPy_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusPz_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusPt_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusP_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusPx_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusPy_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusPz_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusPt_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHMinusMinusPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcHPlusPlusP_HMinusMinusP_hist->SetBinErrorOption(TH1::kPoisson);
+  mcHPlusPlusPt_HMinusMinusPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcHPlusPlusEta_HMinusMinusEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcHPlusPlusPhi_HMinusMinusPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcHPlusPlusPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
+  mcHMinusMinusPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTop_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopStatus_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopMass_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopNDaughters_hist->SetBinErrorOption(TH1::kPoisson);
+  mcTopDaughterId_hist->SetBinErrorOption(TH1::kPoisson);
+  mcW_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWStatus_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWMass_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWNDaughters_hist->SetBinErrorOption(TH1::kPoisson);
+  mcWDaughterId_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuon_N_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonP_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonStatus_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonMass_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonMotherId_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonVx_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonVy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonVz_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonLxy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuon3Dangle_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonDeltaPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_muRefittedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_muCosmicPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_muCosmicTrackPt_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackN_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackPt_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackEta_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackVx_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackVy_hist->SetBinErrorOption(TH1::kPoisson);
+  simTrackVz_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneP_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneUpdatedAtVtxP_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneUpdatedAtVtxPt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTrackGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTrackUpdatedAtVtxGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneTrackGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicTrackGenDR_hist->SetBinErrorOption(TH1::kPoisson);    
+  mcStoppedParticleR_muDisplacedStandAloneGenDR_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAlonePtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneUpdatedAtVtxPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneUpdatedAtVtxQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicQoverPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePtResolution_muCosmicPtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneNChambersDt_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneNChambersDt_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicNChambersDt_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneNChambersRpc_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneNChambersRpc_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicNChambersRpc_PtResolution_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneNChambersDt_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneNChambersDt_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicNChambersDt_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneNChambersRpc_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneNChambersRpc_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicNChambersRpc_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_muCosmicTrackPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonN_muDisplacedStandAloneN_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonEta_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPhi_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonCharge_muDisplacedStandAloneCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonLxy_muDisplacedStandAloneLxy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonDxy_muDisplacedStandAloneDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonInverseBeta_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);    
+  muRefittedStandAloneNHitsDt_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  //muRefittedStandAloneNChambersDt_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleR_muRefittedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcStoppedParticleR_mcMuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDistanceStations_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneTrackDistanceStations_Pt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_l1MuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPt_hlt20Cha2MuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonEta_l1MuonEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPhi_l1MuonPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonEta_hlt20Cha2MuonEta_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuonPhi_hlt20Cha2MuonPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  l1Muon_N_hist->SetBinErrorOption(TH1::kPoisson);
+  l1MuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  l1MuonEta_hist->SetBinErrorOption(TH1::kPoisson);
+  l1MuonPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  hlt20Cha2Muon_N_hist->SetBinErrorOption(TH1::kPoisson);
+  hlt20Cha2MuonPt_hist->SetBinErrorOption(TH1::kPoisson);
+  hlt20Cha2MuonEta_hist->SetBinErrorOption(TH1::kPoisson);
+  hlt20Cha2MuonPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mu_N_hist ->SetBinErrorOption(TH1::kPoisson);
+  muP_hist ->SetBinErrorOption(TH1::kPoisson);
+  muPt_hist ->SetBinErrorOption(TH1::kPoisson);
+  muEta_hist->SetBinErrorOption(TH1::kPoisson);
+  muPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muType_hist->SetBinErrorOption(TH1::kPoisson); 
+  muIso_hist->SetBinErrorOption(TH1::kPoisson);
+  muEta_muPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  diMu_N_hist->SetBinErrorOption(TH1::kPoisson);
+  diMuMass_hist->SetBinErrorOption(TH1::kPoisson);    
+  muCosmic_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicP_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicPt_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicEta_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicType_hist->SetBinErrorOption(TH1::kPoisson);
+  muCosmicEta_muCosmicPhi_hist->SetBinErrorOption(TH1::kPoisson); 
+  muCosmicTrackInnerPt_hist->SetBinErrorOption(TH1::kPoisson);   
+  muCosmicTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlone_N_other_cut_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAlone_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneP_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDz_hist->SetBinErrorOption(TH1::kPoisson); 
+  muDisplacedStandAloneTrackNHitsMuon_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNHitsCsc_hist->SetBinErrorOption(TH1::kPoisson); 
+  muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNHitsRpc_hist->SetBinErrorOption(TH1::kPoisson); 
+  muDisplacedStandAloneTrackNRpcDof_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNStations_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNChambersCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson); 
+  muDisplacedStandAloneTrackNChambersRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDistanceStations_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackInnerPt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofInverseBetaLS_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofInverseBetaLSErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofYIntercept_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofYInterceptErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackDtTofChi2Dof_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneNHitsRpcBxPattern0_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneOppositeSegDR_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneOppositeSegDEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneOppositeSegDPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_denominator_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_L1numerator_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_HLTnumerator_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePt_denominator_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePt_L1numerator_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePt_HLTnumerator_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_GlSAdenominator_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_GlSAnumerator_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerSize_station0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerSize_station1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerSize_station2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerSize_station3_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerDeltaR_station0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerDeltaR_station1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerDeltaR_station2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerDeltaR_station3_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNHits_station0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNHits_station1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNHits_station2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNHits_station3_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNCorrelatedHits_station0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNCorrelatedHits_station1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNCorrelatedHits_station2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNCorrelatedHits_station3_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNUncorrelatedHits_station0_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNUncorrelatedHits_station1_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNUncorrelatedHits_station2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackShowerNUncorrelatedHits_station3_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneUpperOnlyDEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneUpperOnlyDPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneLowerOnlyDEta_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneLowerOnlyDPhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneNCscSegments_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAlonePhi_muDisplacedStandAloneDTTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneEta_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNHitsRpc_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneTrackNHitsRpc_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_DtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneP_DtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAlonePt_BxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDtTofFreeInverseBeta_DtTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDtTofFreeInverseBetaErr_DtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  runNumber_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  runNumber_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  runNumber_muDisplacedStandAloneN_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneEta_Phi_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDz_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsMuon_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNRpcDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNStations_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNChambersCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNChambersRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofYIntercept_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofYInterceptErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofChi2Dof_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackDtTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsRpc_Upper_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTrackNHitsRpc_Upper_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneBxPattern_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAlonePt_Upper_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneTimeAtIpInOut_Upper_muDisplacedStandAloneDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneFreeInverseBeta_Upper_muDisplacedStandAloneFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Highest_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_runNumber_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);    
+  Upper_runNumber_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_runNumber_muDisplacedStandAloneN_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_muDisplacedStandAloneEta_Phi_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDz_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsMuon_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNRpcDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNStations_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNChambersCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNChambersRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofYIntercept_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofYInterceptErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofChi2Dof_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackDtTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsRpc_Lower_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTrackNHitsRpc_Lower_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneBxPattern_Lower_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAlonePt_Lower_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneTimeAtIpInOut_Lower_muDisplacedStandAloneDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneFreeInverseBeta_Lower_muDisplacedStandAloneFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_runNumber_muDisplacedStandAloneDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_runNumber_muDisplacedStandAloneDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_runNumber_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);    
+  Lower_runNumber_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_runNumber_muDisplacedStandAloneN_hist->SetBinErrorOption(TH1::kPoisson);
+  Lower_muDisplacedStandAloneEta_Phi_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAlone_deltaPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  mudiff_muDisplacedStandAloneTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  mudiff_muDisplacedStandAloneTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAlone_chargeMultiply_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAlone_directionMultiply_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAloneTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAloneTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAloneTrackCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAloneTrackDtTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  Upper_Lower_muDisplacedStandAloneDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDz_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNHitsMuon_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNHitsCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNHitsRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNRpcDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNStations_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNChambersCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackNChambersRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofYIntercept_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofYInterceptErr_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofChi2Dof_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneTrackDtTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  Both_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);    
+  Ave_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  Diff_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuon_muDisplacedStandAlone_3Dangle_hist->SetBinErrorOption(TH1::kPoisson);
+  mcMuon_muDisplacedStandAlone_deltaPhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlone_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneP_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneTrackDistanceStations_hist->SetBinErrorOption(TH1::kPoisson);
+  muRefittedStandAloneEta_muRefittedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);    
+  muStandAloneTof_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofTimeAtIpInOutErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  muStandAloneTofTimeAtIpOutInErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTof_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofTimeAtIpInOutErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneDTTofTimeAtIpOutInErr_hist->SetBinErrorOption(TH1::kPoisson);    
+  muDisplacedStandAloneCSCTof_N_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofDirection_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofTimeAtIpInOutErr_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofTimeAtIpOutIn_hist->SetBinErrorOption(TH1::kPoisson);
+  muDisplacedStandAloneCSCTofTimeAtIpOutInErr_hist->SetBinErrorOption(TH1::kPoisson);    
+  regionD_muDisplacedStandAlone_N_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneP_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAlonePt_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneEta_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAlonePhi_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneCharge_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNormalizedChi2_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDxy_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDz_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNHitsMuon_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNHitsCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNHitsDt_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNHitsRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNRpcDof_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNStations_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNChambersCsc_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNChambersDt_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackNChambersRpc_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofNDof_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOut_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneTrackDtTofChi2Dof_hist->SetBinErrorOption(TH1::kPoisson);
+  regionD_muDisplacedStandAloneBxPattern_hist->SetBinErrorOption(TH1::kPoisson);    
+  regionD_CSCSegment_N_hist->SetBinErrorOption(TH1::kPoisson);
+  regionAB_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  regionAC_Upper_muDisplacedStandAloneP_Upper_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  regionB_muDisplacedStandAloneP_hist->SetBinErrorOption(TH1::kPoisson);
+  regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->SetBinErrorOption(TH1::kPoisson);
+  DTSegment_N_hist->SetBinErrorOption(TH1::kPoisson);
+  CSCSegment_N_hist->SetBinErrorOption(TH1::kPoisson);
+
   string host=getenv("HOST");
   string host_=host.substr(0,4);
   cout<<"host is: "<<host_<<endl;
@@ -4117,7 +4633,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //else cout<<"problem with resT3!!!!!!"<<endl;
     file = "/uscms_data/d3/alimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   }
-  if(host_=="brux") file = "/mnt/hadoop/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
+  //if(host_=="brux") file = "/mnt/hadoop/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
+  if(host_=="brux") file = "/user_data/alimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
   //if(host_=="brux") file = "../test/stoppedHSCPMuonTree.root";
   //if(host_=="brux") file="/home/alimena/histos/ABCDtree_2DSAdata_Run2012BCD.root";
   if(host_=="lxpl") file = "root://eoscms//eos/cms/store/user/jalimena/Ntuples/" + file_dataset + "/stoppedHSCPMuonTree.root";
@@ -4335,13 +4852,13 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   }
 
   //get text files
-  //const int NumPtBins = 500;
-  const int NumPtBins = 160;
+  const int NumPtBins = 500;
+  //const int NumPtBins = 160;
   double eventweightPt[NumPtBins][NumPtBins];
   ifstream inPt;
-  //TString weightFile = "/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/PtWeights_"+file_dataset+".txt";
+  TString weightFile = "/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/PtWeights_"+file_dataset+".txt";
   //TString weightFile = "/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/PtWeights_preselected_"+file_dataset+".txt";
-  TString weightFile = "/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/EtaWeights_preselected_"+file_dataset+".txt";
+  //TString weightFile = "/home/alimena/plots/txtfiles/DoublyChargedHiggsEventWeights/EtaWeights_preselected_"+file_dataset+".txt";
   inPt.open(weightFile, ios::in);
   cout<<"opened weight text file: "<<weightFile<<endl;
 
@@ -4412,8 +4929,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
-  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -4592,14 +5109,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
     double eventweightTauPrime = 1.0;
 
-    bool doHplusHistos = false;
-    for(int j=0;j<NumLinesPre; j++){
-      if(events->id==eventNumberPre[j]){
-	doHplusHistos = true;
+    //bool doHplusHistos = false;
+    bool doHplusHistos = true;
+    //for(int j=0;j<NumLinesPre; j++){
+    //if(events->id==eventNumberPre[j]){
+    //doHplusHistos = true;
 	//cout<<"doPlusHistos, event number "<<events->id<<endl;
-	break;
-      }
-    }
+	//break;
+    //}
+    //}
 
     //find out what's happening at the gen level for signal MC
     if(file_dataset_ == "stop") stops(events, good_genMuons, genMu0_index, WFromTop, status1muon, status1muonFromW, status1muonFromMuon, nRhadron, rhadronId1, rhadronId2, rhadronCharge1, rhadronCharge2, rhadronPt1, rhadronPt2, rhadronEta1, rhadronEta2, rhadronPhi1, rhadronPhi2);
@@ -4616,8 +5134,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     if(file_dataset_ == "tauP" || file_dataset_ == "mcha"){
       simTracks(events,simTrack0_index);
       tauPrime(events, status2H_, good_genH, genH0_index, genH1_index, genHpos_index, genHneg_index, angle);
-      //eventweightTauPrime = 1.0*eventWeightTauPrime(events,genHpos_index,genHneg_index,eventweightPt);
-      //cout<<"eventweightTauPrime is: "<<eventweightTauPrime<<endl;
+      eventweightTauPrime = 1.0*eventWeightTauPrime(events,genHpos_index,genHneg_index,eventweightPt);
+      cout<<"eventweightTauPrime is: "<<eventweightTauPrime<<endl;
       total_count_+=eventweightTauPrime;
     }
     if(file_dataset_ == "PGun" || file_dataset_ == "mcha") genMuMatch(events, genMuMatched_DSA_index,  genMuMatched_mu_index,  genMuMatched_SA_index,  genMuMatched_SAUpdatedAtVtx_index,  genMuMatched_RSA_index,  genMuMatched_cosmic_index);
@@ -5063,7 +5581,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    mcHPlusPlusPhi_HMinusMinusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHpos_index],events->mcDoublyChargedHiggsPhi[genHneg_index],1.0);
 			  }
 			  if((file_dataset_ == "tauP" || file_dataset_ == "mcha") && doHplusHistos){
-			    //cout<<"file dataset is tauP"<<endl;
+			    cout<<"file dataset is tauP"<<endl;
 
 			    mcH0Charge_hist->Fill(events->mcTauPrimeCharge[genH0_index],eventweightTauPrime);
 			    mcH1Charge_hist->Fill(events->mcTauPrimeCharge[genH1_index],eventweightTauPrime);
@@ -5172,8 +5690,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    //cout<<"starting to look at preselection"<<endl;
 		    if(n_passPreselection>0){
 		      if(highestPt_index!=999){
-			//ABCDevent = events; 
-			//ABCDtree->Fill();   
+			ABCDevent = events; 
+			ABCDtree->Fill();   
 			//StoppingRegionAcceptance(events);
 			//cout<<"starting highestPt plots"<<endl;		      		      
 			
@@ -5273,13 +5791,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			muDisplacedStandAloneEta_Phi_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],events->muDisplacedStandAlonePhi[highestPt_index],1.0);
 
 			//cout<<"finished DSA histos"<<endl;
-			/*
-			//abcd with free inverse beta and pt
-			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
+
+			//abcd with free inverse beta and p
+			if(events->muDisplacedStandAloneP[highestPt_index] > abcdPtCutValue_){
 			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_){
 			    nDregion++;
 
 			    regionD_muDisplacedStandAlone_N_hist->Fill(events->mu_DisplacedStandAlone_N,1.0);
+			    regionD_muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[highestPt_index],1.0);					    
 			    regionD_muDisplacedStandAlonePt_hist->Fill(events->muDisplacedStandAlonePt[highestPt_index],1.0);					    
 			    regionD_muDisplacedStandAloneEta_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],1.0);					   
 			    regionD_muDisplacedStandAlonePhi_hist->Fill(events->muDisplacedStandAlonePhi[highestPt_index],1.0);					   
@@ -5312,12 +5831,19 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			      //printout_L1(events);
 			    }
 			  }
-			  else nBregion++;
+			  else{
+			    nBregion++;
+			    regionB_muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[highestPt_index],1.0);
+			  }
 			}
 			else{
-			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_) nCregion++;
+			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_){
+			    nCregion++;
+			    regionC_muDisplacedStandAloneTrackDtTofFreeInverseBeta_hist->Fill(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index],1.0);
+			  }
 			  else nAregion++;
 			}
+
 
 			//abcd with free inverse beta and direction, and pt
 			if(events->muDisplacedStandAlonePt[highestPt_index] > abcdPtCutValue_){
@@ -5328,7 +5854,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] > abcdInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofDirection[highestPt_index]==1) nCregionDir++;
 			  else if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[highestPt_index] <= abcdInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofDirection[highestPt_index]==-1) nAregionDir++;
 			}
-			*/
+			
 
 			//cout<<"finished A and B region calculation"<<endl;
 
@@ -5541,8 +6067,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 		    //cout<<"starting upper and lower"<<endl;
 		    if(upper_index!=999 && lower_index!=999){
-		      ABCDevent = events; 
-		      ABCDtree->Fill();   
+		      //ABCDevent = events; 
+		      //ABCDtree->Fill();   
 		      //if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index]<-30){
 		      //if(events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index]<15){
 		      //cout<<"starting upper and lower hists"<<endl;
@@ -5854,7 +6380,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			else nAregionHighestP_++;
 		      }
 		      
-
+		      /*
 		      //abcd with free inverse beta and upper p
 		      if(events->muDisplacedStandAloneP[upper_index] > abcdPtCutValue_){
 			if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index] > abcdInvBetaCutValue_){
@@ -5949,7 +6475,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 			}//end of A region
 		      }//end of A and C region
-		      
+
 		      //abcd with free inverse beta and direction, and pt
 		      if(events->muDisplacedStandAlonePt[upper_index] > abcdPtCutValue_){
 			if(events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index] > abcdInvBetaCutValue_ && events->muDisplacedStandAloneTrackDtTofDirection[upper_index]==1) nDregionDir++;
@@ -5963,7 +6489,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		      //a'b': pt cut on lower muon
 		      if(events->muDisplacedStandAlonePt[lower_index] > abcdPtCutValue_) nBprimeRegion++;
 		      else nAprimeRegion++;
-
+		      */
 		      
 
 		      //2D gen vs reco: both muons
@@ -6014,6 +6540,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   //print out cut flow
   if(!is_data){
     cout<<endl;
+
     cout<<"out of those stopped IN THE DETECTOR:"<<endl;
     cout<<"percentage of stopped particles in tracker is: "<<1.*tracker_count_/detector_count_*100.<<endl;
     cout<<"percentage of stopped particles in EB is: "<<1.*eb_count_/detector_count_*100.<<endl;
