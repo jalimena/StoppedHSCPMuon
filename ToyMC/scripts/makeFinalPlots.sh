@@ -46,6 +46,9 @@ cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcGluino.txt $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcStop.txt $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcStau.txt $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcMchamp.txt $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcLimitGluino.txt $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcLimitStop.txt $dataset/.
+cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/data/mcLimitMchamp.txt $dataset/.
 
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/allInOneLifetime.C $dataset/.
 cp $CMSSW_BASE/src/StoppedHSCPMuon/ToyMC/macros/gluinostopMassLifetime.C $dataset/.

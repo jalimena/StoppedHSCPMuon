@@ -60,14 +60,23 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   DifferentXSLimitPlots plots(lumi);
 
   //mchamp index 0 is used, corresponds to 0th mass point = 100 GeV
-  plots.calculateCrossSections(7,4,0,39,9);
+  plots.calculateCrossSections(0,0,0,39,9);
     
   // three points on counting expt curve
-  TGraph* g_gluino = plots.getMassLimitGluino();
-  TGraph* g_stop = plots.getMassLimitStop();
+  //TGraph* g_obs_gluino = plots.getMassLimitGluino();
+  TGraph* g_gluino = plots.getExpMassLimitGluino();
+
+  //TGraph* g_obs_stop = plots.getMassLimitStop();
+  TGraph* g_stop = plots.getExpMassLimitStop();
 
   TGraph* g_obs_mchamp = plots.getMassLimitMchamp();
   TGraph* g_mchamp = plots.getExpMassLimitMchamp();
+
+  //TGraphAsymmErrors* g_expGluino_1sig = plots.getExpMassLimitGluino1Sig();  
+  //TGraphAsymmErrors* g_expGluino_2sig = plots.getExpMassLimitGluino2Sig();  
+
+  //TGraphAsymmErrors* g_expStop_1sig = plots.getExpMassLimitStop1Sig();  
+  //TGraphAsymmErrors* g_expStop_2sig = plots.getExpMassLimitStop2Sig();  
 
   TGraphAsymmErrors* g_exp_1sig = plots.getExpMassLimitMchamp1Sig();  
   TGraphAsymmErrors* g_exp_2sig = plots.getExpMassLimitMchamp2Sig();  
@@ -97,8 +106,10 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   canvas->SetLogy();
   
   TH1 * h;
+  //h = canvas->DrawFrame(100., 1e-5, 1500., 1e6); //2DSA gluios and stops
   h = canvas->DrawFrame(100., 1e-5, 1000., 1e3); //2DSA
   //h = canvas->DrawFrame(100., 1e-5, 1000., 1e4); //1DSA
+  //h->SetTitle(";m [GeV];#sigma [pb]");
   h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mchamp mchamp) [pb]");
   //h->SetTitle(";m_{mchamp} [GeV];#sigma(pp #rightarrow mch mch) #times BF(mch #rightarrow #mu#mu)  [pb]");
   //h->SetTitle("Beamgap Expt;m_{#tilde{g}} [GeV/c^{2}]; #sigma(pp #rightarrow #tilde{g}#tilde{g}) #times BR(#tilde{g} #rightarrow g#tilde{#chi}^{0}) [pb]");
@@ -145,17 +156,24 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //legbg->Draw();
   //TLegend *leg = new TLegend(600., 1.e1, 900., 4e2,"95% C.L. Limits","");
   //TLegend* leg = new TLegend(0.67, 0.70, 0.82, 0.92,"95% CL Limits:","NDC");
-  TLegend* leg = new TLegend(0.52, 0.70, 0.77, 0.92,"95% CL Limits:","NDC");
+  /////////TLegend* leg = new TLegend(0.52, 0.70, 0.77, 0.92,"95% CL Limits:","NDC");
+  TLegend* leg = new TLegend(0.45, 0.70, 0.70, 0.92,"95% CL Limits:","NDC");
   leg->SetTextSize(0.033);
   leg->SetBorderSize(0);
   leg->SetTextFont(42);
   leg->SetFillColor(0);
+
   leg->AddEntry(g_obs_mchamp, "Observed, 10 #mus - 1000 s", "lp");
   leg->AddEntry(g_mchamp, "Expected, 10 #mus - 1000 s", "l");
   leg->AddEntry(g_exp_1sig, "Expected #pm1#sigma, 10 #mus - 1000 s", "lf");
   leg->AddEntry(g_exp_2sig, "Expected #pm2#sigma, 10 #mus - 1000 s", "lf");
   leg->AddEntry(g_thMchamp, "LO Prediction", "l");
-
+  /*
+  leg->AddEntry(g_gluino, "Expected Gluino Limit, 10 #mus - 1000 s", "l");
+  leg->AddEntry(g_thGluino, "Gluino LO Prediction", "l");
+  leg->AddEntry(g_stop, "Expected Stop Limit, 10 #mus - 1000 s", "l");
+  leg->AddEntry(g_thStop, "Stop LO Prediction", "l");
+  */
   //leg->AddEntry(g_thGluino, "NLO+NLL #tilde{g}", "l");
   //leg->AddEntry(g_gluino, "Obs.: 10 #mus - 1000 s Counting Exp. (#tilde{g})", "l");
   //leg->AddEntry(g_tpg, "Obs.: 10 #mus Timing Profile (#tilde{g})", "l");
@@ -168,12 +186,12 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   
   
   
-  
+  /*
   // gluino curves
   g_gluino->SetLineColor(kBlue);
   g_gluino->SetLineStyle(2);
   g_gluino->SetLineWidth(3);
-  //g_gluino->Draw("l");
+  g_gluino->Draw("l");
 
   g_tpg->SetLineColor(kBlue);
   g_tpg->SetLineStyle(3);
@@ -181,12 +199,12 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   //g_tpg->Draw("l");
 
   // theory line
-  g_thGluino->SetLineColor(kBlue);
+  g_thGluino->SetLineColor(kGreen);
   g_thGluino->SetLineStyle(1);
   g_thGluino->SetLineWidth(2);
   g_thGluino->SetFillStyle(3001);
-  g_thGluino->SetFillColor(kBlue-4);
-  //g_thGluino->Draw("l3");
+  g_thGluino->SetFillColor(kGreen-4);
+  g_thGluino->Draw("l3");
 
 
   
@@ -194,20 +212,20 @@ void massPlot(double lumi=-1., double maxInstLumi=-1.) {
   g_stop->SetLineColor(kRed);
   g_stop->SetLineStyle(2);
   g_stop->SetLineWidth(2);
-  //g_stop->Draw("l");
+  g_stop->Draw("l");
 
   g_tps->SetLineColor(kRed);
   g_tps->SetLineStyle(3);
   g_tps->SetLineWidth(3);
   //g_tps->Draw("l");
    
-  g_thStop->SetLineColor(kRed);
+  g_thStop->SetLineColor(kOrange);
   g_thStop->SetLineStyle(1);
   g_thStop->SetLineWidth(2);
   g_thStop->SetFillStyle(3001);
-  g_thStop->SetFillColor(kRed-4);
-  //g_thStop->Draw("l3");
-
+  g_thStop->SetFillColor(kOrange-4);
+  g_thStop->Draw("l3");
+  */
 
   // mchamp curves
   // 2 sigma band

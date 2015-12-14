@@ -83,7 +83,9 @@ void allInOneLifetime(double lumi=4560.) {
   ExtraLimitPlots plots(lumi);
 
   //mchamp index 0 is used, corresponds to 0th mass point = 100 GeV
-  plots.calculateCrossSections(7,4,3,0,39,9);
+  //plots.calculateCrossSections(7,4,3,0,39,9); //100 GeV
+  //plots.calculateCrossSections(7,4,3,4,39,9); //500 GeV
+  plots.calculateCrossSections(7,4,3,9,39,9); //1000 GeV
   //plots.calculateCrossSections(7,4,3,4,39,9);
   
   // graphs - observed
@@ -235,15 +237,15 @@ void allInOneLifetime(double lumi=4560.) {
   //t1top->Draw();
 
   // mchamp LIMIT
-  TLine *lmchamp = new TLine(7.5e-8, 1.88/mchamp2ref, 1e6, 1.88/mchamp2ref); //100 GeV
-  //TLine *lmchamp = new TLine(7.5e-8, 0.002257/mchamp2ref, 1e6, 0.002257/mchamp2ref); //500 GeV
+  //TLine *lmchamp = new TLine(7.5e-8, 1.88/mchamp2ref, 1e6, 1.88/mchamp2ref); //100 GeV
+  TLine *lmchamp = new TLine(7.5e-8, 0.002257/mchamp2ref, 1e6, 0.002257/mchamp2ref); //500 GeV
   lmchamp->SetLineColor(kRed);
   lmchamp->SetLineWidth(2);
   //lmchamp->Draw();
   
   TLatex *t1mchamp;
-  t1mchamp = new TLatex(0.001, 1/mchamp2ref, "#sigma_{theory} (m_{mchamp} = 100 GeV)");
-  //t1mchamp = new TLatex(0.001, 0.001/mchamp2ref, "#sigma_{theory} (m_{mchamp} = 500 GeV)");
+  //t1mchamp = new TLatex(0.001, 3/mchamp2ref, "#sigma_{theory} (m_{mchamp} = 100 GeV)");
+  t1mchamp = new TLatex(0.001, 0.004/mchamp2ref, "#sigma_{theory} (m_{mchamp} = 500 GeV)");
   t1mchamp->SetTextColor(kRed);
   t1mchamp->SetTextFont(42);
   t1mchamp->SetTextSize(0.035);

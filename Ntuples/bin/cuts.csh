@@ -1,12 +1,12 @@
 #!/bin/tcsh
 
 set BxCut = wBxCut
-#set CavCut = wCavCut
-set CavCut = woCavCut
+set CavCut = wCavCut
+#set CavCut = woCavCut
 #set GenMuCut = wGenMuCut 
 set GenMuCut = woGenMuCut 
-#set SACut = wSACut 
-set SACut = woSACut 
+set SACut = wSACut 
+#set SACut = woSACut 
 set GenMuMatchedCut = woGenMuMatchedCut 
 #set GenMuMatchedCut = wGenMuMatchedCut 
 set TriggerCut = wTriggerCut 
@@ -21,8 +21,8 @@ set ChaCut = wChaCut
 #set ChaCut = woChaCut 
 #set EtaCut = wEtaCut 
 set EtaCut = woEtaCut 
-set UpperCut = woUpperCut 
-#set UpperCut = wUpperCut 
+#set UpperCut = woUpperCut 
+set UpperCut = wUpperCut 
 set RpcCut = wRpcCut 
 #set RpcCut = woRpcCut 
 #set DisStCut = wDisStCut 
@@ -35,14 +35,18 @@ set InvBetaErrCut = wInvBetaErrCut
 #set InvBetaErrCut = woInvBetaErrCut 
 set CscHitsCut = wCscHitsCut 
 #set CscHitsCut = woCscHitsCut 
-#set DtInvBetaCut = wDtInvBetaCut 
-set DtInvBetaCut = woDtInvBetaCut 
-#set TimeInOutCut = wTimeInOutCut
-set TimeInOutCut = woTimeInOutCut
-#set TimeInOutErrCut = wTimeInOutErrCut
-set TimeInOutErrCut = woTimeInOutErrCut
-#set TofDirCut = wTofDirCut
-set TofDirCut = woTofDirCut
+set DtInvBetaCut = wDtInvBetaCut 
+#set DtInvBetaCut = woDtInvBetaCut 
+set TimeInOutCut = wTimeInOutCut
+#set TimeInOutCut = woTimeInOutCut
+set TimeInOutErrCut = wTimeInOutErrCut
+#set TimeInOutErrCut = woTimeInOutErrCut
+set DeltaTimeInOutCut = wDeltaTimeInOutCut
+#set DeltaTimeInOutCut = woDeltaTimeInOutCut
+#set DeltaDtInvBetaCut = wDeltaDtInvBetaCut
+set DeltaDtInvBetaCut = woDeltaDtInvBetaCut
+set TofDirCut = wTofDirCut
+#set TofDirCut = woTofDirCut
 #set OppEtaCut = wOppEtaCut 
 set OppEtaCut = woOppEtaCut 
 #set OppPhiCut = wOppPhiCut 
@@ -65,5 +69,5 @@ else
     set cuts_ = $Printout    
 endif
 
-set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $NdsaCut $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $InvBetaErrCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $TimeInOutErrCut $TofDirCut $OppEtaCut $OppPhiCut $ChargeCut $DxyCut $TightPhi $CosEnrich $resT3 $Printout"
+set cuts = "$BxCut $CavCut $GenMuCut $SACut $GenMuMatchedCut $TriggerCut $TriggerTurnOn $NdsaCut $PtCut $ChaCut $EtaCut $UpperCut $RpcCut $DisStCut $RpcBxCut $DtHitsCut $InvBetaErrCut $CscHitsCut $DtInvBetaCut $TimeInOutCut $TimeInOutErrCut $DeltaTimeInOutCut $DeltaDtInvBetaCut $TofDirCut $OppEtaCut $OppPhiCut $ChargeCut $DxyCut $TightPhi $CosEnrich $resT3 $Printout"
 

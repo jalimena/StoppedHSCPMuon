@@ -23,8 +23,10 @@ class DifferentXSLimitPlots {
   
   void readToyFile(std::string filename);
   void readTimeProfileFile(std::string filename);
-  void readGluinoData(std::string filename);
-  void readStopData(std::string filename);
+  //void readGluinoData(std::string filename);
+  //void readStopData(std::string filename);
+  void readLimitGluinoData(std::string filename);
+  void readLimitStopData(std::string filename);
   void readLimitMchampData(std::string filename);
   void readStauData(std::string filename);
   
@@ -122,6 +124,16 @@ class DifferentXSLimitPlots {
   std::vector<double> gluinoEffStopNB;
   std::vector<double> gluinoEffStopEM;
   std::vector<double> gluinoEffReco;
+  std::vector<double> gluinoEffLumi;
+  std::vector<double> gluinoExpBG;
+  std::vector<double> gluinoExpBGErr;
+  std::vector<double> gluinoObs;
+  std::vector<double> gluinoObsLimit;
+  std::vector<double> gluinoExpLimit;
+  std::vector<double> gluinoExpLimitLo1Sig;
+  std::vector<double> gluinoExpLimitHi1Sig;
+  std::vector<double> gluinoExpLimitLo2Sig;
+  std::vector<double> gluinoExpLimitHi2Sig;
   
   // gluino theory info
   std::vector<double> gluinoTheoryMass;
@@ -134,6 +146,16 @@ class DifferentXSLimitPlots {
   std::vector<double> stopEffStopNB;
   std::vector<double> stopEffStopEM;
   std::vector<double> stopEffReco;
+  std::vector<double> stopEffLumi;
+  std::vector<double> stopExpBG;
+  std::vector<double> stopExpBGErr;
+  std::vector<double> stopObs;
+  std::vector<double> stopObsLimit;
+  std::vector<double> stopExpLimit;
+  std::vector<double> stopExpLimitLo1Sig;
+  std::vector<double> stopExpLimitHi1Sig;
+  std::vector<double> stopExpLimitLo2Sig;
+  std::vector<double> stopExpLimitHi2Sig;
   
   //stop theory
   std::vector<double> stopTheoryMass;

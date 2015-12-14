@@ -9,8 +9,10 @@ DifferentXSLimitPlots::DifferentXSLimitPlots(double tpLumi) :
   readToyFile(std::string("toymc.txt"));
   readTimeProfileFile(std::string("time_profile.txt"));
 
-  readGluinoData(std::string("mcGluino.txt"));
-  readStopData(std::string("mcStop.txt"));
+  //readGluinoData(std::string("mcGluino.txt"));
+  //readStopData(std::string("mcStop.txt"));
+  readLimitGluinoData(std::string("mcLimitGluino.txt"));
+  readLimitStopData(std::string("mcLimitStop.txt"));
   readLimitMchampData(std::string("mcLimitMchamp.txt"));
   //  readStauData(cmssw+std::string("/src/StoppedHSCP/Analysis/data/mcStau.txt");
 
@@ -84,7 +86,7 @@ void DifferentXSLimitPlots::readTimeProfileFile(std::string filename) {
 
 }
 
-
+/*
 void DifferentXSLimitPlots::readGluinoData(std::string filename) {
 
   std::cout << "Reading gluino data from " << filename << std::endl;
@@ -124,8 +126,8 @@ void DifferentXSLimitPlots::readGluinoData(std::string filename) {
   std::cout << "Read " << count << " gluino mass points" << std::endl;
 
 }
-
-
+*/
+/*
 void DifferentXSLimitPlots::readStopData(std::string filename) {
 
   std::cout << "Reading stop data from " << filename << std::endl;
@@ -161,6 +163,118 @@ void DifferentXSLimitPlots::readStopData(std::string filename) {
   }
 
   std::cout << "Read " << count << " stop mass points" << std::endl;
+
+}
+*/
+void DifferentXSLimitPlots::readLimitGluinoData(std::string filename) {
+
+  std::cout << "Reading limit gluino data from " << filename << std::endl;
+
+  unsigned count=0 ;
+
+  ifstream file;
+  file.open(filename.c_str());
+
+  std::string line;
+  getline(file, line);
+  getline(file, line);
+  
+  double m(0.), mchi(0.), er(0.), xst(0.);
+  //toy MC results for lifetime of 1 s
+  double el(0.), b(0.), eb(0.), cl(0.);
+  double exmean(0.), lo1sig(0.), hi1sig(0.), lo2sig(0.), hi2sig(0.);
+  unsigned n(0);
+  std::string z;
+  
+  while (file >> m >> mchi >> er >> xst >> el >> b >> eb >> n >> cl >> exmean >> lo1sig >> hi1sig >> lo2sig >> hi2sig) {
+    
+    gluinoMass.push_back(m);
+    gluinoChi0Mass.push_back(mchi);
+    gluinoEffReco.push_back(er);
+    gluinoEffLumi.push_back(el);
+    gluinoExpBG.push_back(b);
+    gluinoExpBGErr.push_back(eb);
+    gluinoObs.push_back(n);
+    gluinoObsLimit.push_back(cl);
+    gluinoExpLimit.push_back(exmean);
+    gluinoExpLimitLo1Sig.push_back(lo1sig);
+    gluinoExpLimitHi1Sig.push_back(hi1sig);
+    gluinoExpLimitLo2Sig.push_back(lo2sig);
+    gluinoExpLimitHi2Sig.push_back(hi2sig);
+    
+    // gluino theory info
+    if (xst > 0.) {
+      gluinoTheoryMass.push_back(m);
+      gluinoTheoryXS.push_back(xst);
+    }
+    
+    count++;    
+  }
+  
+  file.close();
+
+  // print out to check
+  std::cout << "Read " << count << " gluino mass points" << std::endl;
+  for (unsigned c=0; c<count; ++c) {
+    std::cout << gluinoMass[c] <<" "<<gluinoEffReco[c]<< " " << gluinoEffLumi[c] << " " << gluinoObsLimit[c] << " " << gluinoExpLimit[c] << " " << gluinoExpLimitLo1Sig[c] << " " << gluinoExpLimitHi1Sig[c] << " " << gluinoExpLimitLo2Sig[c] << " " << gluinoExpLimitHi2Sig[c] << std::endl;
+  }
+
+
+}
+
+void DifferentXSLimitPlots::readLimitStopData(std::string filename) {
+
+  std::cout << "Reading limit stop data from " << filename << std::endl;
+
+  unsigned count=0 ;
+
+  ifstream file;
+  file.open(filename.c_str());
+
+  std::string line;
+  getline(file, line);
+  getline(file, line);
+  
+  double m(0.),  mchi(0.), er(0.), xst(0.);
+  //toy MC results for lifetime of 1 s
+  double el(0.), b(0.), eb(0.), cl(0.);
+  double exmean(0.), lo1sig(0.), hi1sig(0.), lo2sig(0.), hi2sig(0.);
+  unsigned n(0);
+  std::string z;
+  
+  while (file >> m >> mchi >> er >> xst >> el >> b >> eb >> n >> cl >> exmean >> lo1sig >> hi1sig >> lo2sig >> hi2sig) {
+    
+    stopMass.push_back(m);
+    stopChi0Mass.push_back(mchi);
+    stopEffReco.push_back(er);
+    stopEffLumi.push_back(el);
+    stopExpBG.push_back(b);
+    stopExpBGErr.push_back(eb);
+    stopObs.push_back(n);
+    stopObsLimit.push_back(cl);
+    stopExpLimit.push_back(exmean);
+    stopExpLimitLo1Sig.push_back(lo1sig);
+    stopExpLimitHi1Sig.push_back(hi1sig);
+    stopExpLimitLo2Sig.push_back(lo2sig);
+    stopExpLimitHi2Sig.push_back(hi2sig);
+    
+    // stop theory info
+    if (xst > 0.) {
+      stopTheoryMass.push_back(m);
+      stopTheoryXS.push_back(xst);
+    }
+    
+    count++;    
+  }
+  
+  file.close();
+
+  // print out to check
+  std::cout << "Read " << count << " stop mass points" << std::endl;
+  for (unsigned c=0; c<count; ++c) {
+    std::cout << stopMass[c] <<" "<<stopEffReco[c]<< " " << stopEffLumi[c] << " " << stopObsLimit[c] << " " << stopExpLimit[c] << " " << stopExpLimitLo1Sig[c] << " " << stopExpLimitHi1Sig[c] << " " << stopExpLimitLo2Sig[c] << " " << stopExpLimitHi2Sig[c] << std::endl;
+  }
+
 
 }
 
@@ -262,10 +376,18 @@ void DifferentXSLimitPlots::readStauData(std::string filename) {
 // toyIndex is not used because it should vary with different threshold hypotheses 
 void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigned stopIndex, unsigned mchampIndex, unsigned toyIndex, unsigned tpIndex) {
 
+  std::cout << "Using gluino mass point " << gluinoIndex << std::endl;
+  std::cout << "  mass=" << gluinoMass[gluinoIndex]
+	    << " recoEff=" << gluinoEffReco[gluinoIndex] << std::endl;
+
+  std::cout << "Using stop mass point " << stopIndex << std::endl;
+  std::cout << "  mass=" << stopMass[stopIndex]
+	    << " recoEff=" << stopEffReco[stopIndex] << std::endl;
+
   std::cout << "Using mchamp mass point " << mchampIndex << std::endl;
   std::cout << "  mass=" << mchampMass[mchampIndex]
 	    << " recoEff=" << mchampEffReco[mchampIndex] << std::endl;
-
+  /*
   std::cout << "Lifetime,XSlimit,ExpLimit,-1sigma,+1sigma,-2sigma,+2sigma" << std::endl;
   for (int l=0; l<nToyLifetime; ++l) {
 	
@@ -281,12 +403,12 @@ void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigne
     xsLimitToyMchamp.push_back( toyObsLimit[l] / (toyEffLumi[l] * mchampEffReco[mchampIndex]) );
 	
     // observed limits
-    xsProdLimitToyGluino.push_back( toyObsLimit[l] / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
+    xsProdLimitToyGluino.push_back( toyObsLimit[l] / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
     xsProdLimitToyGluinoNB.push_back( toyObsLimit[l] / (toyEffLumi[l] * gluinoEffStopNB[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
     xsProdLimitToyGluinoEM.push_back( toyObsLimit[l] / (toyEffLumi[l] * gluinoEffStopEM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
 
     // observed limits stop
-    xsProdLimitToyStop.push_back( toyObsLimit[l] / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
+    xsProdLimitToyStop.push_back( toyObsLimit[l] / (toyEffLumi[l] * stopEffReco[stopIndex]) );
     xsProdLimitToyStopNB.push_back( toyObsLimit[l] / (toyEffLumi[l] * stopEffStopNB[stopIndex] * stopEffReco[stopIndex]) );
     xsProdLimitToyStopEM.push_back( toyObsLimit[l] / (toyEffLumi[l] * stopEffStopEM[stopIndex] * stopEffReco[stopIndex]) );
 
@@ -294,18 +416,18 @@ void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigne
     xsProdLimitToyMchamp.push_back( toyObsLimit[l] / (toyEffLumi[l] * mchampEffReco[mchampIndex]) );
 
     // expected limit and bands
-    xsProdExpLimitToyGluino.push_back( toyExpLimit[l] / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
-    xsProdExpLimitLo1SigToyGluino.push_back( (toyExpLimit[l]-toyExpLimitLo1Sig[l]) / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
-    xsProdExpLimitHi1SigToyGluino.push_back( (toyExpLimitHi1Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
-    xsProdExpLimitLo2SigToyGluino.push_back( (toyExpLimit[l]-toyExpLimitLo2Sig[l]) / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
-    xsProdExpLimitHi2SigToyGluino.push_back( (toyExpLimitHi2Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * gluinoEffStopCM[gluinoIndex] * gluinoEffReco[gluinoIndex]) );
+    xsProdExpLimitToyGluino.push_back( toyExpLimit[l] / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
+    xsProdExpLimitLo1SigToyGluino.push_back( (toyExpLimit[l]-toyExpLimitLo1Sig[l]) / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
+    xsProdExpLimitHi1SigToyGluino.push_back( (toyExpLimitHi1Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
+    xsProdExpLimitLo2SigToyGluino.push_back( (toyExpLimit[l]-toyExpLimitLo2Sig[l]) / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
+    xsProdExpLimitHi2SigToyGluino.push_back( (toyExpLimitHi2Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * gluinoEffReco[gluinoIndex]) );
 
     // expected limit and bands - stop
-    xsProdExpLimitToyStop.push_back( toyExpLimit[l] / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
-    xsProdExpLimitLo1SigToyStop.push_back( (toyExpLimit[l]-toyExpLimitLo1Sig[l]) / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
-    xsProdExpLimitHi1SigToyStop.push_back( (toyExpLimitHi1Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
-    xsProdExpLimitLo2SigToyStop.push_back( (toyExpLimit[l]-toyExpLimitLo2Sig[l]) / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
-    xsProdExpLimitHi2SigToyStop.push_back( (toyExpLimitHi2Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * stopEffStopCM[stopIndex] * stopEffReco[stopIndex]) );
+    xsProdExpLimitToyStop.push_back( toyExpLimit[l] / (toyEffLumi[l] * stopEffReco[stopIndex]) );
+    xsProdExpLimitLo1SigToyStop.push_back( (toyExpLimit[l]-toyExpLimitLo1Sig[l]) / (toyEffLumi[l] * stopEffReco[stopIndex]) );
+    xsProdExpLimitHi1SigToyStop.push_back( (toyExpLimitHi1Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * stopEffReco[stopIndex]) );
+    xsProdExpLimitLo2SigToyStop.push_back( (toyExpLimit[l]-toyExpLimitLo2Sig[l]) / (toyEffLumi[l] * stopEffReco[stopIndex]) );
+    xsProdExpLimitHi2SigToyStop.push_back( (toyExpLimitHi2Sig[l]-toyExpLimit[l]) / (toyEffLumi[l] * stopEffReco[stopIndex]) );
 
     // expected limit and bands - mchamp
     xsProdExpLimitToyMchamp.push_back( toyExpLimit[l] / (toyEffLumi[l] * mchampEffReco[mchampIndex]) );
@@ -327,7 +449,7 @@ void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigne
     xsProdLimitTPMchamp.push_back( tpObsLimit[i] / (tpLumi_  * mchampEffReco[mchampIndex]) );
     std::cout << tpLifetime[i] << "," << xsProdLimitTPGluino[i] << std::endl;
   }
-
+  */
   std::cout << "Using toy MC lifetime point " << toyLifetime[toyIndex] << " sec" << std::endl;
   if (tpLifetime.size()>tpIndex)
     std::cout << "Using time profile lifetime point " << tpLifetime[tpIndex] << std::endl;
@@ -335,23 +457,23 @@ void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigne
     std::cout <<" Time Profile size is < "<<tpIndex<<".  Is time profile txt file provided?"<<std::endl;
   for (unsigned i=0; i<gluinoMass.size(); ++i) {
 		
-    if (gluinoEffStopCM[i] * gluinoEffReco[i] > 0.) {
+    if (gluinoEffReco[i] > 0.) {
       massGluino.push_back(gluinoMass[i]);
 
       //observed
-      xsProdMassGluino.push_back( toyObsLimit[toyIndex] / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
+      xsProdMassGluino.push_back( gluinoObsLimit[i] / (gluinoEffLumi[i] * gluinoEffReco[i]) );
       if (tpLifetime.size()>tpIndex)
 			  
-	xsProdMassTPGluino.push_back( tpObsLimit[tpIndex] / (tpLumi_ * gluinoEffStopCM[i] * gluinoEffReco[i]) );
+	xsProdMassTPGluino.push_back( tpObsLimit[tpIndex] / (tpLumi_ * gluinoEffReco[i]) );
 
       //expected gluino
-      xsProdExpMassGluino.push_back( toyExpLimit[toyIndex] / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
-      xsProdExpLo1SigMassGluino.push_back( (toyExpLimit[toyIndex]-toyExpLimitLo1Sig[toyIndex]) / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
-      xsProdExpHi1SigMassGluino.push_back( (toyExpLimitHi1Sig[toyIndex]-toyExpLimit[toyIndex]) / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
-      xsProdExpLo2SigMassGluino.push_back( (toyExpLimit[toyIndex]-toyExpLimitLo2Sig[toyIndex]) / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
-      xsProdExpHi2SigMassGluino.push_back( (toyExpLimitHi2Sig[toyIndex]-toyExpLimit[toyIndex]) / (toyEffLumi[toyIndex] * gluinoEffStopCM[i] * gluinoEffReco[i]) );
+      xsProdExpMassGluino.push_back( gluinoExpLimit[i] / (gluinoEffLumi[i] * gluinoEffReco[i]) );
+      xsProdExpLo1SigMassGluino.push_back( (gluinoExpLimit[i]-gluinoExpLimitLo1Sig[i]) / (gluinoEffLumi[i] * gluinoEffReco[i]) );
+      xsProdExpHi1SigMassGluino.push_back( (gluinoExpLimitHi1Sig[i]-gluinoExpLimit[i]) / (gluinoEffLumi[i] * gluinoEffReco[i]) );
+      xsProdExpLo2SigMassGluino.push_back( (gluinoExpLimit[i]-gluinoExpLimitLo2Sig[i]) / (gluinoEffLumi[i] * gluinoEffReco[i]) );
+      xsProdExpHi2SigMassGluino.push_back( (gluinoExpLimitHi2Sig[i]-gluinoExpLimit[i]) / (gluinoEffLumi[i] * gluinoEffReco[i]) );
 
-      std::cout << " mass=" << gluinoMass.at(i) << " stopEff=" << gluinoEffStopCM[i] << " recoEff=" << gluinoEffReco[i] << std::endl;
+      std::cout << " mass=" << gluinoMass.at(i) << " recoEff=" << gluinoEffReco[i] << std::endl;
 
     }
 
@@ -360,22 +482,22 @@ void DifferentXSLimitPlots::calculateCrossSections(unsigned gluinoIndex, unsigne
 	
   for (unsigned i=0; i<stopMass.size(); ++i) {
 	
-    if (stopEffStopCM[i] * stopEffReco[i] > 0.) {
+    if (stopEffReco[i] > 0.) {
 			
       massStop.push_back( stopMass[i] );
 
       // observed stop
-      xsProdMassStop.push_back( toyObsLimit[toyIndex] / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
+      xsProdMassStop.push_back( stopObsLimit[i] / (stopEffLumi[i] * stopEffReco[i]) );
       if (tpLifetime.size()>tpIndex)
 			  
-	xsProdMassTPStop.push_back( tpObsLimit[tpIndex] / (tpLumi_ * stopEffStopCM[i] * stopEffReco[i]) );
+	xsProdMassTPStop.push_back( tpObsLimit[tpIndex] / (tpLumi_ * stopEffReco[i]) );
 		
       // expected stop
-      xsProdExpMassStop.push_back( toyExpLimit[toyIndex] / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
-      xsProdExpLo1SigMassStop.push_back( (toyExpLimit[toyIndex]-toyExpLimitLo1Sig[toyIndex]) / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
-      xsProdExpHi1SigMassStop.push_back( (toyExpLimitHi1Sig[toyIndex]-toyExpLimit[toyIndex]) / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
-      xsProdExpLo2SigMassStop.push_back( (toyExpLimit[toyIndex]-toyExpLimitLo2Sig[toyIndex]) / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
-      xsProdExpHi2SigMassStop.push_back( (toyExpLimitHi2Sig[toyIndex]-toyExpLimit[toyIndex]) / (toyEffLumi[toyIndex] * stopEffStopCM[i] * stopEffReco[i]) );
+      xsProdExpMassStop.push_back( stopExpLimit[i] / (stopEffLumi[i] *  stopEffReco[i]) );
+      xsProdExpLo1SigMassStop.push_back( (stopExpLimit[i]-stopExpLimitLo1Sig[i]) / (stopEffLumi[i]  * stopEffReco[i]) );
+      xsProdExpHi1SigMassStop.push_back( (stopExpLimitHi1Sig[i]-stopExpLimit[i]) / (stopEffLumi[i]  * stopEffReco[i]) );
+      xsProdExpLo2SigMassStop.push_back( (stopExpLimit[i]-stopExpLimitLo2Sig[i]) / (stopEffLumi[i]  * stopEffReco[i]) );
+      xsProdExpHi2SigMassStop.push_back( (stopExpLimitHi2Sig[i]-stopExpLimit[i]) / (stopEffLumi[i]  * stopEffReco[i]) );
 		
       std::cout << " mass=" << stopMass.at(i) << std::endl;
 
