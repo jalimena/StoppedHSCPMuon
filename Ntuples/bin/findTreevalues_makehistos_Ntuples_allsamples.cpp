@@ -2268,18 +2268,18 @@ void findTreevalues_makehistos_Ntuples_allsamples::StoppedParticles( StoppedHSCP
     }    
   }//end of if 2 stopped particles
 
-  if(stopped_index!=999){
-  //for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
+  //if(stopped_index!=999){
+  for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
     //cout<<"stopped particle is: "<<events->mcStoppedParticleId[stopped_index]<<endl;
-    double r = events->mcStoppedParticleR[stopped_index]/10.0;
-    double z = events->mcStoppedParticleZ[stopped_index]/10.0;
-    double particle_eta = eta(events->mcStoppedParticleX[stopped_index],events->mcStoppedParticleY[stopped_index],
-			      events->mcStoppedParticleZ[stopped_index],events->mcStoppedParticleTime[stopped_index]);
+    //double r = events->mcStoppedParticleR[stopped_index]/10.0;
+    //double z = events->mcStoppedParticleZ[stopped_index]/10.0;
+    //double particle_eta = eta(events->mcStoppedParticleX[stopped_index],events->mcStoppedParticleY[stopped_index],
+    //			      events->mcStoppedParticleZ[stopped_index],events->mcStoppedParticleTime[stopped_index]);
 
-    //double r = events->mcStoppedParticleR[j]/10.0;
-    //double z = events->mcStoppedParticleZ[j]/10.0;
-    //double particle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
-    //			      events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    double r = events->mcStoppedParticleR[j]/10.0;
+    double z = events->mcStoppedParticleZ[j]/10.0;
+    double particle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+    			      events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
     
     if (r < 131.0 && fabs(particle_eta) <= 2.5 && fabs(z) < 300.0) tracker_count_+=eventweightTauPrime;
     else if (r>=131.0 && r<184.0 && fabs(z)<376.0 && fabs(particle_eta)<1.479) eb_count_+=eventweightTauPrime;
@@ -4985,16 +4985,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   if (TightPhi!="wTightPhi" && TightPhi!="woTightPhi") cout<<"problem w TightPhi assignment!!!"<<endl;
   if (CosEnrich!="wCosEnrich" && CosEnrich!="woCosEnrich") cout<<"problem w CosEnrich assignment!!!"<<endl;
   if (Printout!="wPrintout" && Printout!="woPrintout") cout<<"problem w Printout assignment!!!"<<endl;
-
+  
   TFile* fnew = new TFile("blah","recreate");
   if(Printout=="woPrintout"){
     fnew = new TFile(new_file, "recreate");
     cout<<"opened output file"<<endl;
   }
-
+  
+  /*
   TString simpleTree_file = "/home/alimena/histos/" + file_dataset + "/simpleTree.root";
-  //TFile* f_simpleTree = new TFile(simpleTree_file,"recreate");
-
+  TFile* f_simpleTree = new TFile(simpleTree_file,"recreate");
+  */
   //get text files
   const int NumPtBins = 500;
   //const int NumPtBins = 160;
@@ -5096,18 +5097,145 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   ABCDtree->Branch("events", "StoppedHSCPMuonEvent", &ABCDevent, 64000, 1);
   cout<<"made new events branch"<<endl;
 
+  /*
   //simple tree
   TTree* simpleTree = new TTree("tree","");
 
   // Declaration of new leaf types
-  Int_t runNumber, evtNumber, lumiSection, nDSA;
+  Bool_t l1SingleMu6NoBptx, hltL2Mu10NoVertexNoBptx3BX, hltL2Mu20NoVertexNoBptx3BX, hltL2Mu30NoVertexNoBptx3BX, hltL2Mu10NoVertexNoBptx3BXNoHalo, hltL2Mu20NoVertexNoBptx3BXNoHalo, hltL2Mu30NoVertexNoBptx3BXNoHalo,hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo, hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo;    
 
+  Int_t runNumber, evtNumber, lumiSection, bxNumber, mcMuonId_upper, mcMuonCharge_upper, mcMuonStatus_upper, mcMuonMotherId_upper, mcMuonId_lower, mcMuonCharge_lower, mcMuonStatus_lower, mcMuonMotherId_lower, mcStoppedParticleId, mcStoppedParticleCharge, DTSegment_N, CSCSegment_N, nDSA, muDisplacedStandAloneCharge_upper, muDisplacedStandAloneNHitsMuon_upper,  muDisplacedStandAloneNHitsCsc_upper,  muDisplacedStandAloneNHitsDt_upper,  muDisplacedStandAloneNHitsRpc_upper,  muDisplacedStandAloneNRpcDof_upper, muDisplacedStandAloneNStations_upper, muDisplacedStandAloneNChambersCsc_upper, muDisplacedStandAloneNChambersDt_upper, muDisplacedStandAloneNChambersRpc_upper, muDisplacedStandAloneDtTofNDof_upper, muDisplacedStandAloneDtTofDirection_upper, muDisplacedStandAloneBxPattern_upper, muDisplacedStandAloneCharge_lower, muDisplacedStandAloneNHitsMuon_lower,  muDisplacedStandAloneNHitsCsc_lower,  muDisplacedStandAloneNHitsDt_lower,  muDisplacedStandAloneNHitsRpc_lower,  muDisplacedStandAloneNRpcDof_lower, muDisplacedStandAloneNStations_lower, muDisplacedStandAloneNChambersCsc_lower, muDisplacedStandAloneNChambersDt_lower, muDisplacedStandAloneNChambersRpc_lower, muDisplacedStandAloneDtTofNDof_lower, muDisplacedStandAloneDtTofDirection_lower, muDisplacedStandAloneBxPattern_lower;
+
+  Double_t mcMuonMass_upper, mcMuonPx_upper, mcMuonPy_upper, mcMuonPz_upper, mcMuonPt_upper, mcMuonP_upper, mcMuonPhi_upper, mcMuonEta_upper, mcMuonVx_upper, mcMuonVy_upper, mcMuonVz_upper, mcMuonMass_lower, mcMuonPx_lower, mcMuonPy_lower, mcMuonPz_lower, mcMuonPt_lower, mcMuonP_lower, mcMuonPhi_lower, mcMuonEta_lower, mcMuonVx_lower, mcMuonVy_lower, mcMuonVz_lower, mcStoppedParticleMass, mcStoppedParticleX, mcStoppedParticleY, mcStoppedParticleZ, mcStoppedParticleR, mcStoppedParticleEta, mcStoppedParticlePhi, mcStoppedParticleTime, muDisplacedStandAloneP_upper, muDisplacedStandAlonePt_upper, muDisplacedStandAlonePx_upper, muDisplacedStandAlonePy_upper, muDisplacedStandAlonePz_upper, muDisplacedStandAloneEta_upper, muDisplacedStandAlonePhi_upper, muDisplacedStandAloneNormalizedChi2_upper,  muDisplacedStandAloneDxy_upper,  muDisplacedStandAloneDz_upper, muDisplacedStandAloneDtTofInverseBeta_upper, muDisplacedStandAloneDtTofInverseBetaErr_upper, muDisplacedStandAloneDtTofFreeInverseBeta_upper, muDisplacedStandAloneDtTofFreeInverseBetaErr_upper, muDisplacedStandAloneDtTofTimeAtIpInOut_upper, muDisplacedStandAloneDtTofTimeAtIpInOutErr_upper, muDisplacedStandAloneDtTofTimeAtIpOutIn_upper, muDisplacedStandAloneDtTofTimeAtIpOutInErr_upper, muDisplacedStandAloneDtTofChi2Dof_upper, muDisplacedStandAloneP_lower, muDisplacedStandAlonePt_lower, muDisplacedStandAlonePx_lower, muDisplacedStandAlonePy_lower, muDisplacedStandAlonePz_lower, muDisplacedStandAloneEta_lower, muDisplacedStandAlonePhi_lower, muDisplacedStandAloneNormalizedChi2_lower,  muDisplacedStandAloneDxy_lower,  muDisplacedStandAloneDz_lower, muDisplacedStandAloneDtTofInverseBeta_lower, muDisplacedStandAloneDtTofInverseBetaErr_lower, muDisplacedStandAloneDtTofFreeInverseBeta_lower, muDisplacedStandAloneDtTofFreeInverseBetaErr_lower, muDisplacedStandAloneDtTofTimeAtIpInOut_lower, muDisplacedStandAloneDtTofTimeAtIpInOutErr_lower, muDisplacedStandAloneDtTofTimeAtIpOutIn_lower, muDisplacedStandAloneDtTofTimeAtIpOutInErr_lower, muDisplacedStandAloneDtTofChi2Dof_lower;
 
   //set new branch addresses
   simpleTree->Branch("runNumber",&runNumber,"runNumber/I");
   simpleTree->Branch("eventNumber",&evtNumber,"eventNumber/I");
   simpleTree->Branch("lumiSection",&lumiSection,"lumiSection/I");
+  simpleTree->Branch("bxNumber",&bxNumber,"bxNumber/I");
+
+  simpleTree->Branch("mcMuonId_upper",&mcMuonId_upper,"mcMuonId_upper/I");	      
+  simpleTree->Branch("mcMuonMass_upper",&mcMuonMass_upper,"mcMuonMass_upper/D");	      
+  simpleTree->Branch("mcMuonCharge_upper",&mcMuonCharge_upper,"mcMuonCharge_upper/I");  
+  simpleTree->Branch("mcMuonPx_upper",&mcMuonPx_upper,"mcMuonPx_upper/D");	      
+  simpleTree->Branch("mcMuonPy_upper",&mcMuonPy_upper,"mcMuonPy_upper/D");	      
+  simpleTree->Branch("mcMuonPz_upper",&mcMuonPz_upper,"mcMuonPz_upper/D");	      
+  simpleTree->Branch("mcMuonPt_upper",&mcMuonPt_upper,"mcMuonPt_upper/D");	      
+  simpleTree->Branch("mcMuonP_upper",&mcMuonP_upper,"mcMuonP_upper/D");	      
+  simpleTree->Branch("mcMuonPhi_upper",&mcMuonPhi_upper,"mcMuonPhi_upper/D");	      
+  simpleTree->Branch("mcMuonEta_upper",&mcMuonEta_upper,"mcMuonEta_upper/D");	      
+  simpleTree->Branch("mcMuonVx_upper",&mcMuonVx_upper,"mcMuonVx_upper/D");	      
+  simpleTree->Branch("mcMuonVy_upper",&mcMuonVy_upper,"mcMuonVy_upper/D");	      
+  simpleTree->Branch("mcMuonVz_upper",&mcMuonVz_upper,"mcMuonVz_upper/D");	      
+  simpleTree->Branch("mcMuonStatus_upper",&mcMuonStatus_upper,"mcMuonStatus_upper/I");  
+  simpleTree->Branch("mcMuonMotherId_upper",&mcMuonMotherId_upper,"mcMuonMotherId_upper/I");
+
+  simpleTree->Branch("mcMuonId_lower",&mcMuonId_lower,"mcMuonId_lower/I");
+  simpleTree->Branch("mcMuonMass_lower",&mcMuonMass_lower,"mcMuonMass_lower/D");	      
+  simpleTree->Branch("mcMuonCharge_lower",&mcMuonCharge_lower,"mcMuonCharge_lower/I");  
+  simpleTree->Branch("mcMuonPx_lower",&mcMuonPx_lower,"mcMuonPx_lower/D");	      
+  simpleTree->Branch("mcMuonPy_lower",&mcMuonPy_lower,"mcMuonPy_lower/D");	      
+  simpleTree->Branch("mcMuonPz_lower",&mcMuonPz_lower,"mcMuonPz_lower/D");	      
+  simpleTree->Branch("mcMuonPt_lower",&mcMuonPt_lower,"mcMuonPt_lower/D");	      
+  simpleTree->Branch("mcMuonP_lower",&mcMuonP_lower,"mcMuonP_lower/D");	      
+  simpleTree->Branch("mcMuonPhi_lower",&mcMuonPhi_lower,"mcMuonPhi_lower/D");	      
+  simpleTree->Branch("mcMuonEta_lower",&mcMuonEta_lower,"mcMuonEta_lower/D");	      
+  simpleTree->Branch("mcMuonVx_lower",&mcMuonVx_lower,"mcMuonVx_lower/D");	      
+  simpleTree->Branch("mcMuonVy_lower",&mcMuonVy_lower,"mcMuonVy_lower/D");	      
+  simpleTree->Branch("mcMuonVz_lower",&mcMuonVz_lower,"mcMuonVz_lower/D");	      
+  simpleTree->Branch("mcMuonStatus_lower",&mcMuonStatus_lower,"mcMuonStatus_lower/I");  
+  simpleTree->Branch("mcMuonMotherId_lower",&mcMuonMotherId_lower,"mcMuonMotherId_lower/I");
+
+  simpleTree->Branch("mcStoppedParticleId",&mcStoppedParticleId,"mcStoppedParticleId/I");	  
+  simpleTree->Branch("mcStoppedParticleMass",&mcStoppedParticleMass,"mcStoppedParticleMass/D");	  
+  simpleTree->Branch("mcStoppedParticleCharge",&mcStoppedParticleCharge,"mcStoppedParticleCharge/I");  
+  simpleTree->Branch("mcStoppedParticleX",&mcStoppedParticleX,"mcStoppedParticleX/D");	  
+  simpleTree->Branch("mcStoppedParticleY",&mcStoppedParticleY,"mcStoppedParticleY/D");	  
+  simpleTree->Branch("mcStoppedParticleZ",&mcStoppedParticleZ,"mcStoppedParticleZ/D");	  
+  simpleTree->Branch("mcStoppedParticleR",&mcStoppedParticleR,"mcStoppedParticleR/D");	  
+  simpleTree->Branch("mcStoppedParticleEta",&mcStoppedParticleEta,"mcStoppedParticleEta/D");	  
+  simpleTree->Branch("mcStoppedParticlePhi",&mcStoppedParticlePhi,"mcStoppedParticlePhi/D");	  
+  simpleTree->Branch("mcStoppedParticleTime",&mcStoppedParticleTime,"mcStoppedParticleTime/D");    
+    
+  simpleTree->Branch("l1SingleMu6NoBptx",&l1SingleMu6NoBptx,"l1SingleMu6NoBptx/B");		        
+  simpleTree->Branch("hltL2Mu10NoVertexNoBptx3BX",&hltL2Mu10NoVertexNoBptx3BX,"hltL2Mu10NoVertexNoBptx3BX/B");	        
+  simpleTree->Branch("hltL2Mu20NoVertexNoBptx3BX",&hltL2Mu20NoVertexNoBptx3BX,"hltL2Mu20NoVertexNoBptx3BX/B");	        
+  simpleTree->Branch("hltL2Mu30NoVertexNoBptx3BX",&hltL2Mu30NoVertexNoBptx3BX,"hltL2Mu30NoVertexNoBptx3BX/B");	        
+  simpleTree->Branch("hltL2Mu10NoVertexNoBptx3BXNoHalo",&hltL2Mu10NoVertexNoBptx3BXNoHalo,"hltL2Mu10NoVertexNoBptx3BXNoHalo/B");    
+  simpleTree->Branch("hltL2Mu20NoVertexNoBptx3BXNoHalo",&hltL2Mu20NoVertexNoBptx3BXNoHalo,"hltL2Mu20NoVertexNoBptx3BXNoHalo/B");    
+  simpleTree->Branch("hltL2Mu30NoVertexNoBptx3BXNoHalo",&hltL2Mu30NoVertexNoBptx3BXNoHalo,"hltL2Mu30NoVertexNoBptx3BXNoHalo/B");    
+  simpleTree->Branch("hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo",&hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo,"hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo/B");
+  simpleTree->Branch("hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo",&hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo,"hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo/B");
+  
+  simpleTree->Branch("DTSegment_N",&DTSegment_N,"DTSegment_N/I");
+  simpleTree->Branch("CSCSegment_N",&CSCSegment_N,"CSCSegment_N/I");
   simpleTree->Branch("nDSA",&nDSA,"nDSA/I");
+  simpleTree->Branch("muDisplacedStandAloneP_upper",&muDisplacedStandAloneP_upper,"muDisplacedStandAloneP_upper/D");
+  simpleTree->Branch("muDisplacedStandAlonePt_upper",&muDisplacedStandAlonePt_upper,"muDisplacedStandAlonePt_upper/D");
+  simpleTree->Branch("muDisplacedStandAlonePx_upper",&muDisplacedStandAlonePx_upper,"muDisplacedStandAlonePx_upper/D");
+  simpleTree->Branch("muDisplacedStandAlonePy_upper",&muDisplacedStandAlonePy_upper,"muDisplacedStandAlonePy_upper/D");
+  simpleTree->Branch("muDisplacedStandAlonePz_upper",&muDisplacedStandAlonePz_upper,"muDisplacedStandAlonePz_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneEta_upper",&muDisplacedStandAloneEta_upper,"muDisplacedStandAloneEta_upper/D");
+  simpleTree->Branch("muDisplacedStandAlonePhi_upper",&muDisplacedStandAlonePhi_upper,"muDisplacedStandAlonePhi_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneCharge_upper",&muDisplacedStandAloneCharge_upper,"muDisplacedStandAloneCharge_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNormalizedChi2_upper",&muDisplacedStandAloneNormalizedChi2_upper,"muDisplacedStandAloneTrackNormalizedChi2_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDxy_upper",&muDisplacedStandAloneDxy_upper,"muDisplacedStandAloneTrackDxy_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDz_upper",&muDisplacedStandAloneDz_upper,"muDisplacedStandAloneTrackDz_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsMuon_upper",&muDisplacedStandAloneNHitsMuon_upper,"muDisplacedStandAloneTrackNHitsMuon_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsCsc_upper",&muDisplacedStandAloneNHitsCsc_upper,"muDisplacedStandAloneTrackNHitsCsc_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsDt_upper",&muDisplacedStandAloneNHitsDt_upper,"muDisplacedStandAloneTrackNHitsDt_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsRpc_upper",&muDisplacedStandAloneNHitsRpc_upper,"muDisplacedStandAloneTrackNHitsRpc_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNRpcDof_upper",&muDisplacedStandAloneNRpcDof_upper,"muDisplacedStandAloneTrackNRpcDof_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNStations_upper",&muDisplacedStandAloneNStations_upper,"muDisplacedStandAloneTrackNStations_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersCsc_upper",&muDisplacedStandAloneNChambersCsc_upper,"muDisplacedStandAloneTrackNChambersCsc_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersDt_upper",&muDisplacedStandAloneNChambersDt_upper,"muDisplacedStandAloneTrackNChambersDt_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersRpc_upper",&muDisplacedStandAloneNChambersRpc_upper,"muDisplacedStandAloneTrackNChambersRpc_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofNDof_upper",&muDisplacedStandAloneDtTofNDof_upper,"muDisplacedStandAloneTrackDtTofNDof_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofInverseBeta_upper",&muDisplacedStandAloneDtTofInverseBeta_upper,"muDisplacedStandAloneTrackDtTofInverseBeta_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofInverseBetaErr_upper",&muDisplacedStandAloneDtTofInverseBetaErr_upper,"muDisplacedStandAloneTrackDtTofInverseBetaErr_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofFreeInverseBeta_upper",&muDisplacedStandAloneDtTofFreeInverseBeta_upper,"muDisplacedStandAloneTrackDtTofFreeInverseBeta_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_upper",&muDisplacedStandAloneDtTofFreeInverseBetaErr_upper,"muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpInOut_upper",&muDisplacedStandAloneDtTofTimeAtIpInOut_upper,"muDisplacedStandAloneTrackDtTofTimeAtIpInOut_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_upper",&muDisplacedStandAloneDtTofTimeAtIpInOutErr_upper,"muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_upper",&muDisplacedStandAloneDtTofTimeAtIpOutIn_upper,"muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr_upper",&muDisplacedStandAloneDtTofTimeAtIpOutInErr_upper,"muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofChi2Dof_upper",&muDisplacedStandAloneDtTofChi2Dof_upper,"muDisplacedStandAloneTrackDtTofChi2Dof_upper/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofDirection_upper",&muDisplacedStandAloneDtTofDirection_upper,"muDisplacedStandAloneTrackDtTofDirection_upper/I");
+  simpleTree->Branch("muDisplacedStandAloneBxPattern_upper",&muDisplacedStandAloneBxPattern_upper,"muDisplacedStandAloneBxPattern_upper/I");
+
+  simpleTree->Branch("muDisplacedStandAloneP_lower",&muDisplacedStandAloneP_lower,"muDisplacedStandAloneP_lower/D");
+  simpleTree->Branch("muDisplacedStandAlonePt_lower",&muDisplacedStandAlonePt_lower,"muDisplacedStandAlonePt_lower/D");
+  simpleTree->Branch("muDisplacedStandAlonePx_lower",&muDisplacedStandAlonePx_lower,"muDisplacedStandAlonePx_lower/D");
+  simpleTree->Branch("muDisplacedStandAlonePy_lower",&muDisplacedStandAlonePy_lower,"muDisplacedStandAlonePy_lower/D");
+  simpleTree->Branch("muDisplacedStandAlonePz_lower",&muDisplacedStandAlonePz_lower,"muDisplacedStandAlonePz_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneEta_lower",&muDisplacedStandAloneEta_lower,"muDisplacedStandAloneEta_lower/D");
+  simpleTree->Branch("muDisplacedStandAlonePhi_lower",&muDisplacedStandAlonePhi_lower,"muDisplacedStandAlonePhi_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneCharge_lower",&muDisplacedStandAloneCharge_lower,"muDisplacedStandAloneCharge_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNormalizedChi2_lower",&muDisplacedStandAloneNormalizedChi2_lower,"muDisplacedStandAloneTrackNormalizedChi2_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDxy_lower",&muDisplacedStandAloneDxy_lower,"muDisplacedStandAloneTrackDxy_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDz_lower",&muDisplacedStandAloneDz_lower,"muDisplacedStandAloneTrackDz_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsMuon_lower",&muDisplacedStandAloneNHitsMuon_lower,"muDisplacedStandAloneTrackNHitsMuon_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsCsc_lower",&muDisplacedStandAloneNHitsCsc_lower,"muDisplacedStandAloneTrackNHitsCsc_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsDt_lower",&muDisplacedStandAloneNHitsDt_lower,"muDisplacedStandAloneTrackNHitsDt_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNHitsRpc_lower",&muDisplacedStandAloneNHitsRpc_lower,"muDisplacedStandAloneTrackNHitsRpc_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNRpcDof_lower",&muDisplacedStandAloneNRpcDof_lower,"muDisplacedStandAloneTrackNRpcDof_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNStations_lower",&muDisplacedStandAloneNStations_lower,"muDisplacedStandAloneTrackNStations_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersCsc_lower",&muDisplacedStandAloneNChambersCsc_lower,"muDisplacedStandAloneTrackNChambersCsc_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersDt_lower",&muDisplacedStandAloneNChambersDt_lower,"muDisplacedStandAloneTrackNChambersDt_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackNChambersRpc_lower",&muDisplacedStandAloneNChambersRpc_lower,"muDisplacedStandAloneTrackNChambersRpc_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofNDof_lower",&muDisplacedStandAloneDtTofNDof_lower,"muDisplacedStandAloneTrackDtTofNDof_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofInverseBeta_lower",&muDisplacedStandAloneDtTofInverseBeta_lower,"muDisplacedStandAloneTrackDtTofInverseBeta_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofInverseBetaErr_lower",&muDisplacedStandAloneDtTofInverseBetaErr_lower,"muDisplacedStandAloneTrackDtTofInverseBetaErr_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofFreeInverseBeta_lower",&muDisplacedStandAloneDtTofFreeInverseBeta_lower,"muDisplacedStandAloneTrackDtTofFreeInverseBeta_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_lower",&muDisplacedStandAloneDtTofFreeInverseBetaErr_lower,"muDisplacedStandAloneTrackDtTofFreeInverseBetaErr_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpInOut_lower",&muDisplacedStandAloneDtTofTimeAtIpInOut_lower,"muDisplacedStandAloneTrackDtTofTimeAtIpInOut_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_lower",&muDisplacedStandAloneDtTofTimeAtIpInOutErr_lower,"muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_lower",&muDisplacedStandAloneDtTofTimeAtIpOutIn_lower,"muDisplacedStandAloneTrackDtTofTimeAtIpOutIn_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr_lower",&muDisplacedStandAloneDtTofTimeAtIpOutInErr_lower,"muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofChi2Dof_lower",&muDisplacedStandAloneDtTofChi2Dof_lower,"muDisplacedStandAloneTrackDtTofChi2Dof_lower/D");
+  simpleTree->Branch("muDisplacedStandAloneTrackDtTofDirection_lower",&muDisplacedStandAloneDtTofDirection_lower,"muDisplacedStandAloneTrackDtTofDirection_lower/I");
+  simpleTree->Branch("muDisplacedStandAloneBxPattern_lower",&muDisplacedStandAloneBxPattern_lower,"muDisplacedStandAloneBxPattern_lower/I");
+  */
 
   //for (Int_t i=0; i<100000; i++) {
     //for (Int_t i=0; i<500000; i++) {
@@ -5849,8 +5977,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 		    //cout<<"starting to look at preselection"<<endl;
 		    if(n_passPreselection>0){
 		      if(highestPt_index!=999){
-			ABCDevent = events; 
-			ABCDtree->Fill();   
+			//ABCDevent = events; 
+			//ABCDtree->Fill();   
 			//StoppingRegionAcceptance(events);
 			//cout<<"starting highestPt plots"<<endl;		      		      
 			
@@ -5953,7 +6081,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			muDisplacedStandAloneEta_Phi_hist->Fill(events->muDisplacedStandAloneEta[highestPt_index],events->muDisplacedStandAlonePhi[highestPt_index],1.0);
 
 			//cout<<"finished DSA histos"<<endl;
-
+			/*
 			//RPC BX pattern ABCD
 			//if(Rpc_Bx_Pattern(events,highestPt_index)==0 || Rpc_Bx_Pattern(events,highestPt_index)==1){
 			if(Rpc_Bx_Pattern(events,highestPt_index)==0){
@@ -5963,15 +6091,15 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    regionD_muDisplacedStandAloneBxPattern_hist->Fill(Rpc_Bx_Pattern(events,highestPt_index)); //for highest pt muon	
 			    if(doPrintout){
 			      printout_setup(events,is_data);
-			      /*
-			      printout_gen(events);
-			      printout_DSA(events);
-			      printout_SA(events);
-			      printout_RSA(events);
-			      printout_cosmic(events);
-			      printout_L2(events);
-			      printout_L1(events);
-			      */
+			      
+			      //printout_gen(events);
+			      //printout_DSA(events);
+			      //printout_SA(events);
+			      //printout_RSA(events);
+			      //printout_cosmic(events);
+			      //printout_L2(events);
+			      //printout_L1(events);
+			      
 			    }
 			  }
 			  else{
@@ -5996,7 +6124,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    //else nA2region++;			  
 			  }
 			}
-
+			*/
 			/*
 			//abcd with free inverse beta and p
 			if(events->muDisplacedStandAloneP[highestPt_index] > abcdPtCutValue_){
@@ -6273,13 +6401,197 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
 		    //cout<<"starting upper and lower"<<endl;
 		    if(upper_index!=999 && lower_index!=999){
-		      //ABCDevent = events; 
-		      //ABCDtree->Fill();   
+		      ABCDevent = events; 
+		      ABCDtree->Fill();   
 		      
+		      /*
+		      //cout<<"starting to fill simple tree"<<endl;
 		      runNumber = events->run;
 		      evtNumber = events->id;
 		      lumiSection = events->lb;
+		      bxNumber = events->bx;
+
+		      //cout<<"starting to fill stopped particles in simple tree"<<endl;
+		      if(stopped_index!=999){
+			mcStoppedParticleId = events->mcStoppedParticleId[stopped_index];
+			mcStoppedParticleMass = events->mcStoppedParticleMass[stopped_index];
+			mcStoppedParticleCharge = events->mcStoppedParticleCharge[stopped_index];
+			mcStoppedParticleX = events->mcStoppedParticleX[stopped_index]/10.0;
+			mcStoppedParticleY = events->mcStoppedParticleY[stopped_index]/10.0;
+			mcStoppedParticleZ = events->mcStoppedParticleZ[stopped_index]/10.0;
+			mcStoppedParticleR = events->mcStoppedParticleR[stopped_index]/10.0;
+			mcStoppedParticleEta = eta(events->mcStoppedParticleX[stopped_index],events->mcStoppedParticleY[stopped_index],
+						  events->mcStoppedParticleZ[stopped_index],events->mcStoppedParticleTime[stopped_index]);
+			mcStoppedParticlePhi = events->mcStoppedParticlePhi[stopped_index];
+			mcStoppedParticleTime = events->mcStoppedParticleTime[stopped_index];
+		      }
+
+		      //cout<<"starting to fill mcMuons in simple tree"<<endl;
+		      if(good_genMuons==2 || good_genMuons==4){
+			//cout<<"2 or 4 good gen muons"<<endl;
+			if(good_genPosMuons==2){
+			  //cout<<"2 or good gen Positive muons"<<endl;
+			  if(genPosMuUpper_index!=999){
+			    //cout<<"good gen Positive Upper muon"<<endl;
+			    mcMuonId_upper = events->mcMuonId[genPosMuUpper_index];
+			    mcMuonMass_upper = events->mcMuonMass[genPosMuUpper_index];
+			    mcMuonCharge_upper = events->mcMuonCharge[genPosMuUpper_index];
+			    mcMuonPx_upper = events->mcMuonPx[genPosMuUpper_index];
+			    mcMuonPy_upper = events->mcMuonPy[genPosMuUpper_index];
+			    mcMuonPz_upper = events->mcMuonPz[genPosMuUpper_index];
+			    mcMuonPt_upper = events->mcMuonPt[genPosMuUpper_index];
+			    mcMuonP_upper = events->mcMuonP[genPosMuUpper_index];
+			    mcMuonPhi_upper = events->mcMuonPhi[genPosMuUpper_index];
+			    mcMuonEta_upper = events->mcMuonEta[genPosMuUpper_index];
+			    mcMuonVx_upper = events->mcMuonVx[genPosMuUpper_index];
+			    mcMuonVy_upper = events->mcMuonVy[genPosMuUpper_index];
+			    mcMuonVz_upper = events->mcMuonVz[genPosMuUpper_index];
+			    mcMuonStatus_upper = events->mcMuonStatus[genPosMuUpper_index];
+			    mcMuonMotherId_upper = events->mcMuonMotherId[genPosMuUpper_index];
+			  }
+			  if(genPosMuLower_index!=999){
+			    //cout<<"good gen Positive Lower muon"<<endl;
+			    mcMuonId_lower = events->mcMuonId[genPosMuLower_index];
+			    mcMuonMass_lower = events->mcMuonMass[genPosMuLower_index];
+			    mcMuonCharge_lower = events->mcMuonCharge[genPosMuLower_index];
+			    mcMuonPx_lower = events->mcMuonPx[genPosMuLower_index];
+			    mcMuonPy_lower = events->mcMuonPy[genPosMuLower_index];
+			    mcMuonPz_lower = events->mcMuonPz[genPosMuLower_index];
+			    mcMuonPt_lower = events->mcMuonPt[genPosMuLower_index];
+			    mcMuonP_lower = events->mcMuonP[genPosMuLower_index];
+			    mcMuonPhi_lower = events->mcMuonPhi[genPosMuLower_index];
+			    mcMuonEta_lower = events->mcMuonEta[genPosMuLower_index];
+			    mcMuonVx_lower = events->mcMuonVx[genPosMuLower_index];
+			    mcMuonVy_lower = events->mcMuonVy[genPosMuLower_index];
+			    mcMuonVz_lower = events->mcMuonVz[genPosMuLower_index];
+			    mcMuonStatus_lower = events->mcMuonStatus[genPosMuLower_index];
+			    mcMuonMotherId_lower = events->mcMuonMotherId[genPosMuLower_index];
+			  }
+			}
+			if(good_genNegMuons==2){
+			  //cout<<"2 or good gen Negative muons"<<endl;
+			  if(genNegMuUpper_index!=999){
+			    //cout<<"good gen Negative Upper muon"<<endl;
+			    mcMuonId_upper = events->mcMuonId[genNegMuUpper_index];
+			    mcMuonMass_upper = events->mcMuonMass[genNegMuUpper_index];
+			    mcMuonCharge_upper = events->mcMuonCharge[genNegMuUpper_index];
+			    mcMuonPx_upper = events->mcMuonPx[genNegMuUpper_index];
+			    mcMuonPy_upper = events->mcMuonPy[genNegMuUpper_index];
+			    mcMuonPz_upper = events->mcMuonPz[genNegMuUpper_index];
+			    mcMuonPt_upper = events->mcMuonPt[genNegMuUpper_index];
+			    mcMuonP_upper = events->mcMuonP[genNegMuUpper_index];
+			    mcMuonPhi_upper = events->mcMuonPhi[genNegMuUpper_index];
+			    mcMuonEta_upper = events->mcMuonEta[genNegMuUpper_index];
+			    mcMuonVx_upper = events->mcMuonVx[genNegMuUpper_index];
+			    mcMuonVy_upper = events->mcMuonVy[genNegMuUpper_index];
+			    mcMuonVz_upper = events->mcMuonVz[genNegMuUpper_index];
+			    mcMuonStatus_upper = events->mcMuonStatus[genNegMuUpper_index];
+			    mcMuonMotherId_upper = events->mcMuonMotherId[genNegMuUpper_index];
+			  }
+			  if(genNegMuLower_index!=999){
+			    //cout<<"good gen Negative Lower muon"<<endl;
+			    mcMuonId_lower = events->mcMuonId[genNegMuLower_index];
+			    mcMuonMass_lower = events->mcMuonMass[genNegMuLower_index];
+			    mcMuonCharge_lower = events->mcMuonCharge[genNegMuLower_index];
+			    mcMuonPx_lower = events->mcMuonPx[genNegMuLower_index];
+			    mcMuonPy_lower = events->mcMuonPy[genNegMuLower_index];
+			    mcMuonPz_lower = events->mcMuonPz[genNegMuLower_index];
+			    mcMuonPt_lower = events->mcMuonPt[genNegMuLower_index];
+			    mcMuonP_lower = events->mcMuonP[genNegMuLower_index];
+			    mcMuonPhi_lower = events->mcMuonPhi[genNegMuLower_index];
+			    mcMuonEta_lower = events->mcMuonEta[genNegMuLower_index];
+			    mcMuonVx_lower = events->mcMuonVx[genNegMuLower_index];
+			    mcMuonVy_lower = events->mcMuonVy[genNegMuLower_index];
+			    mcMuonVz_lower = events->mcMuonVz[genNegMuLower_index];
+			    mcMuonStatus_lower = events->mcMuonStatus[genNegMuLower_index];
+			    mcMuonMotherId_lower = events->mcMuonMotherId[genNegMuLower_index];
+			  }
+			}
+		      }//end of if 2 good gen muons
+
+		      //cout<<"starting to fill L1 and HLT bools in simple tree"<<endl;
+		      l1SingleMu6NoBptx = events->l1SingleMu6NoBptx[2];
+		      hltL2Mu10NoVertexNoBptx3BX = events->hltL2Mu10NoVertexNoBptx3BX;
+		      hltL2Mu20NoVertexNoBptx3BX = events->hltL2Mu20NoVertexNoBptx3BX;
+		      hltL2Mu30NoVertexNoBptx3BX = events->hltL2Mu30NoVertexNoBptx3BX;
+		      hltL2Mu10NoVertexNoBptx3BXNoHalo = events->hltL2Mu10NoVertexNoBptx3BXNoHalo;
+		      hltL2Mu20NoVertexNoBptx3BXNoHalo = events->hltL2Mu20NoVertexNoBptx3BXNoHalo;
+		      hltL2Mu30NoVertexNoBptx3BXNoHalo = events->hltL2Mu30NoVertexNoBptx3BXNoHalo;
+		      hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo = events->hltL2Mu20NoVertex2ChaNoBptx3BXNoHalo;
+		      hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo = events->hltL2Mu30NoVertex2ChaNoBptx3BXNoHalo;
+
+		      //cout<<"starting to fill reco DSAs in simple tree"<<endl;
+		      DTSegment_N = events->DTSegment_N;
+		      CSCSegment_N = events->cscSeg_N;
+		      nDSA = events->mu_DisplacedStandAlone_N;
+		      muDisplacedStandAloneP_upper = events->muDisplacedStandAloneP[upper_index];
+		      muDisplacedStandAlonePt_upper = events->muDisplacedStandAlonePt[upper_index];
+		      muDisplacedStandAlonePx_upper = events->muDisplacedStandAlonePx[upper_index];
+		      muDisplacedStandAlonePy_upper = events->muDisplacedStandAlonePy[upper_index];
+		      muDisplacedStandAlonePz_upper = events->muDisplacedStandAlonePz[upper_index];
+		      muDisplacedStandAloneEta_upper = events->muDisplacedStandAloneEta[upper_index];
+		      muDisplacedStandAlonePhi_upper = events->muDisplacedStandAlonePhi[upper_index];
+		      muDisplacedStandAloneCharge_upper = events->muDisplacedStandAloneCharge[upper_index];
+		      muDisplacedStandAloneNormalizedChi2_upper = events->muDisplacedStandAloneTrackNormalizedChi2[upper_index];
+		      muDisplacedStandAloneDxy_upper = events->muDisplacedStandAloneTrackDxy[upper_index];
+		      muDisplacedStandAloneDz_upper = events->muDisplacedStandAloneTrackDz[upper_index];
+		      muDisplacedStandAloneNHitsMuon_upper = events->muDisplacedStandAloneTrackNValidMuonHits[upper_index];
+		      muDisplacedStandAloneNHitsCsc_upper = events->muDisplacedStandAloneTrackNValidCscHits[upper_index];
+		      muDisplacedStandAloneNHitsDt_upper = events->muDisplacedStandAloneTrackNValidDtHits[upper_index];
+		      muDisplacedStandAloneNHitsRpc_upper = events->muDisplacedStandAloneTrackNValidRpcHits[upper_index];
+		      muDisplacedStandAloneNRpcDof_upper = events->muDisplacedStandAloneTrackRpcHitZ.at(upper_index).size();
+		      muDisplacedStandAloneNStations_upper = events->muDisplacedStandAloneTrackNStationsWithValidHits[upper_index];
+		      muDisplacedStandAloneNChambersCsc_upper = events->muDisplacedStandAloneTrackNCscChambersWithValidHits[upper_index];
+		      muDisplacedStandAloneNChambersDt_upper = events->muDisplacedStandAloneTrackNDtChambersWithValidHits[upper_index];
+		      muDisplacedStandAloneNChambersRpc_upper = events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[upper_index];
+		      muDisplacedStandAloneDtTofNDof_upper = events->muDisplacedStandAloneTrackDtTofNDof[upper_index];
+		      muDisplacedStandAloneDtTofInverseBeta_upper = events->muDisplacedStandAloneTrackDtTofInverseBeta[upper_index];
+		      muDisplacedStandAloneDtTofInverseBetaErr_upper = events->muDisplacedStandAloneTrackDtTofInverseBetaErr[upper_index];
+		      muDisplacedStandAloneDtTofFreeInverseBeta_upper = events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[upper_index];
+		      muDisplacedStandAloneDtTofFreeInverseBetaErr_upper = events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[upper_index];
+		      muDisplacedStandAloneDtTofTimeAtIpInOut_upper = events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[upper_index];
+		      muDisplacedStandAloneDtTofTimeAtIpInOutErr_upper = events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[upper_index];
+		      muDisplacedStandAloneDtTofTimeAtIpOutIn_upper = events->muDisplacedStandAloneTrackDtTofTimeAtIpOutIn[upper_index];
+		      muDisplacedStandAloneDtTofTimeAtIpOutInErr_upper = events->muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr[upper_index];
+		      muDisplacedStandAloneDtTofChi2Dof_upper = events->muDisplacedStandAloneTrackDtTofChi2Dof[upper_index];
+		      muDisplacedStandAloneDtTofDirection_upper = events->muDisplacedStandAloneTrackDtTofDirection[upper_index];
+		      muDisplacedStandAloneBxPattern_upper = Rpc_Bx_Pattern(events,upper_index); //for highest pt muon	
+
+		      muDisplacedStandAloneP_lower = events->muDisplacedStandAloneP[lower_index];
+		      muDisplacedStandAlonePt_lower = events->muDisplacedStandAlonePt[lower_index];
+		      muDisplacedStandAlonePx_lower = events->muDisplacedStandAlonePx[lower_index];
+		      muDisplacedStandAlonePy_lower = events->muDisplacedStandAlonePy[lower_index];
+		      muDisplacedStandAlonePz_lower = events->muDisplacedStandAlonePz[lower_index];
+		      muDisplacedStandAloneEta_lower = events->muDisplacedStandAloneEta[lower_index];
+		      muDisplacedStandAlonePhi_lower = events->muDisplacedStandAlonePhi[lower_index];
+		      muDisplacedStandAloneCharge_lower = events->muDisplacedStandAloneCharge[lower_index];
+		      muDisplacedStandAloneNormalizedChi2_lower = events->muDisplacedStandAloneTrackNormalizedChi2[lower_index];
+		      muDisplacedStandAloneDxy_lower = events->muDisplacedStandAloneTrackDxy[lower_index];
+		      muDisplacedStandAloneDz_lower = events->muDisplacedStandAloneTrackDz[lower_index];
+		      muDisplacedStandAloneNHitsMuon_lower = events->muDisplacedStandAloneTrackNValidMuonHits[lower_index];
+		      muDisplacedStandAloneNHitsCsc_lower = events->muDisplacedStandAloneTrackNValidCscHits[lower_index];
+		      muDisplacedStandAloneNHitsDt_lower = events->muDisplacedStandAloneTrackNValidDtHits[lower_index];
+		      muDisplacedStandAloneNHitsRpc_lower = events->muDisplacedStandAloneTrackNValidRpcHits[lower_index];
+		      muDisplacedStandAloneNRpcDof_lower = events->muDisplacedStandAloneTrackRpcHitZ.at(lower_index).size();
+		      muDisplacedStandAloneNStations_lower = events->muDisplacedStandAloneTrackNStationsWithValidHits[lower_index];
+		      muDisplacedStandAloneNChambersCsc_lower = events->muDisplacedStandAloneTrackNCscChambersWithValidHits[lower_index];
+		      muDisplacedStandAloneNChambersDt_lower = events->muDisplacedStandAloneTrackNDtChambersWithValidHits[lower_index];
+		      muDisplacedStandAloneNChambersRpc_lower = events->muDisplacedStandAloneTrackNRpcChambersWithValidHits[lower_index];
+		      muDisplacedStandAloneDtTofNDof_lower = events->muDisplacedStandAloneTrackDtTofNDof[lower_index];
+		      muDisplacedStandAloneDtTofInverseBeta_lower = events->muDisplacedStandAloneTrackDtTofInverseBeta[lower_index];
+		      muDisplacedStandAloneDtTofInverseBetaErr_lower = events->muDisplacedStandAloneTrackDtTofInverseBetaErr[lower_index];
+		      muDisplacedStandAloneDtTofFreeInverseBeta_lower = events->muDisplacedStandAloneTrackDtTofFreeInverseBeta[lower_index];
+		      muDisplacedStandAloneDtTofFreeInverseBetaErr_lower = events->muDisplacedStandAloneTrackDtTofFreeInverseBetaErr[lower_index];
+		      muDisplacedStandAloneDtTofTimeAtIpInOut_lower = events->muDisplacedStandAloneTrackDtTofTimeAtIpInOut[lower_index];
+		      muDisplacedStandAloneDtTofTimeAtIpInOutErr_lower = events->muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr[lower_index];
+		      muDisplacedStandAloneDtTofTimeAtIpOutIn_lower = events->muDisplacedStandAloneTrackDtTofTimeAtIpOutIn[lower_index];
+		      muDisplacedStandAloneDtTofTimeAtIpOutInErr_lower = events->muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr[lower_index];
+		      muDisplacedStandAloneDtTofChi2Dof_lower = events->muDisplacedStandAloneTrackDtTofChi2Dof[lower_index];
+		      muDisplacedStandAloneDtTofDirection_lower = events->muDisplacedStandAloneTrackDtTofDirection[lower_index];
+		      muDisplacedStandAloneBxPattern_lower = Rpc_Bx_Pattern(events,lower_index); //for highest pt muon	
+		      
 		      simpleTree->Fill();   
+		      */
 
 		      //if(doPrintout){
 		      //printout_setup(events,is_data);
@@ -6662,7 +6974,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			else nAregionHighestP_++;
 		      }
 		      
-		      /*
+		      
 		      //RPC BX pattern ABCD
 		      //if(Rpc_Bx_Pattern(events,lower_index)==0 || Rpc_Bx_Pattern(events,lower_index)==1){
 		      if(Rpc_Bx_Pattern(events,lower_index)==0){
@@ -6703,7 +7015,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  //else nA2region++;			  
 			}
 		      }
-		      */
+		      
 
 		      //abcd with free inverse beta and upper p
 		      if(events->muDisplacedStandAloneP[upper_index] > abcdPtCutValue_){
@@ -7806,12 +8118,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     DTSegment_N_hist->Write();
     CSCSegment_N_hist->Write();
 
-    fnew->Close();
+    //fnew->Close();
   }
 
-  //f_simpleTree->cd();
-  //simpleTree->Write();
+  /*
+  f_simpleTree->cd();
+  simpleTree->Write();
   //f_simpleTree->Close();
+  */
 
   //return(0);
 }

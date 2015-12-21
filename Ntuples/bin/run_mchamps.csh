@@ -28,12 +28,22 @@ source cut_values.csh
 #foreach x (mchamp200_separateEvents_725_updatedSim_fixedMatching)
 #foreach x (mchamp300_separateEvents_725_updatedSim_fixedMatching)
 #foreach x (mchamp400_separateEvents_725_updatedSim_fixedMatching)
-foreach x (mchamp500_separateEvents_725_updatedSim_fixedMatching)
+#foreach x (mchamp500_separateEvents_725_updatedSim_fixedMatching)
 #foreach x (mchamp600_separateEvents_725_updatedSim_fixedMatching) 
 #foreach x (mchamp700_separateEvents_725_updatedSim_fixedMatching mchamp800_separateEvents_725_updatedSim_fixedMatching)
 #foreach x (mchamp900_separateEvents_725_updatedSim_fixedMatching mchamp1000_separateEvents_725_updatedSim_fixedMatching)
 #foreach x (mchamp500_723patch1)
 #foreach x (mchamp500)
+
+foreach x (mchamp100_sameEvent_725)
+#foreach x (mchamp200_sameEvent_725)
+#foreach x (mchamp300_sameEvent_725)
+#foreach x (mchamp400_sameEvent_725)
+#foreach x (mchamp500_sameEvent_725)
+#foreach x (mchamp600_sameEvent_725) 
+#foreach x (mchamp700_sameEvent_725 mchamp800_sameEvent_725)
+#foreach x (mchamp900_sameEvent_725 mchamp1000_sameEvent_725)
+
     findTreevalues $x $cuts $cut_values > & "out_"$x &
 end
    
