@@ -98,12 +98,12 @@ MCStoppedEventFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   if (nStoppedParticles > 0){    
     if(putTwoStoppedInSameEvent){ //if there is more than 1 stopped particle, put them in the same event                                                                                  
-      std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
+      //std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
       return true;
     }//end of if put 2 stopped particles in same event                                                                                                                                    
     else{ //if put 2 stopped particles in separate events
       if(rightParticleNumber){
-	std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
+	//std::cout<<"MCStoppedEventFilter is keeping event with at least one stopped particle"<<std::endl;
 	return true;
       }
       else return false;

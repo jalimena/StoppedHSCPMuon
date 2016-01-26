@@ -720,12 +720,6 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackDtTofTimeAtIpInOutErr(0),
   muStandAloneTrackDtTofTimeAtIpOutIn(0), 
   muStandAloneTrackDtTofTimeAtIpOutInErr(0),
-  muStandAloneTrackDtTofInverseBetaLS(0),
-  muStandAloneTrackDtTofInverseBetaLSErr(0),
-  muStandAloneTrackDtTofYIntercept(0),
-  muStandAloneTrackDtTofYInterceptErr(0),
-  muStandAloneTrackDtTofChi2Dof(0), 
-  muStandAloneTrackDtTofAveHitTimeErr(0), 
   muStandAloneTrackShowerSize_station0(0), 
   muStandAloneTrackShowerSize_station1(0), 
   muStandAloneTrackShowerSize_station2(0), 
@@ -821,12 +815,6 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpInOutErr(0),
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutIn(0), 
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutInErr(0),
-  muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLS(0),
-  muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLSErr(0),
-  muStandAloneTrackUpdatedAtVtxDtTofYIntercept(0),
-  muStandAloneTrackUpdatedAtVtxDtTofYInterceptErr(0),
-  muStandAloneTrackUpdatedAtVtxDtTofChi2Dof(0), 
-  muStandAloneTrackUpdatedAtVtxDtTofAveHitTimeErr(0), 
   muStandAloneTrackUpdatedAtVtxShowerSize_station0(0), 
   muStandAloneTrackUpdatedAtVtxShowerSize_station1(0), 
   muStandAloneTrackUpdatedAtVtxShowerSize_station2(0), 
@@ -922,12 +910,6 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muRefittedStandAloneTrackDtTofTimeAtIpInOutErr(0),
   muRefittedStandAloneTrackDtTofTimeAtIpOutIn(0), 
   muRefittedStandAloneTrackDtTofTimeAtIpOutInErr(0),
-  muRefittedStandAloneTrackDtTofInverseBetaLS(0),
-  muRefittedStandAloneTrackDtTofInverseBetaLSErr(0),
-  muRefittedStandAloneTrackDtTofYIntercept(0),
-  muRefittedStandAloneTrackDtTofYInterceptErr(0),
-  muRefittedStandAloneTrackDtTofChi2Dof(0), 
-  muRefittedStandAloneTrackDtTofAveHitTimeErr(0), 
   muRefittedStandAloneTrackShowerSize_station0(0), 
   muRefittedStandAloneTrackShowerSize_station1(0), 
   muRefittedStandAloneTrackShowerSize_station2(0), 
@@ -1012,12 +994,6 @@ StoppedHSCPMuonEvent::StoppedHSCPMuonEvent() :
   muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr(0),
   muDisplacedStandAloneTrackDtTofTimeAtIpOutIn(0), 
   muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr(0),
-  muDisplacedStandAloneTrackDtTofInverseBetaLS(0),
-  muDisplacedStandAloneTrackDtTofInverseBetaLSErr(0),
-  muDisplacedStandAloneTrackDtTofYIntercept(0),
-  muDisplacedStandAloneTrackDtTofYInterceptErr(0),
-  muDisplacedStandAloneTrackDtTofChi2Dof(0), 
-  muDisplacedStandAloneTrackDtTofAveHitTimeErr(0), 
   muDisplacedStandAloneTrackShowerSize_station0(0), 
   muDisplacedStandAloneTrackShowerSize_station1(0), 
   muDisplacedStandAloneTrackShowerSize_station2(0), 
@@ -1687,12 +1663,6 @@ void StoppedHSCPMuonEvent::addStandAloneMuon(Track track) {
   muStandAloneTrackDtTofTimeAtIpInOutErr.push_back(track.dtTofTimeAtIpInOutErr);
   muStandAloneTrackDtTofTimeAtIpOutIn.push_back(track.dtTofTimeAtIpOutIn);
   muStandAloneTrackDtTofTimeAtIpOutInErr.push_back(track.dtTofTimeAtIpOutInErr);
-  muStandAloneTrackDtTofInverseBetaLS.push_back(track.dtTofInverseBetaLS);
-  muStandAloneTrackDtTofInverseBetaLSErr.push_back(track.dtTofInverseBetaLSErr);
-  muStandAloneTrackDtTofYIntercept.push_back(track.dtTofYIntercept);
-  muStandAloneTrackDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
-  muStandAloneTrackDtTofChi2Dof.push_back(track.dtTofChi2Dof);
-  muStandAloneTrackDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
   muStandAloneTrackShowerSize_station0.push_back(track.showerSize_station0);
   muStandAloneTrackShowerSize_station1.push_back(track.showerSize_station1);
   muStandAloneTrackShowerSize_station2.push_back(track.showerSize_station2);
@@ -1791,12 +1761,6 @@ void StoppedHSCPMuonEvent::addStandAloneMuonUpdatedAtVtx(Track track) {
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpInOutErr.push_back(track.dtTofTimeAtIpInOutErr);
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutIn.push_back(track.dtTofTimeAtIpOutIn);
   muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutInErr.push_back(track.dtTofTimeAtIpOutInErr);
-  muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLS.push_back(track.dtTofInverseBetaLS);
-  muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLSErr.push_back(track.dtTofInverseBetaLSErr);
-  muStandAloneTrackUpdatedAtVtxDtTofYIntercept.push_back(track.dtTofYIntercept);
-  muStandAloneTrackUpdatedAtVtxDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
-  muStandAloneTrackUpdatedAtVtxDtTofChi2Dof.push_back(track.dtTofChi2Dof);
-  muStandAloneTrackUpdatedAtVtxDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
   muStandAloneTrackUpdatedAtVtxShowerSize_station0.push_back(track.showerSize_station0);
   muStandAloneTrackUpdatedAtVtxShowerSize_station1.push_back(track.showerSize_station1);
   muStandAloneTrackUpdatedAtVtxShowerSize_station2.push_back(track.showerSize_station2);
@@ -1884,12 +1848,6 @@ void StoppedHSCPMuonEvent::addRefittedStandAloneMuon(Track track) {
   muRefittedStandAloneTrackDtTofTimeAtIpInOutErr.push_back(track.dtTofTimeAtIpInOutErr);
   muRefittedStandAloneTrackDtTofTimeAtIpOutIn.push_back(track.dtTofTimeAtIpOutIn);
   muRefittedStandAloneTrackDtTofTimeAtIpOutInErr.push_back(track.dtTofTimeAtIpOutInErr);
-  muRefittedStandAloneTrackDtTofInverseBetaLS.push_back(track.dtTofInverseBetaLS);
-  muRefittedStandAloneTrackDtTofInverseBetaLSErr.push_back(track.dtTofInverseBetaLSErr);
-  muRefittedStandAloneTrackDtTofYIntercept.push_back(track.dtTofYIntercept);
-  muRefittedStandAloneTrackDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
-  muRefittedStandAloneTrackDtTofChi2Dof.push_back(track.dtTofChi2Dof);
-  muRefittedStandAloneTrackDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
   muRefittedStandAloneTrackShowerSize_station0.push_back(track.showerSize_station0);
   muRefittedStandAloneTrackShowerSize_station1.push_back(track.showerSize_station1);
   muRefittedStandAloneTrackShowerSize_station2.push_back(track.showerSize_station2);
@@ -1977,12 +1935,6 @@ void StoppedHSCPMuonEvent::addDisplacedStandAloneMuon(Track track) {
   muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr.push_back(track.dtTofTimeAtIpInOutErr);
   muDisplacedStandAloneTrackDtTofTimeAtIpOutIn.push_back(track.dtTofTimeAtIpOutIn);
   muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr.push_back(track.dtTofTimeAtIpOutInErr);
-  muDisplacedStandAloneTrackDtTofInverseBetaLS.push_back(track.dtTofInverseBetaLS);
-  muDisplacedStandAloneTrackDtTofInverseBetaLSErr.push_back(track.dtTofInverseBetaLSErr);
-  muDisplacedStandAloneTrackDtTofYIntercept.push_back(track.dtTofYIntercept);
-  muDisplacedStandAloneTrackDtTofYInterceptErr.push_back(track.dtTofYInterceptErr);
-  muDisplacedStandAloneTrackDtTofChi2Dof.push_back(track.dtTofChi2Dof);
-  muDisplacedStandAloneTrackDtTofAveHitTimeErr.push_back(track.dtTofAveHitTimeErr);
   muDisplacedStandAloneTrackShowerSize_station0.push_back(track.showerSize_station0);
   muDisplacedStandAloneTrackShowerSize_station1.push_back(track.showerSize_station1);
   muDisplacedStandAloneTrackShowerSize_station2.push_back(track.showerSize_station2);

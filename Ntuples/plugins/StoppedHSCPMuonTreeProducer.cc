@@ -81,7 +81,7 @@
 #include "RecoMuon/MuonIdentification/interface/TimeMeasurementSequence.h"
 
 #include "DataFormats/Candidate/interface/LeafCandidate.h"
-#include "DataFormats/Candidate/interface/iterator_imp_specific.h"
+//#include "DataFormats/Candidate/interface/iterator_imp_specific.h"
 #include "DataFormats/Candidate/interface/CompositeCandidate.h"
 #include "DataFormats/Candidate/interface/CompositeCandidateFwd.h"
 
@@ -4261,12 +4261,6 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuons(const edm::Event& iEvent, co
 	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
 	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
 	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
-	track.dtTofInverseBetaLS = tofdt.invbetaLS();
-	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
-	track.dtTofYIntercept = tofdt.yIntercept();
-	track.dtTofYInterceptErr = tofdt.yInterceptError();
-	track.dtTofChi2Dof = tofdt.chi2Dof();
-	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
 
 	//muon shower info
 	reco::MuonShower muonShowerInformation = muonShowerInfoMap[muonR];
@@ -4699,12 +4693,6 @@ void StoppedHSCPMuonTreeProducer::doStandAloneMuonsUpdatedAtVtx(const edm::Event
 	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
 	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
 	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
-	track.dtTofInverseBetaLS = tofdt.invbetaLS();
-	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
-	track.dtTofYIntercept = tofdt.yIntercept();
-	track.dtTofYInterceptErr = tofdt.yInterceptError();
-	track.dtTofChi2Dof = tofdt.chi2Dof();
-	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
 
 	//muon shower info
 	reco::MuonShower muonShowerInformation = muonShowerInfoMap[muonR];
@@ -5070,12 +5058,6 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
 	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
 	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
 	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
-	track.dtTofInverseBetaLS = tofdt.invbetaLS();
-	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
-	track.dtTofYIntercept = tofdt.yIntercept();
-	track.dtTofYInterceptErr = tofdt.yInterceptError();
-	track.dtTofChi2Dof = tofdt.chi2Dof();
-	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
 	//can add individual hit info also
 
 	//muon shower info
@@ -5123,12 +5105,6 @@ void StoppedHSCPMuonTreeProducer::doRefittedStandAloneMuons(const edm::Event& iE
         track.dtTofTimeAtIpInOutErr = -999.;
         track.dtTofTimeAtIpOutIn = -999.;
         track.dtTofTimeAtIpOutInErr = -999.;
-        track.dtTofInverseBetaLS = -999.;
-        track.dtTofInverseBetaLSErr = -999.;
-        track.dtTofYIntercept = -999.;
-        track.dtTofYInterceptErr = -999.;
-        track.dtTofChi2Dof = -999.;
-        track.dtTofAveHitTimeErr = -999.;
         track.showerSize_station0 = -999.;
         track.showerSize_station1 = -999.;
         track.showerSize_station2 = -999.;
@@ -5486,12 +5462,6 @@ void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons(const edm::Event& i
 	track.dtTofTimeAtIpInOutErr = tofdt.timeAtIpInOutErr();
 	track.dtTofTimeAtIpOutIn = tofdt.timeAtIpOutIn();
 	track.dtTofTimeAtIpOutInErr = tofdt.timeAtIpOutInErr();
-	track.dtTofInverseBetaLS = tofdt.invbetaLS();
-	track.dtTofInverseBetaLSErr = tofdt.invbetaLSError();
-	track.dtTofYIntercept = tofdt.yIntercept();
-	track.dtTofYInterceptErr = tofdt.yInterceptError();
-	track.dtTofChi2Dof = tofdt.chi2Dof();
-	track.dtTofAveHitTimeErr = tofdt.aveHitTimeError();
 	//can add individual hit info also
 
 	//muon shower info
@@ -5539,12 +5509,6 @@ void StoppedHSCPMuonTreeProducer::doDisplacedStandAloneMuons(const edm::Event& i
         track.dtTofTimeAtIpInOutErr = -999.;
         track.dtTofTimeAtIpOutIn = -999.;
         track.dtTofTimeAtIpOutInErr = -999.;
-        track.dtTofInverseBetaLS = -999.;
-        track.dtTofInverseBetaLSErr = -999.;
-        track.dtTofYIntercept = -999.;
-        track.dtTofYInterceptErr = -999.;
-        track.dtTofChi2Dof = -999.;
-        track.dtTofAveHitTimeErr = -999.;
         track.showerSize_station0 = -999.;
         track.showerSize_station1 = -999.;
         track.showerSize_station2 = -999.;

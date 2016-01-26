@@ -273,7 +273,7 @@ namespace shscp {
 
   
   struct Track {
-  Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), vx(0.), vy(0.), vz(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nStationsWithAnyHits(0),nCscChambersWithAnyHits(0),nDtChambersWithAnyHits(0),nRpcChambersWithAnyHits(0),innermostStationWithAnyHits(0),outermostStationWithAnyHits(0),nValidMuonHits(0),nValidCscHits(0),nValidDtHits(0),nValidRpcHits(0),nStationsWithValidHits(0),nCscChambersWithValidHits(0),nDtChambersWithValidHits(0),nRpcChambersWithValidHits(0),innermostStationWithValidHits(0),outermostStationWithValidHits(0),quality(0),  innerPx(0), innerPy(0), innerPz(0), innerOk(0), innerX(0), innerY(0), innerZ(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  globalMuonIndex(0), dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),dtTofInverseBetaLS(0),dtTofInverseBetaLSErr(0),dtTofYIntercept(0),dtTofYInterceptErr(0),dtTofChi2Dof(0),dtTofAveHitTimeErr(0), showerSize_station0(0), showerSize_station1(0), showerSize_station2(0), showerSize_station3(0), showerDeltaR_station0(0), showerDeltaR_station1(0), showerDeltaR_station2(0), showerDeltaR_station3(0), showerNHits_station0(0), showerNHits_station1(0), showerNHits_station2(0), showerNHits_station3(0), showerNCorrelatedHits_station0(0), showerNCorrelatedHits_station1(0), showerNCorrelatedHits_station2(0), showerNCorrelatedHits_station3(0), showerNUncorrelatedHits_station0(0), showerNUncorrelatedHits_station1(0), showerNUncorrelatedHits_station2(0), showerNUncorrelatedHits_station3(0), cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
+  Track() : charge(0), px(0.),py(0.),pz(0.0),pt(0.),p(0.),eta(0.),phi(0.),hcalEta(0.),hcalPhi(0.), chi2(0.), ndof(0.), normalizedChi2(0.), vx(0.), vy(0.), vz(0.), dxy(0.), dz(0.), nHits(0), nLost(0), nStationsWithAnyHits(0),nCscChambersWithAnyHits(0),nDtChambersWithAnyHits(0),nRpcChambersWithAnyHits(0),innermostStationWithAnyHits(0),outermostStationWithAnyHits(0),nValidMuonHits(0),nValidCscHits(0),nValidDtHits(0),nValidRpcHits(0),nStationsWithValidHits(0),nCscChambersWithValidHits(0),nDtChambersWithValidHits(0),nRpcChambersWithValidHits(0),innermostStationWithValidHits(0),outermostStationWithValidHits(0),quality(0),  innerPx(0), innerPy(0), innerPz(0), innerOk(0), innerX(0), innerY(0), innerZ(0), genParticleIndex(0), triggerParticle20Index(0), triggerParticle20Cha2Index(0),  globalMuonIndex(0), dtTofDirection(0), dtTofNDof(0),dtTofInverseBeta(0),dtTofInverseBetaErr(0),dtTofFreeInverseBeta(0),dtTofFreeInverseBetaErr(0),dtTofTimeAtIpInOut(0),dtTofTimeAtIpInOutErr(0),dtTofTimeAtIpOutIn(0),dtTofTimeAtIpOutInErr(0),showerSize_station0(0), showerSize_station1(0), showerSize_station2(0), showerSize_station3(0), showerDeltaR_station0(0), showerDeltaR_station1(0), showerDeltaR_station2(0), showerDeltaR_station3(0), showerNHits_station0(0), showerNHits_station1(0), showerNHits_station2(0), showerNHits_station3(0), showerNCorrelatedHits_station0(0), showerNCorrelatedHits_station1(0), showerNCorrelatedHits_station2(0), showerNCorrelatedHits_station3(0), showerNUncorrelatedHits_station0(0), showerNUncorrelatedHits_station1(0), showerNUncorrelatedHits_station2(0), showerNUncorrelatedHits_station3(0), cscSegEndcap(0), cscSegRing(0), cscSegStation(0), cscSegChamber(0), cscSegNHits(0), cscSegPhi(0.), cscSegZ(0.), cscSegR(0.), cscSegDirPhi(0.), cscSegDirTheta(0.), cscSegTime(0.), rpcHitZ(0.), rpcHitRho(0.), rpcHitPhi(0.), rpcHitRegion(0), rpcHitBx(0) {}
     int charge;
     double px;
     double py;
@@ -332,12 +332,6 @@ namespace shscp {
     double dtTofTimeAtIpInOutErr;
     double dtTofTimeAtIpOutIn;
     double dtTofTimeAtIpOutInErr;
-    double dtTofInverseBetaLS;
-    double dtTofInverseBetaLSErr;
-    double dtTofYIntercept;
-    double dtTofYInterceptErr;
-    double dtTofChi2Dof;
-    double dtTofAveHitTimeErr;
     double showerSize_station0;
     double showerSize_station1;
     double showerSize_station2;
@@ -1261,12 +1255,6 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muStandAloneTrackDtTofTimeAtIpInOutErr;
   std::vector<Double_t> muStandAloneTrackDtTofTimeAtIpOutIn;
   std::vector<Double_t> muStandAloneTrackDtTofTimeAtIpOutInErr;
-  std::vector<Double_t> muStandAloneTrackDtTofInverseBetaLS;
-  std::vector<Double_t> muStandAloneTrackDtTofInverseBetaLSErr;
-  std::vector<Double_t> muStandAloneTrackDtTofYIntercept; 
-  std::vector<Double_t> muStandAloneTrackDtTofYInterceptErr;
-  std::vector<Double_t> muStandAloneTrackDtTofChi2Dof;
-  std::vector<Double_t> muStandAloneTrackDtTofAveHitTimeErr;
   std::vector<Double_t> muStandAloneTrackShowerSize_station0;
   std::vector<Double_t> muStandAloneTrackShowerSize_station1;
   std::vector<Double_t> muStandAloneTrackShowerSize_station2;
@@ -1364,12 +1352,6 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpInOutErr;
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutIn;
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofTimeAtIpOutInErr;
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLS;
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofInverseBetaLSErr;
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofYIntercept; 
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofYInterceptErr;
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofChi2Dof;
-  std::vector<Double_t> muStandAloneTrackUpdatedAtVtxDtTofAveHitTimeErr;
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station0;
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station1;
   std::vector<Double_t> muStandAloneTrackUpdatedAtVtxShowerSize_station2;
@@ -1467,12 +1449,6 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpInOutErr;
   std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpOutIn;
   std::vector<Double_t> muRefittedStandAloneTrackDtTofTimeAtIpOutInErr;
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBetaLS;
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofInverseBetaLSErr;
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofYIntercept; 
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofYInterceptErr;
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofChi2Dof;
-  std::vector<Double_t> muRefittedStandAloneTrackDtTofAveHitTimeErr;
   std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station0;
   std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station1;
   std::vector<Double_t> muRefittedStandAloneTrackShowerSize_station2;
@@ -1559,12 +1535,6 @@ class StoppedHSCPMuonEvent : public TObject {
   std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpInOutErr;
   std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpOutIn;
   std::vector<Double_t> muDisplacedStandAloneTrackDtTofTimeAtIpOutInErr;
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBetaLS;
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofInverseBetaLSErr;
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofYIntercept; 
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofYInterceptErr;
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofChi2Dof;
-  std::vector<Double_t> muDisplacedStandAloneTrackDtTofAveHitTimeErr;
   std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station0;
   std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station1;
   std::vector<Double_t> muDisplacedStandAloneTrackShowerSize_station2;
@@ -1873,7 +1843,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,39); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,40); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
@@ -1887,6 +1857,7 @@ class StoppedHSCPMuonEvent : public TObject {
   //version 37: add reco::Muon variables
   //version 38: add reco::Muon SA matched to gen muon variable
   //version 39: add global muon matching to SA muon
+  //version 40: remove unused additional dt time variables
 };
 
 #endif

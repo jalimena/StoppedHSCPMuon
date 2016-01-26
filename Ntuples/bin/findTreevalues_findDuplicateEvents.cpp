@@ -22,7 +22,7 @@
 #include "TString.h"
 #include "TLorentzVector.h"
 #include "Riostream.h"
-#include "Cintex/Cintex.h"
+//#include "Cintex/Cintex.h"
 #include "StoppedHSCPMuon/Ntuples/interface/StoppedHSCPMuonEvent.h"
 
 using namespace std;
@@ -80,7 +80,7 @@ void findTreevalues_findDuplicateEvents::loop(string& file_dataset){
 
   //make sure dictionaries can be used for reading
   //converts Reflex dictionary information to CINT data structures used by  ROOT
-  ROOT::Cintex::Cintex::Enable();
+  //ROOT::Cintex::Cintex::Enable();
 
   gSystem->Load("libStoppedHSCPMuonNtuples");
   cout<<"loaded library"<<endl;
