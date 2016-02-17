@@ -1843,7 +1843,7 @@ class StoppedHSCPMuonEvent : public TObject {
   double top5DigiRPeak;
   double top5DigiROuter;
 
-  ClassDef(StoppedHSCPMuonEvent,40); // version 26: include Marco's code for IP of gen muon
+  ClassDef(StoppedHSCPMuonEvent,41); // version 26: include Marco's code for IP of gen muon
   //version 27: updated to 710
   //version 28: add more RSA info
   //version 29: add Rpc info to cosmic track and any hits
@@ -1858,6 +1858,7 @@ class StoppedHSCPMuonEvent : public TObject {
   //version 38: add reco::Muon SA matched to gen muon variable
   //version 39: add global muon matching to SA muon
   //version 40: remove unused additional dt time variables
+  //version 41: compiling fix
 };
 
 #endif
