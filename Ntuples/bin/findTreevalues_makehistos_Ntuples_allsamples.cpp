@@ -22,7 +22,7 @@
 #include "TString.h"
 #include "TLorentzVector.h"
 #include "Riostream.h"
-//#include "Cintex/Cintex.h"
+#include "Cintex/Cintex.h"
 #include "StoppedHSCPMuon/Ntuples/interface/StoppedHSCPMuonEvent.h"
 #include "DataFormats/Math/interface/deltaR.h"
 
@@ -391,6 +391,44 @@ public:
     mcRhadronPhi_hist = new TH1D("mcRhadronPhi_hist","Gen Rhadron Particle #phi",64,-3.2,3.2);
     mcRhadronCharge_hist = new TH1D("mcRhadronCharge_hist","Gen Rhadron Particle Charge",6,-3,3);
 
+    mcStop_N_hist = new TH1D("mcStop_N_hist","Number of Gen Stops",10,0,10);
+    mcStop0Charge_hist = new TH1D("mcStop0Charge_hist","1st Gen stop Particle Charge",6,-3,3);
+    mcStop1Charge_hist = new TH1D("mcStop1Charge_hist","2nd Gen stop Particle Charge",6,-3,3);
+    mcStopP_hist = new TH1D("mcStopP_hist","Gen Stop p",5000,0,5000);
+    mcStopPx_hist = new TH1D("mcStopPx_hist","Gen Stop p_{x}",5000,-5000,5000);
+    mcStopPy_hist = new TH1D("mcStopPy_hist","Gen Stop p_{y}",5000,-5000,5000);
+    mcStopPz_hist = new TH1D("mcStopPz_hist","Gen Stop p_{z}",5000,-5000,5000);
+    mcStopPt_hist = new TH1D("mcStopPt_hist","Gen Stop p_{T}",5000,0,5000);
+    mcStopEta_hist = new TH1D("mcStopEta_hist","Gen Stop #eta",160,-8,8);   
+    mcStopPhi_hist = new TH1D("mcStopPhi_hist","Gen Stop #phi",64,-3.2,3.2);
+    mcStopBeta_hist = new TH1D("mcStopBeta_hist","Gen Stop #beta",100,0,1);   
+
+    stopped_mcStopP_hist = new TH1D("stopped_mcStopP_hist","Gen Stop initial p of stopped particle",5000,0,5000);
+    stopped_mcStopPt_hist = new TH1D("stopped_mcStopPt_hist","Gen Stop initial pt of stopped particle",5000,0,5000);
+    stopped_mcStopBeta_hist = new TH1D("stopped_mcStopBeta_hist","Gen Stop initial beta of stopped particle",100,0,1);
+    notStopped_mcStopP_hist = new TH1D("notStopped_mcStopP_hist","Gen Stop initial p of NOT stopped particle",5000,0,5000);
+    notStopped_mcStopPt_hist = new TH1D("notStopped_mcStopPt_hist","Gen Stop initial pt of NOT stopped particle",5000,0,5000);
+    notStopped_mcStopBeta_hist = new TH1D("notStopped_mcStopBeta_hist","Gen Stop initial beta of NOT stopped particle",100,0,1);
+
+    mcGluino_N_hist = new TH1D("mcGluino_N_hist","Number of Gen Gluinos",10,0,10);
+    mcGluino0Charge_hist = new TH1D("mcGluino0Charge_hist","1st Gen gluino Particle Charge",6,-3,3);
+    mcGluino1Charge_hist = new TH1D("mcGluino1Charge_hist","2nd Gen gluino Particle Charge",6,-3,3);
+    mcGluinoP_hist = new TH1D("mcGluinoP_hist","Gen Gluino p",5000,0,5000);
+    mcGluinoPx_hist = new TH1D("mcGluinoPx_hist","Gen Gluino p_{x}",5000,-5000,5000);
+    mcGluinoPy_hist = new TH1D("mcGluinoPy_hist","Gen Gluino p_{y}",5000,-5000,5000);
+    mcGluinoPz_hist = new TH1D("mcGluinoPz_hist","Gen Gluino p_{z}",5000,-5000,5000);
+    mcGluinoPt_hist = new TH1D("mcGluinoPt_hist","Gen Gluino p_{T}",5000,0,5000);
+    mcGluinoEta_hist = new TH1D("mcGluinoEta_hist","Gen Gluino #eta",160,-8,8);   
+    mcGluinoPhi_hist = new TH1D("mcGluinoPhi_hist","Gen Gluino #phi",64,-3.2,3.2);
+    mcGluinoBeta_hist = new TH1D("mcGluinoBeta_hist","Gen Gluino #beta",100,0,1);   
+
+    stopped_mcGluinoP_hist = new TH1D("stopped_mcGluinoP_hist","Gen Gluino initial p of stopped particle",5000,0,5000);
+    stopped_mcGluinoPt_hist = new TH1D("stopped_mcGluinoPt_hist","Gen Gluino initial pt of stopped particle",5000,0,5000);
+    stopped_mcGluinoBeta_hist = new TH1D("stopped_mcGluinoBeta_hist","Gen Gluino initial beta of stopped particle",100,0,1);
+    notStopped_mcGluinoP_hist = new TH1D("notStopped_mcGluinoP_hist","Gen Gluino initial p of NOT stopped particle",5000,0,5000);
+    notStopped_mcGluinoPt_hist = new TH1D("notStopped_mcGluinoPt_hist","Gen Gluino initial pt of NOT stopped particle",5000,0,5000);
+    notStopped_mcGluinoBeta_hist = new TH1D("notStopped_mcGluinoBeta_hist","Gen Gluino initial beta of NOT stopped particle",100,0,1);
+
     mcStau_N_hist = new TH1D("mcStau_N_hist","Number of Gen Staus",10,0,10);
     mcStau0Charge_hist = new TH1D("mcStau0Charge_hist","1st Gen stau Particle Charge",6,-3,3);
     mcStau1Charge_hist = new TH1D("mcStau1Charge_hist","2nd Gen stau Particle Charge",6,-3,3);
@@ -402,9 +440,14 @@ public:
     mcStauEta_hist = new TH1D("mcStauEta_hist","Gen Stau #eta",160,-8,8);   
     mcStauPhi_hist = new TH1D("mcStauPhi_hist","Gen Stau #phi",64,-3.2,3.2);
     mcStauBeta_hist = new TH1D("mcStauBeta_hist","Gen Stau #beta",100,0,1);   
-    mcStauPt_StoppedParticleN_hist = new TH2D("mcStauPt_StoppedParticleN_hist","Gen Stau pt vs N stopped particles",5000,0,5000,5,0,5);   
-    mcStauBeta_StoppedParticleN_hist = new TH2D("mcStauBeta_StoppedParticleN_hist","Gen Stau #beta vs N stopped particles",100,0,1,5,0,5);   
 
+    stopped_mcStauP_hist = new TH1D("stopped_mcStauP_hist","Gen Stau initial p of stopped particle",5000,0,5000);
+    stopped_mcStauPt_hist = new TH1D("stopped_mcStauPt_hist","Gen Stau initial pt of stopped particle",5000,0,5000);
+    stopped_mcStauBeta_hist = new TH1D("stopped_mcStauBeta_hist","Gen Stau initial beta of stopped particle",100,0,1);
+    notStopped_mcStauP_hist = new TH1D("notStopped_mcStauP_hist","Gen Stau initial p of NOT stopped particle",5000,0,5000);
+    notStopped_mcStauPt_hist = new TH1D("notStopped_mcStauPt_hist","Gen Stau initial pt of NOT stopped particle",5000,0,5000);
+    notStopped_mcStauBeta_hist = new TH1D("notStopped_mcStauBeta_hist","Gen Stau initial beta of NOT stopped particle",100,0,1);
+    
     mcH0Charge_hist = new TH1D("mcH0Charge_hist","1st Gen H++/mchamp Particle Charge",6,-3,3);
     mcH1Charge_hist = new TH1D("mcH1Charge_hist","2nd Gen H++/mchamp Particle Charge",6,-3,3);
 
@@ -428,8 +471,24 @@ public:
     mcHPlusPlusEta_HMinusMinusEta_hist = new TH2D("mcHPlusPlusEta_HMinusMinusEta_hist","Gen H++ #eta vs H-- #eta",160,-8,8,160,-8,8);
     mcHPlusPlusPhi_HMinusMinusPhi_hist = new TH2D("mcHPlusPlusPhi_HMinusMinusPhi_hist","Gen H++ #phi vs H-- #eta",64,-3.2,3.2,64,-3.2,3.2);
 
-    mcHPlusPlusPt_StoppedParticleN_hist = new TH2D("mcHPlusPlusPt_StoppedParticleN_hist","Gen H++ pt vs N stopped particles",5000,0,5000,5,0,5);
-    mcHMinusMinusPt_StoppedParticleN_hist = new TH2D("mcHMinusMinusPt_StoppedParticleN_hist","Gen H-- pt vs N stopped particles",5000,0,5000,5,0,5);
+    mcTauPrime_N_hist = new TH1D("mcTauPrime_N_hist","Number of Gen TauPrimes",10,0,10);
+    mcTauPrime0Charge_hist = new TH1D("mcTauPrime0Charge_hist","1st Gen stau Particle Charge",6,-3,3);
+    mcTauPrime1Charge_hist = new TH1D("mcTauPrime1Charge_hist","2nd Gen stau Particle Charge",6,-3,3);
+    mcTauPrimeP_hist = new TH1D("mcTauPrimeP_hist","Gen TauPrime p",5000,0,5000);
+    mcTauPrimePx_hist = new TH1D("mcTauPrimePx_hist","Gen TauPrime p_{x}",5000,-5000,5000);
+    mcTauPrimePy_hist = new TH1D("mcTauPrimePy_hist","Gen TauPrime p_{y}",5000,-5000,5000);
+    mcTauPrimePz_hist = new TH1D("mcTauPrimePz_hist","Gen TauPrime p_{z}",5000,-5000,5000);
+    mcTauPrimePt_hist = new TH1D("mcTauPrimePt_hist","Gen TauPrime p_{T}",5000,0,5000);
+    mcTauPrimeEta_hist = new TH1D("mcTauPrimeEta_hist","Gen TauPrime #eta",160,-8,8);   
+    mcTauPrimePhi_hist = new TH1D("mcTauPrimePhi_hist","Gen TauPrime #phi",64,-3.2,3.2);
+    mcTauPrimeBeta_hist = new TH1D("mcTauPrimeBeta_hist","Gen TauPrime #beta",100,0,1);   
+
+    stopped_mcTauPrimeP_hist = new TH1D("stopped_mcTauPrimeP_hist","Gen TauPrime initial p of stopped particle",5000,0,5000);
+    stopped_mcTauPrimePt_hist = new TH1D("stopped_mcTauPrimePt_hist","Gen TauPrime initial pt of stopped particle",5000,0,5000);
+    stopped_mcTauPrimeBeta_hist = new TH1D("stopped_mcTauPrimeBeta_hist","Gen TauPrime initial beta of stopped particle",100,0,1);
+    notStopped_mcTauPrimeP_hist = new TH1D("notStopped_mcTauPrimeP_hist","Gen TauPrime initial p of NOT stopped particle",5000,0,5000);
+    notStopped_mcTauPrimePt_hist = new TH1D("notStopped_mcTauPrimePt_hist","Gen TauPrime initial pt of NOT stopped particle",5000,0,5000);
+    notStopped_mcTauPrimeBeta_hist = new TH1D("notStopped_mcTauPrimeBeta_hist","Gen TauPrime initial beta of NOT stopped particle",100,0,1);
 
     mcTop_N_hist = new TH1D("mcTop_N_hist","Number of Generated Tops",10,0,10);
     mcTopStatus_hist = new TH1D("mcTopStatus_hist","Gen Top Status",10,0,10);
@@ -935,15 +994,16 @@ public:
   virtual void loop(string& file_dataset, string& BxCut, string& CavCut, string& GenMuCut, string& SACut, string& GenMuMatchedCut, string& TriggerCut, string& TriggerTurnOn_, string& NdsaCut, string& PtCut, string& ChaCut, string& EtaCut, string& UpperCut, string& RpcCut, string& DisStCut, string& RpcBxCut, string& DtHitsCut, string& InvBetaErrCut, string& CscHitsCut, string& DtInvBetaCut, string& TimeInOutCut, string& TimeInOutErrCut, string& DeltaTimeInOutCut, string& DeltaDtInvBetaCut, string& TofDirCut, string& OppEtaCut, string& OppPhiCut, string& DxyCut, string& ChargeCut, string& TightPhi, string& CosEnrich, string& resT3, string& Printout, TString& BxCutValue, TString& PreNdsaCutValue, TString& PrePtCutValue, TString& PreChaCutValue, TString& PreEtaCutValue, TString& PreRpcCutValue, TString& PreDtHitsCutValue, TString& PreInvBetaErrCutValue, TString& PreCscHitsCutValue, TString& PtCutValue, TString& ChaCutValue, TString& EtaCutValue, TString& RpcCutValue, TString& DisStCutValue, TString& DtHitsCutValue, TString& CscHitsCutValue, TString& DtInvBetaCutValue, TString& TimeInOutCutValue, TString& TimeInOutErrCutValue, TString& DeltaTimeInOutCutValue, TString& DeltaDtInvBetaCutValue, TString& OppEtaCutValue, TString& OppPhiCutValue, TString& DxyCutValue, TString& abcdInvBetaCutValue, TString& abcdPtCutValue, TString& abInvBetaCutValue, TString& cInvBetaCutValue, TString& acPtCutValue, TString& bPtCutValue);
 
 private:
-  void stops( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, int& nRhadron, int& pdgid1, int& pdgid2, int& charge1, int& charge2, double& pt1, double& pt2, double& eta1, double& eta2, double& phi1, double& phi2);
-  void gluinos( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&);
+  void stops( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, int& nRhadron, int& pdgid1, int& pdgid2, int& charge1, int& charge2, double& pt1, double& pt2, double& eta1, double& eta2, double& phi1, double& phi2, int& good_genStop, UInt_t& genStop0_index, UInt_t& genStop1_index, UInt_t& genStop2_index);
+  void gluinos( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, bool&, int& good_genGluino, UInt_t& genGluino0_index, UInt_t& genGluino1_index, UInt_t& genGluino2_index);
   void mchamps( StoppedHSCPMuonEvent* events,
 		bool& muonFromMchamp, bool (&status1muon_)[15], bool (&status1muonFromMchamp_)[15], 
 		bool (&status1muonFromMuon_)[15], int& good_genMuons, int& good_genPosMuons, int& good_genNegMuons, 
 		UInt_t& genMu0_index,
 		UInt_t& genPosMu0_index, UInt_t& genPosMu1_index, UInt_t& genPosMuUpper_index, UInt_t& genPosMuLower_index,
 		UInt_t& genNegMu0_index, UInt_t& genNegMu1_index, UInt_t& genNegMuUpper_index, UInt_t& genNegMuLower_index,
-		Double_t& anglePos, Double_t& angleNeg );    
+		Double_t& anglePos, Double_t& angleNeg,
+		int& good_genTauPrime, UInt_t& genTauPrime0_index, UInt_t& genTauPrime1_index, UInt_t& genTauPrime2_index);
   void staus( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&, bool&, bool&, bool&, bool&, int&, UInt_t&, UInt_t&, UInt_t&);
   void cosmicMC( StoppedHSCPMuonEvent*, int&, UInt_t&, bool&);
   void genMuMatch( StoppedHSCPMuonEvent* events, UInt_t (&genMuMatched_DSA_index)[15], UInt_t (&genMuMatched_mu_index)[15], UInt_t (&genMuMatched_SA_index)[15], UInt_t (&genMuMatched_SAUpdatedAtVtx_index)[15], UInt_t (&genMuMatched_RSA_index)[15], UInt_t (&genMuMatched_cosmic_index)[15]);
@@ -959,6 +1019,11 @@ private:
   void mchamp_counts( StoppedHSCPMuonEvent*, int&, int&, UInt_t&, UInt_t&, UInt_t&, UInt_t&);
   void stau_counts( StoppedHSCPMuonEvent*, bool&, bool&, bool&);
   void cosmicMC_counts( StoppedHSCPMuonEvent*, bool&);
+
+  bool stopStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genStop_index);
+  bool gluinoStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genGluino_index);
+  bool tauprimeStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genTauPrime_index);
+  bool stauStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genStau_index);
 
   void pickStoppedParticle( StoppedHSCPMuonEvent* events, UInt_t& stopped_index);
   void StoppedParticles( StoppedHSCPMuonEvent* events, double& eventweightTauPrime, UInt_t& stoppedPos_index, UInt_t& stoppedNeg_index, UInt_t& stopped_index, int& n_stoppedInDetector);
@@ -1105,6 +1170,44 @@ private:
   TH1D* mcRhadronPhi_hist;
   TH1D* mcRhadronCharge_hist;
 
+  TH1D* mcStop_N_hist;
+  TH1D* mcStop0Charge_hist;
+  TH1D* mcStop1Charge_hist;
+  TH1D* mcStopP_hist;
+  TH1D* mcStopPx_hist;
+  TH1D* mcStopPy_hist;
+  TH1D* mcStopPz_hist;
+  TH1D* mcStopPt_hist;
+  TH1D* mcStopEta_hist;
+  TH1D* mcStopPhi_hist;
+  TH1D* mcStopBeta_hist;
+
+  TH1D* stopped_mcStopP_hist;
+  TH1D* stopped_mcStopPt_hist;
+  TH1D* stopped_mcStopBeta_hist;
+  TH1D* notStopped_mcStopP_hist;
+  TH1D* notStopped_mcStopPt_hist;
+  TH1D* notStopped_mcStopBeta_hist;
+
+  TH1D* mcGluino_N_hist;
+  TH1D* mcGluino0Charge_hist;
+  TH1D* mcGluino1Charge_hist;
+  TH1D* mcGluinoP_hist;
+  TH1D* mcGluinoPx_hist;
+  TH1D* mcGluinoPy_hist;
+  TH1D* mcGluinoPz_hist;
+  TH1D* mcGluinoPt_hist;
+  TH1D* mcGluinoEta_hist;
+  TH1D* mcGluinoPhi_hist;
+  TH1D* mcGluinoBeta_hist;
+
+  TH1D* stopped_mcGluinoP_hist;
+  TH1D* stopped_mcGluinoPt_hist;
+  TH1D* stopped_mcGluinoBeta_hist;
+  TH1D* notStopped_mcGluinoP_hist;
+  TH1D* notStopped_mcGluinoPt_hist;
+  TH1D* notStopped_mcGluinoBeta_hist;
+
   TH1D* mcStau_N_hist;
   TH1D* mcStau0Charge_hist;
   TH1D* mcStau1Charge_hist;
@@ -1117,8 +1220,12 @@ private:
   TH1D* mcStauPhi_hist;
   TH1D* mcStauBeta_hist;
 
-  TH2D* mcStauPt_StoppedParticleN_hist;
-  TH2D* mcStauBeta_StoppedParticleN_hist;
+  TH1D* stopped_mcStauP_hist;
+  TH1D* stopped_mcStauPt_hist;
+  TH1D* stopped_mcStauBeta_hist;
+  TH1D* notStopped_mcStauP_hist;
+  TH1D* notStopped_mcStauPt_hist;
+  TH1D* notStopped_mcStauBeta_hist;
 
   TH1D* mcH0Charge_hist;
   TH1D* mcH1Charge_hist;
@@ -1143,8 +1250,24 @@ private:
   TH2D* mcHPlusPlusEta_HMinusMinusEta_hist;
   TH2D* mcHPlusPlusPhi_HMinusMinusPhi_hist;
 
-  TH2D* mcHPlusPlusPt_StoppedParticleN_hist;
-  TH2D* mcHMinusMinusPt_StoppedParticleN_hist;
+  TH1D* mcTauPrime_N_hist;
+  TH1D* mcTauPrime0Charge_hist;
+  TH1D* mcTauPrime1Charge_hist;
+  TH1D* mcTauPrimeP_hist;
+  TH1D* mcTauPrimePx_hist;
+  TH1D* mcTauPrimePy_hist;
+  TH1D* mcTauPrimePz_hist;
+  TH1D* mcTauPrimePt_hist;
+  TH1D* mcTauPrimeEta_hist;
+  TH1D* mcTauPrimePhi_hist;
+  TH1D* mcTauPrimeBeta_hist;
+
+  TH1D* stopped_mcTauPrimeP_hist;
+  TH1D* stopped_mcTauPrimePt_hist;
+  TH1D* stopped_mcTauPrimeBeta_hist;
+  TH1D* notStopped_mcTauPrimeP_hist;
+  TH1D* notStopped_mcTauPrimePt_hist;
+  TH1D* notStopped_mcTauPrimeBeta_hist;
 
   TH1D* mcTop_N_hist;
   TH1D* mcTopStatus_hist;
@@ -1636,7 +1759,17 @@ private:
 
 };
 
-void findTreevalues_makehistos_Ntuples_allsamples::stops( StoppedHSCPMuonEvent* events, int& good_genMuons, UInt_t& genMu0_index, bool& WFromTop, bool& status1muon, bool& status1muonFromW, bool& status1muonFromMuon, int& nRhadron, int& pdgid1, int& pdgid2, int& charge1, int& charge2, double& pt1, double& pt2, double& eta1, double& eta2, double& phi1, double& phi2){
+void findTreevalues_makehistos_Ntuples_allsamples::stops( StoppedHSCPMuonEvent* events, int& good_genMuons, UInt_t& genMu0_index, bool& WFromTop, bool& status1muon, bool& status1muonFromW, bool& status1muonFromMuon, int& nRhadron, int& pdgid1, int& pdgid2, int& charge1, int& charge2, double& pt1, double& pt2, double& eta1, double& eta2, double& phi1, double& phi2, int& good_genStop, UInt_t& genStop0_index, UInt_t& genStop1_index, UInt_t& genStop2_index){
+
+  for (UInt_t j=0; j<events->mcStop_N; j++) {
+    if(events->mcStopStatus[j]==23){
+      //cout<<"stop index "<<j<<" with status ==1"<<endl;
+      good_genStop++;
+      if(good_genStop==1) genStop0_index = j;
+      if(good_genStop==2) genStop1_index = j;
+      if(good_genStop==3) genStop2_index = j;
+    }
+  }
 
   //each event must contain at least one top
   //don't check that top came directly from stop, but check that there is at least one top and one stop in the event
@@ -1731,7 +1864,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::stops( StoppedHSCPMuonEvent* 
 
 }//end of stops
 
-void findTreevalues_makehistos_Ntuples_allsamples::gluinos( StoppedHSCPMuonEvent* events, int& good_genMuons, UInt_t& genMu0_index, bool& status1muon, bool& status1muonFromW, bool& status1muonFromTau, bool& status1muonFromMuon, bool& status1muonFromBbaryon, bool& status1muonFromCbaryon, bool& status1muonFromSbaryon, bool& status1muonFromBmeson, bool& status1muonFromCmeson, bool& status1muonFromJPsi, bool& status1muonFromLightMeson ){
+void findTreevalues_makehistos_Ntuples_allsamples::gluinos( StoppedHSCPMuonEvent* events, int& good_genMuons, UInt_t& genMu0_index, bool& status1muon, bool& status1muonFromW, bool& status1muonFromTau, bool& status1muonFromMuon, bool& status1muonFromBbaryon, bool& status1muonFromCbaryon, bool& status1muonFromSbaryon, bool& status1muonFromBmeson, bool& status1muonFromCmeson, bool& status1muonFromJPsi, bool& status1muonFromLightMeson, int& good_genGluino, UInt_t& genGluino0_index, UInt_t& genGluino1_index, UInt_t& genGluino2_index){
+
+  for (UInt_t j=0; j<events->mcGluino_N; j++) {
+    if(events->mcGluinoStatus[j]==23){
+      //cout<<"gluino index "<<j<<" with status ==1"<<endl;
+      good_genGluino++;
+      if(good_genGluino==1) genGluino0_index = j;
+      if(good_genGluino==2) genGluino1_index = j;
+      if(good_genGluino==3) genGluino2_index = j;
+    }
+  }
 
   //check first to see if there is a status 1 muon in the event
   for (UInt_t j=0; j<events->mcMuon_N; j++) {
@@ -1807,13 +1950,22 @@ void findTreevalues_makehistos_Ntuples_allsamples::mchamps( StoppedHSCPMuonEvent
 							    UInt_t& genMu0_index,
 							    UInt_t& genPosMu0_index, UInt_t& genPosMu1_index, UInt_t& genPosMuUpper_index, UInt_t& genPosMuLower_index,
 							    UInt_t& genNegMu0_index, UInt_t& genNegMu1_index, UInt_t& genNegMuUpper_index, UInt_t& genNegMuLower_index,
-							    Double_t& anglePos, Double_t& angleNeg ){
+							    Double_t& anglePos, Double_t& angleNeg,
+							    int& good_genTauPrime, UInt_t& genTauPrime0_index, UInt_t& genTauPrime1_index, UInt_t& genTauPrime2_index){
+
 
   //each event must contain at least one top 
   //don't check that top came directly from stop, but check that there is at least one top and one stop in the event 
   //cout<<"number of tops is: "<<events->mcTop_N<<endl; 
   //check to see if at least one top from stop decays to W
   for (UInt_t j=0; j<events->mcTauPrime_N; j++) {
+    if(events->mcTauPrimeStatus[j]==1){
+      //cout<<"stop index "<<j<<" with status ==1"<<endl;
+      good_genTauPrime++;
+      if(good_genTauPrime==1) genTauPrime0_index = j;
+      if(good_genTauPrime==2) genTauPrime1_index = j;
+      if(good_genTauPrime==3) genTauPrime2_index = j;
+    }
     for (UInt_t k=0; k<events->mcTauPrimeDaughterId.at(j).size(); k++) {
       if(TMath::Abs(events->mcTauPrimeDaughterId.at(j).at(k))==13){
 	muonFromMchamp = true;
@@ -2211,6 +2363,110 @@ void findTreevalues_makehistos_Ntuples_allsamples::cosmicMC_counts( StoppedHSCPM
     }
   }
 }//end of cosmicMC_counts
+
+//match stage 1 stops to stopped particles
+bool findTreevalues_makehistos_Ntuples_allsamples::stopStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genStop_index) {
+  double minDeltaR=999;
+
+  //loop over stopped particles
+  for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
+    double stoppedParticle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+				     events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    
+    // Calculate deltaR between this stopped particle and the stop
+    double dR=deltaR(events->mcStopEta[genStop_index],events->mcStopPhi[genStop_index],stoppedParticle_eta,events->mcStoppedParticlePhi[j]);
+    //std::cout<<"stop eta is: "<<events->mcStopEta[genStop_index]<<", stop phi is: "<<events->mcStopPhi[genStop_index]<<std::endl;
+    //std::cout<<"stopped particle eta is: "<<stoppedParticle_eta<<", stopped particle phi is: "<<events->mcStoppedParticlePhi[j]<<", stopped particle index is: "<<j<<std::endl;
+    //std::cout<<"dR is: "<<dR<<std::endl;
+    
+    if (dR<minDeltaR) {
+      minDeltaR = dR;
+      //std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+    }    
+  }//end of loop over stopped particles
+
+  if (minDeltaR<0.1) return true;
+  else return false;
+
+}
+
+//match stage 1 gluinos to stopped particles
+bool findTreevalues_makehistos_Ntuples_allsamples::gluinoStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genGluino_index) {
+  double minDeltaR=999;
+
+  //loop over stopped particles
+  for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
+    double stoppedParticle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+				     events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    
+    // Calculate deltaR between this stopped particle and the gluino
+    double dR=deltaR(events->mcGluinoEta[genGluino_index],events->mcGluinoPhi[genGluino_index],stoppedParticle_eta,events->mcStoppedParticlePhi[j]);
+    //std::cout<<"gluino eta is: "<<events->mcGluinoEta[genGluino_index]<<", gluino phi is: "<<events->mcGluinoPhi[genGluino_index]<<std::endl;
+    //std::cout<<"stopped particle eta is: "<<stoppedParticle_eta<<", stopped particle phi is: "<<events->mcStoppedParticlePhi[j]<<", stopped particle index is: "<<j<<std::endl;
+    //std::cout<<"dR is: "<<dR<<std::endl;
+    
+    if (dR<minDeltaR) {
+      minDeltaR = dR;
+      //std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+    }    
+  }//end of loop over stopped particles
+
+  if (minDeltaR<0.1) return true;
+  else return false;
+
+}
+
+//match stage 1 mchamps to stopped particles
+bool findTreevalues_makehistos_Ntuples_allsamples::tauprimeStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genTauPrime_index) {
+  double minDeltaR=999;
+
+  //loop over stopped particles
+  for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
+    double stoppedParticle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+				     events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    
+    // Calculate deltaR between this stopped particle and the tau prime
+    double dR=deltaR(events->mcTauPrimeEta[genTauPrime_index],events->mcTauPrimePhi[genTauPrime_index],stoppedParticle_eta,events->mcStoppedParticlePhi[j]);
+    //std::cout<<"mchamp eta is: "<<events->mcTauPrimeEta[genTauPrime_index]<<", mchamp phi is: "<<events->mcTauPrimePhi[genTauPrime_index]<<std::endl;
+    //std::cout<<"stopped particle eta is: "<<stoppedParticle_eta<<", stopped particle phi is: "<<events->mcStoppedParticlePhi[j]<<", stopped particle index is: "<<j<<std::endl;
+    //std::cout<<"dR is: "<<dR<<std::endl;
+    
+    if (dR<minDeltaR) {
+      minDeltaR = dR;
+      //std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+    }    
+  }//end of loop over stopped particles
+
+  if (minDeltaR<0.1) return true;
+  else return false;
+
+}
+
+//match stage 1 staus to stopped particles
+bool findTreevalues_makehistos_Ntuples_allsamples::stauStoppedParticleMatched(StoppedHSCPMuonEvent* events, UInt_t& genStau_index) {
+  double minDeltaR=999;
+
+  //loop over stopped particles
+  for (UInt_t j=0; j<events->mcStoppedParticle_N; j++) {
+    double stoppedParticle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+				     events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    
+    // Calculate deltaR between this stopped particle and the stau
+    double dR=deltaR(events->mcStauEta[genStau_index],events->mcStauPhi[genStau_index],stoppedParticle_eta,events->mcStoppedParticlePhi[j]);
+    //std::cout<<"stau eta is: "<<events->mcStauEta[genStau_index]<<", stau phi is: "<<events->mcStauPhi[genStau_index]<<std::endl;
+    //std::cout<<"stopped particle eta is: "<<stoppedParticle_eta<<", stopped particle phi is: "<<events->mcStoppedParticlePhi[j]<<", stopped particle index is: "<<j<<std::endl;
+    //std::cout<<"dR is: "<<dR<<std::endl;
+    
+    if (dR<minDeltaR) {
+      minDeltaR = dR;
+      //std::cout<<"new min dR is: "<<minDeltaR<<std::endl;
+    }    
+  }//end of loop over stopped particles
+
+  if (minDeltaR<0.1) return true;
+  else return false;
+
+}
 
 void findTreevalues_makehistos_Ntuples_allsamples::pickStoppedParticle( StoppedHSCPMuonEvent* events, UInt_t& stopped_index){  
   if(events->mcStoppedParticle_N==0){
@@ -3279,7 +3535,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::GlobalSATagAndProbe( StoppedH
 }//end of globalSAtagandprobe
 
 void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMuonEvent* events, bool& is_data){
-  /*
+  
   if(events->mu_DisplacedStandAlone_N>0 || events->mcMuon_N>0 || events->mcTop_N>0 || events->mcW_N>0 || events->mcCMshower_N>0 || events->mcTau_N>0){
     cout<<"__________________________________________________________________________________________________________________________________________________________"<<endl;
     line++;
@@ -3316,7 +3572,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(5) << "nDOF"<<endl;
     line = line + 2;
   }
-  */  
+  
   if(is_data){
     /*
     cout  << setw(6) << "Run";
@@ -3332,7 +3588,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_setup( StoppedHSCPMu
     cout  << setw(8) << " ";
     cout  << setw(7) << events->id<<endl;
     */
-  cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
+    //cout  << events->run<<"," << events->lb<<","<< events->orbit<<"," << events->bx<<","<< events->id<<endl;
   //line=line+2;
   }
 }//end of printout_setup()
@@ -3343,9 +3599,14 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << setw(6) << events->lb;
     cout  << setw(10) << events->id;
     cout  << setw(8) << "SPart"<<j;
-    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStoppedParticleX[j]/10.;
-    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStoppedParticleY[j]/10.;
-    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStoppedParticleZ[j]/10;
+    //cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStoppedParticleX[j]/10.;
+    //cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStoppedParticleY[j]/10.;
+    //cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStoppedParticleZ[j]/10;
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << " ";
+    double particle_eta = eta(events->mcStoppedParticleX[j],events->mcStoppedParticleY[j],
+			      events->mcStoppedParticleZ[j],events->mcStoppedParticleTime[j]);
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << particle_eta;
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStoppedParticlePhi[j];
     cout  << fixed << setw(7) << events->mcStoppedParticleCharge[j];
     cout  << fixed << setw(7) << events->mcStoppedParticleId[j];
     cout  << fixed << setw(7) << events->mcStoppedParticleMass[j];
@@ -3362,6 +3623,39 @@ void findTreevalues_makehistos_Ntuples_allsamples::printout_gen( StoppedHSCPMuon
     cout  << fixed << setw(7) << " " << endl;
     line++;
   }
+
+  for (UInt_t j=0; j<events->mcStop_N; j++) {
+    TString Daughters = " ";
+    for (UInt_t k=0; k<events->mcStopDaughterId.at(j).size(); k++) {
+      //cout<<"bx for hit "<<k<<" is: "<<events->muDisplacedStandAloneTrackRpcHitBx.at(j).at(k)<<endl;                                                                                                    
+      string each_daughter;
+      ostringstream convert;
+      convert<<events->mcStopDaughterId.at(j).at(k);
+      each_daughter = convert.str();
+      Daughters = Daughters + each_daughter + " ";
+    }
+    
+    cout  << setw(6) << events->run;
+    cout  << setw(6) << events->lb;
+    cout  << setw(10) << events->id;
+    cout  << setw(8) << "GenStop"<<j;
+    cout  << fixed << setprecision(PtPrecision)  << setw(8) << events->mcStopPt[j];
+    cout  << fixed << setprecision(EtaPrecision) << setw(7) << events->mcStopEta[j];
+    cout  << fixed << setprecision(PhiPrecision) << setw(7) << events->mcStopPhi[j];
+    cout  << fixed << setprecision(ChargePrecision) << setw(7) << events->mcStopCharge[j];
+    cout  << fixed << setw(7) << events->mcStopStatus[j];
+    cout  << fixed << setw(14) << Daughters;
+    cout  << fixed << setw(5) << events->mcStopMotherId[j];
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(5) << " ";
+    cout  << fixed << setw(7) << " ";
+    cout  << fixed << setw(7) << " " << endl;
+    line++;
+    }//end of loop over tops
   
   for (UInt_t j=0; j<events->mcTop_N; j++) {
     TString Daughters = " ";
@@ -4314,8 +4608,6 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   mcStauEta_hist->SetBinErrorOption(TH1::kPoisson);
   mcStauPhi_hist->SetBinErrorOption(TH1::kPoisson);
   mcStauBeta_hist->SetBinErrorOption(TH1::kPoisson);
-  mcStauPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
-  mcStauBeta_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
   mcH0Charge_hist->SetBinErrorOption(TH1::kPoisson);    
   mcH1Charge_hist->SetBinErrorOption(TH1::kPoisson);    
   mcHPlusPlusP_hist->SetBinErrorOption(TH1::kPoisson);    
@@ -4336,8 +4628,6 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   mcHPlusPlusPt_HMinusMinusPt_hist->SetBinErrorOption(TH1::kPoisson);
   mcHPlusPlusEta_HMinusMinusEta_hist->SetBinErrorOption(TH1::kPoisson);
   mcHPlusPlusPhi_HMinusMinusPhi_hist->SetBinErrorOption(TH1::kPoisson);
-  mcHPlusPlusPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
-  mcHMinusMinusPt_StoppedParticleN_hist->SetBinErrorOption(TH1::kPoisson);
   mcTop_N_hist->SetBinErrorOption(TH1::kPoisson);
   mcTopStatus_hist->SetBinErrorOption(TH1::kPoisson);
   mcTopPt_hist->SetBinErrorOption(TH1::kPoisson);
@@ -4749,7 +5039,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 
   //make sure dictionaries can be used for reading
   //converts Reflex dictionary information to CINT data structures used by  ROOT
-  //ROOT::Cintex::Cintex::Enable();
+  ROOT::Cintex::Cintex::Enable();
 
   gSystem->Load("libStoppedHSCPMuonNtuples");
   cout<<"loaded library"<<endl;
@@ -5081,8 +5371,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
   inPreselectedEvents.close();
 
   //get tree
-  //TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
-  TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
+  TTree* tree = (TTree*)f1->Get("stoppedHSCPMuonTree/StoppedHSCPMuonTree");
+  //TTree* tree = (TTree*)f1->Get("ABCDStoppedHSCPMuonTree");
   //tree->Print();
   //tree->Show(0);
 
@@ -5314,6 +5604,21 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     UInt_t genHpos_index = 999;
     UInt_t genHneg_index = 999;
 
+    int good_genStop = 0;
+    UInt_t genStop0_index = 999;
+    UInt_t genStop1_index = 999;
+    UInt_t genStop2_index = 999;
+
+    int good_genGluino = 0;
+    UInt_t genGluino0_index = 999;
+    UInt_t genGluino1_index = 999;
+    UInt_t genGluino2_index = 999;
+
+    int good_genTauPrime = 0;
+    UInt_t genTauPrime0_index = 999;
+    UInt_t genTauPrime1_index = 999;
+    UInt_t genTauPrime2_index = 999;
+
     int good_genStau = 0;
     UInt_t genStau0_index = 999;
     UInt_t genStau1_index = 999;
@@ -5412,15 +5717,17 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     //}
 
     //find out what's happening at the gen level for signal MC
-    if(file_dataset_ == "stop") stops(events, good_genMuons, genMu0_index, WFromTop, status1muon, status1muonFromW, status1muonFromMuon, nRhadron, rhadronId1, rhadronId2, rhadronCharge1, rhadronCharge2, rhadronPt1, rhadronPt2, rhadronEta1, rhadronEta2, rhadronPhi1, rhadronPhi2);
+    if(file_dataset_ == "stop") stops(events, good_genMuons, genMu0_index, WFromTop, status1muon, status1muonFromW, status1muonFromMuon, nRhadron, rhadronId1, rhadronId2, rhadronCharge1, rhadronCharge2, rhadronPt1, rhadronPt2, rhadronEta1, rhadronEta2, rhadronPhi1, rhadronPhi2, good_genStop, genStop0_index, genStop1_index, genStop2_index);
     if(file_dataset_ == "glui") gluinos(events, good_genMuons, genMu0_index, status1muon, status1muonFromW, status1muonFromTau, status1muonFromMuon,
 					status1muonFromBbaryon, status1muonFromCbaryon, status1muonFromSbaryon, status1muonFromBmeson, status1muonFromCmeson,
-					status1muonFromJPsi, status1muonFromLightMeson);
+					status1muonFromJPsi, status1muonFromLightMeson, 
+					good_genGluino, genGluino0_index, genGluino1_index, genGluino2_index);
     if(file_dataset_ == "mcha") mchamps(events, muonFromMchamp, status1muon_, status1muonFromMchamp_, status1muonFromMuon_, good_genMuons, good_genPosMuons, good_genNegMuons, 
 					genMu0_index,
 					genPosMu0_index, genPosMu1_index, genPosMuUpper_index, genPosMuLower_index,
 					genNegMu0_index, genNegMu1_index, genNegMuUpper_index, genNegMuLower_index,
-					anglePos, angleNeg );
+					anglePos, angleNeg,
+					good_genTauPrime, genTauPrime0_index, genTauPrime1_index, genTauPrime2_index);
     if(file_dataset_ == "ppst" || file_dataset_ == "gmst" ) staus(events, good_genMuons, genMu0_index, tauFromStau, status1muon, status1muonFromTau, status1muonFromMuon, status1muonFromNeutralino, good_genStau, genStau0_index, genStau1_index, genStau2_index);
     if(file_dataset_ == "cosm" || file_dataset_ == "PGun") cosmicMC(events, good_genMuons, genMu0_index, status1muon);
     if(file_dataset_ == "tauP" || file_dataset_ == "mcha"){
@@ -5481,8 +5788,8 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 	//cout<<"finished cosmicMC_counts"<<endl;
 
 	if(doPrintout){
-	  //printout_setup(events);
-	  //printout_gen(events);
+	  printout_setup(events,is_data);
+	  printout_gen(events);
 	}
 	
 	if( (!is_data && doGenMuCut && (status1muon || (file_dataset_ == "mcha" &&(events->mcMuonCharge[genPosMu0_index]==events->mcMuonCharge[genPosMu1_index] || events->mcMuonCharge[genNegMu0_index]==events->mcMuonCharge[genNegMu1_index])))) || (!doGenMuCut) || (is_data) || (is_otherMC)){
@@ -5804,14 +6111,133 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			mcRhadronEta_hist->Fill(rhadronEta2,1.0);    
 			mcRhadronPhi_hist->Fill(rhadronPhi2,1.0);    
 			mcRhadronCharge_hist->Fill(rhadronCharge2,1.0);    
-		      }
+
+			if(file_dataset_ == "stop"){
+			  //cout<<"starting to plot stop histos"<<endl;
+			  mcStop_N_hist->Fill(good_genStop,1.0);
+			  if(good_genStop>0){
+			    
+			    double beta0 = -999.;
+			    if(events->mcStopP[genStop0_index]!=0.) beta0 = 1.0/(TMath::Sqrt((events->mcStopMass[genStop0_index]/events->mcStopP[genStop0_index])*(events->mcStopMass[genStop0_index]/events->mcStopP[genStop0_index])+1));
+			    
+			    mcStop0Charge_hist->Fill(events->mcStopCharge[genStop0_index],1.0);			  
+			    mcStopP_hist->Fill(events->mcStopP[genStop0_index],1.0);
+			    mcStopPx_hist->Fill(events->mcStopPx[genStop0_index],1.0);
+			    mcStopPy_hist->Fill(events->mcStopPy[genStop0_index],1.0);
+			    mcStopPz_hist->Fill(events->mcStopPz[genStop0_index],1.0);
+			    mcStopPt_hist->Fill(events->mcStopPt[genStop0_index],1.0);
+			    mcStopEta_hist->Fill(events->mcStopEta[genStop0_index],1.0);
+			    mcStopPhi_hist->Fill(events->mcStopPhi[genStop0_index],1.0);			    
+			    mcStopBeta_hist->Fill(beta0,1.0);
+			    
+			    if(stopStoppedParticleMatched(events, genStop0_index)){
+			      stopped_mcStopP_hist->Fill(events->mcStopP[genStop0_index],1.0);
+			      stopped_mcStopPt_hist->Fill(events->mcStopPt[genStop0_index],1.0);
+			      stopped_mcStopBeta_hist->Fill(beta0,1.0);
+			    }
+			    else{
+			      notStopped_mcStopP_hist->Fill(events->mcStopP[genStop0_index],1.0);
+			      notStopped_mcStopPt_hist->Fill(events->mcStopPt[genStop0_index],1.0);
+			      notStopped_mcStopBeta_hist->Fill(beta0,1.0);
+			    }
+			    
+			    if(good_genStop>1){
+			      double beta1 = -999.;
+			      if(events->mcStopP[genStop1_index]!=0.) beta1 = 1.0/(TMath::Sqrt((events->mcStopMass[genStop1_index]/events->mcStopP[genStop1_index])*(events->mcStopMass[genStop1_index]/events->mcStopP[genStop1_index])+1));
+			      
+			      mcStop1Charge_hist->Fill(events->mcStopCharge[genStop1_index],1.0);
+			      mcStopP_hist->Fill(events->mcStopP[genStop1_index],1.0);
+			      mcStopPx_hist->Fill(events->mcStopPx[genStop1_index],1.0);
+			      mcStopPy_hist->Fill(events->mcStopPy[genStop1_index],1.0);
+			      mcStopPz_hist->Fill(events->mcStopPz[genStop1_index],1.0);
+			      mcStopPt_hist->Fill(events->mcStopPt[genStop1_index],1.0);
+			      mcStopEta_hist->Fill(events->mcStopEta[genStop1_index],1.0);
+			      mcStopPhi_hist->Fill(events->mcStopPhi[genStop1_index],1.0);
+			      mcStopBeta_hist->Fill(beta1,1.0);
+			      
+			      if(stopStoppedParticleMatched(events, genStop1_index)){
+				stopped_mcStopP_hist->Fill(events->mcStopP[genStop1_index],1.0);
+				stopped_mcStopPt_hist->Fill(events->mcStopPt[genStop1_index],1.0);
+				stopped_mcStopBeta_hist->Fill(beta1,1.0);
+			      }
+			      else{
+				notStopped_mcStopP_hist->Fill(events->mcStopP[genStop1_index],1.0);
+				notStopped_mcStopPt_hist->Fill(events->mcStopPt[genStop1_index],1.0);
+				notStopped_mcStopBeta_hist->Fill(beta1,1.0);
+			      }//end of if stop not matched to a stopped particle
+			      
+			    }//end of if 2 or more good stops
+			  }//end of if 1 or more good stops
+			}//end of if file is stop
+			
+			if(file_dataset_ == "glui"){
+			  //cout<<"starting to plot gluino histos"<<endl;
+			  mcGluino_N_hist->Fill(good_genGluino,1.0);
+			  if(good_genGluino>0){
+			    
+			    double beta0 = -999.;
+			    if(events->mcGluinoP[genGluino0_index]!=0.) beta0 = 1.0/(TMath::Sqrt((events->mcGluinoMass[genGluino0_index]/events->mcGluinoP[genGluino0_index])*(events->mcGluinoMass[genGluino0_index]/events->mcGluinoP[genGluino0_index])+1));
+			    
+			    mcGluino0Charge_hist->Fill(events->mcGluinoCharge[genGluino0_index],1.0);			  
+			    mcGluinoP_hist->Fill(events->mcGluinoP[genGluino0_index],1.0);
+			    mcGluinoPx_hist->Fill(events->mcGluinoPx[genGluino0_index],1.0);
+			    mcGluinoPy_hist->Fill(events->mcGluinoPy[genGluino0_index],1.0);
+			    mcGluinoPz_hist->Fill(events->mcGluinoPz[genGluino0_index],1.0);
+			    mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino0_index],1.0);
+			    mcGluinoEta_hist->Fill(events->mcGluinoEta[genGluino0_index],1.0);
+			    mcGluinoPhi_hist->Fill(events->mcGluinoPhi[genGluino0_index],1.0);			    
+			    mcGluinoBeta_hist->Fill(beta0,1.0);
+			    
+			    if(gluinoStoppedParticleMatched(events, genGluino0_index)){
+			      stopped_mcGluinoP_hist->Fill(events->mcGluinoP[genGluino0_index],1.0);
+			      stopped_mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino0_index],1.0);
+			      stopped_mcGluinoBeta_hist->Fill(beta0,1.0);
+			    }
+			    else{
+			      notStopped_mcGluinoP_hist->Fill(events->mcGluinoP[genGluino0_index],1.0);
+			      notStopped_mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino0_index],1.0);
+			      notStopped_mcGluinoBeta_hist->Fill(beta0,1.0);
+			    }
+			    
+			    if(good_genGluino>1){
+			      double beta1 = -999.;
+			      if(events->mcGluinoP[genGluino1_index]!=0.) beta1 = 1.0/(TMath::Sqrt((events->mcGluinoMass[genGluino1_index]/events->mcGluinoP[genGluino1_index])*(events->mcGluinoMass[genGluino1_index]/events->mcGluinoP[genGluino1_index])+1));
+			      
+			      mcGluino1Charge_hist->Fill(events->mcGluinoCharge[genGluino1_index],1.0);
+			      mcGluinoP_hist->Fill(events->mcGluinoP[genGluino1_index],1.0);
+			      mcGluinoPx_hist->Fill(events->mcGluinoPx[genGluino1_index],1.0);
+			      mcGluinoPy_hist->Fill(events->mcGluinoPy[genGluino1_index],1.0);
+			      mcGluinoPz_hist->Fill(events->mcGluinoPz[genGluino1_index],1.0);
+			      mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino1_index],1.0);
+			      mcGluinoEta_hist->Fill(events->mcGluinoEta[genGluino1_index],1.0);
+			      mcGluinoPhi_hist->Fill(events->mcGluinoPhi[genGluino1_index],1.0);
+			      mcGluinoBeta_hist->Fill(beta1,1.0);
+			      
+			      if(gluinoStoppedParticleMatched(events, genGluino1_index)){
+				stopped_mcGluinoP_hist->Fill(events->mcGluinoP[genGluino1_index],1.0);
+				stopped_mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino1_index],1.0);
+				stopped_mcGluinoBeta_hist->Fill(beta1,1.0);
+			      }
+			      else{
+				notStopped_mcGluinoP_hist->Fill(events->mcGluinoP[genGluino1_index],1.0);
+				notStopped_mcGluinoPt_hist->Fill(events->mcGluinoPt[genGluino1_index],1.0);
+				notStopped_mcGluinoBeta_hist->Fill(beta1,1.0);
+			      }//end of if gluino not matched to a stopped particle
+			      
+			    }//end of if 2 or more good gluinos
+			  }//end of if 1 or more good gluinos
+			}//end of if file is gluino
+			
+		      }//end of if file is stop or gluino
 		      if(file_dataset_ == "ppst" || file_dataset_ == "gmst"){
 			//cout<<"starting to plot stau histos"<<endl;
 			mcStau_N_hist->Fill(good_genStau,1.0);
 			if(good_genStau>0){
 			  
+			  double beta0 = -999.;
+			  if(events->mcStauP[genStau0_index]!=0.) beta0 = 1.0/(TMath::Sqrt((events->mcStauMass[genStau0_index]/events->mcStauP[genStau0_index])*(events->mcStauMass[genStau0_index]/events->mcStauP[genStau0_index])+1));
+			  
 			  mcStau0Charge_hist->Fill(events->mcStauCharge[genStau0_index],1.0);			  
-
 			  mcStauP_hist->Fill(events->mcStauP[genStau0_index],1.0);
 			  mcStauPx_hist->Fill(events->mcStauPx[genStau0_index],1.0);
 			  mcStauPy_hist->Fill(events->mcStauPy[genStau0_index],1.0);
@@ -5819,17 +6245,24 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  mcStauPt_hist->Fill(events->mcStauPt[genStau0_index],1.0);
 			  mcStauEta_hist->Fill(events->mcStauEta[genStau0_index],1.0);
 			  mcStauPhi_hist->Fill(events->mcStauPhi[genStau0_index],1.0);			    
-
-			  double beta0 = -999.;
-			  if(events->mcStauP[genStau0_index]!=0.) beta0 = 1.0/(TMath::Sqrt((events->mcStauMass[genStau0_index]/events->mcStauP[genStau0_index])*(events->mcStauMass[genStau0_index]/events->mcStauP[genStau0_index])+1));
 			  mcStauBeta_hist->Fill(beta0,1.0);
 
-			  mcStauPt_StoppedParticleN_hist->Fill(events->mcStauPt[genStau0_index],events->mcStoppedParticle_N,1.0);
-			  mcStauBeta_StoppedParticleN_hist->Fill(beta0,events->mcStoppedParticle_N,1.0);
+			  if(stauStoppedParticleMatched(events, genStau0_index)){
+			    stopped_mcStauP_hist->Fill(events->mcStauP[genStau0_index],1.0);
+			    stopped_mcStauPt_hist->Fill(events->mcStauPt[genStau0_index],1.0);
+			    stopped_mcStauBeta_hist->Fill(beta0,1.0);
+			  }
+			  else{
+			    notStopped_mcStauP_hist->Fill(events->mcStauP[genStau0_index],1.0);
+			    notStopped_mcStauPt_hist->Fill(events->mcStauPt[genStau0_index],1.0);
+			    notStopped_mcStauBeta_hist->Fill(beta0,1.0);
+			  }
 
 			  if(good_genStau>1){
-			    mcStau1Charge_hist->Fill(events->mcStauCharge[genStau1_index],1.0);
+			    double beta1 = -999.;
+			    if(events->mcStauP[genStau1_index]!=0.) beta1 = 1.0/(TMath::Sqrt((events->mcStauMass[genStau1_index]/events->mcStauP[genStau1_index])*(events->mcStauMass[genStau1_index]/events->mcStauP[genStau1_index])+1));
 
+			    mcStau1Charge_hist->Fill(events->mcStauCharge[genStau1_index],1.0);
 			    mcStauP_hist->Fill(events->mcStauP[genStau1_index],1.0);
 			    mcStauPx_hist->Fill(events->mcStauPx[genStau1_index],1.0);
 			    mcStauPy_hist->Fill(events->mcStauPy[genStau1_index],1.0);
@@ -5837,19 +6270,25 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    mcStauPt_hist->Fill(events->mcStauPt[genStau1_index],1.0);
 			    mcStauEta_hist->Fill(events->mcStauEta[genStau1_index],1.0);
 			    mcStauPhi_hist->Fill(events->mcStauPhi[genStau1_index],1.0);
-
-			    double beta1 = -999.;
-			    if(events->mcStauP[genStau1_index]!=0.) beta1 = 1.0/(TMath::Sqrt((events->mcStauMass[genStau1_index]/events->mcStauP[genStau1_index])*(events->mcStauMass[genStau1_index]/events->mcStauP[genStau1_index])+1));
 			    mcStauBeta_hist->Fill(beta1,1.0);
 
-			    mcStauPt_StoppedParticleN_hist->Fill(events->mcStauPt[genStau1_index],events->mcStoppedParticle_N,1.0);
-			    mcStauBeta_StoppedParticleN_hist->Fill(beta1,events->mcStoppedParticle_N,1.0);
-			  }
-			}
-		      }
+			    if(stauStoppedParticleMatched(events, genStau1_index)){
+			      stopped_mcStauP_hist->Fill(events->mcStauP[genStau1_index],1.0);
+			      stopped_mcStauPt_hist->Fill(events->mcStauPt[genStau1_index],1.0);
+			      stopped_mcStauBeta_hist->Fill(beta1,1.0);
+			    }
+			    else{
+			      notStopped_mcStauP_hist->Fill(events->mcStauP[genStau1_index],1.0);
+			      notStopped_mcStauPt_hist->Fill(events->mcStauPt[genStau1_index],1.0);
+			      notStopped_mcStauBeta_hist->Fill(beta1,1.0);
+			    }//end of if stau not matched to a stopped particle
+
+			  }//end of if 2 or more good staus
+			}//end of if 1 or more good staus
+		      }//end of if file is gmstau or ppstau
 		      if(is_otherMC && file_dataset != "cosm"){
 			if(good_genH==2){
-			  cout<<"2 good gen HPlusPlus"<<endl;
+			  //cout<<"2 good gen HPlusPlus"<<endl;
 			  if(file_dataset_ == "doub"){
 
 			    mcH0Charge_hist->Fill(events->mcDoublyChargedHiggsCharge[genH0_index],1.0);
@@ -5876,7 +6315,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    mcHPlusPlusPhi_HMinusMinusPhi_hist->Fill(events->mcDoublyChargedHiggsPhi[genHpos_index],events->mcDoublyChargedHiggsPhi[genHneg_index],1.0);
 			  }
 			  if((file_dataset_ == "tauP" || file_dataset_ == "mcha") && doHplusHistos){
-			    cout<<"file dataset is tauP"<<endl;
+			    //cout<<"file dataset is tauP"<<endl;
 
 			    mcH0Charge_hist->Fill(events->mcTauPrimeCharge[genH0_index],eventweightTauPrime);
 			    mcH1Charge_hist->Fill(events->mcTauPrimeCharge[genH1_index],eventweightTauPrime);
@@ -5901,13 +6340,67 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    mcHPlusPlusEta_HMinusMinusEta_hist->Fill(events->mcTauPrimeEta[genHpos_index],events->mcTauPrimeEta[genHneg_index],eventweightTauPrime);
 			    mcHPlusPlusPhi_HMinusMinusPhi_hist->Fill(events->mcTauPrimePhi[genHpos_index],events->mcTauPrimePhi[genHneg_index],eventweightTauPrime);
 
-			    mcHPlusPlusPt_StoppedParticleN_hist->Fill(events->mcTauPrimePt[genHpos_index],events->mcStoppedParticle_N,eventweightTauPrime);
-			    mcHMinusMinusPt_StoppedParticleN_hist->Fill(events->mcTauPrimePt[genHneg_index],events->mcStoppedParticle_N,eventweightTauPrime);
-
 			    //cout<<"plotted H histos"<<endl;
-			  }
-			}
-		      }
+
+			    mcTauPrime_N_hist->Fill(good_genTauPrime,1.0);
+			    if(good_genTauPrime>0){
+			      //cout<<"at least 1 good Tau Prime"<<endl;
+			      double beta0 = -999.;
+			      if(events->mcTauPrimeP[genTauPrime0_index]!=0.) beta0 = 1.0/(TMath::Sqrt((events->mcTauPrimeMass[genTauPrime0_index]/events->mcTauPrimeP[genTauPrime0_index])*(events->mcTauPrimeMass[genTauPrime0_index]/events->mcTauPrimeP[genTauPrime0_index])+1));
+			      
+			      mcTauPrime0Charge_hist->Fill(events->mcTauPrimeCharge[genTauPrime0_index],1.0);			  
+			      mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime0_index],1.0);
+			      mcTauPrimePx_hist->Fill(events->mcTauPrimePx[genTauPrime0_index],1.0);
+			      mcTauPrimePy_hist->Fill(events->mcTauPrimePy[genTauPrime0_index],1.0);
+			      mcTauPrimePz_hist->Fill(events->mcTauPrimePz[genTauPrime0_index],1.0);
+			      mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime0_index],1.0);
+			      mcTauPrimeEta_hist->Fill(events->mcTauPrimeEta[genTauPrime0_index],1.0);
+			      mcTauPrimePhi_hist->Fill(events->mcTauPrimePhi[genTauPrime0_index],1.0);			    
+			      mcTauPrimeBeta_hist->Fill(beta0,1.0);
+			      
+			      if(tauprimeStoppedParticleMatched(events, genTauPrime0_index)){
+				stopped_mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime0_index],1.0);
+				stopped_mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime0_index],1.0);
+				stopped_mcTauPrimeBeta_hist->Fill(beta0,1.0);
+			      }
+			      else{
+				notStopped_mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime0_index],1.0);
+				notStopped_mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime0_index],1.0);
+				notStopped_mcTauPrimeBeta_hist->Fill(beta0,1.0);
+			      }
+			      
+			      if(good_genTauPrime>1){
+				//cout<<"at least 2 good Tau Prime"<<endl;
+				double beta1 = -999.;
+				if(events->mcTauPrimeP[genTauPrime1_index]!=0.) beta1 = 1.0/(TMath::Sqrt((events->mcTauPrimeMass[genTauPrime1_index]/events->mcTauPrimeP[genTauPrime1_index])*(events->mcTauPrimeMass[genTauPrime1_index]/events->mcTauPrimeP[genTauPrime1_index])+1));
+				
+				mcTauPrime1Charge_hist->Fill(events->mcTauPrimeCharge[genTauPrime1_index],1.0);
+				mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime1_index],1.0);
+				mcTauPrimePx_hist->Fill(events->mcTauPrimePx[genTauPrime1_index],1.0);
+				mcTauPrimePy_hist->Fill(events->mcTauPrimePy[genTauPrime1_index],1.0);
+				mcTauPrimePz_hist->Fill(events->mcTauPrimePz[genTauPrime1_index],1.0);
+				mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime1_index],1.0);
+				mcTauPrimeEta_hist->Fill(events->mcTauPrimeEta[genTauPrime1_index],1.0);
+				mcTauPrimePhi_hist->Fill(events->mcTauPrimePhi[genTauPrime1_index],1.0);
+				mcTauPrimeBeta_hist->Fill(beta1,1.0);
+				
+				if(tauprimeStoppedParticleMatched(events, genTauPrime1_index)){
+				  stopped_mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime1_index],1.0);
+				  stopped_mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime1_index],1.0);
+				  stopped_mcTauPrimeBeta_hist->Fill(beta1,1.0);
+				}
+				else{
+				  notStopped_mcTauPrimeP_hist->Fill(events->mcTauPrimeP[genTauPrime1_index],1.0);
+				  notStopped_mcTauPrimePt_hist->Fill(events->mcTauPrimePt[genTauPrime1_index],1.0);
+				  notStopped_mcTauPrimeBeta_hist->Fill(beta1,1.0);
+				}//end of if stau not matched to a stopped particle
+				
+			      }//end of if 2 or more good staus
+			    }//end of if 1 or more good staus
+			    
+			  }//end of if file is tauPrime or mchamps
+			}//end of if 2 good H++
+		      }//end of if other mc
 
 		      //cout<<"about to plot mcMuon histos"<<endl;
 		      mcMuon_N_hist->Fill(good_genMuons,1.0); //only status 1 good muons
@@ -6984,6 +7477,7 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			  nDregionRpc_++;
 			  regionD_muDisplacedStandAloneP_hist->Fill(events->muDisplacedStandAloneP[lower_index],1.0);					    
 			  regionD_muDisplacedStandAloneBxPattern_hist->Fill(Rpc_Bx_Pattern(events,lower_index)); //for highest pt muon	
+			  /*
 			  if(doPrintout){
 			    printout_setup(events,is_data);
 			    printout_gen(events);
@@ -6994,9 +7488,10 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
 			    printout_L2(events);
 			    printout_L1(events);
 			  }
+			  */
 			}
 			else{
-			  cout<<"p is: "<<events->muDisplacedStandAloneP[lower_index]<<", delta ave rpc bx is: "<<Rpc_Bx_Average(events,upper_index)-Rpc_Bx_Average(events,lower_index)<<endl;
+			  //cout<<"p is: "<<events->muDisplacedStandAloneP[lower_index]<<", delta ave rpc bx is: "<<Rpc_Bx_Average(events,upper_index)-Rpc_Bx_Average(events,lower_index)<<endl;
 			  nCregionRpc_++;
 			  regionC_muDisplacedStandAloneTrackBxPattern_hist->Fill(Rpc_Bx_Pattern(events,lower_index),1.0);
 			  if(events->muDisplacedStandAloneP[lower_index] > acPtCutValue_)  nC2region++;
@@ -7647,6 +8142,40 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcRhadronEta_hist->Write();    
     mcRhadronPhi_hist->Write();    
     mcRhadronCharge_hist->Write();    
+    mcStop_N_hist->Write();
+    mcStop0Charge_hist->Write();
+    mcStop1Charge_hist->Write();
+    mcStopP_hist->Write();
+    mcStopPx_hist->Write();
+    mcStopPy_hist->Write();
+    mcStopPz_hist->Write();
+    mcStopPt_hist->Write();
+    mcStopEta_hist->Write();
+    mcStopPhi_hist->Write();
+    mcStopBeta_hist->Write();
+    stopped_mcStopP_hist->Write();
+    stopped_mcStopPt_hist->Write();
+    stopped_mcStopBeta_hist->Write();
+    notStopped_mcStopP_hist->Write();
+    notStopped_mcStopPt_hist->Write();
+    notStopped_mcStopBeta_hist->Write();
+    mcGluino_N_hist->Write();
+    mcGluino0Charge_hist->Write();
+    mcGluino1Charge_hist->Write();
+    mcGluinoP_hist->Write();
+    mcGluinoPx_hist->Write();
+    mcGluinoPy_hist->Write();
+    mcGluinoPz_hist->Write();
+    mcGluinoPt_hist->Write();
+    mcGluinoEta_hist->Write();
+    mcGluinoPhi_hist->Write();
+    mcGluinoBeta_hist->Write();
+    stopped_mcGluinoP_hist->Write();
+    stopped_mcGluinoPt_hist->Write();
+    stopped_mcGluinoBeta_hist->Write();
+    notStopped_mcGluinoP_hist->Write();
+    notStopped_mcGluinoPt_hist->Write();
+    notStopped_mcGluinoBeta_hist->Write();
     mcStau_N_hist->Write();
     mcStau0Charge_hist->Write();
     mcStau1Charge_hist->Write();
@@ -7658,8 +8187,12 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcStauEta_hist->Write();
     mcStauPhi_hist->Write();
     mcStauBeta_hist->Write();
-    mcStauPt_StoppedParticleN_hist->Write();
-    mcStauBeta_StoppedParticleN_hist->Write();
+    stopped_mcStauP_hist->Write();
+    stopped_mcStauPt_hist->Write();
+    stopped_mcStauBeta_hist->Write();
+    notStopped_mcStauP_hist->Write();
+    notStopped_mcStauPt_hist->Write();
+    notStopped_mcStauBeta_hist->Write();
     mcH0Charge_hist->Write();    
     mcH1Charge_hist->Write();    
     mcHPlusPlusP_hist->Write();    
@@ -7680,8 +8213,23 @@ void findTreevalues_makehistos_Ntuples_allsamples::loop(string& file_dataset, st
     mcHPlusPlusPt_HMinusMinusPt_hist->Write();
     mcHPlusPlusEta_HMinusMinusEta_hist->Write();
     mcHPlusPlusPhi_HMinusMinusPhi_hist->Write();
-    mcHPlusPlusPt_StoppedParticleN_hist->Write();
-    mcHMinusMinusPt_StoppedParticleN_hist->Write();
+    mcTauPrime_N_hist->Write();
+    mcTauPrime0Charge_hist->Write();
+    mcTauPrime1Charge_hist->Write();
+    mcTauPrimeP_hist->Write();
+    mcTauPrimePx_hist->Write();
+    mcTauPrimePy_hist->Write();
+    mcTauPrimePz_hist->Write();
+    mcTauPrimePt_hist->Write();
+    mcTauPrimeEta_hist->Write();
+    mcTauPrimePhi_hist->Write();
+    mcTauPrimeBeta_hist->Write();
+    stopped_mcTauPrimeP_hist->Write();
+    stopped_mcTauPrimePt_hist->Write();
+    stopped_mcTauPrimeBeta_hist->Write();
+    notStopped_mcTauPrimeP_hist->Write();
+    notStopped_mcTauPrimePt_hist->Write();
+    notStopped_mcTauPrimeBeta_hist->Write();
     mcTop_N_hist->Write();
     mcTopStatus_hist->Write();
     mcTopPt_hist->Write();
