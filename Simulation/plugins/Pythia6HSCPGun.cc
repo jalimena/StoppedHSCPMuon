@@ -272,7 +272,7 @@ namespace {
     writeStau (file);
     setAllMasses (file, fSparticleMass, fNeutralinoMass, fGravitinoMass);
     //setAllMasses (file, fSparticleMass, fNeutralinoMass);
-    std::cout << "***** " << fName.c_str() << std::endl;
+    LogDebug("GeneratorInterface") << "***** " << fName.c_str() << std::endl;
   }
 
 }// unnamed namespace
@@ -295,6 +295,8 @@ Pythia6HSCPGun::Pythia6HSCPGun( const ParameterSet& pset ) :
   mVz(0.),
   mVt(0.)
 {
+  LogDebug("GeneratorInterface")<<"begining constructor of Pythia6HSCPGun"<<std::endl;
+
   if (mReadFromFile) {
     mFile = new std::ifstream (mFileName.c_str());
   }
@@ -392,7 +394,7 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
 	      mVt.at(1) = 0.;
 	    }
 	  }
-	  else std::cout<<"3 or more stopped particles!!!!!!!!!!!!!!!"<<std::endl;
+	  else LogDebug("GeneratorInterface")<<"3 or more stopped particles!!!!!!!!!!!!!!!"<<std::endl;
 	}//end of if put 2 stopped particles in same event
 	else{ //if put 2 stopped particles in separate events
 	  for(int i=0; i<nStoppedParticles; i++){
@@ -415,7 +417,7 @@ void Pythia6HSCPGun::produce(edm::Event& evt, const edm::EventSetup& iSetup) {
 	    mVx.at(i)  = xs->at(i);
 	    mVy.at(i)  = ys->at(i);
 	    mVz.at(i)  = zs->at(i);
-	    std::cout<<"isStoppedEvent with name "<<name.at(i)<<", mPID "<<mPID.at(i)<<", mVx "<<mVx.at(i)<<", mVy "<<mVy.at(i)<<", mVz "<<mVz.at(i)<<", stopping time "<<ts->at(i)<<std::endl;
+	    LogDebug("GeneratorInterface")<<"isStoppedEvent with name "<<name.at(i)<<", mPID "<<mPID.at(i)<<", mVx "<<mVx.at(i)<<", mVy "<<mVy.at(i)<<", mVz "<<mVz.at(i)<<", stopping time "<<ts->at(i)<<std::endl;
 	  }//end of if put 2 stopped in same event or if decay only 1
 	}//end of loop over stopped particles
 	
@@ -466,7 +468,7 @@ void Pythia6HSCPGun::generateEvent(CLHEP::HepRandomEngine*)
   //LogDebug("GeneratorInterface")<<"grabbed Py6 instance"<<std::endl;
   
   LogDebug("GeneratorInterface")<<"made fEvt"<<std::endl;
-  std::cout<<"nStoppedParticles is: "<<nStoppedParticles<<std::endl;
+  LogDebug("GeneratorInterface")<<"nStoppedParticles is: "<<nStoppedParticles<<std::endl;
 
   for(int i=0; i<nStoppedParticles; i++){
     //EITHER:
@@ -477,7 +479,7 @@ void Pythia6HSCPGun::generateEvent(CLHEP::HepRandomEngine*)
       // check the case where no stopped particle found
       // need to check this doesn't break stuff
       if (mPID.at(i)==0) {
-	std::cout<<"mPID is 0"<<std::endl;
+	LogDebug("GeneratorInterface")<<"mPID is 0"<<std::endl;
 	return;
       }
       
@@ -515,15 +517,15 @@ void Pythia6HSCPGun::generateEvent(CLHEP::HepRandomEngine*)
       Vtx->add_particle_out(Part);
       
       fEvt->add_vertex(Vtx);
-      std::cout<<"added event vertex: "<<mVx.at(i)<<", "<<mVy.at(i)<<", "<<mVz.at(i)<<", "<<mVt.at(i)<<std::endl;
+      LogDebug("GeneratorInterface")<<"added event vertex: "<<mVx.at(i)<<", "<<mVy.at(i)<<", "<<mVz.at(i)<<", "<<mVt.at(i)<<std::endl;
       
     }//end of if put 2 stopped in same event or if decay only 1
   }//end of loop over stopped particles
 
   for ( HepMC::GenEvent::vertex_iterator vt=fEvt->vertices_begin(); vt!=fEvt->vertices_end(); ++vt ) {
-    std::cout<<"vertex is: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
+    LogDebug("GeneratorInterface")<<"vertex is: "<<(*vt)->position().x()<<", "<<(*vt)->position().y()<<", "<<(*vt)->position().z()<<std::endl;
     for ( HepMC::GenVertex::particle_iterator pt=(*vt)->particles_begin(HepMC::children); pt!=(*vt)->particles_end(HepMC::children); ++pt ) {
-      std::cout<<"particle is: "<<(*pt)->pdg_id()<<std::endl;
+      LogDebug("GeneratorInterface")<<"particle is: "<<(*pt)->pdg_id()<<std::endl;
     }
   }
 

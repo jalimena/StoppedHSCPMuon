@@ -5,9 +5,6 @@ namespace CLHEP {
   class RandFlat;
 }
 
-namespace gen{
-  class Pythia6Service;
-}
 
 class StoppedParticleEvtVtxGenerator : public BaseEvtVtxGenerator 
 {
@@ -21,8 +18,7 @@ public:
 
   /// return a new event vertex
   //virtual CLHEP::Hep3Vector* newVertex();
-  //virtual HepMC::FourVector* newVertex() ;
-  virtual HepMC::FourVector* newVertex(CLHEP::HepRandomEngine*) ;
+  virtual HepMC::FourVector* newVertex(CLHEP::HepRandomEngine*);
   
   virtual TMatrixD* GetInvLorentzBoost() {
     return 0;
@@ -30,8 +26,6 @@ public:
 private:
 
   bool mVerbose;
-
-  //gen::Pythia6Service* fPy6Service;
 
   // repetition of base class private member :-(
   edm::InputTag mSourceLabel;
@@ -45,10 +39,12 @@ private:
   // time smearing
   double mTimeMin;
   double mTimeMax;
-  //CLHEP::RandFlat*  mRandom ;
+  //CLHEP::RandFlat* mRandom;
 
   bool putTwoStoppedInSameEvent;
   int stoppedParticleNumber;
+  int nStoppedParticles;
+  bool isStoppedEvent;
 
   // stopped particle vertex
   std::vector<float> mVx_;
@@ -62,6 +58,5 @@ private:
   float mVz;
   float mVt;
   int id;
-  bool isStoppedEvent;
-  int nStoppedParticles;
+
 };

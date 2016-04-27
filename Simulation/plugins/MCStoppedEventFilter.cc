@@ -67,6 +67,7 @@ MCStoppedEventFilter::MCStoppedEventFilter(const edm::ParameterSet& iConfig) :
   stoppedParticleNumber(iConfig.getUntrackedParameter<int>("StoppedParticleNumber", 0)),
   nStoppedParticles(0)
 {
+  //std::cout<<"begining constructor of MCStoppedEventFilter"<<std::endl;
   //stoppedParticlesXLabel_ = iConfig.getParameter<edm::InputTag>("StoppedParticlesXLabel");
 }
 
@@ -82,6 +83,7 @@ MCStoppedEventFilter::~MCStoppedEventFilter() {}
 bool
 MCStoppedEventFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
+  //std::cout<<"begining filter of MCStoppedEventFilter"<<std::endl;
   edm::Handle<std::vector<float> > xs;
   iEvent.getByLabel(mStopPointProducer_, "StoppedParticlesX", xs);
   nStoppedParticles = xs->size();
@@ -123,6 +125,7 @@ void MCStoppedEventFilter::endJob() {}
 
 // ------------ method called when starting to processes a run  ------------
 bool MCStoppedEventFilter::beginRun(edm::Run&, edm::EventSetup const&) { 
+  //std::cout<<"begining beginRun of MCStoppedEventFilter"<<std::endl;
   return true;
 }
 
