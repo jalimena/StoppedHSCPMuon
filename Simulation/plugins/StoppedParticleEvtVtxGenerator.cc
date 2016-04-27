@@ -146,7 +146,7 @@ void StoppedParticleEvtVtxGenerator::produce(edm::Event& evt, const edm::EventSe
     
     if(nStoppedParticles == 2){
       const HepMC::GenEvent* mc = HepMCEvt->GetEvent();    
-      mc->print(  LogDebug("StoppedParticleEvtVtxGenerator") );
+      mc->print(  std::cout );
     }
     
   }//end of if stopped event
