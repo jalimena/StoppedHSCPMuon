@@ -2,7 +2,8 @@
 # to run use source *.csh
 
 #echo gluinos...
-#foreach i (300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500)
+#foreach i (100 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600) #Run2
+#needs to be updated for run2
 #    if ($i == '300') then 
 #	set j=173
 #    endif
@@ -42,10 +43,13 @@
 #    if ($i == '1500') then 
 #	set j=1396
 #    endif
-#    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_gluinoXXX_neutralinoYYY_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2HLT_gluino${i}_neutralino${j}_cfg.py
+#    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gluinoXXX_neutralinoYYY_separateEvents_particle0_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_gluino${i}_neutralino${j}_separateEvents_particle0_cfg.py
+#    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gluinoXXX_neutralinoYYY_separateEvents_particle1_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_gluino${i}_neutralino${j}_separateEvents_particle1_cfg.py
+#    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gluinoXXX_neutralinoYYY_sameEvent_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_gluino${i}_neutralino${j}_sameEvent_cfg.py
 #end
 
 #echo stops...
+#needs to be updated for run2
 #foreach i (100 200 300 400 500 600 700 800 900 1000)
 #    if ($i == '100') then 
 #	set j=30
@@ -77,22 +81,27 @@
     #if ($i == '1000') then 
 	#set j=819
     #endif
-    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_stopXXX_neutralinoYYY_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2HLT_stop${i}_neutralino${j}_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_stopXXX_neutralinoYYY_separateEvents_particle0_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_stop${i}_neutralino${j}_separateEvents_particle0_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_stopXXX_neutralinoYYY_separateEvents_particle1_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_stop${i}_neutralino${j}_separateEvents_particle1_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_stopXXX_neutralinoYYY_sameEvent_cfg.py |sed "s/YYY/$j/" > stoppedHSCPMuon_stage2GENSIM_stop${i}_neutralino${j}_sameEvent_cfg.py
 #end
 
 #echo staus... 
 #foreach i (100 126 156 200 247 308 370 432 494)
-    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_ppstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_ppstau${i}_gravitinop0001_cfg.py
-    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_gmstauXXX_gravitinop0001_cfg.py > stoppedHSCPMuon_stage2HLT_gmstau${i}_gravitinop0001_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gmstauXXX_gravitinop0001_separateEvents_particle0_cfg.py > stoppedHSCPMuon_stage2GENSIM_gmstau${i}_gravitinop0001_separateEvents_particle0_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gmstauXXX_gravitinop0001_separateEvents_particle1_cfg.py > stoppedHSCPMuon_stage2GENSIM_gmstau${i}_gravitinop0001_separateEvents_particle1_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_gmstauXXX_gravitinop0001_sameEvent_cfg.py > stoppedHSCPMuon_stage2GENSIM_gmstau${i}_gravitinop0001_sameEvent_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_ppstauXXX_gravitinop0001_separateEvents_particle0_cfg.py > stoppedHSCPMuon_stage2GENSIM_ppstau${i}_gravitinop0001_separateEvents_particle0_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_ppstauXXX_gravitinop0001_separateEvents_particle1_cfg.py > stoppedHSCPMuon_stage2GENSIM_ppstau${i}_gravitinop0001_separateEvents_particle1_cfg.py
+    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_ppstauXXX_gravitinop0001_sameEvent_cfg.py > stoppedHSCPMuon_stage2GENSIM_ppstau${i}_gravitinop0001_sameEvent_cfg.py
 #end
 
 
 echo mchamps...
-foreach i (100 200 300 400 500 600 700 800 900 1000)
-    #sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_cfg.py
-    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_sameEvent_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_sameEvent_cfg.py
-    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_separateEvents_particle0_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_separateEvents_particle0_cfg.py
-    sed "s/XXX/$i/" stoppedHSCPMuon_stage2HLT_mchampXXX_separateEvents_particle1_cfg.py > stoppedHSCPMuon_stage2HLT_mchamp${i}_separateEvents_particle1_cfg.py
+foreach i (100 200 400 600 800 1000 1400 1800 2200 2600) #Run2
+    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_mchampXXX_sameEvent_cfg.py > stoppedHSCPMuon_stage2GENSIM_mchamp${i}_sameEvent_cfg.py
+    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_mchampXXX_separateEvents_particle0_cfg.py > stoppedHSCPMuon_stage2GENSIM_mchamp${i}_separateEvents_particle0_cfg.py
+    sed "s/XXX/$i/" stoppedHSCPMuon_stage2GENSIM_mchampXXX_separateEvents_particle1_cfg.py > stoppedHSCPMuon_stage2GENSIM_mchamp${i}_separateEvents_particle1_cfg.py
 end
 
 
