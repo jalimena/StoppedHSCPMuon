@@ -88,7 +88,7 @@
 
 
 echo mchamps...
-foreach i (100 200 300 400 500 600 700 800 900 1000)    
+foreach i (100 200 400 600 800 1000 1400 1800 2200 2600) #Run2
     sed "s/XXX/$i/" step3_RAW2DIGI_HLT_L1Reco_RECO_mchampXXX.py > step3_RAW2DIGI_HLT_L1Reco_RECO_mchamp${i}.py
 end
 
