@@ -4,7 +4,7 @@ NEUTRALINO_MASS=YYY
 GRAVITINO_MASS=0.00001
 SAME_EVENT=False
 PARTICLE_NUMBER=1
-OUTPUTFILE='stage2GENSIM_stop' + str(SPARTICLE_MASS)+'_neutralino'+str(NEUTRALINO_MASS)+'_separateEvents_particle'+str(PARTICLE_NUMBER)'.root'
+OUTPUTFILE='stage2GENSIM_stop' + str(SPARTICLE_MASS)+'_neutralino'+str(NEUTRALINO_MASS)+'_separateEvents_particle'+str(PARTICLE_NUMBER)+'.root'
 
 import FWCore.ParameterSet.Config as cms
 
@@ -36,8 +36,8 @@ process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
-#process.load('Configuration.StandardSequences.GeometryDB_cff')
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.GeometryDB_cff')
+#process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 #process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
 process.load('Configuration.StandardSequences.Generator_cff')
